@@ -1,0 +1,33 @@
+name: Actualizar precios
+
+on:
+  schedule:
+    # Lunes y jueves a las 06:00 de Argentina (09:00 UTC)
+    - cron: "0 9 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  precios:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bajar el repo
+        uses: actions/checkout@v4
+
+      - name: Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Actualizar precios
+        run: node scripts/actualizar-precios.mjs
+
+      - name: Commitear si hubo cambios
+        run: |
+          git config user.name "changuito-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add precios.json
+          git diff --cached --quiet || git commit -m "Precios actualizados $(date +'%d/%m/%Y')"
+          git push

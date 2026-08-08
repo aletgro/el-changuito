@@ -1,0 +1,73 @@
+{
+  "version": "08/08/2026",
+  "prices": {
+    "Aceite de girasol 1 L": {
+      "p": 5200,
+      "n": "Cañuelas 1,5 L · oferta -20% · $3.467/L"
+    },
+    "Agua mineral bidón": {
+      "p": 3600,
+      "n": "DIA 6,25 L"
+    },
+    "Arroz integral 1 kg": {
+      "p": 1395,
+      "n": "Cuquets 1 kg · oferta -34%"
+    },
+    "Atún": {
+      "p": 1390,
+      "n": "Desmenuzado DIA 170 g · lomitos DIA $2.300 c/oferta"
+    },
+    "Azúcar 500 g": {
+      "p": 590,
+      "n": "Azucel 500 g · oferta -17%"
+    },
+    "Harina de maíz 1 kg": {
+      "p": 3650,
+      "n": "Morixe p/arepas 1 kg · ¿es esta la que usás?"
+    },
+    "Leche larga vida": {
+      "p": 1700,
+      "n": "DIA entera 1 L · oferta -22%"
+    },
+    "Maicena 500 g": {
+      "p": 4089,
+      "n": "Maizena clásica 500 g"
+    },
+    "Polenta 1 kg": {
+      "p": 1390,
+      "n": "2× Molinos Ala 500 g · oferta -35%"
+    },
+    "Sal entrefina 500 g": {
+      "p": 840,
+      "n": "DIA Parrillera 500 g"
+    },
+    "Sal fina 500 g": {
+      "p": 650,
+      "n": "DIA 500 g · oferta -34%"
+    },
+    "Sal gruesa 500 g": {
+      "p": 1050,
+      "n": "DIA 1 kg · mejor $/kg"
+    },
+    "Vinagre de alcohol 1 L": {
+      "p": 1565,
+      "n": "DIA 1 L"
+    },
+    "Yerba 1 kg": {
+      "p": 3200,
+      "n": "Amanda Tradicional 1 kg · oferta -35%"
+    },
+    "Grasa bovina 1 kg": {
+      "p": 5100,
+      "n": "2× Grasa Bovina DIA 500 g · oferta -15% · gana al 1 kg ($6.800)"
+    },
+    "Papas fritas": {
+      "p": 4601,
+      "n": "Tubo DIA sabor original 150 g"
+    },
+    "Vinagre de manzana 1 L": {
+      "p": 4060,
+      "n": "2× DIA 500 ml"
+    }
+  }
+}
