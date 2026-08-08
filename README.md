@@ -19,8 +19,21 @@ Organizador de compras por comercio y temporada. App web instalable (PWA): funci
 
 En Windows/Linux: misma URL en Chrome o Edge → ícono de instalar en la barra de direcciones.
 
+
+## Precios automáticos
+
+El archivo `precios.json` alimenta la estimación de gasto de la app. El workflow de GitHub Actions (`.github/workflows/precios.yml`) lo regenera solo **lunes y jueves a las 6:00 (hora argentina)** consultando los sitios de los comercios, y el sitio se republica con los precios nuevos sin que hagas nada.
+
+Requisitos:
+- La app tiene que vivir en un **repositorio de GitHub** (Pages, o Netlify/Cloudflare conectado al repo; Netlify Drop no sirve para esto). Con repo **privado** + Netlify gratis también funciona.
+- Al subir los archivos, incluí las carpetas `scripts/` y `.github/` tal cual.
+
+Actualización manual cuando quieras (ej. antes del día de ofertas): en GitHub → pestaña **Actions** → "Actualizar precios" → **Run workflow**. En 1-2 minutos el sitio tiene precios del momento. También podés editar `precios.json` a mano desde GitHub, o un precio puntual desde la app (Listas → Editar).
+
+Si algún ítem aparece como "sin match" en el log del workflow, avisale a Claude para refinar la búsqueda de ese producto.
+
 ## Notas
 
 - Los datos se guardan en cada dispositivo (localStorage): el celu y la compu no comparten listas entre sí.
 - Si borrás los datos de navegación del sitio, se borran las listas.
-- Para actualizar la app más adelante: reemplazá los archivos en el repo y cambiá `changuito-v1` por `changuito-v2` en `sw.js`, para que los dispositivos descarguen la versión nueva.
+- Para actualizar la app más adelante: reemplazá los archivos en el repo y subí el número de versión en `sw.js` (por ej. `changuito-v5` → `changuito-v6`), para que los dispositivos descarguen la versión nueva.

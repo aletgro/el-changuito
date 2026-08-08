@@ -1,11 +1,12 @@
 /* El Changuito — service worker: cachea la app para uso offline */
-const CACHE = "changuito-v1";
+const CACHE = "changuito-v8";
 const ASSETS = [
   "./",
   "./index.html",
   "./app.js",
   "./styles.css",
   "./manifest.webmanifest",
+  "./precios.json",
   "./icon-192.png",
   "./icon-512.png",
 ];
@@ -26,6 +27,19 @@ self.addEventListener("activate", (e) => {
 
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
+  // precios.json: primero la red (para tener precios frescos), caché como respaldo offline
+  if (new URL(e.request.url).pathname.endsWith("/precios.json")) {
+    e.respondWith(
+      fetch(e.request)
+        .then((resp) => {
+          const copy = resp.clone();
+          caches.open(CACHE).then((c) => c.put(e.request, copy));
+          return resp;
+        })
+        .catch(() => caches.match(e.request, { ignoreSearch: true }))
+    );
+    return;
+  }
   e.respondWith(
     caches.match(e.request, { ignoreSearch: true }).then(
       (cached) =>
