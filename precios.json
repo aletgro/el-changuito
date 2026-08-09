@@ -63,7 +63,7 @@
     },
     "Papas fritas": {
       "p": 4601,
-      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr."
+      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr."
     },
     "Vinagre de manzana 1 L": {
       "p": 4060,
@@ -174,12 +174,40 @@
       "n": "Pan Rallado Exclusivo 400 Gr."
     },
     "4 pilas AAA": {
-      "p": 1684,
-      "n": "Pilas Bixler Aaa 2 Ud. · oferta -40%"
+      "p": 6736,
+      "n": "4× Pilas Bixler Aaa 2 Ud. · oferta -40%"
     },
     "Escarbadientes": {
       "p": 2251,
       "n": "Escarbadientes Dia 2 x 50 Ud."
+    },
+    "Fundente": {
+      "p": 8400,
+      "n": "800 g de Cremoso El Puente. Valor por kg fraccionado · $10.500/kg"
+    },
+    "Pizza": {
+      "p": 6396,
+      "n": "400 g de Mozzarella El Puente en cilindro por kg fraccionado · $15.990/kg"
+    },
+    "Provoletta": {
+      "p": 12000,
+      "n": "2× Queso Provoleta El Puente x 190 g"
+    },
+    "Queso para picada": {
+      "p": 7107,
+      "n": "300 g de Mar del Plata El Puente. Valor por kg fraccionado · $23.690/kg"
+    },
+    "Queso para rayar": {
+      "p": 8730,
+      "n": "300 g de Sardo El Puente por kg fraccionado · $29.100/kg"
+    },
+    "Crema": {
+      "p": 7520,
+      "n": "2× Crema de leche El Puente. Pote x 330 cc · $11.394/L"
+    },
+    "Leche": {
+      "p": 3200,
+      "n": "2× Leche entera El Puente. Sachet por 1 l"
     }
   }
 }

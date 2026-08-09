@@ -161,14 +161,16 @@ async function buscarCategoriaHtml(url) {
 const EP = "https://ofertas.lacteoselpuente.com.ar";
 
 const ITEMS_ELPUENTE = [
+  // Solo marca El Puente (pedido del usuario, 09/08/2026: nada de D70 ni otras marcas).
   // fraccionado: compra al mostrador → solo líneas "fraccionado/fracc." (la horma entera es otro precio)
-  { name: "Fundente", qty: 0.6, unit: "kg", fraccionado: true, asumirKg: true, must: [/cremoso|por salut/i, /fracc/i], reject: [/pizzero|light|untable|sachet/i] },
-  { name: "Pizza", qty: 0.4, unit: "kg", fraccionado: true, asumirKg: true, must: [/m[uo]zz?arella|hilado/i, /fracc/i], reject: [/rallad|light/i] },
-  { name: "Provoletta", qty: 0.3, unit: "kg", must: [/provolet/i], reject: [/rallad/i] }, // se vende en piezas de ~190 g
-  { name: "Queso para picada", qty: 0.3, unit: "kg", fraccionado: true, asumirKg: true, must: [/fontina|gouda|gruyer|mar del plata|pategr[aá]s|holanda/i, /fracc/i], reject: [/rallad/i] },
-  { name: "Queso para rayar", qty: 0.3, unit: "kg", fraccionado: true, asumirKg: true, must: [/sardo|reggianito|romano|provolone/i, /fracc/i], reject: [/rallad/i] },
-  { name: "Crema", qty: 2, unit: "un", must: [/crema de leche/i], reject: [/helado|queso crema|balde/i] },
-  { name: "Leche", qty: 2, unit: "l", must: [/leche/i, /entera/i], reject: [/polvo|chocolatada|condensada|dulce de leche|yogur|queso/i] }, // 2 sachets de 1 L (unit "l" filtra bricks de 200 cc)
+  { name: "Fundente", qty: 0.8, unit: "kg", fraccionado: true, asumirKg: true, must: [/el puente/i, /cremoso|por salut/i, /fracc/i], reject: [/pizzero|light|untable|sachet/i] }, // ~800 g por vez
+  { name: "Pizza", qty: 0.4, unit: "kg", fraccionado: true, asumirKg: true, must: [/el puente/i, /m[uo]zz?arella/i, /fracc/i], reject: [/rallad|light/i] }, // solo mozzarella
+  { name: "Provoletta", qty: 0.3, unit: "kg", must: [/el puente/i, /provolet/i], reject: [/rallad/i] }, // se vende en piezas de ~190 g
+  { name: "Queso para picada", qty: 0.3, unit: "kg", fraccionado: true, asumirKg: true, must: [/el puente/i, /fontina|gouda|gruyer|mar del plata|pategr[aá]s|holanda/i, /fracc/i], reject: [/rallad/i] },
+  { name: "Queso para rayar", qty: 0.3, unit: "kg", fraccionado: true, asumirKg: true, must: [/el puente/i, /sardo|reggianito|romano|provolone/i, /fracc/i], reject: [/rallad/i] },
+  // Crema: 2 potes del tamaño (220 o 330 cc) que esté más barato POR LITRO
+  { name: "Crema", qty: 2, unit: "un", comparaPor: "l", must: [/el puente/i, /crema de leche/i], reject: [/helado|queso crema|balde/i] },
+  { name: "Leche", qty: 2, unit: "l", must: [/el puente/i, /leche/i, /entera/i], reject: [/polvo|chocolatada|condensada|dulce de leche|yogur|queso/i] }, // solo entera · 2 sachets de 1 L
 ];
 
 /* Fragmento HTML de /productos/get/{rubro_id} → pares nombre/precio.
@@ -257,13 +259,18 @@ function elegir(item, candidatos) {
       validos.push({ ...c, paquetes, estimado: paquetes * c.precio, porUnidad: c.precio / q.amount });
     } else {
       // Por unidad: si el nombre trae "x N", un paquete cubre N unidades
+      if (item.comparaPor && q.unit !== item.comparaPor) continue; // ej. crema: solo tamaños en cc/litros
       const unidades = q.unit === "un" ? (q.amount || 1) : 1;
       const paquetes = Math.max(1, Math.ceil((item.qty || 1) / unidades - 1e-9));
-      validos.push({ ...c, paquetes, estimado: paquetes * c.precio, porUnidad: c.precio / unidades });
+      // comparaPor: entre tamaños del mismo producto gana el más barato POR kg/L, no por pote
+      const porUnidad = item.comparaPor ? c.precio / q.amount : c.precio / unidades;
+      validos.push({ ...c, paquetes, estimado: paquetes * c.precio, porUnidad });
     }
   }
   if (!validos.length) return null;
-  validos.sort((a, b) => a.estimado - b.estimado || a.porUnidad - b.porUnidad);
+  validos.sort(item.comparaPor
+    ? (a, b) => a.porUnidad - b.porUnidad || a.estimado - b.estimado
+    : (a, b) => a.estimado - b.estimado || a.porUnidad - b.porUnidad);
   const g = validos[0];
   const desc = g.lista > g.precio ? Math.round((1 - g.precio / g.lista) * 100) : 0;
   const limpio = g.nombre.replace(/\s+/g, " ").trim().slice(0, 60);
@@ -272,6 +279,7 @@ function elegir(item, candidatos) {
     nota = Math.round(g.gramos * 1000) + " g de " + limpio + " · $" + Math.round(g.porUnidad).toLocaleString("es-AR") + "/kg";
   } else {
     nota = (g.paquetes > 1 ? g.paquetes + "× " : "") + limpio + (desc >= 5 ? ` · oferta -${desc}%` : "");
+    if (item.comparaPor) nota += " · $" + Math.round(g.porUnidad).toLocaleString("es-AR") + "/" + (item.comparaPor === "l" ? "L" : item.comparaPor);
   }
   return { p: Math.round(g.estimado), n: nota };
 }

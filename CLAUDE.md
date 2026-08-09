@@ -89,8 +89,11 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   líneas "fraccionado/fracc." (la horma entera tiene otro precio); Provoletta se vende
   en piezas de ~190 g (2 piezas ≈ 300 g). Si el sitio cambia y no se lee nada, se
   imprime diagnóstico; atajo: pedir al usuario la URL XHR de la pestaña Red (F12).
-  Cantidades asumidas a validar con el usuario: picada 300 g, rayar 300 g, pizza 400 g,
-  provoleta 2× 190 g, crema 2 potes de 220 cc, leche 2 sachets de 1 L (entera).
+  Criterios confirmados por el usuario (09/08/2026): SOLO marca El Puente (sin D70 ni
+  otras marcas del listado) · Fundente ~800 g por vez · Pizza solo mozzarella (400 g) ·
+  Crema 2 potes del tamaño más barato POR LITRO (220 o 330 cc, campo `comparaPor`) ·
+  Leche solo entera, 2 sachets de 1 L. Siguen asumidos: picada 300 g, rayar 300 g,
+  provoleta 2× 190 g.
 - **Verdulería**: sin precios por decisión del usuario ("por ahora exceptuá verdulería").
 - **Harina de maíz**: matcheada a Morixe p/arepas con nota "¿es esta la que usás?" — confirmar.
 - **Próximos comercios**: COTO (carnicería + harinas Chacabuco, la compra más pesada) y
