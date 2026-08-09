@@ -91,18 +91,18 @@ function parseQty(nombre) {
   let mult = 1;
   let base = s;
   // Pack "N x tamaño" (ej. "4 x 30 Mts", "3 x 500 Gr"): multiplicador + tamaño individual
-  const pack = s.match(/(\d+)\s*x\s*(\d+(?:\.\d+)?)\s*(kg|grs?|gr\.|g|ml|cc|lts?|lt\.|l|m(?:ts?)?)\b/);
+  const pack = s.match(/(\d+)\s*x\s*(\d+(?:\.\d+)?)\s*(kgm?|grs?|grm|gr\.|g|ml|cc|lts?|lt\.|l|m(?:ts?)?)\b/);
   if (pack) {
     mult = parseInt(pack[1], 10) || 1;
     base = pack[2] + " " + pack[3];
   } else {
     // "x N" es multiplicador solo si N no es un tamaño ("x 3 ud." sí; "x 190 g" no)
-    const mx = s.match(/(?:^|\s)x\s*(\d+)\b(?!\s*(?:kg|grs?|gr\.|g|ml|cc|lts?|lt\.|l|m(?:ts?)?)\b)/);
+    const mx = s.match(/(?:^|\s)x\s*(\d+)\b(?!\s*(?:kgm?|grs?|grm|gr\.|g|ml|cc|lts?|lt\.|l|m(?:ts?)?)\b)/);
     if (mx) mult = parseInt(mx[1], 10) || 1;
   }
   let m;
-  if ((m = base.match(/(\d+(?:\.\d+)?)\s*kg\b/))) return { amount: parseFloat(m[1]) * mult, unit: "kg" };
-  if ((m = base.match(/(\d+(?:\.\d+)?)\s*(?:grs?|gr\.|g)\b/))) return { amount: (parseFloat(m[1]) / 1000) * mult, unit: "kg" };
+  if ((m = base.match(/(\d+(?:\.\d+)?)\s*kgm?\b/))) return { amount: parseFloat(m[1]) * mult, unit: "kg" };
+  if ((m = base.match(/(\d+(?:\.\d+)?)\s*(?:grm|grs?|gr\.|g)\b/))) return { amount: (parseFloat(m[1]) / 1000) * mult, unit: "kg" };
   if ((m = base.match(/(\d+(?:\.\d+)?)\s*(?:ml|cc)\b/))) return { amount: (parseFloat(m[1]) / 1000) * mult, unit: "l" };
   if ((m = base.match(/(\d+(?:\.\d+)?)\s*(?:lts?|lt\.|l)\b/))) return { amount: parseFloat(m[1]) * mult, unit: "l" };
   if ((m = base.match(/(\d+(?:\.\d+)?)\s*m(?:ts?)?\b/))) return { amount: parseFloat(m[1]) * mult, unit: "m" };
@@ -237,6 +237,140 @@ async function candidatosElPuente() {
   return [];
 }
 
+/* ---------- COTO (coto.com.ar) ----------
+   El sitio nuevo es una SPA de Angular; el catálogo con precios sale del
+   buscador Constructor.io (ac.cnstrc.com) con la key pública que está en el
+   bundle de COTO. Por producto viene un precio POR SUCURSAL:
+     listPrice   = precio del paquete (en cortes "X KG", $/kg)
+     formatPrice = referencia por kilo/litro (respaldo si falta listPrice)
+   Tomamos la MODA entre sucursales (el precio de góndola más repetido;
+   hay outliers de data mala tipo $9,19). Si algún día se consigue el código
+   de la sucursal de La Plata del usuario, filtrar price[] por store.
+   Carnicería: cantidades asumidas ~1 kg por corte (Combo y Asado), a validar. */
+const COTO_KEY = "key_r6xzz4IAoTWcipni";
+
+const ITEMS_COTO = [
+  // Harinas Chacabuco (identificadas por foto de góndola, 09/08/2026):
+  //   "de fuerza" W300 13 g prot = "Harina Para Masa Madre" · Napolitana = "Harina de Trigo 00"
+  { name: "Harina 000", q: "harina chacabuco", unit: "kg", qty: 1, must: [/chacabuco/i, /\b000\b/], reject: [/premezcla|leudante|integral|saborizada|masa madre|org[áa]nica/i] },
+  { name: "Harina 0000", q: "harina chacabuco", unit: "kg", qty: 1, must: [/chacabuco/i, /\b0000\b/], reject: [/premezcla/i] },
+  { name: "Harina 000 de fuerza", q: "harina chacabuco", unit: "kg", qty: 1, must: [/chacabuco/i, /masa madre/i], reject: [/premezcla|blend/i] },
+  { name: "Harina 0000 de fuerza", q: "harina chacabuco", unit: "kg", qty: 1, must: [/chacabuco/i, /\b00\b/], reject: [/premezcla/i] },
+  { name: "Harina integral", q: "harina chacabuco", unit: "kg", qty: 1, must: [/chacabuco/i, /integral/i], reject: [/semillas|org[áa]nica|premezcla/i] },
+  { name: "Semolín", q: "harina chacabuco", unit: "kg", qty: 1, must: [/semol[íi]n/i], reject: [] },
+  { name: "Sémola", q: "semola", unit: "kg", qty: 0.5, must: [/s[ée]mola/i], reject: [/\bfid|fideo|spaghetti|tallar|ñoqui|vitina|premezcla/i] },
+];
+
+/* Carnicería: cortes al peso, todos "X KG" → el precio publicado ES por kg.
+   Criterio del usuario (09/08/2026): mostrar el precio POR KILO de cada corte;
+   los ítems compuestos suman $/kg de cada corte ("estimo 1 kg de c/u"). */
+const PARTES_CARNE = {
+  roast: { q: "roast beef", must: [/roast beef/i, /x ?kg/i], reject: [/empanada|congelad/i] },
+  falda: { q: "falda", must: [/falda/i, /x ?kg/i], reject: [/cerdo/i] },
+  osobuco: { q: "osobuco", must: [/osobuco/i, /x ?kg/i], reject: [/cerdo/i] },
+  marucha: { q: "marucha", must: [/marucha/i, /x ?kg/i], reject: [/cerdo/i] },
+  aranita: { q: "arañita", must: [/ara[ñn]ita/i, /x ?kg/i], reject: [/gomitas/i] },
+  vacio: { q: "vacio", must: [/vac[íi]o/i, /x ?kg/i], reject: [/al vac[íi]o|env(?:asado)? ?vac[íi]o|cerdo|lomo|picanha|spiedo|congelad|chorizo|morcilla|leberwurst|matambre/i] },
+  tapa: { q: "tapa de asado", must: [/tapa de asado/i, /x ?kg/i], reject: [/braceada|ahumada/i] },
+  tira: { q: "asado", must: [/asado del medio|tira de asado|asado de bife/i, /x ?kg/i], reject: [/cerdo|cordero|braceada|ahumada|congelad/i] },
+};
+
+const NOMBRES_COTO = [...ITEMS_COTO.map((i) => i.name), "Roast beef", "Combo de temporada", "Asado"];
+
+function modaPrecios(valores) {
+  if (!valores.length) return null;
+  const cuenta = new Map();
+  for (const v of valores) cuenta.set(v, (cuenta.get(v) || 0) + 1);
+  return [...cuenta.entries()].sort((a, b) => b[1] - a[1] || a[0] - b[0])[0][0];
+}
+
+/* Respuesta del buscador de Constructor → pares nombre/precio */
+function paresDesdeCoto(data) {
+  const out = [];
+  for (const res of data?.response?.results || []) {
+    const nombre = String(res.value || "").replace(/\s+/g, " ").trim();
+    const valores = (res.data?.price || []).map((p) => p.listPrice ?? p.formatPrice).filter((v) => v > 0);
+    const precio = modaPrecios(valores);
+    if (nombre && precio) out.push({ nombre, precio, lista: precio });
+  }
+  return out;
+}
+
+async function buscarCoto(query) {
+  const url = `https://ac.cnstrc.com/search/${encodeURIComponent(query)}?key=${COTO_KEY}&c=cioc-2.0&i=el-changuito&s=1&num_results_per_page=100`;
+  const r = await fetch(url, { headers: { accept: "application/json", "user-agent": "Mozilla/5.0 (compatible; ElChanguito/1.0)" } });
+  if (!r.ok) throw new Error("HTTP " + r.status);
+  return paresDesdeCoto(await r.json());
+}
+
+/* El corte más barato por kg que cumpla los filtros de la parte */
+function porKgCoto(candidatos, parte) {
+  let mejor = null;
+  for (const c of candidatos) {
+    if (!parte.must.every((re) => re.test(c.nombre))) continue;
+    if (parte.reject.some((re) => re.test(c.nombre))) continue;
+    if (!mejor || c.precio < mejor.precio) mejor = c;
+  }
+  return mejor;
+}
+
+const limpiarCorte = (s) => s.replace(/\s+/g, " ").replace(/\s+x\s*kg\.?$/i, "").trim();
+const pesos = (v) => "$" + Math.round(v).toLocaleString("es-AR");
+
+/* Corte suelto: el precio del ítem ES el precio por kilo */
+const notaPorKg = (c) => ({ p: Math.round(c.precio), n: `${limpiarCorte(c.nombre)} · ${pesos(c.precio)}/kg` });
+
+/* Combo de temporada: misma regla que la app (abr–sep = frío) */
+function comboCoto(porParte, invernal) {
+  const [c1, c2] = invernal ? [porParte.falda, porParte.osobuco] : [porParte.marucha, porParte.aranita];
+  if (!c1 || !c2) return null;
+  const [et1, et2] = invernal ? ["falda", "osobuco"] : ["marucha", "arañita"];
+  return {
+    p: Math.round(c1.precio + c2.precio),
+    n: `${et1} ${pesos(c1.precio)}/kg + ${et2} ${pesos(c2.precio)}/kg · estimo 1 kg de c/u`,
+  };
+}
+
+/* Asado: vacío o tapa de asado (el más barato) + tira de asado */
+function asadoCoto(porParte) {
+  const opciones = [porParte.tapa && { et: "tapa de asado", ...porParte.tapa }, porParte.vacio && { et: "vacío", ...porParte.vacio }].filter(Boolean);
+  if (!opciones.length || !porParte.tira) return null;
+  opciones.sort((a, b) => a.precio - b.precio);
+  const base = opciones[0];
+  const tira = porParte.tira;
+  return {
+    p: Math.round(base.precio + tira.precio),
+    n: `${base.et} ${pesos(base.precio)}/kg + tira ${pesos(tira.precio)}/kg · estimo 1 kg de c/u`,
+  };
+}
+
+function mesAR() {
+  return new Date(new Date().toLocaleString("en-US", { timeZone: "America/Argentina/Buenos_Aires" })).getMonth() + 1;
+}
+
+async function preciosCoto() {
+  const cache = new Map();
+  const buscar = async (q) => {
+    if (!cache.has(q)) { cache.set(q, await buscarCoto(q)); await dormir(300); }
+    return cache.get(q);
+  };
+  const out = [];
+  for (const item of ITEMS_COTO) {
+    let el = null;
+    try { el = elegir(item, await buscar(item.q)); } catch (e) { /* sin red: queda sin match */ }
+    out.push([item.name, el]);
+  }
+  const invernal = mesAR() >= 4 && mesAR() <= 9;
+  const porParte = {};
+  for (const clave of [...(invernal ? ["falda", "osobuco"] : ["marucha", "aranita"]), "vacio", "tapa", "tira", "roast"]) {
+    try { porParte[clave] = porKgCoto(await buscar(PARTES_CARNE[clave].q), PARTES_CARNE[clave]); } catch (e) { porParte[clave] = null; }
+  }
+  out.push(["Roast beef", porParte.roast ? notaPorKg(porParte.roast) : null]);
+  out.push(["Combo de temporada", comboCoto(porParte, invernal)]);
+  out.push(["Asado", asadoCoto(porParte)]);
+  return out;
+}
+
 /* ---------- Selección según el criterio ---------- */
 function elegir(item, candidatos) {
   const validos = [];
@@ -273,10 +407,11 @@ function elegir(item, candidatos) {
     : (a, b) => a.estimado - b.estimado || a.porUnidad - b.porUnidad);
   const g = validos[0];
   const desc = g.lista > g.precio ? Math.round((1 - g.precio / g.lista) * 100) : 0;
-  const limpio = g.nombre.replace(/\s+/g, " ").trim().slice(0, 60);
+  const limpio = g.nombre.replace(/\s+/g, " ").replace(/\s+x\s*kg\.?$/i, "").trim().slice(0, 60);
   let nota;
   if (g.paquetes === 0) {
-    nota = Math.round(g.gramos * 1000) + " g de " + limpio + " · $" + Math.round(g.porUnidad).toLocaleString("es-AR") + "/kg";
+    const cant = g.gramos >= 1 ? (Math.round(g.gramos * 100) / 100).toLocaleString("es-AR") + " kg" : Math.round(g.gramos * 1000) + " g";
+    nota = cant + " de " + limpio + " · $" + Math.round(g.porUnidad).toLocaleString("es-AR") + "/kg";
   } else {
     nota = (g.paquetes > 1 ? g.paquetes + "× " : "") + limpio + (desc >= 5 ? ` · oferta -${desc}%` : "");
     if (item.comparaPor) nota += " · $" + Math.round(g.porUnidad).toLocaleString("es-AR") + "/" + (item.comparaPor === "l" ? "L" : item.comparaPor);
@@ -338,17 +473,36 @@ async function main() {
     ITEMS_ELPUENTE.forEach((i) => fallos.push(i.name));
   }
 
+  // --- COTO ---
+  console.log("\n— COTO —");
+  let resCoto = [];
+  try { resCoto = await preciosCoto(); } catch (e) { console.log("COTO: error → " + e.message); }
+  if (resCoto.length === 0) resCoto = NOMBRES_COTO.map((n) => [n, null]);
+  for (const [name, el] of resCoto) {
+    if (el) {
+      precios[name] = el;
+      ok++;
+      console.log(`✔ ${name} → $${el.p}  (${el.n})`);
+    } else {
+      fallos.push(name);
+      console.log(`✘ ${name} → sin match (queda el precio anterior si había)`);
+    }
+  }
+
   if (ok === 0) {
     console.error("\nNingún ítem se pudo actualizar: no escribo el archivo para no romper nada.");
     process.exit(1);
   }
 
   fs.writeFileSync(archivo, JSON.stringify({ version: fechaHoyAR(), prices: precios }, null, 2) + "\n");
-  console.log(`\nListo: ${ok}/${ITEMS.length + ITEMS_ELPUENTE.length} ítems actualizados en ${archivo} (versión ${fechaHoyAR()}).`);
+  console.log(`\nListo: ${ok}/${ITEMS.length + ITEMS_ELPUENTE.length + NOMBRES_COTO.length} ítems actualizados en ${archivo} (versión ${fechaHoyAR()}).`);
   if (fallos.length) console.log("Sin match (revisar consultas): " + fallos.join(", "));
 }
 
-export { parseQty, elegir, ITEMS, ITEMS_ELPUENTE, parsearListadoElPuente, candidatosElPuente };
+export {
+  parseQty, elegir, ITEMS, ITEMS_ELPUENTE, parsearListadoElPuente, candidatosElPuente,
+  ITEMS_COTO, PARTES_CARNE, NOMBRES_COTO, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto, buscarCoto,
+};
 
 if (process.argv[1] && import.meta.url === new URL("file://" + process.argv[1]).href) {
   main();

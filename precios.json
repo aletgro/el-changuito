@@ -63,7 +63,7 @@
     },
     "Papas fritas": {
       "p": 4601,
-      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr."
+      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr."
     },
     "Vinagre de manzana 1 L": {
       "p": 4060,
@@ -208,6 +208,46 @@
     "Leche": {
       "p": 3200,
       "n": "2× Leche entera El Puente. Sachet por 1 l"
+    },
+    "Harina 000": {
+      "p": 1039,
+      "n": "Harina De Trigo CHACABUCO 000 Paquete 1 Kg"
+    },
+    "Harina 0000": {
+      "p": 1369,
+      "n": "Harina De Trigo CHACABUCO 0000 Paquete 1 Kg"
+    },
+    "Harina 000 de fuerza": {
+      "p": 1999,
+      "n": "Harina Para Masa Madre Chacabuco Paq 1 Kgm"
+    },
+    "Harina 0000 de fuerza": {
+      "p": 2649,
+      "n": "Harina Trigo 00 Chacabuco 1kg"
+    },
+    "Harina integral": {
+      "p": 1699,
+      "n": "Harina Integral Fina CHACABUCO Paq 1 Kgm"
+    },
+    "Semolín": {
+      "p": 1850,
+      "n": "Semolin De Trigo Pan Chacabuco Paq 1 Kgm"
+    },
+    "Sémola": {
+      "p": 2030,
+      "n": "Sémola De Trigo Pureza 500g"
+    },
+    "Roast beef": {
+      "p": 13299,
+      "n": "Roast Beef Estancias Coto · $13.299/kg"
+    },
+    "Combo de temporada": {
+      "p": 15598,
+      "n": "falda $7.699/kg + osobuco $7.899/kg · estimo 1 kg de c/u"
+    },
+    "Asado": {
+      "p": 25798,
+      "n": "tapa de asado $13.299/kg + tira $12.499/kg · estimo 1 kg de c/u"
     }
   }
 }

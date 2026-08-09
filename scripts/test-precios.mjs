@@ -4,9 +4,13 @@
    con listados simulados que copian el formato real de cada fuente. */
 
 import assert from "node:assert/strict";
-import { parseQty, elegir, ITEMS_ELPUENTE, parsearListadoElPuente } from "./actualizar-precios.mjs";
+import {
+  parseQty, elegir, ITEMS_ELPUENTE, parsearListadoElPuente,
+  ITEMS_COTO, PARTES_CARNE, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto,
+} from "./actualizar-precios.mjs";
 
 const item = (name) => ITEMS_ELPUENTE.find((i) => i.name === name);
+const itemCoto = (name) => ITEMS_COTO.find((i) => i.name === name);
 let pasan = 0;
 const test = (nombre, fn) => { fn(); pasan++; console.log("✔ " + nombre); };
 
@@ -126,6 +130,112 @@ test("Leche: solo entera El Puente; ni descremada ni bricks de otra marca", () =
   ]);
   assert.equal(el.p, 2 * 1600);
   assert.match(el.n, /entera El Puente/);
+});
+
+/* ---------- COTO ---------- */
+test("parseQty: unidades de COTO 'Paq 1 Kgm' y '750 Grm'", () => {
+  assert.deepEqual(parseQty("Harina Para Masa Madre Chacabuco Paq 1 Kgm"), { amount: 1, unit: "kg" });
+  assert.deepEqual(parseQty("Harina Integral + Semillas Chacabuco Paq 750 Grm"), { amount: 0.75, unit: "kg" });
+});
+
+test("modaPrecios: gana el precio más repetido entre sucursales, no el outlier", () => {
+  assert.equal(modaPrecios([1039, 1039, 9.19, 989, 1039]), 1039);
+  assert.equal(modaPrecios([989, 1039]), 989); // empate → el más barato
+  assert.equal(modaPrecios([]), null);
+});
+
+test("paresDesdeCoto: listPrice por sucursal con respaldo formatPrice; sin precio se descarta", () => {
+  const pares = paresDesdeCoto({ response: { results: [
+    { value: "Falda X KG", data: { price: [{ store: "220", listPrice: 7699 }, { store: "060", listPrice: 5549 }, { store: "065", listPrice: 7699 }] } },
+    { value: "Marucha X KG", data: { price: [{ store: "220", listPrice: null, formatPrice: 10999 }] } },
+    { value: "Sin precio X KG", data: { price: [] } },
+  ] } });
+  assert.deepEqual(pares, [
+    { nombre: "Falda X KG", precio: 7699, lista: 7699 },
+    { nombre: "Marucha X KG", precio: 10999, lista: 10999 },
+  ]);
+});
+
+const HARINAS = [
+  { nombre: "Harina De Trigo CHACABUCO 000 Paquete 1 Kg", precio: 1039, lista: 1039 },
+  { nombre: "Harina De Trigo CHACABUCO 0000 Paquete 1 Kg", precio: 1369, lista: 1369 },
+  { nombre: "Harina De Trigo CHACABUCO Leudante Paquete 1 Kg", precio: 1579, lista: 1579 },
+  { nombre: "Harina Para Masa Madre Chacabuco Paq 1 Kgm", precio: 1999, lista: 1999 },
+  { nombre: "Harina Trigo 00 Chacabuco 1kg", precio: 2649, lista: 2649 },
+  { nombre: "Harina Integral Fina CHACABUCO Paq 1 Kgm", precio: 1699, lista: 1699 },
+  { nombre: "Harina Integral + Semillas Chacabuco Paq 750 Grm", precio: 2129, lista: 2129 },
+  { nombre: "Premezcla Blend Masa Madre Chacabuco 400g", precio: 3599, lista: 3599 },
+];
+
+test("Harinas: 000, 0000 y 00 no se pisan entre sí", () => {
+  assert.match(elegir(itemCoto("Harina 000"), HARINAS).n, /CHACABUCO 000 /);
+  assert.equal(elegir(itemCoto("Harina 000"), HARINAS).p, 1039);
+  assert.match(elegir(itemCoto("Harina 0000"), HARINAS).n, /CHACABUCO 0000 /);
+  assert.equal(elegir(itemCoto("Harina 0000"), HARINAS).p, 1369);
+});
+
+test("Harinas de fuerza: W300 = 'Masa Madre' y Napolitana = '00' (identificadas por foto)", () => {
+  assert.match(elegir(itemCoto("Harina 000 de fuerza"), HARINAS).n, /Masa Madre/);
+  assert.match(elegir(itemCoto("Harina 0000 de fuerza"), HARINAS).n, /Trigo 00 /);
+});
+
+test("Harina integral: rechaza la de semillas y elige la integral fina", () => {
+  const el = elegir(itemCoto("Harina integral"), HARINAS);
+  assert.match(el.n, /Integral Fina/);
+});
+
+test("Sémola: los fideos de sémola no cuentan", () => {
+  const el = elegir(itemCoto("Sémola"), [
+    { nombre: "Fid.Semola De Trig Spaghetti Arcor Paq 500 Grm", precio: 1485, lista: 1485 },
+    { nombre: "Sémola De Trigo Pureza 500g", precio: 2030, lista: 2030 },
+  ]);
+  assert.equal(el.p, 2030);
+  assert.match(el.n, /Pureza/);
+});
+
+test("Roast beef: el precio del ítem ES el precio por kilo, con nota limpia", () => {
+  const corte = porKgCoto([
+    { nombre: "Roast Beef Estancias Coto X KG", precio: 13299, lista: 13299 },
+    { nombre: "Empanadas De Roast Beef X6 Empanadas Zen 600g", precio: 3875, lista: 3875 },
+  ], PARTES_CARNE.roast);
+  const el = notaPorKg(corte);
+  assert.equal(el.p, 13299);
+  assert.equal(el.n, "Roast Beef Estancias Coto · $13.299/kg");
+});
+
+test("porKgCoto: elige el corte más barato y filtra cerdo/lomo/envasados", () => {
+  const cand = [
+    { nombre: "Vacío Del Centro Estancias Coto X KG", precio: 17499, lista: 17499 },
+    { nombre: "Vacio (peso Aproximado De La Unidad 440g) X KG", precio: 25599, lista: 25599 },
+    { nombre: "Vacio De Cerdo X KG", precio: 8900, lista: 8900 },
+    { nombre: "Lomo Al Vacio (peso Aproximado De La Unidad 1,430kg) X KG", precio: 31999, lista: 31999 },
+    { nombre: "Vacio Al Spiedo Coto X Kg", precio: 40009, lista: 40009 },
+  ];
+  assert.equal(porKgCoto(cand, PARTES_CARNE.vacio).precio, 17499);
+});
+
+test("Combo de temporada: muestra el $/kg de cada corte y suma 1 kg de c/u", () => {
+  const porParte = {
+    falda: { nombre: "Falda X KG", precio: 7699 }, osobuco: { nombre: "Osobuco De Garron X KG", precio: 7899 },
+    marucha: { nombre: "Marucha X KG", precio: 10999 }, aranita: { nombre: "Arañita X KG", precio: 17899 },
+  };
+  const inv = comboCoto(porParte, true);
+  assert.equal(inv.p, 7699 + 7899);
+  assert.equal(inv.n, "falda $7.699/kg + osobuco $7.899/kg · estimo 1 kg de c/u");
+  const ver = comboCoto(porParte, false);
+  assert.equal(ver.p, 10999 + 17899);
+  assert.match(ver.n, /^marucha \$10\.999\/kg \+ arañita \$17\.899\/kg/);
+  assert.equal(comboCoto({ falda: porParte.falda }, true), null); // falta un corte → sin precio
+});
+
+test("Asado: entre vacío y tapa gana el más barato, más la tira, todo en $/kg", () => {
+  const el = asadoCoto({
+    vacio: { nombre: "Vacío Del Centro Estancias Coto X KG", precio: 17499 },
+    tapa: { nombre: "Tapa De Asado Especial X KG", precio: 13299 },
+    tira: { nombre: "Asado Del Medio Estancias Coto X KG", precio: 12499 },
+  });
+  assert.equal(el.p, 13299 + 12499);
+  assert.equal(el.n, "tapa de asado $13.299/kg + tira $12.499/kg · estimo 1 kg de c/u");
 });
 
 console.log(`\n${pasan} tests OK`);

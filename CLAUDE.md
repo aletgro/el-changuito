@@ -77,7 +77,12 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   con fallback a páginas de categoría HTML (`cat` en la config). Conserva el precio
   anterior si un ítem no matchea; nunca escribe si TODO falló.
 - Farmacity también es VTEX → para sumarla, reusar `buscarVtex("https://www.farmacity.com", q)`.
-- COTO (cotodigital) es HTML propio → pendiente, requiere lector dedicado.
+- COTO: el sitio nuevo (coto.com.ar) es una SPA; el catálogo se lee del buscador
+  Constructor.io (`ac.cnstrc.com/search/...?key=` con la key pública del bundle).
+  `listPrice` = precio del paquete POR SUCURSAL (en cortes "X KG" es $/kg); se toma la
+  moda entre sucursales (hay outliers de data mala). Ítems compuestos: "Combo de
+  temporada" (estacional, misma regla abr–sep que la app) y "Asado" (vacío o tapa, el
+  más barato, + tira) se arman con `comboCoto()`/`asadoCoto()` sobre `PARTES_CARNE`.
 
 ## Estado actual y pendientes
 
@@ -94,10 +99,19 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   Crema 2 potes del tamaño más barato POR LITRO (220 o 330 cc, campo `comparaPor`) ·
   Leche solo entera, 2 sachets de 1 L. Siguen asumidos: picada 300 g, rayar 300 g,
   provoleta 2× 190 g.
+- **COTO (ANDANDO desde 09/08/2026)**: harinas Chacabuco + carnicería vía Constructor.io
+  (ver Sistema de precios). Mapeo de harinas CONFIRMADO por el usuario: "Harina 000 de
+  fuerza" (W300, >13 % prot.) = producto "Harina Para Masa Madre Chacabuco" · "Harina
+  0000 de fuerza" (Napolitana) = "Harina Trigo 00 Chacabuco". Carnicería, criterio
+  CONFIRMADO: el precio de cada corte es POR KILO; los compuestos (Combo, Asado)
+  muestran el $/kg de cada corte y suman "1 kg de c/u". "Achura" SIN precio por
+  decisión del usuario ("por ahora"): es un pick de 6 opciones de valor muy dispar.
+  Supuestos que quedan: Sémola 500 g (quedó Pureza, no hay Chacabuco) · precio = moda
+  entre sucursales (si pasa el código de su sucursal de La Plata, filtrar `price[]`
+  por `store`).
 - **Verdulería**: sin precios por decisión del usuario ("por ahora exceptuá verdulería").
 - **Harina de maíz**: matcheada a Morixe p/arepas con nota "¿es esta la que usás?" — confirmar.
-- **Próximos comercios**: COTO (carnicería + harinas Chacabuco, la compra más pesada) y
-  Farmacity. Después de El Puente.
+- **Próximos comercios**: Farmacity (VTEX, reusar `buscarVtex`).
 - **Fase 2 posible**: botón "Actualizar precios" en la app vía Cloudflare Worker (proxy CORS).
 - **Versión artefacto de Claude.ai**: existe una variante del fuente que usa
   `window.storage` (API de artefactos) en vez de `localStorage`. Ya no es la fuente de
