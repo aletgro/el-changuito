@@ -132,7 +132,10 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   variable). Piñones (ítem nuevo, migración v6) y Salsa de pescado (vive en "Otros
   lugares" → sección New Garden) salen de New Garden.
 - **Verdulería**: sin precios por decisión del usuario ("por ahora exceptuá verdulería").
-- **Harina de maíz**: matcheada a Morixe p/arepas con nota "¿es esta la que usás?" — confirmar.
+- **DIA, casos confirmados (09/08/2026)**: "Harina de maíz 1 kg" ES la Morixe para
+  arepas (el nombre del producto no dice "maíz"; el must exige "arepas") · "Arvejas en
+  lata" acepta cualquiera menos congeladas — en DIA las latas se llaman "Arvejas Secas
+  Remojadas", por eso el reject viejo (/secas/) las mataba todas.
 - **Próximos comercios**: Farmacity (VTEX, reusar `buscarVtex`).
 - **Fase 2 posible**: botón "Actualizar precios" en la app vía Cloudflare Worker (proxy CORS).
 - **Versión artefacto de Claude.ai**: existe una variante del fuente que usa

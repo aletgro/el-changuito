@@ -240,6 +240,26 @@ test("Asado: entre vacío y tapa gana el más barato, más la tira, todo en $/kg
   assert.equal(el.n, "tapa de asado $13.299/kg + tira $12.499/kg · estimo 1 kg de c/u");
 });
 
+/* ---------- DIA: los dos casos que estaban siempre sin match ---------- */
+import { ITEMS } from "./actualizar-precios.mjs";
+const itemDia = (name) => ITEMS.find((i) => i.name === name);
+
+test("Harina de maíz: matchea la Morixe para arepas (el nombre no dice maíz)", () => {
+  const el = elegir(itemDia("Harina de maíz 1 kg"), [{ nombre: "Harina Morixe para Arepas 1 Kg.", precio: 3650, lista: 3650 }]);
+  assert.equal(el.p, 3650);
+  assert.match(el.n, /Arepas/);
+});
+
+test("Arvejas en lata: las 'Secas Remojadas' valen; las congeladas no", () => {
+  const el = elegir(itemDia("Arvejas en lata"), [
+    { nombre: "Arvejas Congeladas Dia 300 Gr.", precio: 500, lista: 500 },
+    { nombre: "Arvejas Secas Remojadas Dia 300 Gr.", precio: 729, lista: 729 },
+    { nombre: "Arvejas Secas Remojadas Dia 340 Gr.", precio: 820, lista: 820 },
+  ]);
+  assert.equal(el.p, 729);
+  assert.match(el.n, /Secas Remojadas/);
+});
+
 /* ---------- Dietética (Frutos del Are) ---------- */
 test("normalizarPeso: formatos de PESO de WooCommerce", () => {
   assert.equal(normalizarPeso("500GS"), "500 g");

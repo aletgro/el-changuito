@@ -32,7 +32,8 @@ const ITEMS = [
   { name: "Atún", q: "atun", unit: "un", qty: 1, must: [/at[uú]n/i], reject: [/ensalada|pat[eé]/i], cat: DIA + "/almacen/conservas/conservas-de-pescados" },
   { name: "Azúcar 500 g", q: "azucar", unit: "kg", qty: 0.5, must: [/az[uú]car/i], reject: [/mascabo|rubia|light|org[áa]nica|impalpable/i], cat: DIA + "/desayuno/infusiones-y-endulzantes/azucar" },
   { name: "Grasa bovina 1 kg", q: "grasa bovina", unit: "kg", qty: 1, must: [/grasa/i, /bovina|vacuna/i], reject: [/vegetal/i], cat: DIA + "/frescos/pastas-frescas/levaduras-y-grasas" },
-  { name: "Harina de maíz 1 kg", q: "harina de maiz", unit: "kg", qty: 1, must: [/harina/i, /ma[ií]z/i], reject: [/presto|quesos|espinaca|vegetales/i], cat: DIA + "/almacen/harinas/harinas-de-maiz" },
+  // Confirmado por el usuario (09/08/2026): es la Morixe para arepas (el nombre no dice "maíz")
+  { name: "Harina de maíz 1 kg", q: "harina arepas", unit: "kg", qty: 1, must: [/harina/i, /arepas/i], reject: [], cat: DIA + "/almacen/harinas/harinas-de-maiz" },
   { name: "Leche larga vida", q: "leche entera larga vida", unit: "l", qty: 1, must: [/leche/i, /entera/i], reject: [/polvo|chocolatada|descremada|s[ée]mi|deslactosada/i] },
   { name: "Maicena 500 g", q: "almidon de maiz", unit: "kg", qty: 0.5, must: [/almid[óo]n|maizena/i], reject: [/bio|premezcla/i], cat: DIA + "/almacen/harinas/harinas-de-maiz" },
   { name: "Papas fritas", q: "papas fritas tubo", unit: "kg", qty: 0.15, must: [/papas fritas/i, /tubo/i], reject: [/congelad/i], cat: DIA + "/almacen/picadas/papas-fritas" },
@@ -65,7 +66,8 @@ const ITEMS = [
   { name: "Trapo amarillo", q: "paño multiuso", unit: "un", qty: 1, must: [/pa[ñn]o|multiuso|amarillo/i], reject: [/microfibra premium/i] },
   { name: "Virulana", q: "esponja de acero", unit: "un", qty: 1, must: [/acero|virulana/i], reject: [] },
   // --- Almacén (compra secundaria) ---
-  { name: "Arvejas en lata", q: "arvejas", unit: "un", qty: 1, must: [/arvejas/i], reject: [/secas|partidas|congelad/i] },
+  // "Cualquiera menos congeladas" (usuario, 09/08/2026): en DIA las latas se llaman "Arvejas Secas Remojadas"
+  { name: "Arvejas en lata", q: "arvejas", unit: "un", qty: 1, must: [/arvejas/i], reject: [/congelad/i] },
   { name: "Caldo en cubos", q: "caldo en cubos", unit: "un", qty: 1, must: [/caldo/i], reject: [/deshidratada|sopa/i] },
   { name: "Choclo en lata", q: "choclo en grano", unit: "un", qty: 1, must: [/choclo/i], reject: [/congelad/i] },
   { name: "Jardinera en lata", q: "jardinera", unit: "un", qty: 1, must: [/jardinera/i], reject: [] },

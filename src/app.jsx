@@ -249,7 +249,7 @@ const PRICES = {
   "Atún": { p: 1390, n: "Desmenuzado DIA 170 g · lomitos DIA $2.300 c/oferta" },
   "Azúcar 500 g": { p: 590, n: "Azucel 500 g · oferta -17%" },
   "Grasa bovina 1 kg": { p: 5100, n: "2× Grasa Bovina DIA 500 g · oferta -15% · gana al 1 kg ($6.800)" },
-  "Harina de maíz 1 kg": { p: 3650, n: "Morixe p/arepas 1 kg · ¿es esta la que usás?" },
+  "Harina de maíz 1 kg": { p: 3650, n: "Morixe p/arepas 1 kg" },
   "Leche larga vida": { p: 1700, n: "DIA entera 1 L · oferta -22%" },
   "Maicena 500 g": { p: 4089, n: "Maizena clásica 500 g" },
   "Papas fritas": { p: 4601, n: "Tubo DIA sabor original 150 g" },

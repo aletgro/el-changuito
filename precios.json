@@ -22,8 +22,8 @@
       "n": "Azúcar Azucel Común tipo \"A\" 500 Gr. · oferta -17%"
     },
     "Harina de maíz 1 kg": {
-      "p": 2312,
-      "n": "Tubitos De Harina De Maíz Sabor Queso 3D Mega Queso X 43 Gr."
+      "p": 3650,
+      "n": "Harina Morixe para Arepas 1 Kg."
     },
     "Leche larga vida": {
       "p": 1700,
@@ -63,7 +63,7 @@
     },
     "Papas fritas": {
       "p": 4601,
-      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr."
+      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr."
     },
     "Vinagre de manzana 1 L": {
       "p": 4060,
@@ -432,6 +432,10 @@
     "Fenogreco 15 g": {
       "p": 180,
       "n": "15 g de Fenogreco Entero 100 g · $12.000/kg · New Garden"
+    },
+    "Arvejas en lata": {
+      "p": 729,
+      "n": "Arvejas Secas Remojadas Dia 300 Gr."
     }
   }
 }
