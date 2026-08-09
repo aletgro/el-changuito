@@ -1,73 +1,185 @@
 {
-  "version": "08/08/2026",
+  "version": "09/08/2026",
   "prices": {
     "Aceite de girasol 1 L": {
       "p": 5200,
-      "n": "Cañuelas 1,5 L · oferta -20% · $3.467/L"
+      "n": "Aceite de Girasol Cañuelas 1,5 Lt. · oferta -20%"
     },
     "Agua mineral bidón": {
-      "p": 3600,
-      "n": "DIA 6,25 L"
+      "p": 3400,
+      "n": "Bidón de Agua Sin Tacc Tratada Dia 6,5 Lt."
     },
     "Arroz integral 1 kg": {
       "p": 1395,
-      "n": "Cuquets 1 kg · oferta -34%"
+      "n": "Arroz Integral 00000 Cuquets 1 Kg. · oferta -34%"
     },
     "Atún": {
-      "p": 1390,
-      "n": "Desmenuzado DIA 170 g · lomitos DIA $2.300 c/oferta"
+      "p": 1190,
+      "n": "Atún Desmenuzado Al Natural Dia 170 Gr. · oferta -20%"
     },
     "Azúcar 500 g": {
       "p": 590,
-      "n": "Azucel 500 g · oferta -17%"
+      "n": "Azúcar Azucel Común tipo \"A\" 500 Gr. · oferta -17%"
     },
     "Harina de maíz 1 kg": {
-      "p": 3650,
-      "n": "Morixe p/arepas 1 kg · ¿es esta la que usás?"
+      "p": 2312,
+      "n": "Tubitos De Harina De Maíz Sabor Queso 3D Mega Queso X 43 Gr."
     },
     "Leche larga vida": {
       "p": 1700,
-      "n": "DIA entera 1 L · oferta -22%"
+      "n": "Leche Entera DIA Larga Vida 1 Lt. · oferta -22%"
     },
     "Maicena 500 g": {
-      "p": 4089,
-      "n": "Maizena clásica 500 g"
+      "p": 2200,
+      "n": "Almidón de Maíz DIA 500 Gr."
     },
     "Polenta 1 kg": {
       "p": 1390,
-      "n": "2× Molinos Ala 500 g · oferta -35%"
+      "n": "2× Polenta Molinos Ala 500 Gr. · oferta -35%"
     },
     "Sal entrefina 500 g": {
       "p": 840,
-      "n": "DIA Parrillera 500 g"
+      "n": "Sal Entrefina DIA Parrillera 500 Gr."
     },
     "Sal fina 500 g": {
       "p": 650,
-      "n": "DIA 500 g · oferta -34%"
+      "n": "Sal Fina DIA 500 Gr. · oferta -34%"
     },
     "Sal gruesa 500 g": {
       "p": 1050,
-      "n": "DIA 1 kg · mejor $/kg"
+      "n": "Sal Gruesa DIA 1 Kg. · oferta -28%"
     },
     "Vinagre de alcohol 1 L": {
       "p": 1565,
-      "n": "DIA 1 L"
+      "n": "Vinagre de Alcohol Dia 1 Lt."
     },
     "Yerba 1 kg": {
-      "p": 3200,
-      "n": "Amanda Tradicional 1 kg · oferta -35%"
+      "p": 2798,
+      "n": "Yerba Mate Suave Chamigo 1 Kg. · oferta -25%"
     },
     "Grasa bovina 1 kg": {
-      "p": 5100,
-      "n": "2× Grasa Bovina DIA 500 g · oferta -15% · gana al 1 kg ($6.800)"
+      "p": 7380,
+      "n": "2× Grasa Bovina Dia 500 Gr."
     },
     "Papas fritas": {
       "p": 4601,
-      "n": "Tubo DIA sabor original 150 g"
+      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr."
     },
     "Vinagre de manzana 1 L": {
       "p": 4060,
-      "n": "2× DIA 500 ml"
+      "n": "2× Vinagre de Manzana Dia 500 Ml."
+    },
+    "Aerosol de ambiente": {
+      "p": 2724,
+      "n": "Desodorante de Ambiente Poett Primavera en aerosol 360 Ml. · oferta -35%"
+    },
+    "Bolsa de basura baño": {
+      "p": 1950,
+      "n": "Bolsas de Residuos DIA Cierra Fácil 20 Ud. · oferta -50%"
+    },
+    "Cif crema": {
+      "p": 2520,
+      "n": "Limpiador en crema CIF Multiuso Original 250 Ml."
+    },
+    "Desinfectante de piso": {
+      "p": 2610,
+      "n": "Limpiador Líquido Pisos Procenex Lavanda 900 Ml."
+    },
+    "Desinfectante de superficies": {
+      "p": 1800,
+      "n": "Desinfectante Multisuperficies Ayudín Doypack 450 Ml. · oferta -26%"
+    },
+    "Detergente líquido": {
+      "p": 1687,
+      "n": "Detergente Magistral Ultra Limon Botella 300 Ml. · oferta -35%"
+    },
+    "Esponja": {
+      "p": 915,
+      "n": "Esponja Virulana Fibra Extra Duración 1 Ud."
+    },
+    "Jabón Dove": {
+      "p": 2389,
+      "n": "Jabón en Barra Dove Humectación Enriquecida 75 Gr."
+    },
+    "Jabón líquido manos": {
+      "p": 1399,
+      "n": "Jabón Líquido Para Manos Suave Pepino Y Aloe 220 Ml."
+    },
+    "Jabón líquido ropa": {
+      "p": 7350,
+      "n": "4× Jabón Líquido Ecovita Baja espuma 800 Ml. · oferta -25%"
+    },
+    "Lavandina": {
+      "p": 894,
+      "n": "Lavandina DIA Triple Acción 1 Lt. · oferta -40%"
+    },
+    "Limpia vidrios": {
+      "p": 1850,
+      "n": "Limpiador Vidrios Y Mulitiuso Cif Expert Doypack 450 Ml. · oferta -26%"
+    },
+    "Papel higiénico": {
+      "p": 4665,
+      "n": "3× Papel Higiénico Simple Hoja 50 mts 2 Ud."
+    },
+    "Pastilla inodoro": {
+      "p": 1850,
+      "n": "Limpiador Inodoro Pastillas Glade Lavanda 25 Gr."
+    },
+    "Rollo de cocina": {
+      "p": 1650,
+      "n": "Mega Rollo De Cocina Dia 200 Paños 1 Ud. · oferta -41%"
+    },
+    "Suavizante": {
+      "p": 4523,
+      "n": "2× Suavizante Para Ropa Flores Silvestres Doypack 900 Ml. · oferta -25%"
+    },
+    "Trapo de piso": {
+      "p": 2000,
+      "n": "Trapo de Piso Blanco Dia 1 Ud."
+    },
+    "Trapo rejilla": {
+      "p": 560,
+      "n": "Rejilla Pastelera x Un"
+    },
+    "Trapo amarillo": {
+      "p": 3760,
+      "n": "Paño Amarillo Multiuso DIA 3 Ud."
+    },
+    "Virulana": {
+      "p": 1325,
+      "n": "Esponja de Acero Inoxidable Dia 1 Ud."
+    },
+    "Caldo en cubos": {
+      "p": 1625,
+      "n": "Caldo de Carne En Cubos x 12 Ud Dia 144 Gr."
+    },
+    "Choclo en lata": {
+      "p": 1375,
+      "n": "Granos de Choclo Amarillo DIA 300 Gr."
+    },
+    "Jardinera en lata": {
+      "p": 1440,
+      "n": "Jardinera Sin Sal Dia 300 Gr."
+    },
+    "Jugo de tomate en sachet": {
+      "p": 959,
+      "n": "Puré de Tomate Dia 520 Gr."
+    },
+    "Levadura": {
+      "p": 500,
+      "n": "Levadura Calsa 50 Gr. · oferta -20%"
+    },
+    "Pan rallado": {
+      "p": 940,
+      "n": "Pan Rallado Exclusivo 400 Gr."
+    },
+    "4 pilas AAA": {
+      "p": 1684,
+      "n": "Pilas Bixler Aaa 2 Ud. · oferta -40%"
+    },
+    "Escarbadientes": {
+      "p": 2251,
+      "n": "Escarbadientes Dia 2 x 50 Ud."
     }
   }
 }
