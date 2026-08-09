@@ -2,7 +2,7 @@ name: Actualizar precios
 
 on:
   schedule:
-    # Lunes y jueves a las 06:00 de Argentina (09:00 UTC)
+    # Todos los días a las 06:00 de Argentina (09:00 UTC)
     - cron: "0 9 * * *"
   workflow_dispatch: {}
 

@@ -1,0 +1,21 @@
+{
+  "name": "el-changuito",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Organizador de compras por comercio y temporada (PWA)",
+  "scripts": {
+    "build": "esbuild src/app.jsx --bundle --minify --loader:.jsx=jsx --jsx=automatic --define:process.env.NODE_ENV=\"\\\"production\\\"\" --outfile=app.js",
+    "check": "esbuild src/app.jsx --loader:.jsx=jsx --jsx=automatic --outfile=/dev/null && node --check scripts/actualizar-precios.mjs",
+    "test": "node scripts/test-precios.mjs",
+    "precios": "node scripts/actualizar-precios.mjs",
+    "servir": "npx --yes serve ."
+  },
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.1"
+  }
+}

@@ -96,7 +96,8 @@ function parseQty(nombre) {
     mult = parseInt(pack[1], 10) || 1;
     base = pack[2] + " " + pack[3];
   } else {
-    const mx = s.match(/(?:^|\s)x\s*(\d+)\b/);
+    // "x N" es multiplicador solo si N no es un tamaño ("x 3 ud." sí; "x 190 g" no)
+    const mx = s.match(/(?:^|\s)x\s*(\d+)\b(?!\s*(?:kg|grs?|gr\.|g|ml|cc|lts?|lt\.|l|m(?:ts?)?)\b)/);
     if (mx) mult = parseInt(mx[1], 10) || 1;
   }
   let m;
@@ -150,27 +151,128 @@ async function buscarCategoriaHtml(url) {
   return out;
 }
 
+/* ---------- EL PUENTE (ofertas.lacteoselpuente.com.ar) ----------
+   El listado "CONSUMO FAMILIAR" se carga por AJAX: GET /productos/get/{rubro_id}
+   devuelve fragmentos HTML con pares nombre/precio. Los rubro_id salen de los
+   botones data-rubro-id del home (con lista fija de respaldo).
+   OJO: los quesos se publican "Valor por kg ..." → el precio es POR KG aunque
+   el nombre mencione la horma ("aprox. 4 kg"); elegir() lo contempla.
+   Cantidades por compra según las notas del usuario. ---------- */
+const EP = "https://ofertas.lacteoselpuente.com.ar";
+
+const ITEMS_ELPUENTE = [
+  // fraccionado: compra al mostrador → solo líneas "fraccionado/fracc." (la horma entera es otro precio)
+  { name: "Fundente", qty: 0.6, unit: "kg", fraccionado: true, asumirKg: true, must: [/cremoso|por salut/i, /fracc/i], reject: [/pizzero|light|untable|sachet/i] },
+  { name: "Pizza", qty: 0.4, unit: "kg", fraccionado: true, asumirKg: true, must: [/m[uo]zz?arella|hilado/i, /fracc/i], reject: [/rallad|light/i] },
+  { name: "Provoletta", qty: 0.3, unit: "kg", must: [/provolet/i], reject: [/rallad/i] }, // se vende en piezas de ~190 g
+  { name: "Queso para picada", qty: 0.3, unit: "kg", fraccionado: true, asumirKg: true, must: [/fontina|gouda|gruyer|mar del plata|pategr[aá]s|holanda/i, /fracc/i], reject: [/rallad/i] },
+  { name: "Queso para rayar", qty: 0.3, unit: "kg", fraccionado: true, asumirKg: true, must: [/sardo|reggianito|romano|provolone/i, /fracc/i], reject: [/rallad/i] },
+  { name: "Crema", qty: 2, unit: "un", must: [/crema de leche/i], reject: [/helado|queso crema|balde/i] },
+  { name: "Leche", qty: 2, unit: "l", must: [/leche/i, /entera/i], reject: [/polvo|chocolatada|condensada|dulce de leche|yogur|queso/i] }, // 2 sachets de 1 L (unit "l" filtra bricks de 200 cc)
+];
+
+/* Fragmento HTML de /productos/get/{rubro_id} → pares nombre/precio.
+   Estructura: <span class="float-left"...><span>NOMBRE</span></span>
+               <span class="float-right"...>$10.500,00</span> */
+function parsearListadoElPuente(html) {
+  const out = [];
+  const re = /<span[^>]*class="float-left"[^>]*>\s*<span>([^<]+)<\/span>\s*<\/span>\s*<span[^>]*class="float-right"[^>]*>\s*\$\s*([\d.]+(?:,\d+)?)/g;
+  for (const m of html.matchAll(re)) {
+    const nombre = m[1].replace(/\s+/g, " ").trim();
+    const precio = parseFloat(m[2].replace(/\./g, "").replace(",", "."));
+    if (nombre && precio > 0) out.push({ nombre, precio, lista: precio });
+  }
+  return out;
+}
+
+function diagnosticoElPuente(home) {
+  console.log("EL PUENTE: diagnóstico para ajustar el lector →");
+  const inline = (home.match(/<script(?![^>]*src)/gi) || []).length;
+  const menciones = (home.match(/precio/gi) || []).length;
+  console.log(`  HTML: ${home.length} caracteres · scripts inline: ${inline} · menciones de "precio": ${menciones}`);
+  const rutas = [...new Set(
+    [...home.matchAll(/["']([^"'\s<>]{2,120}?\.(?:php|js|json|html|asp|aspx)(?:\?[^"'\s<>]*)?)["']/gi)].map((m) => m[1])
+  )].filter((u) => !/googletag|gtag|jquery|bootstrap|slick|facebook|fontawesome/i.test(u));
+  console.log("  Rutas detectadas: " + (rutas.length ? rutas.slice(0, 30).join(" | ") : "ninguna"));
+  const ctxPhp = [...home.matchAll(/.{0,60}\.php.{0,40}/g)].slice(0, 6).map((m) => m[0].replace(/\s+/g, " ").trim());
+  if (ctxPhp.length) console.log("  Contexto de .php: " + ctxPhp.join("  ///  "));
+  const ctxAjax = [...home.matchAll(/.{0,30}(?:\$\.(?:get|post|ajax)|fetch\(|XMLHttpRequest|\.load\().{0,90}/g)].slice(0, 6).map((m) => m[0].replace(/\s+/g, " ").trim());
+  if (ctxAjax.length) console.log("  Llamadas AJAX vistas: " + ctxAjax.join("  ///  "));
+  console.log("  (Atajo: en el navegador, F12 → pestaña Red → recargá la página → filtrá XHR y pasale a Claude la URL que aparece.)");
+}
+
+async function candidatosElPuente() {
+  const cab = { headers: { "user-agent": "Mozilla/5.0 (compatible; ElChanguito/1.0)", accept: "*/*", "x-requested-with": "XMLHttpRequest" } };
+
+  // Rubros del listado "CONSUMO FAMILIAR", descubiertos en el home (respaldo: lista de ago 2026)
+  let home = "";
+  let rubros = [];
+  try {
+    home = await (await fetch(EP + "/", cab)).text();
+    rubros = [...new Set([...home.matchAll(/btn-rubros-familiar[^>]*?data-rubro-id="(\d+)"/g)].map((m) => Number(m[1])))];
+  } catch (e) { /* sin home igual probamos los rubros conocidos */ }
+  if (!rubros.length) rubros = [1, 2, 3, 4, 5, 6, 7, 12, 14, 15, 23, 24, 25, 26, 27, 28, 29];
+
+  const porNombre = new Map(); // dedup por nombre (si se repite entre rubros, queda el más barato)
+  for (const id of rubros) {
+    try {
+      const r = await fetch(EP + "/productos/get/" + id, cab);
+      if (!r.ok) continue;
+      for (const p of parsearListadoElPuente(await r.text())) {
+        const prev = porNombre.get(p.nombre);
+        if (!prev || p.precio < prev.precio) porNombre.set(p.nombre, p);
+      }
+    } catch (e) { /* seguimos con el próximo rubro */ }
+    await dormir(300);
+  }
+
+  const cand = [...porNombre.values()];
+  if (cand.length) {
+    console.log(`EL PUENTE: ${cand.length} productos vía /productos/get/{rubro} (rubros: ${rubros.join(" ")})`);
+    return cand;
+  }
+  if (home) diagnosticoElPuente(home);
+  return [];
+}
+
 /* ---------- Selección según el criterio ---------- */
 function elegir(item, candidatos) {
   const validos = [];
   for (const c of candidatos) {
     if (!item.must.every((re) => re.test(c.nombre))) continue;
     if (item.reject.some((re) => re.test(c.nombre))) continue;
-    const q = parseQty(c.nombre);
-    if (item.unit !== "un") {
+    let q = parseQty(c.nombre);
+    if (item.fraccionado) {
+      // Venta por peso (quesos al mostrador): estimamos la fracción que compra el usuario
+      // "Valor por kg / x kg" = precio POR KG aunque el nombre traiga el peso de la horma ("aprox. 4 kg")
+      if (/(?:valor|\bpor|x)\s*(?:por\s*)?kg\b/i.test(c.nombre)) q = { amount: 1, unit: "kg" };
+      else if (q.unit === "un" && item.asumirKg) q = { amount: 1, unit: item.unit };
+      if (q.unit !== item.unit) continue;
+      const porU = c.precio / q.amount;
+      validos.push({ ...c, paquetes: 0, gramos: item.qty, estimado: porU * item.qty, porUnidad: porU });
+    } else if (item.unit !== "un") {
       if (q.unit !== item.unit) continue;
       if (q.amount < item.qty * 0.2 || q.amount > item.qty * 3.5) continue; // tamaño similar
       const paquetes = Math.max(1, Math.ceil(item.qty / q.amount - 1e-9));
       validos.push({ ...c, paquetes, estimado: paquetes * c.precio, porUnidad: c.precio / q.amount });
     } else {
-      validos.push({ ...c, paquetes: 1, estimado: c.precio, porUnidad: c.precio });
+      // Por unidad: si el nombre trae "x N", un paquete cubre N unidades
+      const unidades = q.unit === "un" ? (q.amount || 1) : 1;
+      const paquetes = Math.max(1, Math.ceil((item.qty || 1) / unidades - 1e-9));
+      validos.push({ ...c, paquetes, estimado: paquetes * c.precio, porUnidad: c.precio / unidades });
     }
   }
   if (!validos.length) return null;
   validos.sort((a, b) => a.estimado - b.estimado || a.porUnidad - b.porUnidad);
   const g = validos[0];
   const desc = g.lista > g.precio ? Math.round((1 - g.precio / g.lista) * 100) : 0;
-  const nota = (g.paquetes > 1 ? g.paquetes + "× " : "") + g.nombre.replace(/\s+/g, " ").trim().slice(0, 60) + (desc >= 5 ? ` · oferta -${desc}%` : "");
+  const limpio = g.nombre.replace(/\s+/g, " ").trim().slice(0, 60);
+  let nota;
+  if (g.paquetes === 0) {
+    nota = Math.round(g.gramos * 1000) + " g de " + limpio + " · $" + Math.round(g.porUnidad).toLocaleString("es-AR") + "/kg";
+  } else {
+    nota = (g.paquetes > 1 ? g.paquetes + "× " : "") + limpio + (desc >= 5 ? ` · oferta -${desc}%` : "");
+  }
   return { p: Math.round(g.estimado), n: nota };
 }
 
@@ -206,17 +308,39 @@ async function main() {
     await dormir(ESPERA_MS);
   }
 
+  // --- El Puente ---
+  console.log("\n— El Puente —");
+  let candEP = [];
+  try { candEP = await candidatosElPuente(); } catch (e) { console.log("EL PUENTE: error → " + e.message); }
+  if (candEP.length > 0) {
+    console.log(`(listado con ${candEP.length} entradas)`);
+    for (const item of ITEMS_ELPUENTE) {
+      const el = elegir(item, candEP);
+      if (el) {
+        precios[item.name] = el;
+        ok++;
+        console.log(`✔ ${item.name} → $${el.p}  (${el.n})`);
+      } else {
+        fallos.push(item.name);
+        console.log(`✘ ${item.name} → sin match en el listado`);
+      }
+    }
+  } else {
+    console.log("EL PUENTE: no pude leer el listado (se carga por JavaScript). Pasale este log a Claude para ajustar el lector.");
+    ITEMS_ELPUENTE.forEach((i) => fallos.push(i.name));
+  }
+
   if (ok === 0) {
     console.error("\nNingún ítem se pudo actualizar: no escribo el archivo para no romper nada.");
     process.exit(1);
   }
 
   fs.writeFileSync(archivo, JSON.stringify({ version: fechaHoyAR(), prices: precios }, null, 2) + "\n");
-  console.log(`\nListo: ${ok}/${ITEMS.length} ítems actualizados en ${archivo} (versión ${fechaHoyAR()}).`);
+  console.log(`\nListo: ${ok}/${ITEMS.length + ITEMS_ELPUENTE.length} ítems actualizados en ${archivo} (versión ${fechaHoyAR()}).`);
   if (fallos.length) console.log("Sin match (revisar consultas): " + fallos.join(", "));
 }
 
-export { parseQty, elegir, ITEMS };
+export { parseQty, elegir, ITEMS, ITEMS_ELPUENTE, parsearListadoElPuente, candidatosElPuente };
 
 if (process.argv[1] && import.meta.url === new URL("file://" + process.argv[1]).href) {
   main();

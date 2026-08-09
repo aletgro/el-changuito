@@ -22,7 +22,7 @@ En Windows/Linux: misma URL en Chrome o Edge → ícono de instalar en la barra 
 
 ## Precios automáticos
 
-El archivo `precios.json` alimenta la estimación de gasto de la app. El workflow de GitHub Actions (`.github/workflows/precios.yml`) lo regenera solo **lunes y jueves a las 6:00 (hora argentina)** consultando los sitios de los comercios, y el sitio se republica con los precios nuevos sin que hagas nada.
+El archivo `precios.json` alimenta la estimación de gasto de la app. El workflow de GitHub Actions (`.github/workflows/precios.yml`) lo regenera solo **todos los días a las 6:00 (hora argentina)** consultando los sitios de los comercios, y el sitio se republica con los precios nuevos sin que hagas nada.
 
 Requisitos:
 - La app tiene que vivir en un **repositorio de GitHub** (Pages, o Netlify/Cloudflare conectado al repo; Netlify Drop no sirve para esto). Con repo **privado** + Netlify gratis también funciona.
@@ -31,6 +31,12 @@ Requisitos:
 Actualización manual cuando quieras (ej. antes del día de ofertas): en GitHub → pestaña **Actions** → "Actualizar precios" → **Run workflow**. En 1-2 minutos el sitio tiene precios del momento. También podés editar `precios.json` a mano desde GitHub, o un precio puntual desde la app (Listas → Editar).
 
 Si algún ítem aparece como "sin match" en el log del workflow, avisale a Claude para refinar la búsqueda de ese producto.
+
+
+## Desarrollo
+
+El contexto completo del proyecto para trabajar con Claude Code esta en **CLAUDE.md**.
+Resumen: editá `src/app.jsx`, corré `npm run build`, subí la versión del cache en `sw.js` y pusheá.
 
 ## Notas
 
