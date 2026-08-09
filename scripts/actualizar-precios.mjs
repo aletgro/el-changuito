@@ -91,18 +91,18 @@ function parseQty(nombre) {
   let mult = 1;
   let base = s;
   // Pack "N x tamaño" (ej. "4 x 30 Mts", "3 x 500 Gr"): multiplicador + tamaño individual
-  const pack = s.match(/(\d+)\s*x\s*(\d+(?:\.\d+)?)\s*(kgm?|grs?|grm|gr\.|g|ml|cc|lts?|lt\.|l|m(?:ts?)?)\b/);
+  const pack = s.match(/(\d+)\s*x\s*(\d+(?:\.\d+)?)\s*(kgm?|grs?|grm|gs|gr\.|g|ml|cc|lts?|lt\.|l|m(?:ts?)?)\b/);
   if (pack) {
     mult = parseInt(pack[1], 10) || 1;
     base = pack[2] + " " + pack[3];
   } else {
     // "x N" es multiplicador solo si N no es un tamaño ("x 3 ud." sí; "x 190 g" no)
-    const mx = s.match(/(?:^|\s)x\s*(\d+)\b(?!\s*(?:kgm?|grs?|grm|gr\.|g|ml|cc|lts?|lt\.|l|m(?:ts?)?)\b)/);
+    const mx = s.match(/(?:^|\s)x\s*(\d+)\b(?!\s*(?:kgm?|grs?|grm|gs|gr\.|g|ml|cc|lts?|lt\.|l|m(?:ts?)?)\b)/);
     if (mx) mult = parseInt(mx[1], 10) || 1;
   }
   let m;
   if ((m = base.match(/(\d+(?:\.\d+)?)\s*kgm?\b/))) return { amount: parseFloat(m[1]) * mult, unit: "kg" };
-  if ((m = base.match(/(\d+(?:\.\d+)?)\s*(?:grm|grs?|gr\.|g)\b/))) return { amount: (parseFloat(m[1]) / 1000) * mult, unit: "kg" };
+  if ((m = base.match(/(\d+(?:\.\d+)?)\s*(?:grm|grs?|gs|gr\.|g)\b/))) return { amount: (parseFloat(m[1]) / 1000) * mult, unit: "kg" };
   if ((m = base.match(/(\d+(?:\.\d+)?)\s*(?:ml|cc)\b/))) return { amount: (parseFloat(m[1]) / 1000) * mult, unit: "l" };
   if ((m = base.match(/(\d+(?:\.\d+)?)\s*(?:lts?|lt\.|l)\b/))) return { amount: parseFloat(m[1]) * mult, unit: "l" };
   if ((m = base.match(/(\d+(?:\.\d+)?)\s*m(?:ts?)?\b/))) return { amount: parseFloat(m[1]) * mult, unit: "m" };
@@ -371,6 +371,184 @@ async function preciosCoto() {
   return out;
 }
 
+/* ---------- DIETÉTICA (frutosare.com.ar + newgarden.com.ar) ----------
+   Precios SOLO DE REFERENCIA: el usuario compra en dietéticas de barrio sin
+   página; Frutos del Are (WooCommerce, Store API pública) sirve de vara y
+   New Garden (Magento, GraphQL público) es el RESPALDO cuando FA no tiene el
+   producto (pedido del usuario, 09/08/2026); `fuente:"ng"` lo busca solo ahí.
+   Criterio pedido: MANTENER las cantidades del usuario — comprar más grande es
+   más barato por kg pero no puede stockearlo. Por eso los ítems usan `cercano`:
+   cantidad del usuario × $/kg del paquete de tamaño más parecido.
+   Sin "Huevo" (el usuario carga ese precio a mano al comprarlo) ni
+   "Té a elección" (pick variable). */
+const FA = "https://frutosare.com.ar/wp-json/wc/store/v1";
+const NG = "https://newgarden.com.ar/graphql";
+
+/* Marcas caras de especiero/frascos y productos elaborados: fuera de la referencia */
+const RECHAZO_DIET = /castillo|especiero|molinillo|sazonador|frasco|lata|dicomere|sin tacc|sin gluten|natier|c[áa]psula|barrita|galletita|alfajor|cracker|chips|pudding|halva|mezcla|granola|aceite|fideo|pasta de|spray|molinos ala/i;
+
+const ITEMS_DIETETICA = [
+  // Especias · stock permanente
+  { name: "Ají molido / pimentón picante 100 g", q: "aji molido", qty: 0.1, must: [/aj[íi] molido|piment[óo]n picante/i] },
+  { name: "Amapola 25 g", q: "amapola", qty: 0.025, must: [/amapola/i] },
+  { name: "Canela 15 g", q: "canela", qty: 0.015, must: [/canela/i, /rama/i] }, // el usuario la compra entera (en rama)
+  { name: "Clavos de olor 10 g", q: "clavo de olor", qty: 0.01, must: [/clavo/i, /grano|entero/i] },
+  { name: "Comino 100 g", q: "comino", qty: 0.1, must: [/comino/i, /grano/i] }, // en grano, no molido
+  { name: "Coriandro 25 g", q: "coriandro", qty: 0.025, must: [/coriandro/i] },
+  { name: "Hinojo 50 g", q: "hinojo", qty: 0.05, must: [/hinojo/i, /semilla/i] },
+  { name: "Laurel 15 hojas", q: "laurel", qty: 0.025, must: [/laurel/i] }, // compra de a 25 g
+  { name: "Mostaza rubia 25 g", q: "mostaza", qty: 0.025, must: [/mostaza/i], reject: [/salsa|dijon|antigua|miel|arytza/i] },
+  { name: "Nuez moscada 5 unidades", q: "nuez moscada", qty: 0.025, must: [/nuez moscada/i, /grano|entera/i] },
+  { name: "Orégano 50 g", q: "oregano", qty: 0.05, must: [/or[ée]gano/i], reject: [/semillas/i] },
+  { name: "Pimentón 100 g", q: "pimenton", qty: 0.1, must: [/piment[óo]n/i], reject: [/picante|espa[ñn]ol/i] },
+  { name: "Pimienta blanca 50 g", q: "pimienta blanca", qty: 0.05, must: [/pimienta blanca/i] },
+  { name: "Pimienta negra 50 g + 50 g", q: "pimienta negra", qty: 0.05, must: [/pimienta negra/i, /grano/i] }, // pedido del usuario: referencia de 50 g EN GRANO
+  { name: "Romero 25 g", q: "romero", qty: 0.025, must: [/romero/i] },
+  { name: "Tomillo 50 g", q: "tomillo", qty: 0.05, must: [/tomillo/i] },
+  // Perecederos
+  { name: "Almendras 500 g", q: "almendras", qty: 0.5, must: [/almendras?/i], reject: [/chocolate|harina/i] }, // partidas OK: son las más baratas y el usuario las prefiere
+  { name: "Cacao 500 g", q: "cacao amargo", qty: 0.5, must: [/cacao/i], reject: [/chocolate|nibs|manteca|chips|cascarilla/i] },
+  { name: "Castañas de cajú 500 g", q: "castañas", qty: 0.5, must: [/caj[uú]/i], reject: [/chocolate|partida/i] },
+  { name: "Girasol 250 g", q: "girasol", qty: 0.25, must: [/girasol/i] },
+  { name: "Lino 250 g", q: "semillas de lino", qty: 0.25, must: [/lino/i] },
+  { name: "Maní 2 kg", q: "mani repelado", qty: 2, must: [/man[íi]/i], reject: [/chocolate|praline|salado|japon[ée]s/i] },
+  { name: "Nueces 500 g", q: "nueces", qty: 0.5, must: [/nuez|nueces/i], reject: [/moscada|chocolate|pec[aá]n|partida/i] },
+  { name: "Piñones", q: "piñones", qty: 0.05, must: [/pi[ñn]on/i] },
+  { name: "Sésamo integral 500 g", q: "sesamo integral", qty: 0.5, must: [/s[ée]samo/i, /integral/i] },
+  // Duraderos
+  { name: "Avena 500 g", q: "avena", qty: 0.5, must: [/avena/i], reject: [/harina|yogur|leche|bebida|instant[áa]nea|bocadito|salvado/i] },
+  { name: "Bicarbonato de sodio 200 g", q: "bicarbonato", qty: 0.2, must: [/bicarbonato/i] },
+  { name: "Copos de maíz 500 g", q: "copos", qty: 0.5, must: [/copos/i, /ma[íi]z/i], reject: [/chocolate|chocoflake|azucarado/i] },
+  { name: "Polvo para hornear 100 g", q: "hornear", qty: 0.1, must: [/polvo/i, /hornear/i] },
+  // Muy duraderos
+  { name: "Arvejas 1 kg", q: "arvejas", qty: 1, must: [/arvejas?/i] },
+  { name: "Chía 500 g", q: "chia", qty: 0.5, must: [/ch[íi]a/i] },
+  { name: "Garbanzos 1 kg", q: "garbanzos", qty: 1, must: [/garbanzos?/i], reject: [/harina|tostad/i] },
+  { name: "Lentejas 1 kg", q: "lentejas", qty: 1, must: [/lentejas?/i], reject: [/chocolate|harina/i] },
+  { name: "Porotos negros 1 kg", q: "porotos negros", qty: 1, must: [/porotos?/i, /negros?/i], reject: [/tape|ojito/i] },
+  { name: "Porotos de soja 1 kg", q: "soja", qty: 1, must: [/porotos?/i, /soja/i], reject: [/texturizada|milanesa/i] },
+  { name: "Quínoa 1 kg", q: "quinoa", qty: 1, must: [/quinoa|qu[íi]noa/i], reject: [/pop|harina|inflad/i] },
+  // Té y esencias: por paquete (el más barato que cumpla)
+  { name: "Té negro", q: "te negro", qty: 1, unit: "un", must: [/t[ée] negro/i], reject: [/chocolate/i] },
+  { name: "Té verde", q: "te verde", qty: 1, unit: "un", must: [/t[ée] verde/i], reject: [/chocolate/i] },
+  { name: "Té de boldo", q: "boldo", qty: 1, unit: "un", must: [/boldo/i] },
+  { name: "Vainilla", q: "chaucha de vainilla", qty: 1, unit: "un", must: [/vainilla/i, /chaucha|vaina/i], reject: [/esencia|extracto|az[uú]car|yogur/i] }, // la vaina, no esencia
+  { name: "Salsa de pescado", q: "salsa de pescado", qty: 1, unit: "un", fuente: "ng", must: [/salsa de pescado/i], reject: [/aceite|c[áa]psula/i] }, // se compra en New Garden ("Otros lugares")
+  // Especias · compra puntual
+  { name: "Achiote 10 g", q: "achiote", qty: 0.01, must: [/achi?ote/i] },
+  { name: "Anís 20 g", q: "anis", qty: 0.02, must: [/\ban[íi]s\b/i], reject: [/estrellado/i] },
+  { name: "Cardamomo 20 g", q: "cardamomo", qty: 0.02, must: [/cardamomo/i] },
+  { name: "Eneldo 10 g", q: "eneldo", qty: 0.01, must: [/eneldo/i] },
+  { name: "Estragón 10 g", q: "estragon", qty: 0.01, must: [/estrag[óo]n/i] },
+  { name: "Fenogreco 15 g", q: "fenogreco", qty: 0.015, must: [/fenogreco/i] },
+].map((i) => ({ unit: i.unit || "kg", cercano: i.unit !== "un", ...i, reject: [RECHAZO_DIET, ...(i.reject || [])] }));
+
+const NOMBRES_DIETETICA = ITEMS_DIETETICA.map((i) => i.name);
+
+const nombreFa = (s) => String(s).replace(/&#(\d+);/g, (m, d) => String.fromCharCode(d)).replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
+
+/* Valores del atributo PESO: "500GS" / "250 GR" / "1KG" / "1k" → "500 g" / "1 kg" */
+function normalizarPeso(v) {
+  const m = String(v).match(/(\d+(?:[.,]\d+)?)\s*(kg|k|gs|grs?|g)\b/i);
+  if (!m) return String(v).toLowerCase();
+  const n = m[1].replace(",", ".");
+  return /^k/i.test(m[2]) ? `${n} kg` : `${n} g`;
+}
+
+const precioFa = (prices) => Number(prices?.price) / 10 ** (Number(prices?.currency_minor_unit) || 0);
+
+/* Producto simple → par nombre/precio (el tamaño viene en el nombre) */
+function paresProductoFa(p) {
+  const precio = precioFa(p.prices);
+  return precio > 0 ? [{ nombre: nombreFa(p.name), precio, lista: precio }] : [];
+}
+
+/* Producto variable: junta el PESO (en el padre) con el precio (en la variación) */
+function paresVariacionesFa(padre, variaciones) {
+  const pesoPorId = new Map((padre.variations || []).map((v) => [v.id, (v.attributes || [])[0]?.value || ""]));
+  const out = [];
+  for (const v of variaciones) {
+    const peso = pesoPorId.get(v.id);
+    const precio = precioFa(v.prices);
+    if (peso && precio > 0) out.push({ nombre: `${nombreFa(padre.name)} ${normalizarPeso(peso)}`, precio, lista: precio });
+  }
+  return out;
+}
+
+async function faJson(path) {
+  const r = await fetch(`${FA}/${path}`, { headers: { accept: "application/json", "user-agent": "Mozilla/5.0 (compatible; ElChanguito/1.0)" } });
+  if (!r.ok) throw new Error("HTTP " + r.status);
+  return r.json();
+}
+
+async function buscarFrutosAre(query) {
+  const prods = await faJson(`products?search=${encodeURIComponent(query)}&per_page=25`);
+  const out = [];
+  for (const p of prods) {
+    if (p.type === "variable" && (p.variations || []).length) {
+      try {
+        out.push(...paresVariacionesFa(p, await faJson(`products?type=variation&parent=${p.id}&per_page=25`)));
+      } catch (e) { /* seguimos con el próximo producto */ }
+      await dormir(250);
+    } else {
+      out.push(...paresProductoFa(p));
+    }
+  }
+  return out;
+}
+
+/* New Garden (Magento): GraphQL público de catálogo */
+function paresDesdeNewGarden(data) {
+  const out = [];
+  for (const it of data?.data?.products?.items || []) {
+    if (it.stock_status && it.stock_status !== "IN_STOCK") continue;
+    const min = it.price_range?.minimum_price || {};
+    const precio = Number(min.final_price?.value);
+    const lista = Number(min.regular_price?.value) || precio;
+    const nombre = String(it.name || "").replace(/\s+/g, " ").trim();
+    if (nombre && precio > 0) out.push({ nombre, precio, lista });
+  }
+  return out;
+}
+
+async function buscarNewGarden(query) {
+  const gq = `{ products(search: ${JSON.stringify(query)}, pageSize: 20) { items { name stock_status price_range { minimum_price { final_price { value } regular_price { value } } } } } }`;
+  const r = await fetch(NG, {
+    method: "POST",
+    headers: { "content-type": "application/json", accept: "application/json", "user-agent": "Mozilla/5.0 (compatible; ElChanguito/1.0)" },
+    body: JSON.stringify({ query: gq }),
+  });
+  if (!r.ok) throw new Error("HTTP " + r.status);
+  return paresDesdeNewGarden(await r.json());
+}
+
+async function preciosDietetica() {
+  const cacheFa = new Map(), cacheNg = new Map();
+  const buscarFa = async (q) => {
+    if (!cacheFa.has(q)) { cacheFa.set(q, await buscarFrutosAre(q)); await dormir(300); }
+    return cacheFa.get(q);
+  };
+  const buscarNg = async (q) => {
+    if (!cacheNg.has(q)) { cacheNg.set(q, await buscarNewGarden(q)); await dormir(300); }
+    return cacheNg.get(q);
+  };
+  const out = [];
+  for (const item of ITEMS_DIETETICA) {
+    let el = null;
+    if (item.fuente !== "ng") {
+      try { el = elegir(item, await buscarFa(item.q)); } catch (e) { /* probamos New Garden */ }
+    }
+    if (!el) {
+      try {
+        const elNg = elegir(item, await buscarNg(item.q));
+        if (elNg) el = { ...elNg, n: elNg.n + " · New Garden" };
+      } catch (e) { /* sin red: queda sin match */ }
+    }
+    out.push([item.name, el]);
+  }
+  return out;
+}
+
 /* ---------- Selección según el criterio ---------- */
 function elegir(item, candidatos) {
   const validos = [];
@@ -386,6 +564,16 @@ function elegir(item, candidatos) {
       if (q.unit !== item.unit) continue;
       const porU = c.precio / q.amount;
       validos.push({ ...c, paquetes: 0, gramos: item.qty, estimado: porU * item.qty, porUnidad: porU });
+    } else if (item.cercano) {
+      // Dietética: referencia = cantidad del usuario × $/kg del paquete de tamaño MÁS
+      // PARECIDO al que compra (no el más barato por kg: el kilo grande no lo puede
+      // stockear). Bandas de similitud; dentro de la banda gana el más barato por kg.
+      if (q.unit !== item.unit) continue;
+      const ratio = Math.max(q.amount / item.qty, item.qty / q.amount);
+      if (ratio > 25) continue;
+      const porU = c.precio / q.amount;
+      const banda = ratio <= 1.5 ? 0 : ratio <= 3 ? 1 : ratio <= 6 ? 2 : ratio <= 12 ? 3 : 4;
+      validos.push({ ...c, paquetes: 0, gramos: item.qty, estimado: porU * item.qty, porUnidad: porU, banda });
     } else if (item.unit !== "un") {
       if (q.unit !== item.unit) continue;
       if (q.amount < item.qty * 0.2 || q.amount > item.qty * 3.5) continue; // tamaño similar
@@ -402,9 +590,11 @@ function elegir(item, candidatos) {
     }
   }
   if (!validos.length) return null;
-  validos.sort(item.comparaPor
-    ? (a, b) => a.porUnidad - b.porUnidad || a.estimado - b.estimado
-    : (a, b) => a.estimado - b.estimado || a.porUnidad - b.porUnidad);
+  validos.sort(item.cercano
+    ? (a, b) => a.banda - b.banda || a.porUnidad - b.porUnidad
+    : item.comparaPor
+      ? (a, b) => a.porUnidad - b.porUnidad || a.estimado - b.estimado
+      : (a, b) => a.estimado - b.estimado || a.porUnidad - b.porUnidad);
   const g = validos[0];
   const desc = g.lista > g.precio ? Math.round((1 - g.precio / g.lista) * 100) : 0;
   const limpio = g.nombre.replace(/\s+/g, " ").replace(/\s+x\s*kg\.?$/i, "").trim().slice(0, 60);
@@ -489,19 +679,37 @@ async function main() {
     }
   }
 
+  // --- Dietética (Frutos del Are, precios de referencia) ---
+  console.log("\n— Dietética (Frutos del Are, referencia) —");
+  let resDiet = [];
+  try { resDiet = await preciosDietetica(); } catch (e) { console.log("DIETÉTICA: error → " + e.message); }
+  if (resDiet.length === 0) resDiet = NOMBRES_DIETETICA.map((n) => [n, null]);
+  for (const [name, el] of resDiet) {
+    if (el) {
+      precios[name] = el;
+      ok++;
+      console.log(`✔ ${name} → $${el.p}  (${el.n})`);
+    } else {
+      fallos.push(name);
+      console.log(`✘ ${name} → sin match (queda el precio anterior si había)`);
+    }
+  }
+
   if (ok === 0) {
     console.error("\nNingún ítem se pudo actualizar: no escribo el archivo para no romper nada.");
     process.exit(1);
   }
 
   fs.writeFileSync(archivo, JSON.stringify({ version: fechaHoyAR(), prices: precios }, null, 2) + "\n");
-  console.log(`\nListo: ${ok}/${ITEMS.length + ITEMS_ELPUENTE.length + NOMBRES_COTO.length} ítems actualizados en ${archivo} (versión ${fechaHoyAR()}).`);
+  console.log(`\nListo: ${ok}/${ITEMS.length + ITEMS_ELPUENTE.length + NOMBRES_COTO.length + NOMBRES_DIETETICA.length} ítems actualizados en ${archivo} (versión ${fechaHoyAR()}).`);
   if (fallos.length) console.log("Sin match (revisar consultas): " + fallos.join(", "));
 }
 
 export {
   parseQty, elegir, ITEMS, ITEMS_ELPUENTE, parsearListadoElPuente, candidatosElPuente,
   ITEMS_COTO, PARTES_CARNE, NOMBRES_COTO, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto, buscarCoto,
+  ITEMS_DIETETICA, NOMBRES_DIETETICA, RECHAZO_DIET, normalizarPeso, paresProductoFa, paresVariacionesFa, buscarFrutosAre,
+  paresDesdeNewGarden, buscarNewGarden, preciosDietetica,
 };
 
 if (process.argv[1] && import.meta.url === new URL("file://" + process.argv[1]).href) {

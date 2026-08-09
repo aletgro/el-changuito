@@ -33,7 +33,7 @@ npm install        # una vez
 npm run build      # src/app.jsx → app.js (obligatorio tras tocar la fuente)
 npm run check      # sintaxis de la app y del robot
 npm run precios    # corre el robot localmente (escribe precios.json)
-npm test           # tests del robot (parseQty, lector de El Puente, criterio de elegir)
+npm test           # tests del robot + smoke test de la app (jsdom sobre app.js compilado)
 npm run servir     # servidor local para probar la PWA
 ```
 
@@ -45,10 +45,10 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    ítems o estructura DEBE agregarse a `migrate()` en `src/app.jsx` (idempotente,
    preservando `have`, `picked`, `spec` y precios). Historial: v2 mueve Huevo a Dietética
    y suma ítems de Farmacity · v3 opciones de Estructurales · v4 unifica el combo de
-   carnicería · v5 campos de precio + foto embebida.
+   carnicería · v5 campos de precio + foto embebida · v6 suma Piñones a Dietética/Perecederos.
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
-   viendo la versión vieja. Hoy va por **v9**. `precios.json` es red-primero: no requiere bump.
+   viendo la versión vieja. Hoy va por **v10**. `precios.json` es red-primero: no requiere bump.
 3. **Los nombres de ítems son claves**: `precios.json` y el robot matchean por el `name`
    exacto del ítem (tildes incluidas). Renombrar un ítem rompe su precio → actualizar
    también `ITEMS`/`ITEMS_ELPUENTE` en el robot, la `PRICES` embebida y agregar migración.
@@ -83,6 +83,17 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   moda entre sucursales (hay outliers de data mala). Ítems compuestos: "Combo de
   temporada" (estacional, misma regla abr–sep que la app) y "Asado" (vacío o tapa, el
   más barato, + tira) se arman con `comboCoto()`/`asadoCoto()` sobre `PARTES_CARNE`.
+- Dietética: frutosare.com.ar (WooCommerce) vía Store API pública
+  (`/wp-json/wc/store/v1/products?search=...`; los productos variables llevan otra
+  llamada `?type=variation&parent=ID` y el PESO se junta desde el padre), con
+  newgarden.com.ar (Magento, POST GraphQL a `/graphql`) como RESPALDO cuando FA no
+  tiene el producto; `fuente:"ng"` busca solo ahí (Salsa de pescado). Las notas de lo
+  que sale del respaldo terminan en "· New Garden". Precios SOLO DE REFERENCIA: el
+  usuario compra en dietéticas de barrio sin página. Criterio `cercano` en `elegir()`:
+  cantidad del usuario × $/kg del paquete de tamaño más parecido (bandas de similitud;
+  dentro de la banda gana el $/kg más barato) — NUNCA el paquete grande aunque sea más
+  barato por kg (no puede stockearlo). `RECHAZO_DIET` filtra especieros/frascos caros
+  (El Castillo, Dicomere, Natier…).
 
 ## Estado actual y pendientes
 
@@ -109,6 +120,17 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   Supuestos que quedan: Sémola 500 g (quedó Pureza, no hay Chacabuco) · precio = moda
   entre sucursales (si pasa el código de su sucursal de La Plata, filtrar `price[]`
   por `store`).
+- **Dietética (ANDANDO desde 09/08/2026)**: 44/45 ítems con referencia (Frutos del Are
+  + respaldo New Garden). Solo Achiote queda sin precio: no existe en ninguna de las
+  dos. Formas CONFIRMADAS por el usuario (09/08/2026): comino EN GRANO · canela EN
+  RAMA · hinojo EN SEMILLAS · pimienta negra = 50 g EN GRANO (el ítem se llama
+  "Pimienta negra 50 g + 50 g" pero la referencia es solo en grano) · laurel de a
+  25 g · Vainilla = LA CHAUCHA (no esencia) · almendras partidas OK (las prefiere,
+  son más baratas) — nueces y cajú siguen enteros. "Huevo" queda SIN precio del robot
+  a propósito: el usuario lo carga a mano al comprarlo (la edición manual se respeta
+  porque el robot nunca escribe ese nombre). "Té a elección" excluido (askSpec
+  variable). Piñones (ítem nuevo, migración v6) y Salsa de pescado (vive en "Otros
+  lugares" → sección New Garden) salen de New Garden.
 - **Verdulería**: sin precios por decisión del usuario ("por ahora exceptuá verdulería").
 - **Harina de maíz**: matcheada a Morixe p/arepas con nota "¿es esta la que usás?" — confirmar.
 - **Próximos comercios**: Farmacity (VTEX, reusar `buscarVtex`).

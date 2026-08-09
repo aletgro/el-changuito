@@ -248,6 +248,190 @@
     "Asado": {
       "p": 25798,
       "n": "tapa de asado $13.299/kg + tira $12.499/kg · estimo 1 kg de c/u"
+    },
+    "Ají molido / pimentón picante 100 g": {
+      "p": 892,
+      "n": "100 g de Aji Molido 250 g · $8.924/kg"
+    },
+    "Amapola 25 g": {
+      "p": 491,
+      "n": "25 g de Amapola 250 g · $19.656/kg"
+    },
+    "Canela 15 g": {
+      "p": 705,
+      "n": "15 g de Canela en Rama Partida 100 g · $47.000/kg · New Garden"
+    },
+    "Comino 100 g": {
+      "p": 3300,
+      "n": "100 g de Comino en grano 100 Gr · $33.000/kg · New Garden"
+    },
+    "Mostaza rubia 25 g": {
+      "p": 275,
+      "n": "25 g de Mostaza En Grano 250 g · $10.992/kg"
+    },
+    "Orégano 50 g": {
+      "p": 382,
+      "n": "50 g de Oregano 250 g · $7.636/kg"
+    },
+    "Pimentón 100 g": {
+      "p": 908,
+      "n": "100 g de Pimentón Nacional (Ahumado) 250 g · $9.076/kg"
+    },
+    "Pimienta blanca 50 g": {
+      "p": 1075,
+      "n": "50 g de Pimienta Blanca Molida 250 g · $21.492/kg"
+    },
+    "Romero 25 g": {
+      "p": 471,
+      "n": "25 g de Romero 250 g · $18.836/kg"
+    },
+    "Tomillo 50 g": {
+      "p": 1154,
+      "n": "50 g de Tomillo 250 g · $23.080/kg"
+    },
+    "Almendras 500 g": {
+      "p": 13932,
+      "n": "500 g de Almendras Partidas 500 g · $27.864/kg"
+    },
+    "Cacao 500 g": {
+      "p": 8812,
+      "n": "500 g de Cacao Amargo Alcalino 500 g · $17.624/kg"
+    },
+    "Castañas de cajú 500 g": {
+      "p": 11180,
+      "n": "500 g de Castañas De Caju Crudas W3 (Premium) 500 g · $22.360/kg"
+    },
+    "Girasol 250 g": {
+      "p": 1490,
+      "n": "250 g de Girasol Pelado 250 g · $5.960/kg"
+    },
+    "Lino 250 g": {
+      "p": 2033,
+      "n": "250 g de Semillas De Lino (Doradas) Organicas x 250G · $8.132/kg"
+    },
+    "Maní 2 kg": {
+      "p": 7396,
+      "n": "2 kg de Mani Repelado Crudo 1 kg · $3.698/kg"
+    },
+    "Nueces 500 g": {
+      "p": 10735,
+      "n": "500 g de Nueces Peladas Mariposa EXTRA Light (Cosecha 2026) 500 g · $21.470/kg"
+    },
+    "Sésamo integral 500 g": {
+      "p": 1800,
+      "n": "500 g de Sesamo Integral 500 g · $3.600/kg"
+    },
+    "Avena 500 g": {
+      "p": 1339,
+      "n": "500 g de Avena Tradicional x 1KG · $2.677/kg"
+    },
+    "Bicarbonato de sodio 200 g": {
+      "p": 530,
+      "n": "200 g de Bicarbonato De Sodio x 1KG · $2.648/kg"
+    },
+    "Polvo para hornear 100 g": {
+      "p": 571,
+      "n": "100 g de Polvo Para Hornear x 1KG · $5.710/kg"
+    },
+    "Arvejas 1 kg": {
+      "p": 1665,
+      "n": "1 kg de Arvejas Partidas x 1KG · $1.665/kg"
+    },
+    "Chía 500 g": {
+      "p": 5529,
+      "n": "500 g de Chia 500 g · $11.058/kg"
+    },
+    "Garbanzos 1 kg": {
+      "p": 2391,
+      "n": "1 kg de Garbanzos x 1KG (9mm) · $2.391/kg"
+    },
+    "Lentejas 1 kg": {
+      "p": 3186,
+      "n": "1 kg de Lentejas Nacional x 1KG · $3.186/kg"
+    },
+    "Porotos negros 1 kg": {
+      "p": 2245,
+      "n": "1 kg de Porotos Negros x 1KG · $2.245/kg"
+    },
+    "Porotos de soja 1 kg": {
+      "p": 1709,
+      "n": "1 kg de Porotos De Soja x 1KG · $1.709/kg"
+    },
+    "Quínoa 1 kg": {
+      "p": 11675,
+      "n": "1 kg de Quinoa Real Premium 1 kg · $11.675/kg"
+    },
+    "Té negro": {
+      "p": 4731,
+      "n": "Té Negro Orgánico en Hebras x 80gr (Inti Zen)"
+    },
+    "Té verde": {
+      "p": 4731,
+      "n": "Té Verde Orgánico en Hebras x 80G (Inti Zen)"
+    },
+    "Té de boldo": {
+      "p": 3483,
+      "n": "Infusion de Boldo en hojas x 50G"
+    },
+    "Vainilla": {
+      "p": 11500,
+      "n": "Chaucha de Vainilla x 1 unidad · New Garden"
+    },
+    "Pimienta negra 50 g + 50 g": {
+      "p": 1612,
+      "n": "50 g de Pimienta Negra En Grano 250 g · $32.240/kg"
+    },
+    "Clavos de olor 10 g": {
+      "p": 630,
+      "n": "10 g de Clavo de Olor en Grano 50 Gr · $63.000/kg · New Garden"
+    },
+    "Coriandro 25 g": {
+      "p": 275,
+      "n": "25 g de Coriandro Molido 100 g · $11.000/kg · New Garden"
+    },
+    "Hinojo 50 g": {
+      "p": 950,
+      "n": "50 g de Semilla de Hinojo 100 g · $19.000/kg · New Garden"
+    },
+    "Laurel 15 hojas": {
+      "p": 700,
+      "n": "25 g de Laurel en Hojas 100 gr · $28.000/kg · New Garden"
+    },
+    "Nuez moscada 5 unidades": {
+      "p": 3750,
+      "n": "25 g de Nuez Moscada en Grano x 10 g. · $150.000/kg · New Garden"
+    },
+    "Piñones": {
+      "p": 6500,
+      "n": "50 g de Piñones 50g · $130.000/kg · New Garden"
+    },
+    "Copos de maíz 500 g": {
+      "p": 3600,
+      "n": "500 g de Copos de Maiz x 500 g · $7.200/kg · New Garden"
+    },
+    "Salsa de pescado": {
+      "p": 5600,
+      "n": "Salsa de Pescado He Shun Yuan 150 ml · New Garden"
+    },
+    "Anís 20 g": {
+      "p": 540,
+      "n": "20 g de Anis en Grano 100 Gr · $27.000/kg · New Garden"
+    },
+    "Cardamomo 20 g": {
+      "p": 4320,
+      "n": "20 g de Cardamomo en Grano Verde 50 gr · $216.000/kg · New Garden"
+    },
+    "Eneldo 10 g": {
+      "p": 210,
+      "n": "10 g de Eneldo 100 Gr · $21.000/kg · New Garden"
+    },
+    "Estragón 10 g": {
+      "p": 170,
+      "n": "10 g de Estragon en Hojas x 100 g · $17.000/kg · New Garden"
+    },
+    "Fenogreco 15 g": {
+      "p": 180,
+      "n": "15 g de Fenogreco Entero 100 g · $12.000/kg · New Garden"
     }
   }
 }

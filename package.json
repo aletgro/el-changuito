@@ -7,7 +7,7 @@
   "scripts": {
     "build": "esbuild src/app.jsx --bundle --minify --loader:.jsx=jsx --jsx=automatic --define:process.env.NODE_ENV=\"\\\"production\\\"\" --outfile=app.js",
     "check": "esbuild src/app.jsx --loader:.jsx=jsx --jsx=automatic --outfile=/dev/null && node --check scripts/actualizar-precios.mjs",
-    "test": "node scripts/test-precios.mjs",
+    "test": "node scripts/test-precios.mjs && node scripts/test-app.mjs",
     "precios": "node scripts/actualizar-precios.mjs",
     "servir": "npx --yes serve ."
   },
@@ -16,6 +16,7 @@
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
-    "esbuild": "^0.28.1"
+    "esbuild": "^0.28.1",
+    "jsdom": "^29.1.1"
   }
 }

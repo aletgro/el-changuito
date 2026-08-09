@@ -199,7 +199,7 @@ function seedStores() {
       note: "Más barato directo en dietética. Mantener frescura de especias.",
       sections: [
         { id: nid(), name: "Especias · stock permanente", items: [I("Ají molido / pimentón picante 100 g"), I("Amapola 25 g"), I("Canela 15 g"), I("Clavos de olor 10 g"), I("Comino 100 g"), I("Coriandro 25 g"), I("Hinojo 50 g"), I("Laurel 15 hojas"), I("Mostaza rubia 25 g"), I("Nuez moscada 5 unidades"), I("Orégano 50 g"), I("Pimentón 100 g"), I("Pimienta blanca 50 g"), I("Pimienta negra 50 g + 50 g"), I("Romero 25 g"), I("Tomillo 50 g")] },
-        { id: nid(), name: "Perecederos", items: [I("Almendras 500 g"), I("Cacao 500 g"), I("Castañas de cajú 500 g"), I("Girasol 250 g"), I("Huevo"), I("Lino 250 g"), I("Maní 2 kg"), I("Nueces 500 g"), I("Sésamo integral 500 g")] },
+        { id: nid(), name: "Perecederos", items: [I("Almendras 500 g"), I("Cacao 500 g"), I("Castañas de cajú 500 g"), I("Girasol 250 g"), I("Huevo"), I("Lino 250 g"), I("Maní 2 kg"), I("Nueces 500 g"), I("Piñones"), I("Sésamo integral 500 g")] },
         { id: nid(), name: "Duraderos", items: [I("Avena 500 g"), I("Bicarbonato de sodio 200 g"), I("Copos de maíz 500 g"), I("Polvo para hornear 100 g")] },
         { id: nid(), name: "Muy duraderos", items: [I("Arvejas 1 kg"), I("Chía 500 g"), I("Garbanzos 1 kg"), I("Lentejas 1 kg"), I("Porotos negros 1 kg"), I("Porotos de soja 1 kg"), I("Quínoa 1 kg")] },
         { id: nid(), name: "Té", items: [I("Té negro"), I("Té verde"), I("Té de boldo"), G("Té a elección")] },
@@ -353,6 +353,18 @@ function migrate(stores) {
         ];
       }
       return { ...sec, banner: "carne", items };
+    }),
+  });
+
+  // v6 · Dietética: sumar Piñones a Perecederos (precio de referencia de New Garden)
+  out = out.map((s) => s.id !== "diet" ? s : {
+    ...s,
+    sections: s.sections.map((sec) => {
+      if (sec.name !== "Perecederos" || sec.items.some((it) => it.name === "Piñones")) return sec;
+      const idx = sec.items.findIndex((it) => it.name === "Nueces 500 g");
+      const nuevo = { id: "mig-pinones", name: "Piñones", note: "", spec: "", have: true };
+      const items = idx >= 0 ? [...sec.items.slice(0, idx + 1), nuevo, ...sec.items.slice(idx + 1)] : [...sec.items, nuevo];
+      return { ...sec, items };
     }),
   });
 

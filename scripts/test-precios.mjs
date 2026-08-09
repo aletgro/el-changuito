@@ -7,10 +7,12 @@ import assert from "node:assert/strict";
 import {
   parseQty, elegir, ITEMS_ELPUENTE, parsearListadoElPuente,
   ITEMS_COTO, PARTES_CARNE, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto,
+  ITEMS_DIETETICA, normalizarPeso, paresProductoFa, paresVariacionesFa, paresDesdeNewGarden,
 } from "./actualizar-precios.mjs";
 
 const item = (name) => ITEMS_ELPUENTE.find((i) => i.name === name);
 const itemCoto = (name) => ITEMS_COTO.find((i) => i.name === name);
+const itemDiet = (name) => ITEMS_DIETETICA.find((i) => i.name === name);
 let pasan = 0;
 const test = (nombre, fn) => { fn(); pasan++; console.log("✔ " + nombre); };
 
@@ -236,6 +238,148 @@ test("Asado: entre vacío y tapa gana el más barato, más la tira, todo en $/kg
   });
   assert.equal(el.p, 13299 + 12499);
   assert.equal(el.n, "tapa de asado $13.299/kg + tira $12.499/kg · estimo 1 kg de c/u");
+});
+
+/* ---------- Dietética (Frutos del Are) ---------- */
+test("normalizarPeso: formatos de PESO de WooCommerce", () => {
+  assert.equal(normalizarPeso("500GS"), "500 g");
+  assert.equal(normalizarPeso("250 GR"), "250 g");
+  assert.equal(normalizarPeso("1KG"), "1 kg");
+  assert.equal(normalizarPeso("1k"), "1 kg");
+});
+
+test("paresVariacionesFa: junta el PESO del padre con el precio de la variación", () => {
+  const padre = { name: "Comino Molido", variations: [
+    { id: 45807, attributes: [{ name: "PESO", value: "500GS" }] },
+    { id: 45806, attributes: [{ name: "PESO", value: "250GS" }] },
+  ] };
+  const variaciones = [
+    { id: 45806, prices: { price: "3468", currency_minor_unit: 0 } },
+    { id: 45807, prices: { price: "6426", currency_minor_unit: 0 } },
+  ];
+  assert.deepEqual(paresVariacionesFa(padre, variaciones), [
+    { nombre: "Comino Molido 250 g", precio: 3468, lista: 3468 },
+    { nombre: "Comino Molido 500 g", precio: 6426, lista: 6426 },
+  ]);
+});
+
+test("paresProductoFa: producto simple con entidades HTML y sin precio", () => {
+  assert.deepEqual(paresProductoFa({ name: "Or&#233;gano x 20 gr", prices: { price: "907", currency_minor_unit: 0 } }),
+    [{ nombre: "Orégano x 20 gr", precio: 907, lista: 907 }]);
+  assert.deepEqual(paresProductoFa({ name: "Sin precio", prices: { price: "0" } }), []);
+});
+
+test("cercano: gana el paquete de tamaño más parecido, no el kilo más barato por kg", () => {
+  const el = elegir(itemDiet("Comino 100 g"), [
+    { nombre: "Comino en grano 100 Gr", precio: 3300, lista: 3300 },   // $33.000/kg, tamaño exacto
+    { nombre: "Comino en Grano x 1 kg", precio: 28050, lista: 28050 }, // $28.050/kg, más barato por kg
+  ]);
+  assert.equal(el.p, 3300);
+  assert.match(el.n, /100 Gr/);
+});
+
+test("Comino y canela: en grano/en rama, nunca molidos", () => {
+  assert.equal(elegir(itemDiet("Comino 100 g"), [{ nombre: "Comino Molido 100 g", precio: 2500, lista: 2500 }]), null);
+  const canela = elegir(itemDiet("Canela 15 g"), [
+    { nombre: "Canela molida 250 g", precio: 2973, lista: 2973 },
+    { nombre: "Canela en Rama Partida 100 g", precio: 4700, lista: 4700 },
+  ]);
+  assert.equal(canela.p, Math.round(0.015 * 47000));
+  assert.match(canela.n, /Rama/);
+});
+
+test("cercano: en la misma banda de tamaño sí gana el más barato por kg (bicarbonato)", () => {
+  const el = elegir(itemDiet("Bicarbonato de sodio 200 g"), [
+    { nombre: "Bicarbonato de Sodio x 50 gs", precio: 865, lista: 865 },      // ratio 4 → banda 2
+    { nombre: "Bicarbonato De Sodio x 1KG", precio: 2648, lista: 2648 },      // ratio 5 → banda 2, $2.648/kg
+  ]);
+  assert.equal(el.p, Math.round(0.2 * 2648));
+  assert.match(el.n, /1KG/);
+});
+
+test("cercano: si el tamaño coincide, la referencia es el precio exacto del paquete", () => {
+  const el = elegir(itemDiet("Almendras 500 g"), [{ nombre: "Almendras Carmel Grande 500 g", precio: 14112, lista: 14112 }]);
+  assert.equal(el.p, 14112);
+});
+
+test("mantener cantidades: Maní 2 kg = 2× la bolsa de 1 kg", () => {
+  const el = elegir(itemDiet("Maní 2 kg"), [{ nombre: "Mani Repelado Crudo 1 kg", precio: 3698, lista: 3698 }]);
+  assert.equal(el.p, 2 * 3698);
+});
+
+test("RECHAZO_DIET: frascos de especiero y marcas caras no cuentan como referencia", () => {
+  const el = elegir(itemDiet("Canela 15 g"), [
+    { nombre: "Canela En Rama En Especiero X 20Gr ( Castillo )", precio: 5241, lista: 5241 },
+    { nombre: "Canela en Rama x 100 g", precio: 8600, lista: 8600 },
+  ]);
+  assert.match(el.n, /Canela en Rama x 100 g/);
+  assert.equal(el.p, Math.round(0.015 * 86000));
+});
+
+test("Avena: ni bocaditos ni salvado; la referencia es la avena tradicional", () => {
+  const el = elegir(itemDiet("Avena 500 g"), [
+    { nombre: "Bocaditos De Avena (Granix) 500 g", precio: 5231, lista: 5231 },
+    { nombre: "Salvado De Avena x 1KG", precio: 2637, lista: 2637 },
+    { nombre: "Avena Tradicional x 1KG", precio: 2677, lista: 2677 },
+  ]);
+  assert.equal(el.p, Math.round(0.5 * 2677));
+  assert.match(el.n, /Avena Tradicional/);
+});
+
+test("Té: ítem por unidad → precio del paquete tal cual", () => {
+  const el = elegir(itemDiet("Té negro"), [{ nombre: "Té Negro Orgánico en Hebras x 80gr (Inti Zen)", precio: 4731, lista: 4731 }]);
+  assert.equal(el.p, 4731);
+});
+
+/* ---------- New Garden (respaldo de la dietética) ---------- */
+test("paresDesdeNewGarden: filtra sin stock y toma final/regular price", () => {
+  const pares = paresDesdeNewGarden({ data: { products: { items: [
+    { name: "Comino en grano 100 Gr", stock_status: "IN_STOCK", price_range: { minimum_price: { final_price: { value: 3300 }, regular_price: { value: 3500 } } } },
+    { name: "Agotado", stock_status: "OUT_OF_STOCK", price_range: { minimum_price: { final_price: { value: 100 } } } },
+  ] } } });
+  assert.deepEqual(pares, [{ nombre: "Comino en grano 100 Gr", precio: 3300, lista: 3500 }]);
+});
+
+test("Pimienta negra: solo en grano, 50 g, aunque la molida esté más barata", () => {
+  const el = elegir(itemDiet("Pimienta negra 50 g + 50 g"), [
+    { nombre: "Pimienta Negra Molida 250 g", precio: 4437, lista: 4437 },
+    { nombre: "Pimienta Negra En Grano 250 g", precio: 8060, lista: 8060 },
+  ]);
+  assert.equal(el.p, Math.round(0.05 * (8060 / 0.25)));
+  assert.match(el.n, /Grano/);
+});
+
+test("Vainilla: la chaucha, nunca la esencia", () => {
+  const el = elegir(itemDiet("Vainilla"), [
+    { nombre: "Esencia De Vainilla x 1L", precio: 5030, lista: 5030 },
+    { nombre: "Chaucha de Vainilla x 1 unidad", precio: 11500, lista: 11500 },
+  ]);
+  assert.equal(el.p, 11500);
+  assert.match(el.n, /Chaucha/);
+});
+
+test("Piñones: referencia del paquete de 50 g, no el kilo", () => {
+  const el = elegir(itemDiet("Piñones"), [
+    { nombre: "Piñones x 1 kg", precio: 117000, lista: 117000 },
+    { nombre: "Piñones 50g", precio: 6500, lista: 6500 },
+  ]);
+  assert.equal(el.p, 6500);
+});
+
+test("Salsa de pescado: se busca solo en New Garden y vale el precio de la botella", () => {
+  const item = itemDiet("Salsa de pescado");
+  assert.equal(item.fuente, "ng");
+  const el = elegir(item, [
+    { nombre: "Salsa de Pescado He Shun Yuan 150 ml", precio: 5600, lista: 5600 },
+    { nombre: "Aceite De Pescado Con Omega 3 Natufarma x 60 Capsulas", precio: 26700, lista: 26700 },
+  ]);
+  assert.equal(el.p, 5600);
+  assert.match(el.n, /He Shun Yuan/);
+});
+
+test("Laurel: 25 g de referencia desde el paquete de 100 g", () => {
+  const el = elegir(itemDiet("Laurel 15 hojas"), [{ nombre: "Laurel en Hojas 100 gr", precio: 2800, lista: 2800 }]);
+  assert.equal(el.p, 700);
 });
 
 console.log(`\n${pasan} tests OK`);
