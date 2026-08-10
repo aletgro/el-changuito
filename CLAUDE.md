@@ -45,7 +45,9 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    ítems o estructura DEBE agregarse a `migrate()` en `src/app.jsx` (idempotente,
    preservando `have`, `picked`, `spec` y precios). Historial: v2 mueve Huevo a Dietética
    y suma ítems de Farmacity · v3 opciones de Estructurales · v4 unifica el combo de
-   carnicería · v5 campos de precio + foto embebida · v6 suma Piñones a Dietética/Perecederos.
+   carnicería · v5 campos de precio + foto embebida · v6 suma Piñones a Dietética/Perecederos ·
+   v7 muda Salsa de pescado a Dietética/Muy duraderos (borra la sección "New Garden" vacía)
+   y renombra Champiñones congelados → Hongos para cocinar.
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
    viendo la versión vieja. Hoy va por **v10**. `precios.json` es red-primero: no requiere bump.
@@ -94,6 +96,11 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   dentro de la banda gana el $/kg más barato) — NUNCA el paquete grande aunque sea más
   barato por kg (no puede stockearlo). `RECHAZO_DIET` filtra especieros/frascos caros
   (El Castillo, Dicomere, Natier…).
+- Otros lugares (`ITEMS_OTROS`): Carmín (carmin.com.ar, TiendaNube → búsqueda
+  server-rendered con JSON-LD, `paresDesdeTiendaNube`) para Hongos para cocinar;
+  BonVino y Tienda Nova con página de producto FIJA (`url`) → `productoDePagina()`
+  lee el bloque de analytics (`"item_name":"...","price":N`); el `must` verifica que
+  la página siga siendo el producto correcto, si no queda el precio anterior.
 
 ## Estado actual y pendientes
 
@@ -129,8 +136,12 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   son más baratas) — nueces y cajú siguen enteros. "Huevo" queda SIN precio del robot
   a propósito: el usuario lo carga a mano al comprarlo (la edición manual se respeta
   porque el robot nunca escribe ese nombre). "Té a elección" excluido (askSpec
-  variable). Piñones (ítem nuevo, migración v6) y Salsa de pescado (vive en "Otros
-  lugares" → sección New Garden) salen de New Garden.
+  variable). Piñones (ítem nuevo, migración v6) y Salsa de pescado (mudada a
+  Dietética/Muy duraderos por migración v7) salen de New Garden.
+- **Otros lugares (ANDANDO desde 09/08/2026)**: Hongos para cocinar (ex Champiñones,
+  renombrado en v7) desde Carmín — ganó el MIX DE HONGOS IQF 500 g Biomac, supuesto:
+  compra de ~500 g · Aceto balsámico Millán desde BonVino · Salsa de soja Lee Kum Kee
+  premium desde Tienda Nova (páginas de producto fijas: si cambian la URL, avisar).
 - **Verdulería**: sin precios por decisión del usuario ("por ahora exceptuá verdulería").
 - **DIA, casos confirmados (09/08/2026)**: "Harina de maíz 1 kg" ES la Morixe para
   arepas (el nombre del producto no dice "maíz"; el must exige "arepas") · "Arvejas en

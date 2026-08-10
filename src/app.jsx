@@ -201,7 +201,7 @@ function seedStores() {
         { id: nid(), name: "Especias · stock permanente", items: [I("Ají molido / pimentón picante 100 g"), I("Amapola 25 g"), I("Canela 15 g"), I("Clavos de olor 10 g"), I("Comino 100 g"), I("Coriandro 25 g"), I("Hinojo 50 g"), I("Laurel 15 hojas"), I("Mostaza rubia 25 g"), I("Nuez moscada 5 unidades"), I("Orégano 50 g"), I("Pimentón 100 g"), I("Pimienta blanca 50 g"), I("Pimienta negra 50 g + 50 g"), I("Romero 25 g"), I("Tomillo 50 g")] },
         { id: nid(), name: "Perecederos", items: [I("Almendras 500 g"), I("Cacao 500 g"), I("Castañas de cajú 500 g"), I("Girasol 250 g"), I("Huevo"), I("Lino 250 g"), I("Maní 2 kg"), I("Nueces 500 g"), I("Piñones"), I("Sésamo integral 500 g")] },
         { id: nid(), name: "Duraderos", items: [I("Avena 500 g"), I("Bicarbonato de sodio 200 g"), I("Copos de maíz 500 g"), I("Polvo para hornear 100 g")] },
-        { id: nid(), name: "Muy duraderos", items: [I("Arvejas 1 kg"), I("Chía 500 g"), I("Garbanzos 1 kg"), I("Lentejas 1 kg"), I("Porotos negros 1 kg"), I("Porotos de soja 1 kg"), I("Quínoa 1 kg")] },
+        { id: nid(), name: "Muy duraderos", items: [I("Arvejas 1 kg"), I("Chía 500 g"), I("Garbanzos 1 kg"), I("Lentejas 1 kg"), I("Porotos negros 1 kg"), I("Porotos de soja 1 kg"), I("Quínoa 1 kg"), I("Salsa de pescado", "La compramos en New Garden")] },
         { id: nid(), name: "Té", items: [I("Té negro"), I("Té verde"), I("Té de boldo"), G("Té a elección")] },
         { id: nid(), name: "Especias · compra puntual", items: [I("Achiote 10 g", "Solo cuando se necesita"), I("Anís 20 g", "Solo cuando se necesita"), I("Cardamomo 20 g", "Solo cuando se necesita"), I("Eneldo 10 g", "Solo cuando se necesita"), I("Estragón 10 g", "Solo cuando se necesita"), I("Fenogreco 15 g", "Solo cuando se necesita"), I("Vainilla", "Solo cuando se necesita")] },
       ],
@@ -219,11 +219,10 @@ function seedStores() {
       note: "Cada producto tiene su lugar identificado.",
       sections: [
         { id: nid(), name: "Tercero", items: [G("Café"), I("Aceite de oliva"), I("Miel")] },
-        { id: nid(), name: "Carmín (congelados)", items: [I("Champiñones congelados", "Si aparece más barato en otro lado, cambiar")] },
+        { id: nid(), name: "Carmín (congelados)", items: [I("Hongos para cocinar", "Si aparece más barato en otro lado, cambiar")] },
         { id: nid(), name: "BonVino", items: [I("Aceto balsámico Millán")] },
         { id: nid(), name: "Tienda Nova", items: [I("Salsa de soja Lee Kum Kee premium")] },
         { id: nid(), name: "Esquina de las Aceitunas", items: [I("Aceitunas")] },
-        { id: nid(), name: "New Garden", items: [I("Salsa de pescado")] },
         { id: nid(), name: "Buscar lugar", items: [G("Crema rosácea"), G("Proteína"), I("Shampoo sólido"), I("1 pila LR44"), I("2 pilas LR43"), I("Bombillas techo"), I("Bombillas escritorio")] },
       ],
     },
@@ -366,6 +365,39 @@ function migrate(stores) {
       const items = idx >= 0 ? [...sec.items.slice(0, idx + 1), nuevo, ...sec.items.slice(idx + 1)] : [...sec.items, nuevo];
       return { ...sec, items };
     }),
+  });
+
+  // v7 · Salsa de pescado pasa de "Otros lugares" a Dietética/Muy duraderos
+  //      y Champiñones congelados se convierte en Hongos para cocinar (Carmín)
+  const dietTieneSalsa = out.some((s) => s.id === "diet" && s.sections.some((sec) => sec.items.some((it) => it.name === "Salsa de pescado")));
+  const dietTieneMuyDuraderos = out.some((s) => s.id === "diet" && s.sections.some((sec) => sec.name === "Muy duraderos"));
+  let salsa = null;
+  if (dietTieneSalsa || dietTieneMuyDuraderos) {
+    out = out.map((s) => s.id !== "otros" ? s : {
+      ...s,
+      sections: s.sections
+        .map((sec) => {
+          const found = sec.items.find((it) => it.name === "Salsa de pescado");
+          if (found) salsa = found;
+          return found ? { ...sec, items: sec.items.filter((it) => it.name !== "Salsa de pescado") } : sec;
+        })
+        .filter((sec) => !(sec.name === "New Garden" && sec.items.length === 0)),
+    });
+  }
+  if (salsa && !dietTieneSalsa) {
+    out = out.map((s) => s.id !== "diet" ? s : {
+      ...s,
+      sections: s.sections.map((sec) => sec.name !== "Muy duraderos" ? sec : { ...sec, items: [...sec.items, { ...salsa, note: salsa.note || "La compramos en New Garden" }] }),
+    });
+  }
+  out = out.map((s) => s.id !== "otros" ? s : {
+    ...s,
+    sections: s.sections.map((sec) => ({
+      ...sec,
+      items: sec.items.map((it) => it.name === "Champiñones congelados"
+        ? { ...it, name: "Hongos para cocinar", price: 0, priceNote: "", priceV: "" }
+        : it),
+    })),
   });
 
   // v5 · asegurar campos de precio y aplicar la foto embebida como base

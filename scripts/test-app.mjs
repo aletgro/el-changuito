@@ -14,18 +14,30 @@ const dom = new JSDOM('<!doctype html><html><body><div id="root"></div></body></
   runScripts: "outside-only",
 });
 
-// Datos guardados con forma vieja (pre-v6): Dietética sin Piñones, con estado del usuario
+// Datos guardados con forma vieja (pre-v6/v7): sin Piñones, con Champiñones y la salsa en "Otros lugares"
 dom.window.localStorage.setItem("el-changuito-v1", JSON.stringify({
-  stores: [{
-    id: "diet", name: "Dietética", emoji: "🌿", color: "#9A6A1F", note: "",
-    sections: [{
-      id: "sec1", name: "Perecederos",
-      items: [
-        { id: "i1", name: "Nueces 500 g", note: "nota del usuario", spec: "", have: false },
-        { id: "i2", name: "Huevo", note: "", spec: "", have: true, price: 4200, priceNote: "cargado a mano", priceV: "manual@01/08/2026" },
+  stores: [
+    {
+      id: "diet", name: "Dietética", emoji: "🌿", color: "#9A6A1F", note: "",
+      sections: [
+        {
+          id: "sec1", name: "Perecederos",
+          items: [
+            { id: "i1", name: "Nueces 500 g", note: "nota del usuario", spec: "", have: false },
+            { id: "i2", name: "Huevo", note: "", spec: "", have: true, price: 4200, priceNote: "cargado a mano", priceV: "manual@01/08/2026" },
+          ],
+        },
+        { id: "sec2", name: "Muy duraderos", items: [{ id: "i3", name: "Chía 500 g", note: "", spec: "", have: false }] },
       ],
-    }],
-  }],
+    },
+    {
+      id: "otros", name: "Otros lugares", emoji: "📍", color: "#6C5CE7", note: "",
+      sections: [
+        { id: "o1", name: "Carmín (congelados)", items: [{ id: "c1", name: "Champiñones congelados", note: "vieja nota", spec: "", have: false }] },
+        { id: "o2", name: "New Garden", items: [{ id: "n1", name: "Salsa de pescado", note: "", spec: "", have: true }] },
+      ],
+    },
+  ],
 }));
 
 // Sin red: el fetch de precios.json falla en silencio (la app tiene catch)
@@ -42,6 +54,13 @@ test("la app renderiza y muestra lo pendiente del usuario", () => {
   assert.ok(texto.length > 100, "el DOM quedó vacío");
   assert.match(texto, /Nueces 500 g/);
   assert.match(texto, /nota del usuario/);
+});
+
+test("migración v7: Champiñones pasa a llamarse Hongos para cocinar (misma nota y estado)", () => {
+  const texto = dom.window.document.body.textContent;
+  assert.match(texto, /Hongos para cocinar/); // seguía por comprar → aparece en Comprar
+  assert.doesNotMatch(texto, /Champiñones/);
+  assert.match(texto, /vieja nota/);
 });
 
 // Piñones entra como "ya tenido" → se ve en la pestaña Listas (expandiendo la tienda)
@@ -75,6 +94,18 @@ test("el precio manual de Huevo se conserva", () => {
   const huevo = data.stores.find((s) => s.id === "diet").sections[0].items.find((it) => it.name === "Huevo");
   assert.equal(huevo.price, 4200);
   assert.equal(huevo.priceV, "manual@01/08/2026");
+});
+
+test("v7: la salsa de pescado se mudó a Dietética/Muy duraderos y la sección New Garden desapareció", () => {
+  const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
+  const diet = data.stores.find((s) => s.id === "diet");
+  const md = diet.sections.find((sec) => sec.name === "Muy duraderos");
+  const salsas = md.items.filter((it) => it.name === "Salsa de pescado");
+  assert.equal(salsas.length, 1, "la salsa debería estar una sola vez en Muy duraderos");
+  assert.equal(salsas[0].have, true, "conserva su estado");
+  const otros = data.stores.find((s) => s.id === "otros");
+  assert.ok(!otros.sections.some((sec) => sec.name === "New Garden"), "la sección New Garden vacía se elimina");
+  assert.ok(!otros.sections.some((sec) => sec.items.some((it) => it.name === "Salsa de pescado")), "no queda duplicada en Otros lugares");
 });
 
 console.log(`\n${pasan} tests de app OK`);

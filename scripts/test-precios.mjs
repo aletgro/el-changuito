@@ -8,6 +8,7 @@ import {
   parseQty, elegir, ITEMS_ELPUENTE, parsearListadoElPuente,
   ITEMS_COTO, PARTES_CARNE, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto,
   ITEMS_DIETETICA, normalizarPeso, paresProductoFa, paresVariacionesFa, paresDesdeNewGarden,
+  ITEMS_OTROS, paresDesdeTiendaNube, productoDePagina,
 } from "./actualizar-precios.mjs";
 
 const item = (name) => ITEMS_ELPUENTE.find((i) => i.name === name);
@@ -400,6 +401,31 @@ test("Salsa de pescado: se busca solo en New Garden y vale el precio de la botel
 test("Laurel: 25 g de referencia desde el paquete de 100 g", () => {
   const el = elegir(itemDiet("Laurel 15 hojas"), [{ nombre: "Laurel en Hojas 100 gr", precio: 2800, lista: 2800 }]);
   assert.equal(el.p, 700);
+});
+
+/* ---------- Otros lugares (Carmín / BonVino / Tienda Nova) ---------- */
+test("paresDesdeTiendaNube: productos desde JSON-LD (ItemList y Product sueltos)", () => {
+  const html = `<script type="application/ld+json">{"@type":"ItemList","itemListElement":[
+    {"@type":"ListItem","item":{"@type":"Product","name":"MIX DE HONGOS IQF (500G) - BIOMAC","offers":{"price":7702.39}}},
+    {"@type":"ListItem","item":{"@type":"Product","name":"Sin precio","offers":{}}}
+  ]}</script>`;
+  assert.deepEqual(paresDesdeTiendaNube(html), [{ nombre: "MIX DE HONGOS IQF (500G) - BIOMAC", precio: 7702.39, lista: 7702.39 }]);
+});
+
+test("productoDePagina: el producto principal sale del bloque de analytics", () => {
+  const p = productoDePagina('x{"item_id":"1","item_name":"Aceto Balsamico Millan","price":6240,"item_category2":"x"}');
+  assert.deepEqual(p, { nombre: "Aceto Balsamico Millan", precio: 6240, lista: 6240 });
+});
+
+test("Hongos para cocinar: el mix de 500 g le gana al champignon de 1 kg; medallones afuera", () => {
+  const item = ITEMS_OTROS.find((i) => i.name === "Hongos para cocinar");
+  const el = elegir(item, [
+    { nombre: "MIX DE HONGOS IQF (500G) - BIOMAC", precio: 7702.39, lista: 7702.39 },
+    { nombre: "CHAMPIGNON FILETEADO IQF (1kg) - CONOSUD", precio: 18562, lista: 18562 },
+    { nombre: "MEDALLON DE QUINOA Y MIX DE HONGOS - NUTREE", precio: 5923, lista: 5923 },
+  ]);
+  assert.equal(el.p, 7702);
+  assert.match(el.n, /MIX DE HONGOS/);
 });
 
 console.log(`\n${pasan} tests OK`);

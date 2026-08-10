@@ -551,6 +551,76 @@ async function preciosDietetica() {
   return out;
 }
 
+/* ---------- OTROS LUGARES (páginas puntuales que indicó el usuario, 09/08/2026) ----------
+   Carmín (carmin.com.ar, TiendaNube): búsqueda server-rendered con JSON-LD.
+   BonVino y Tienda Nova: página de producto fija; el precio del producto principal
+   sale del bloque de analytics ("item_name":"...","price":N), común a ambas. */
+const CAB_HTML = { headers: { "user-agent": "Mozilla/5.0 (compatible; ElChanguito/1.0)", accept: "text/html" } };
+
+const ITEMS_OTROS = [
+  // "Hongos para cocinar" (ex Champiñones congelados): el mix de hongos suele ser lo más conveniente
+  { name: "Hongos para cocinar", base: "https://www.carmin.com.ar", qs: ["hongos", "champignon"], unit: "kg", qty: 0.5, must: [/hongo|champi[gñ]n[oó]n/i], reject: [/medall[óo]n|quinoa|chop suey|salsa|empanad|tarta|rebozad/i] },
+  { name: "Aceto balsámico Millán", url: "https://www.bonvino.com.ar/productos/252002/", must: [/aceto/i] },
+  { name: "Salsa de soja Lee Kum Kee premium", url: "https://www.tiendanova.com/productos/lee-kum-kee-salsa-de-soja-premium-500ml/", must: [/lee kum kee/i] },
+];
+
+const NOMBRES_OTROS = ITEMS_OTROS.map((i) => i.name);
+
+/* Listados de TiendaNube (búsquedas/categorías): productos de los JSON-LD */
+function paresDesdeTiendaNube(html) {
+  const out = [];
+  for (const m of html.matchAll(/<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi)) {
+    let d;
+    try { d = JSON.parse(m[1].trim()); } catch (e) { continue; }
+    const objs = Array.isArray(d) ? [...d] : [d];
+    for (let i = 0; i < objs.length; i++) {
+      const o = objs[i];
+      if (!o || typeof o !== "object") continue;
+      if (o["@type"] === "ItemList") objs.push(...(o.itemListElement || []).map((e) => e.item || e));
+      if (o["@type"] === "Product") {
+        let of = o.offers || {};
+        if (Array.isArray(of)) of = of[0] || {};
+        const precio = Number(of.price ?? of.lowPrice);
+        const nombre = String(o.name || "").replace(/\s+/g, " ").trim();
+        if (nombre && precio > 0) out.push({ nombre, precio, lista: precio });
+      }
+    }
+  }
+  return out;
+}
+
+/* Página de producto fija: el producto principal desde el bloque de analytics */
+function productoDePagina(html) {
+  const m = html.match(/"item_name":"([^"]+)","price":(\d+(?:\.\d+)?)/);
+  if (m) {
+    try { return { nombre: JSON.parse('"' + m[1] + '"').replace(/\s+/g, " ").trim(), precio: Number(m[2]), lista: Number(m[2]) }; } catch (e) { /* seguimos */ }
+  }
+  return paresDesdeTiendaNube(html)[0] || null;
+}
+
+async function preciosOtros() {
+  const out = [];
+  for (const item of ITEMS_OTROS) {
+    let el = null;
+    try {
+      if (item.url) {
+        const p = productoDePagina(await (await fetch(item.url, CAB_HTML)).text());
+        if (p && item.must.every((re) => re.test(p.nombre))) el = { p: Math.round(p.precio), n: p.nombre };
+      } else {
+        const cand = [];
+        for (const q of item.qs) {
+          try { cand.push(...paresDesdeTiendaNube(await (await fetch(`${item.base}/search/?q=${encodeURIComponent(q)}`, CAB_HTML)).text())); } catch (e) { /* seguimos */ }
+          await dormir(300);
+        }
+        el = elegir(item, cand);
+      }
+    } catch (e) { /* sin red: queda el precio anterior */ }
+    out.push([item.name, el]);
+    await dormir(300);
+  }
+  return out;
+}
+
 /* ---------- Selección según el criterio ---------- */
 function elegir(item, candidatos) {
   const validos = [];
@@ -697,13 +767,29 @@ async function main() {
     }
   }
 
+  // --- Otros lugares (Carmín, BonVino, Tienda Nova) ---
+  console.log("\n— Otros lugares —");
+  let resOtros = [];
+  try { resOtros = await preciosOtros(); } catch (e) { console.log("OTROS: error → " + e.message); }
+  if (resOtros.length === 0) resOtros = NOMBRES_OTROS.map((n) => [n, null]);
+  for (const [name, el] of resOtros) {
+    if (el) {
+      precios[name] = el;
+      ok++;
+      console.log(`✔ ${name} → $${el.p}  (${el.n})`);
+    } else {
+      fallos.push(name);
+      console.log(`✘ ${name} → sin match (queda el precio anterior si había)`);
+    }
+  }
+
   if (ok === 0) {
     console.error("\nNingún ítem se pudo actualizar: no escribo el archivo para no romper nada.");
     process.exit(1);
   }
 
   fs.writeFileSync(archivo, JSON.stringify({ version: fechaHoyAR(), prices: precios }, null, 2) + "\n");
-  console.log(`\nListo: ${ok}/${ITEMS.length + ITEMS_ELPUENTE.length + NOMBRES_COTO.length + NOMBRES_DIETETICA.length} ítems actualizados en ${archivo} (versión ${fechaHoyAR()}).`);
+  console.log(`\nListo: ${ok}/${ITEMS.length + ITEMS_ELPUENTE.length + NOMBRES_COTO.length + NOMBRES_DIETETICA.length + NOMBRES_OTROS.length} ítems actualizados en ${archivo} (versión ${fechaHoyAR()}).`);
   if (fallos.length) console.log("Sin match (revisar consultas): " + fallos.join(", "));
 }
 
@@ -712,6 +798,7 @@ export {
   ITEMS_COTO, PARTES_CARNE, NOMBRES_COTO, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto, buscarCoto,
   ITEMS_DIETETICA, NOMBRES_DIETETICA, RECHAZO_DIET, normalizarPeso, paresProductoFa, paresVariacionesFa, buscarFrutosAre,
   paresDesdeNewGarden, buscarNewGarden, preciosDietetica,
+  ITEMS_OTROS, NOMBRES_OTROS, paresDesdeTiendaNube, productoDePagina, preciosOtros,
 };
 
 if (process.argv[1] && import.meta.url === new URL("file://" + process.argv[1]).href) {
