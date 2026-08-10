@@ -8,7 +8,7 @@ import {
   parseQty, elegir, ITEMS_ELPUENTE, parsearListadoElPuente,
   ITEMS_COTO, PARTES_CARNE, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto,
   ITEMS_DIETETICA, normalizarPeso, paresProductoFa, paresVariacionesFa, paresDesdeNewGarden,
-  ITEMS_OTROS, paresDesdeTiendaNube, productoDePagina, ITEMS_FARMACITY,
+  ITEMS_OTROS, paresDesdeTiendaNube, productoDePagina, ITEMS_FARMACITY, promoVtex,
 } from "./actualizar-precios.mjs";
 
 const item = (name) => ITEMS_ELPUENTE.find((i) => i.name === name);
@@ -405,6 +405,30 @@ test("Laurel: 25 g de referencia desde el paquete de 100 g", () => {
 
 /* ---------- Farmacity ---------- */
 const itemFarma = (name) => ITEMS_FARMACITY.find((i) => i.name === name);
+
+test("promoVtex: detecta 2x1, 3x2 y '2da unidad al X%' en los Teasers", () => {
+  const teaser = (n) => ({ PromotionTeasers: [{ Name: n, Conditions: { MinimumQuantity: 2 } }] });
+  assert.deepEqual(promoVtex(teaser("2x1 Tu Farmacity#01/08 - 24/08")), { factor: 0.5, txt: "2x1 llevando 2" });
+  assert.deepEqual(promoVtex(teaser("3x2 Solo Web")), { factor: 2 / 3, txt: "3x2 llevando 3" });
+  assert.deepEqual(promoVtex(teaser("70% en la 2da unidad")), { factor: 0.65, txt: "2da unidad -70% llevando 2" });
+  // El formato viejo de VTEX ("<Name>k__BackingField") también cuenta
+  assert.deepEqual(promoVtex({ Teasers: [{ "<Name>k__BackingField": "2x1#01/08 - 24/08" }] }), { factor: 0.5, txt: "2x1 llevando 2" });
+});
+
+test("promoVtex: los descuentos ya aplicados al precio (DiscountHighLight) no se duplican", () => {
+  assert.equal(promoVtex({ DiscountHighLight: [{ "<Name>k__BackingField": "-50% Solo Web" }] }), null);
+  assert.equal(promoVtex({}), null);
+});
+
+test("mejor precio con 2x1: el candidato promo gana si el efectivo por unidad es menor", () => {
+  const el = elegir(itemFarma("Enjuague bucal"), [
+    { nombre: "Enjuague Bucal Colgate Plax Menta Fresca x 500 ml", precio: 4566, lista: 7610 },              // $9.132/L
+    { nombre: "Enjuague Bucal Farmacity Menthol x 250 ml · 2x1 llevando 2", precio: 2575, lista: 5150 },     // $10.300/L
+    { nombre: "Enjuague Bucal Colgate Total Antisarro x 500 ml · 2x1 llevando 2", precio: 2342.5, lista: 9370 }, // $4.685/L ← gana
+  ]);
+  assert.equal(el.p, 2343);
+  assert.match(el.n, /2x1 llevando 2/);
+});
 
 test("Alcohol: 96° para limpieza; el 70% ya diluido no cuenta aunque sea más barato", () => {
   const el = elegir(itemFarma("Alcohol"), [

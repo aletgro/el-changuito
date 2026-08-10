@@ -112,6 +112,22 @@ function parseQty(nombre) {
 }
 
 /* ---------- Fuente 1: API pública de VTEX (DIA y Farmacity la usan) ---------- */
+
+/* Promos "llevando N" que NO están aplicadas en Price (2x1, 3x2, 2da unidad al X%):
+   viajan en los Teasers de la oferta. Devuelve el factor sobre el precio por unidad. */
+function promoVtex(offer) {
+  const s = JSON.stringify([...(offer.PromotionTeasers || []), ...(offer.Teasers || [])]);
+  if (s === "[]") return null;
+  if (/2\s*x\s*1/i.test(s)) return { factor: 0.5, txt: "2x1 llevando 2" };
+  if (/3\s*x\s*2/i.test(s)) return { factor: 2 / 3, txt: "3x2 llevando 3" };
+  const m = s.match(/(\d{1,3})\s*%[^"]*?(?:2°|2d[oa]|segunda)/i) || s.match(/(?:2°|2d[oa]|segunda)[^"]*?(\d{1,3})\s*%/i);
+  if (m) {
+    const d = Number(m[1]);
+    if (d > 0 && d <= 100) return { factor: (2 - d / 100) / 2, txt: `2da unidad -${d}% llevando 2` };
+  }
+  return null;
+}
+
 async function buscarVtex(base, query) {
   const url = `${base}/api/catalog_system/pub/products/search/?ft=${encodeURIComponent(query)}&_from=0&_to=49`;
   const r = await fetch(url, { headers: { accept: "application/json", "user-agent": "Mozilla/5.0 (compatible; ElChanguito/1.0)" } });
@@ -126,6 +142,9 @@ async function buscarVtex(base, query) {
         const of = sel.commertialOffer || {};
         if (of.Price > 0 && of.AvailableQuantity > 0) {
           out.push({ nombre, precio: of.Price, lista: of.ListPrice || of.Price });
+          // La promo compite como candidato aparte, con el precio efectivo por unidad y la condición a la vista
+          const promo = promoVtex(of);
+          if (promo) out.push({ nombre: `${nombre} · ${promo.txt}`, precio: of.Price * promo.factor, lista: of.ListPrice || of.Price });
         }
       }
     }
@@ -853,7 +872,7 @@ async function main() {
 }
 
 export {
-  parseQty, elegir, buscarVtex, ITEMS, ITEMS_ELPUENTE, parsearListadoElPuente, candidatosElPuente,
+  parseQty, elegir, buscarVtex, promoVtex, ITEMS, ITEMS_ELPUENTE, parsearListadoElPuente, candidatosElPuente,
   ITEMS_COTO, PARTES_CARNE, NOMBRES_COTO, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto, buscarCoto,
   ITEMS_DIETETICA, NOMBRES_DIETETICA, RECHAZO_DIET, normalizarPeso, paresProductoFa, paresVariacionesFa, buscarFrutosAre,
   paresDesdeNewGarden, buscarNewGarden, preciosDietetica,

@@ -79,6 +79,11 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
 - El robot: DIA vía API pública de VTEX (`/api/catalog_system/pub/products/search/?ft=...`)
   con fallback a páginas de categoría HTML (`cat` en la config). Conserva el precio
   anterior si un ítem no matchea; nunca escribe si TODO falló.
+- Promos VTEX "llevando N" (2x1, 3x2, 2da unidad al X%): NO vienen aplicadas en `Price`,
+  viajan en `Teasers`/`PromotionTeasers`; `promoVtex()` las detecta y suma un candidato
+  extra con el precio EFECTIVO por unidad y la condición a la vista en la nota
+  ("· 2x1 llevando 2"). Los `DiscountHighLight` ya están aplicados al precio: ignorarlos.
+  Vale para DIA y Farmacity (comparten `buscarVtex`).
 - Farmacity es VTEX como DIA (`ITEMS_FARMACITY` reusa `buscarVtex`). El campo
   `comparaPor` normaliza el "mejor precio" por lo que corresponde: máquinas y
   preservativos por unidad, enjuague por litro, hilo por metro, pasta por kg.
