@@ -8,7 +8,7 @@ import {
   parseQty, elegir, ITEMS_ELPUENTE, parsearListadoElPuente,
   ITEMS_COTO, PARTES_CARNE, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto,
   ITEMS_DIETETICA, normalizarPeso, paresProductoFa, paresVariacionesFa, paresDesdeNewGarden,
-  ITEMS_OTROS, paresDesdeTiendaNube, productoDePagina,
+  ITEMS_OTROS, paresDesdeTiendaNube, productoDePagina, ITEMS_FARMACITY,
 } from "./actualizar-precios.mjs";
 
 const item = (name) => ITEMS_ELPUENTE.find((i) => i.name === name);
@@ -401,6 +401,83 @@ test("Salsa de pescado: se busca solo en New Garden y vale el precio de la botel
 test("Laurel: 25 g de referencia desde el paquete de 100 g", () => {
   const el = elegir(itemDiet("Laurel 15 hojas"), [{ nombre: "Laurel en Hojas 100 gr", precio: 2800, lista: 2800 }]);
   assert.equal(el.p, 700);
+});
+
+/* ---------- Farmacity ---------- */
+const itemFarma = (name) => ITEMS_FARMACITY.find((i) => i.name === name);
+
+test("Alcohol: 96° para limpieza; el 70% ya diluido no cuenta aunque sea más barato", () => {
+  const el = elegir(itemFarma("Alcohol"), [
+    { nombre: "Alcohol Etílico Bialcohol Desinfectante 70% x 500 ml", precio: 3438, lista: 4912 },
+    { nombre: "Alcohol Etílico Bialcohol 96% Uso Medicinal x 500ml", precio: 3684, lista: 4912 },
+  ]);
+  assert.equal(el.p, 3684);
+  assert.match(el.n, /96%/);
+});
+
+test("Alcohol en gel: gana el más barato POR LITRO, ni el de bolsillo ni el kids", () => {
+  const el = elegir(itemFarma("Alcohol en gel"), [
+    { nombre: "Alcohol en Gel Farmacity Neutro x 65 ml", precio: 2160, lista: 2700 },                    // $33.230/L
+    { nombre: "Alcohol en Gel Farmacity Kids Sandía x 25 g", precio: 3192, lista: 3990 },
+    { nombre: "Alcohol en Gel Neutro Bialcohol con Válvula Dosificadora x 500ml", precio: 3819, lista: 5876 }, // $7.638/L ← gana
+    { nombre: "Alcohol en Gel Farmacity Neutro Dosificador x 980 ml", precio: 8200, lista: 8200 },       // $8.367/L
+  ]);
+  assert.equal(el.p, 3819);
+  assert.match(el.n, /Bialcohol/);
+});
+
+test("Desodorante: solo Old Spice en barra; aerosoles y shampoo afuera", () => {
+  const el = elegir(itemFarma("Desodorante"), [
+    { nombre: "Desodorante para Hombre AXE Gold Vainilla en Aerosol x 150 ml", precio: 4785, lista: 4785 },
+    { nombre: "Shampoo Head & Shoulders Old Spice Para Hombres x 180 ml", precio: 5434, lista: 7763 },
+    { nombre: "Desodorante Old Spice Fresh x 50 g", precio: 7238, lista: 10340 },
+    { nombre: "Desodorante en Barra Old Spice Leña x 50 g", precio: 10340, lista: 10340 },
+  ]);
+  assert.equal(el.p, 7238);
+  assert.match(el.n, /Old Spice Fresh/);
+  assert.match(el.n, /oferta -30%/);
+});
+
+test("Máquina de afeitar: 3 filos al mejor precio POR UNIDAD (no el pack más chico)", () => {
+  const el = elegir(itemFarma("Máquina de afeitar"), [
+    { nombre: "Máquina de Afeitar Enjoy Mujer 3 Filos x 2 un", precio: 2625, lista: 5250 },       // $1.313/un
+    { nombre: "Máquina de Afeitar Descartable Enjoy 3 Filos Mujer x 5 un", precio: 4025, lista: 8050 }, // $805/un ← gana
+    { nombre: "Máquina de Afeitar para Mujer Gillette Venus Original con 3 Hojas", precio: 12075, lista: 17250 },
+    { nombre: "Máquina de Afeitar Gillette del Cuerpo x 4 un", precio: 17288, lista: 17288 },     // sin "3 filos"
+  ]);
+  assert.equal(el.p, 4025);
+  assert.match(el.n, /\$805\/un/);
+});
+
+test("Preservativos: Prime Mega ('Preservativo de Látex Mega'); los Skyn no", () => {
+  const el = elegir(itemFarma("Preservativos"), [
+    { nombre: "Preservativos Prime Skyn Extra Large x 3 un", precio: 6300, lista: 7875 },
+    { nombre: "Preservativo de Látex Mega x 3 un", precio: 5874, lista: 5874 },
+  ]);
+  assert.equal(el.p, 5874);
+  assert.match(el.n, /Mega/);
+});
+
+test("Enjuague bucal: gana el más barato POR LITRO aunque el total sea mayor", () => {
+  const el = elegir(itemFarma("Enjuague bucal"), [
+    { nombre: "Enjuague Bucal Listerine Whitening x 236 ml", precio: 6692, lista: 6692 },  // $28.356/L
+    { nombre: "Enjuague Bucal Listerine Whitening x 473 ml", precio: 9739, lista: 9739 },  // $20.590/L ← gana
+  ]);
+  assert.equal(el.p, 9739);
+  assert.match(el.n, /473 ml/);
+});
+
+test("parseQty: 'x 2 un x 50 m' del hilo dental = 100 m", () => {
+  assert.deepEqual(parseQty("Hilo Dental Farmacity Sabor Menta x 2 un x 50 m"), { amount: 100, unit: "m" });
+});
+
+test("Pasta dental: normaliza por kg", () => {
+  const el = elegir(itemFarma("Pasta dental"), [
+    { nombre: "Pasta Dental Meraki x 50 g", precio: 4760, lista: 4760 },              // $95.200/kg
+    { nombre: "Pasta Dental Colgate Ultra Blanco x 90 g", precio: 3315, lista: 3315 }, // $36.833/kg ← gana
+  ]);
+  assert.equal(el.p, 3315);
+  assert.match(el.n, /\$36\.833\/kg/);
 });
 
 /* ---------- Otros lugares (Carmín / BonVino / Tienda Nova) ---------- */

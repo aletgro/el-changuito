@@ -63,7 +63,7 @@
     },
     "Papas fritas": {
       "p": 4601,
-      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr."
+      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr."
     },
     "Vinagre de manzana 1 L": {
       "p": 4060,
@@ -448,6 +448,70 @@
     "Salsa de soja Lee Kum Kee premium": {
       "p": 10500,
       "n": "Lee Kum Kee Salsa de Soja Premium 500ml"
+    },
+    "Alcohol": {
+      "p": 3684,
+      "n": "Alcohol Etílico Bialcohol 96% Uso Medicinal x 500ml · oferta -25%"
+    },
+    "Algodón": {
+      "p": 1700,
+      "n": "Algodón Clásico Farmacity x 100 g"
+    },
+    "Cepillo de dientes": {
+      "p": 9240,
+      "n": "Cepillo de Dientes Colgate Pro Cuidado Charcoal x 4 un · oferta -20% · $2.310/un"
+    },
+    "Curitas": {
+      "p": 3600,
+      "n": "Apositos Adhesivos Farmacity x 30 un · $120/un"
+    },
+    "Desodorante": {
+      "p": 7238,
+      "n": "Desodorante Old Spice Fresh x 50 g · oferta -30%"
+    },
+    "Enjuague bucal": {
+      "p": 4566,
+      "n": "Enjuague Bucal Colgate Plax Menta Fresca x 500 ml · oferta -40% · $9.132/L"
+    },
+    "Hilo dental": {
+      "p": 2274,
+      "n": "Hilo Dental Farmacity Sabor Menta x 2 un x 50 m · oferta -40% · $23/m"
+    },
+    "Máquina de afeitar": {
+      "p": 4025,
+      "n": "Máquina de Afeitar Descartable Enjoy 3 Filos Mujer x 5 un · oferta -50% · $805/un"
+    },
+    "Pasta dental": {
+      "p": 2260,
+      "n": "Pasta Dental Oral B Extra Blanco x 70 g · oferta -40% · $32.286/kg"
+    },
+    "Preservativos": {
+      "p": 5874,
+      "n": "Preservativo de Látex Mega x 3 un · $1.958/un"
+    },
+    "Repelente": {
+      "p": 2994,
+      "n": "Repelente Farmacity en Spray x 200 ml · oferta -40%"
+    },
+    "Crema humectante": {
+      "p": 4018,
+      "n": "Crema Humectante Pond's Bio-Hydratante x 100 g · oferta -20%"
+    },
+    "Gel de limpieza": {
+      "p": 7143,
+      "n": "Gel de Limpieza Get The Look x 130 ml · oferta -35%"
+    },
+    "Protector solar corporal": {
+      "p": 11206,
+      "n": "Protector Solar VN Aerosol Fps 30 x 250 ml · oferta -50%"
+    },
+    "Protector solar facial": {
+      "p": 8510,
+      "n": "Protector Solar Facial Villeneuve Sin Color Fps 50 x 50 ml · oferta -50%"
+    },
+    "Alcohol en gel": {
+      "p": 3819,
+      "n": "Alcohol en Gel Neutro Bialcohol con Válvula Dosificadora x 500ml · oferta -35% · $7.638/L"
     }
   }
 }

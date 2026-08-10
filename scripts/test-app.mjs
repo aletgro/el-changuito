@@ -37,6 +37,10 @@ dom.window.localStorage.setItem("el-changuito-v1", JSON.stringify({
         { id: "o2", name: "New Garden", items: [{ id: "n1", name: "Salsa de pescado", note: "", spec: "", have: true }] },
       ],
     },
+    {
+      id: "farma", name: "Farmacity", emoji: "💊", color: "#0E8C8C", note: "",
+      sections: [{ id: "f1", name: "Higiene", items: [{ id: "h1", name: "Alcohol", note: "", spec: "", have: true }] }],
+    },
   ],
 }));
 
@@ -94,6 +98,15 @@ test("el precio manual de Huevo se conserva", () => {
   const huevo = data.stores.find((s) => s.id === "diet").sections[0].items.find((it) => it.name === "Huevo");
   assert.equal(huevo.price, 4200);
   assert.equal(huevo.priceV, "manual@01/08/2026");
+});
+
+test("v8: Alcohol en gel entra a Farmacity/Higiene después de Alcohol, una sola vez", () => {
+  const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
+  const higiene = data.stores.find((s) => s.id === "farma").sections.find((sec) => sec.name === "Higiene");
+  const geles = higiene.items.filter((it) => it.name === "Alcohol en gel");
+  assert.equal(geles.length, 1);
+  const iAlcohol = higiene.items.findIndex((it) => it.name === "Alcohol");
+  assert.equal(higiene.items[iAlcohol + 1].name, "Alcohol en gel");
 });
 
 test("v7: la salsa de pescado se mudó a Dietética/Muy duraderos y la sección New Garden desapareció", () => {

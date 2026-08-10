@@ -47,7 +47,8 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    y suma ítems de Farmacity · v3 opciones de Estructurales · v4 unifica el combo de
    carnicería · v5 campos de precio + foto embebida · v6 suma Piñones a Dietética/Perecederos ·
    v7 muda Salsa de pescado a Dietética/Muy duraderos (borra la sección "New Garden" vacía)
-   y renombra Champiñones congelados → Hongos para cocinar.
+   y renombra Champiñones congelados → Hongos para cocinar · v8 suma Alcohol en gel a
+   Farmacity/Higiene.
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
    viendo la versión vieja. Hoy va por **v10**. `precios.json` es red-primero: no requiere bump.
@@ -78,7 +79,10 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
 - El robot: DIA vía API pública de VTEX (`/api/catalog_system/pub/products/search/?ft=...`)
   con fallback a páginas de categoría HTML (`cat` en la config). Conserva el precio
   anterior si un ítem no matchea; nunca escribe si TODO falló.
-- Farmacity también es VTEX → para sumarla, reusar `buscarVtex("https://www.farmacity.com", q)`.
+- Farmacity es VTEX como DIA (`ITEMS_FARMACITY` reusa `buscarVtex`). El campo
+  `comparaPor` normaliza el "mejor precio" por lo que corresponde: máquinas y
+  preservativos por unidad, enjuague por litro, hilo por metro, pasta por kg.
+  OJO con rejects tipo /ni[ñn]/: "Whitening" contiene "nin" — usar /ni[ñn][oa]/.
 - COTO: el sitio nuevo (coto.com.ar) es una SPA; el catálogo se lee del buscador
   Constructor.io (`ac.cnstrc.com/search/...?key=` con la key pública del bundle).
   `listPrice` = precio del paquete POR SUCURSAL (en cortes "X KG" es $/kg); se toma la
@@ -147,7 +151,15 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   arepas (el nombre del producto no dice "maíz"; el must exige "arepas") · "Arvejas en
   lata" acepta cualquiera menos congeladas — en DIA las latas se llaman "Arvejas Secas
   Remojadas", por eso el reject viejo (/secas/) las mataba todas.
-- **Próximos comercios**: Farmacity (VTEX, reusar `buscarVtex`).
+- **Farmacity (ANDANDO desde 09/08/2026)**: 16/16 ítems (incluye Alcohol en gel,
+  migración v8, mejor precio por litro). Preferencias CONFIRMADAS del
+  usuario: Desodorante = Old Spice EN BARRA solamente (rechazo aerosol/spray/ml) ·
+  Máquina de afeitar = 3 filos, mejor precio POR UNIDAD (hoy gana un pack "Enjoy Mujer
+  x 5"; el usuario no pidió filtrar por género — validar si molesta) · Preservativos =
+  Prime Mega (en Farmacity: "Preservativo de Látex Mega") · Alcohol = 96° (decidido
+  09/08/2026: tiene alcohol en gel para manos, el líquido es para limpieza; el 70 %
+  ya diluido queda excluido por must /96/). Supuestos a validar: Crema humectante =
+  facial (Pond's) · Gel de limpieza = facial. No quedan comercios pendientes.
 - **Fase 2 posible**: botón "Actualizar precios" en la app vía Cloudflare Worker (proxy CORS).
 - **Versión artefacto de Claude.ai**: existe una variante del fuente que usa
   `window.storage` (API de artefactos) en vez de `localStorage`. Ya no es la fuente de

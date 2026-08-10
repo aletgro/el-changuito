@@ -210,7 +210,7 @@ function seedStores() {
       id: "farma", name: "Farmacity", emoji: "💊", color: "#0E8C8C",
       note: "Para no pensar demasiado, todo esto acá (suele haber mejor oferta que en DIA).",
       sections: [
-        { id: nid(), name: "Higiene", items: [I("Alcohol"), I("Algodón"), I("Cepillo de dientes"), I("Curitas"), I("Desodorante"), I("Enjuague bucal"), I("Hilo dental"), I("Máquina de afeitar"), I("Pasta dental"), I("Preservativos"), I("Repelente")] },
+        { id: nid(), name: "Higiene", items: [I("Alcohol"), I("Alcohol en gel"), I("Algodón"), I("Cepillo de dientes"), I("Curitas"), I("Desodorante"), I("Enjuague bucal"), I("Hilo dental"), I("Máquina de afeitar"), I("Pasta dental"), I("Preservativos"), I("Repelente")] },
         { id: nid(), name: "Belleza", items: [I("Crema humectante"), I("Gel de limpieza"), I("Protector solar corporal"), I("Protector solar facial")] },
       ],
     },
@@ -398,6 +398,18 @@ function migrate(stores) {
         ? { ...it, name: "Hongos para cocinar", price: 0, priceNote: "", priceV: "" }
         : it),
     })),
+  });
+
+  // v8 · Farmacity: sumar Alcohol en gel a Higiene
+  out = out.map((s) => s.id !== "farma" ? s : {
+    ...s,
+    sections: s.sections.map((sec) => {
+      if (sec.name !== "Higiene" || sec.items.some((it) => it.name === "Alcohol en gel")) return sec;
+      const idx = sec.items.findIndex((it) => it.name === "Alcohol");
+      const nuevo = { id: "mig-alcogel", name: "Alcohol en gel", note: "", spec: "", have: true };
+      const items = idx >= 0 ? [...sec.items.slice(0, idx + 1), nuevo, ...sec.items.slice(idx + 1)] : [...sec.items, nuevo];
+      return { ...sec, items };
+    }),
   });
 
   // v5 · asegurar campos de precio y aplicar la foto embebida como base

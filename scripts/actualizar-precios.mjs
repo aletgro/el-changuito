@@ -551,6 +551,49 @@ async function preciosDietetica() {
   return out;
 }
 
+/* ---------- FARMACITY (farmacity.com, VTEX como DIA) ----------
+   Criterio "mejor precio" con normalización por ítem (`comparaPor`): máquinas y
+   preservativos por unidad, enjuague por litro, hilo por metro, pasta por kg.
+   Pedidos del usuario (09/08/2026): desodorante = Old Spice EN BARRA solamente ·
+   máquinas de afeitar = 3 filos · preservativos = Prime Mega (en Farmacity el
+   producto se llama "Preservativo de Látex Mega"). ---------- */
+const FARMACITY = "https://www.farmacity.com";
+
+const ITEMS_FARMACITY = [
+  // Higiene
+  // 96° confirmado (09/08/2026): el usuario tiene alcohol en gel para manos; el líquido es para limpieza
+  { name: "Alcohol", q: "alcohol etilico", unit: "l", qty: 0.5, must: [/alcohol/i, /96/], reject: [/gel|spray|gatillo|clorhexidina|iodo|isoprop/i] },
+  { name: "Alcohol en gel", q: "alcohol en gel", unit: "un", qty: 1, comparaPor: "l", must: [/alcohol/i, /gel/i], reject: [/kids|sand[íi]a|chicle/i] },
+  { name: "Algodón", q: "algodon", unit: "kg", qty: 0.1, must: [/algod[óo]n/i], reject: [/discos|zig/i] },
+  { name: "Cepillo de dientes", q: "cepillo de dientes", unit: "un", qty: 1, comparaPor: "un", must: [/cepillo de dientes/i], reject: [/porta|dispensador|el[ée]ctrico|repuesto|ni[ñn][oa]|kids|infantil/i] },
+  { name: "Curitas", q: "curitas", unit: "un", qty: 1, comparaPor: "un", must: [/curitas|ap[óo]sito/i], reject: [/kids|ni[ñn][oa]|marvel|frozen|xl|aqua ?protect/i] },
+  { name: "Desodorante", q: "desodorante old spice", unit: "un", qty: 1, must: [/old spice/i, /desodorante|antitranspirante/i], reject: [/aerosol|spray|shampoo|gel|jab[óo]n|ml\b/i] }, // solo EN BARRA
+  { name: "Enjuague bucal", q: "enjuague bucal", unit: "un", qty: 1, comparaPor: "l", must: [/enjuague/i], reject: [/ni[ñn][oa]|kids|infantil/i] },
+  { name: "Hilo dental", q: "hilo dental", unit: "un", qty: 1, comparaPor: "m", must: [/hilo dental/i], reject: [/mango|ortodoncia/i] },
+  { name: "Máquina de afeitar", q: "maquina de afeitar 3 filos", unit: "un", qty: 1, comparaPor: "un", must: [/m[áa]quina de afeitar/i, /3 filos|prestobarba ?3/i], reject: [/venus|[íi]ntima|recambio|repuesto/i] },
+  { name: "Pasta dental", q: "pasta dental", unit: "un", qty: 1, comparaPor: "kg", must: [/pasta dental|dent[íi]frico/i], reject: [/dispensador|porta|ni[ñn][oa]|kids|viaje/i] },
+  { name: "Preservativos", q: "preservativos mega", unit: "un", qty: 1, comparaPor: "un", must: [/preservativo/i, /mega/i], reject: [/skyn|kit/i] }, // Prime Mega
+  { name: "Repelente", q: "repelente", unit: "un", qty: 1, must: [/repelente/i], reject: [/ni[ñn][oa]|kids|beb[ée]|crema|pulsera|ambiente|hidratante|natural/i] },
+  // Belleza
+  { name: "Crema humectante", q: "crema humectante", unit: "un", qty: 1, must: [/crema/i, /humectante|hidratante/i], reject: [/manos|pies|alcohol|limpieza|corporal|beb[ée]|ni[ñn]/i] },
+  { name: "Gel de limpieza", q: "gel de limpieza facial", unit: "un", qty: 1, must: [/gel/i, /limpieza|limpiador/i], reject: [/ni[ñn][oa]|beb[ée]/i] },
+  { name: "Protector solar corporal", q: "protector solar corporal", unit: "un", qty: 1, must: [/protector solar/i, /fps/i], reject: [/facial|combo|kit|infantil|ni[ñn][oa]|beb[ée]|after ?sun|autobronce|capilar|labial/i] },
+  { name: "Protector solar facial", q: "protector solar facial", unit: "un", qty: 1, must: [/protector solar/i, /facial/i], reject: [/combo|kit|infantil|ni[ñn][oa]|beb[ée]|after ?sun|autobronce/i] },
+];
+
+const NOMBRES_FARMACITY = ITEMS_FARMACITY.map((i) => i.name);
+
+async function preciosFarmacity() {
+  const out = [];
+  for (const item of ITEMS_FARMACITY) {
+    let el = null;
+    try { el = elegir(item, await buscarVtex(FARMACITY, item.q)); } catch (e) { /* sin red: queda el precio anterior */ }
+    out.push([item.name, el]);
+    await dormir(ESPERA_MS);
+  }
+  return out;
+}
+
 /* ---------- OTROS LUGARES (páginas puntuales que indicó el usuario, 09/08/2026) ----------
    Carmín (carmin.com.ar, TiendaNube): búsqueda server-rendered con JSON-LD.
    BonVino y Tienda Nova: página de producto fija; el precio del producto principal
@@ -669,7 +712,7 @@ function elegir(item, candidatos) {
       : (a, b) => a.estimado - b.estimado || a.porUnidad - b.porUnidad);
   const g = validos[0];
   const desc = g.lista > g.precio ? Math.round((1 - g.precio / g.lista) * 100) : 0;
-  const limpio = g.nombre.replace(/\s+/g, " ").replace(/\s+x\s*kg\.?$/i, "").trim().slice(0, 60);
+  const limpio = g.nombre.replace(/\s+/g, " ").replace(/\s+x\s*kg\.?$/i, "").trim().slice(0, 70);
   let nota;
   if (g.paquetes === 0) {
     const cant = g.gramos >= 1 ? (Math.round(g.gramos * 100) / 100).toLocaleString("es-AR") + " kg" : Math.round(g.gramos * 1000) + " g";
@@ -767,6 +810,22 @@ async function main() {
     }
   }
 
+  // --- Farmacity ---
+  console.log("\n— Farmacity —");
+  let resFarma = [];
+  try { resFarma = await preciosFarmacity(); } catch (e) { console.log("FARMACITY: error → " + e.message); }
+  if (resFarma.length === 0) resFarma = NOMBRES_FARMACITY.map((n) => [n, null]);
+  for (const [name, el] of resFarma) {
+    if (el) {
+      precios[name] = el;
+      ok++;
+      console.log(`✔ ${name} → $${el.p}  (${el.n})`);
+    } else {
+      fallos.push(name);
+      console.log(`✘ ${name} → sin match (queda el precio anterior si había)`);
+    }
+  }
+
   // --- Otros lugares (Carmín, BonVino, Tienda Nova) ---
   console.log("\n— Otros lugares —");
   let resOtros = [];
@@ -789,16 +848,17 @@ async function main() {
   }
 
   fs.writeFileSync(archivo, JSON.stringify({ version: fechaHoyAR(), prices: precios }, null, 2) + "\n");
-  console.log(`\nListo: ${ok}/${ITEMS.length + ITEMS_ELPUENTE.length + NOMBRES_COTO.length + NOMBRES_DIETETICA.length + NOMBRES_OTROS.length} ítems actualizados en ${archivo} (versión ${fechaHoyAR()}).`);
+  console.log(`\nListo: ${ok}/${ITEMS.length + ITEMS_ELPUENTE.length + NOMBRES_COTO.length + NOMBRES_DIETETICA.length + NOMBRES_FARMACITY.length + NOMBRES_OTROS.length} ítems actualizados en ${archivo} (versión ${fechaHoyAR()}).`);
   if (fallos.length) console.log("Sin match (revisar consultas): " + fallos.join(", "));
 }
 
 export {
-  parseQty, elegir, ITEMS, ITEMS_ELPUENTE, parsearListadoElPuente, candidatosElPuente,
+  parseQty, elegir, buscarVtex, ITEMS, ITEMS_ELPUENTE, parsearListadoElPuente, candidatosElPuente,
   ITEMS_COTO, PARTES_CARNE, NOMBRES_COTO, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto, buscarCoto,
   ITEMS_DIETETICA, NOMBRES_DIETETICA, RECHAZO_DIET, normalizarPeso, paresProductoFa, paresVariacionesFa, buscarFrutosAre,
   paresDesdeNewGarden, buscarNewGarden, preciosDietetica,
   ITEMS_OTROS, NOMBRES_OTROS, paresDesdeTiendaNube, productoDePagina, preciosOtros,
+  ITEMS_FARMACITY, NOMBRES_FARMACITY, preciosFarmacity,
 };
 
 if (process.argv[1] && import.meta.url === new URL("file://" + process.argv[1]).href) {
