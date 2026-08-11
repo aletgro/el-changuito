@@ -1,9 +1,9 @@
 {
-  "version": "10/08/2026",
+  "version": "11/08/2026",
   "prices": {
     "Aceite de girasol 1 L": {
-      "p": 5200,
-      "n": "Aceite de Girasol Cañuelas 1,5 Lt. · oferta -20%"
+      "p": 5745,
+      "n": "Aceite de Girasol Dia 1,5 Lt."
     },
     "Agua mineral bidón": {
       "p": 3400,
@@ -14,8 +14,8 @@
       "n": "Arroz Integral 00000 Cuquets 1 Kg. · oferta -34%"
     },
     "Atún": {
-      "p": 1190,
-      "n": "Atún Desmenuzado Al Natural Dia 170 Gr. · oferta -20%"
+      "p": 1450,
+      "n": "Alimento Humedo Para Gatos Sabor Atun Felix 85 Gr."
     },
     "Azúcar 500 g": {
       "p": 590,
@@ -26,8 +26,8 @@
       "n": "Harina Morixe para Arepas 1 Kg."
     },
     "Leche larga vida": {
-      "p": 1700,
-      "n": "Leche Entera DIA Larga Vida 1 Lt. · oferta -22%"
+      "p": 2190,
+      "n": "Leche Entera DIA Larga Vida 1 Lt."
     },
     "Maicena 500 g": {
       "p": 2200,
@@ -54,8 +54,8 @@
       "n": "Vinagre de Alcohol Dia 1 Lt."
     },
     "Yerba 1 kg": {
-      "p": 2798,
-      "n": "Yerba Mate Suave Chamigo 1 Kg. · oferta -25%"
+      "p": 2891,
+      "n": "Yerba Mate Dia Elaborado Con Palo 1 Kg."
     },
     "Grasa bovina 1 kg": {
       "p": 7380,
@@ -70,8 +70,8 @@
       "n": "2× Vinagre de Manzana Dia 500 Ml."
     },
     "Aerosol de ambiente": {
-      "p": 2724,
-      "n": "Desodorante de Ambiente Poett Primavera en aerosol 360 Ml. · oferta -35%"
+      "p": 4190,
+      "n": "Desodorante de Ambiente Poett Primavera en aerosol 360 Ml."
     },
     "Bolsa de basura baño": {
       "p": 1950,
@@ -90,8 +90,8 @@
       "n": "Desinfectante Multisuperficies Ayudín Doypack 450 Ml. · oferta -26%"
     },
     "Detergente líquido": {
-      "p": 1687,
-      "n": "Detergente Magistral Ultra Limon Botella 300 Ml. · oferta -35%"
+      "p": 1900,
+      "n": "Detergente DIA Limón 300 Ml."
     },
     "Esponja": {
       "p": 915,
@@ -106,8 +106,8 @@
       "n": "Jabón Líquido Para Manos Suave Pepino Y Aloe 220 Ml."
     },
     "Jabón líquido ropa": {
-      "p": 7350,
-      "n": "4× Jabón Líquido Ecovita Baja espuma 800 Ml. · oferta -25%"
+      "p": 7550,
+      "n": "Jabón Líquido para Ropa Héroe Doypack 3 Lt."
     },
     "Lavandina": {
       "p": 894,
@@ -126,12 +126,12 @@
       "n": "Limpiador Inodoro Pastillas Glade Lavanda 25 Gr."
     },
     "Rollo de cocina": {
-      "p": 1650,
-      "n": "Mega Rollo De Cocina Dia 200 Paños 1 Ud. · oferta -41%"
+      "p": 1690,
+      "n": "Rollo De Cocina Golf 3 Ud. 40 Mt."
     },
     "Suavizante": {
-      "p": 4523,
-      "n": "2× Suavizante Para Ropa Flores Silvestres Doypack 900 Ml. · oferta -25%"
+      "p": 4780,
+      "n": "2× Suavizante Para Ropa Héroe Premium 900 Ml."
     },
     "Trapo de piso": {
       "p": 2000,
@@ -146,8 +146,8 @@
       "n": "Paño Amarillo Multiuso DIA 3 Ud."
     },
     "Virulana": {
-      "p": 861,
-      "n": "Esponja de Acero Inoxidable Dia 1 Ud. · 2da unidad -70% llevando 2 · oferta -35%"
+      "p": 1325,
+      "n": "Esponja de Acero Inoxidable Dia 1 Ud."
     },
     "Caldo en cubos": {
       "p": 1625,
@@ -166,8 +166,8 @@
       "n": "Puré de Tomate Dia 520 Gr."
     },
     "Levadura": {
-      "p": 500,
-      "n": "Levadura Calsa 50 Gr. · oferta -20%"
+      "p": 548,
+      "n": "Levadura Instántanea en Sobre Mi Pan 10 Gr."
     },
     "Pan rallado": {
       "p": 940,
@@ -502,8 +502,8 @@
       "n": "Gel de Limpieza Get The Look Salicílico x 150 ml · 2x1 llevando 2 · oferta -50%"
     },
     "Protector solar corporal": {
-      "p": 11206,
-      "n": "Protector Solar VN Aerosol Fps 30 x 250 ml · oferta -50%"
+      "p": 9917,
+      "n": "Protector Solar VN Efecto Seco Fps 30 x 190 ml · oferta -50%"
     },
     "Protector solar facial": {
       "p": 8510,
