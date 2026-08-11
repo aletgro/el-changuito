@@ -524,15 +524,18 @@ function SeasonBadge({ name, month }) {
 }
 
 function CircleBuy({ color, onClick }) {
+  // Blanco de toque grande (40 px) con el círculo visual adentro
   return (
     <button
       onClick={onClick}
       aria-label="Marcar como comprado"
-      className="rounded-full border-2 flex-shrink-0 transition-colors"
-      style={{ width: 26, height: 26, borderColor: color, marginTop: 2, background: "transparent" }}
-      onMouseEnter={(e) => { e.currentTarget.style.background = color + "22"; }}
-      onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
-    />
+      className="flex-shrink-0 flex items-center justify-center presionable"
+      style={{ width: 40, height: 40, margin: "-6px 0 -6px -7px" }}
+      onMouseEnter={(e) => { e.currentTarget.firstChild.style.background = color + "22"; }}
+      onMouseLeave={(e) => { e.currentTarget.firstChild.style.background = "transparent"; }}
+    >
+      <span className="rounded-full border-2 transition-colors" style={{ display: "block", width: 28, height: 28, borderColor: color, background: "transparent" }} />
+    </button>
   );
 }
 
@@ -682,9 +685,9 @@ function PickPending({ it, color, month, onConfirm }) {
             <button
               key={name}
               onClick={() => toggle(name)}
-              className="rounded-full border text-sm transition-colors"
+              className="rounded-full border text-sm transition-colors presionable"
               style={{
-                padding: "4px 12px",
+                padding: "7px 14px",
                 borderColor: selected ? color : s === "peak" ? "#E0A23C" : "#D8D2C4",
                 background: selected ? color : s === "peak" ? "#FFF4E0" : "#FFFFFF",
                 color: selected ? "#FFFFFF" : s === "out" ? "#B3AB9A" : "#2B2620",
@@ -695,7 +698,7 @@ function PickPending({ it, color, month, onConfirm }) {
           );
         })}
         {!showAll && opts.length > 10 ? (
-          <button onClick={() => setShowAll(true)} className="rounded-full text-sm" style={{ padding: "4px 12px", color, background: "transparent" }}>
+          <button onClick={() => setShowAll(true)} className="rounded-full text-sm presionable" style={{ padding: "7px 14px", color, background: "transparent" }}>
             ver todas ({opts.length})
           </button>
         ) : null}
@@ -703,8 +706,8 @@ function PickPending({ it, color, month, onConfirm }) {
       <button
         onClick={() => sel.length > 0 && onConfirm(sel)}
         disabled={sel.length === 0}
-        className="mt-2 rounded-lg font-semibold text-sm"
-        style={{ padding: "6px 14px", background: sel.length ? color : "#E5E1D6", color: sel.length ? "#FFFFFF" : "#A39B89" }}
+        className="mt-2 rounded-lg font-semibold text-sm presionable"
+        style={{ padding: "9px 18px", background: sel.length ? color : "#E5E1D6", color: sel.length ? "#FFFFFF" : "#A39B89" }}
       >
         Comprado {sel.length > 0 ? `(${sel.length})` : ""}
       </button>
@@ -795,7 +798,7 @@ function ShoppingView({ stores, month, patchItem, buyAll, priceDate, descuentos 
               </div>
               <div className="flex items-center gap-3">
                 {!isCollapsed ? (
-                  <button onClick={(e) => { e.stopPropagation(); buyAll(store.id); }} className="text-xs font-medium" style={{ color: store.color }}>
+                  <button onClick={(e) => { e.stopPropagation(); buyAll(store.id); }} className="text-xs font-medium presionable" style={{ color: store.color, padding: "6px 8px", margin: "-6px -8px" }}>
                     ✓ todo comprado
                   </button>
                 ) : null}
@@ -973,14 +976,15 @@ function ListsView({ stores, month, patchItem, addItem, delItem, resetAll, price
 }
 
 function DisplayRow({ it, color, month, onToggle }) {
+  // Toda la fila cambia el estado (no solo el check): más fácil de tocar en el celular
   return (
-    <div className="flex items-start gap-3 py-2" style={{ borderBottom: "1px solid #F6F2EA" }}>
+    <div onClick={onToggle} className="flex items-start gap-3 py-2 fila-toque" style={{ borderBottom: "1px solid #F6F2EA" }}>
       <button
-        onClick={onToggle}
+        onClick={(e) => { e.stopPropagation(); onToggle(); }}
         aria-label={it.have ? "Marcar como faltante" : "Marcar en stock"}
-        className="rounded flex-shrink-0 flex items-center justify-center text-xs font-bold"
+        className="rounded flex-shrink-0 flex items-center justify-center text-sm font-bold presionable"
         style={{
-          width: 22, height: 22, marginTop: 2,
+          width: 26, height: 26, marginTop: 1,
           border: `2px solid ${it.have ? "#C9C2B2" : color}`,
           background: it.have ? "#F1EDE3" : "#FFFFFF",
           color: it.have ? "#8A8170" : color,
@@ -1268,7 +1272,7 @@ function App() {
       <nav className="fixed bottom-0 left-0 right-0 z-20" style={{ background: "#FFFFFF", borderTop: "1px solid #E3E0D6" }}>
         <div className="max-w-2xl mx-auto flex">
           {tabs.map((t) => (
-            <button key={t.id} onClick={() => setTab(t.id)} className="flex-1 py-2 flex flex-col items-center gap-1 select-none">
+            <button key={t.id} onClick={() => setTab(t.id)} className="flex-1 py-2 flex flex-col items-center gap-1 select-none presionable">
               <span style={{ fontSize: 20, position: "relative" }}>
                 {t.emoji}
                 {t.badge ? (

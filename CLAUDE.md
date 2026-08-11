@@ -56,7 +56,7 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    manual previo (fecha tomada del propio `priceV`).
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
-   viendo la versión vieja. Hoy va por **v12**. `precios.json` es red-primero: no requiere bump.
+   viendo la versión vieja. Hoy va por **v13**. `precios.json` es red-primero: no requiere bump.
 3. **Los nombres de ítems son claves**: `precios.json` y el robot matchean por el `name`
    exacto del ítem (tildes incluidas). Renombrar un ítem rompe su precio → actualizar
    también `ITEMS`/`ITEMS_ELPUENTE` en el robot, la `PRICES` embebida y agregar migración.
