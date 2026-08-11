@@ -171,16 +171,25 @@ const dom2 = new JSDOM('<!doctype html><html><body><div id="root"></div></body><
   runScripts: "outside-only",
 });
 dom2.window.localStorage.setItem("el-changuito-v1", JSON.stringify({
-  stores: [{
-    id: "diet", name: "Dietética", emoji: "🌿", color: "#9A6A1F", note: "",
-    sections: [{
-      id: "sec1", name: "Perecederos",
-      items: [
-        { id: "i1", name: "Nueces 500 g", note: "", spec: "", have: false },
-        { id: "i2", name: "Chía 500 g", note: "", spec: "", have: false },
+  stores: [
+    {
+      id: "diet", name: "Dietética", emoji: "🌿", color: "#9A6A1F", note: "",
+      sections: [{
+        id: "sec1", name: "Perecederos",
+        items: [
+          { id: "i1", name: "Nueces 500 g", note: "", spec: "", have: false },
+          { id: "i2", name: "Chía 500 g", note: "", spec: "", have: false },
+        ],
+      }],
+    },
+    { // tienda sintética para probar exclusiones de promo (tipo COTO sin carnicería)
+      id: "extra", name: "Extra", emoji: "🧪", color: "#888888", note: "",
+      sections: [
+        { id: "x1", name: "Carnicería", items: [{ id: "xc", name: "Corte X", note: "", spec: "", have: false }] },
+        { id: "x2", name: "Harinas", items: [{ id: "xh", name: "Harina T", note: "", spec: "", have: false }] },
       ],
-    }],
-  }],
+    },
+  ],
 }));
 dom2.window.fetch = () => Promise.resolve({
   ok: true,
@@ -188,13 +197,18 @@ dom2.window.fetch = () => Promise.resolve({
     version: "11/08/2026",
     // Config de descuentos DISTINTA a la embebida: prueba que el JSON manda (días/COMERCIOS
     // pueden cambiar) en los dos esquemas: día suelto y rango con tope
-    descuentos: { diet: [
-      { dia: "lunes", pct: 30 },
-      { dias: ["lunes", "martes", "miércoles", "jueves", "viernes"], pct: 20, tope: 1000 },
-    ] },
+    descuentos: {
+      diet: [
+        { dia: "lunes", pct: 30 },
+        { dias: ["lunes", "martes", "miércoles", "jueves", "viernes"], pct: 20, tope: 1000 },
+      ],
+      extra: { sin: { secciones: ["Carnicería"] }, promos: [{ dia: "lunes", pct: 10 }] },
+    },
     prices: {
       "Nueces 500 g": { p: 9000, n: "precio de prueba", d: -1000 },
       "Chía 500 g": { p: 5806, n: "precio de prueba", d: 277 },
+      "Corte X": { p: 1000, n: "precio de prueba" },
+      "Harina T": { p: 2000, n: "precio de prueba" },
     },
   }),
 });
@@ -239,9 +253,17 @@ test("Descuento con tope: subtotal recortado al máximo de devolución y aviso d
 
 test("Total estimado con los dtos de HOY: aplica la mejor promo vigente de cada comercio", () => {
   const texto = dom2.window.document.body.textContent;
-  // Es lunes (fecha fija): aplican -30% ($4.442) y lun-vie con tope ($1.000) → gana la primera
-  assert.match(texto, /Con los dtos de hoy · ahorrás \$ 4\.442/);
+  // Es lunes (fecha fija): dietética -30% ($4.442) + extra -10% solo sobre lo no excluido ($200)
+  assert.match(texto, /Con los dtos de hoy · ahorrás \$ 4\.642/);
   assert.match(texto, /lunes -30% \(hoy\)/);                    // la promo de hoy queda resaltada
+});
+
+test("Exclusiones de promo: la carnicería no lleva dto y la tarjeta lo aclara", () => {
+  const texto = dom2.window.document.body.textContent;
+  assert.match(texto, /lunes -10% \(hoy\) ≈ \$ 2\.800/);        // 3.000 − 10% de los $2.000 con promo
+  assert.match(texto, /no aplica a \$ 1\.000 de lo pendiente/); // el Corte X queda afuera
+  assert.match(texto, /lun \$ 1\.800/);                          // Harina T sí muestra su precio del lunes
+  assert.doesNotMatch(texto, /lun \$ 900/);                      // Corte X no muestra línea de dto
 });
 
 console.log(`\n${pasan} tests de app OK`);

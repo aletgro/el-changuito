@@ -252,7 +252,10 @@ const PRICE_SNAPSHOT_V = "08/08/2026";
 const DESCUENTOS_SNAPSHOT = {
   dia: [{ dia: "martes", pct: 20 }, { dia: "jueves", pct: 15 }],
   puente: [{ dias: ["lunes", "martes", "miércoles", "jueves", "viernes"], pct: 20, tope: 6000 }],
-  coto: [{ dia: "martes", pct: 20 }, { dia: "miércoles", pct: 15 }, { dia: "jueves", pct: 30 }, { dia: "viernes", pct: 25 }],
+  coto: {
+    sin: { secciones: ["Carnicería"], items: ["Harina 000", "Harina 0000"] },
+    promos: [{ dia: "martes", pct: 20 }, { dia: "miércoles", pct: 15 }, { dia: "jueves", pct: 30 }, { dia: "viernes", pct: 25 }],
+  },
 };
 const IDX_DIA_SEMANA = { domingo: 0, lunes: 1, martes: 2, miercoles: 3, "miércoles": 3, jueves: 4, viernes: 5, sabado: 6, "sábado": 6 };
 const esHoyDia = (nombre) => new Date().getDay() === IDX_DIA_SEMANA[String(nombre).toLowerCase()];
@@ -261,8 +264,16 @@ const esHoyDto = (d) => diasDe(d).some(esHoyDia);
 const nombreDto = (d) => { const ds = diasDe(d); return ds.length === 1 ? String(ds[0]) : `${String(ds[0]).slice(0, 3)} a ${String(ds[ds.length - 1]).slice(0, 3)}`; };
 const abrevDto = (d) => { const ds = diasDe(d); return ds.length === 1 ? String(ds[0]).slice(0, 3) : `${String(ds[0]).slice(0, 3)}-${String(ds[ds.length - 1]).slice(0, 3)}`; };
 const conDto = (precio, pct) => Math.round(precio * (1 - pct / 100));
-const conDtoTope = (total, d) => Math.round(total - Math.min((total * d.pct) / 100, d.tope > 0 ? d.tope : Infinity));
 const topeCompra = (d) => Math.round((d.tope * 100) / d.pct); // compra a partir de la cual el dto ya no crece
+/* La config de un comercio puede ser una lista de promos, o { sin: {secciones, items}, promos: [...] }
+   cuando la promo excluye partes del comercio (ej. COTO sin carnicería ni harinas comunes) */
+const promosDe = (cfg) => (Array.isArray(cfg) ? cfg : (cfg && cfg.promos) || []);
+const excluidoDeDto = (cfg, secName, it) => {
+  const sin = cfg && !Array.isArray(cfg) ? cfg.sin : null;
+  if (!sin) return false;
+  return ((sin.secciones || []).includes(secName)) || ((sin.items || []).includes(it.name));
+};
+const ahorroDe = (base, d) => Math.min((base * d.pct) / 100, d.tope > 0 ? d.tope : Infinity);
 const PRICES = {
   "Aceite de girasol 1 L": { p: 5200, n: "Cañuelas 1,5 L · oferta -20% · $3.467/L" },
   "Agua mineral bidón": { p: 3600, n: "DIA 6,25 L" },
@@ -746,12 +757,16 @@ function ShoppingView({ stores, month, patchItem, buyAll, priceDate, descuentos 
   const subtotalDe = (rows) => rows.reduce((a, g) => a + g.items.reduce((b, i) => b + (i.price > 0 ? i.price : 0), 0), 0);
   const totalEst = pendings.reduce((a, g) => a + subtotalDe(g.rows), 0);
   const totalSinPrecio = pendings.reduce((a, g) => a + g.rows.reduce((b, r) => b + r.items.filter((i) => !(i.price > 0)).length, 0), 0);
-  // Ahorro si se compra HOY: por comercio, la mejor promo vigente hoy (respetando su tope)
+  // Subtotal que SÍ entra en la promo del comercio (deja afuera secciones/ítems excluidos)
+  const baseDtoDe = (cfg, rows) => rows.reduce((a, g) => a + g.items.reduce((b, i) => b + (i.price > 0 && !excluidoDeDto(cfg, g.sec.name, i) ? i.price : 0), 0), 0);
+  // Ahorro si se compra HOY: por comercio, la mejor promo vigente hoy (respetando tope y exclusiones)
   const ahorroHoy = pendings.reduce((a, { store, rows }) => {
-    const deHoy = ((descuentos || {})[store.id] || []).filter(esHoyDto);
-    const sub = subtotalDe(rows);
-    if (!deHoy.length || sub <= 0) return a;
-    return a + Math.max(...deHoy.map((d) => Math.min((sub * d.pct) / 100, d.tope > 0 ? d.tope : Infinity)));
+    const cfg = (descuentos || {})[store.id];
+    const deHoy = promosDe(cfg).filter(esHoyDto);
+    if (!deHoy.length) return a;
+    const base = baseDtoDe(cfg, rows);
+    if (base <= 0) return a;
+    return a + Math.max(...deHoy.map((d) => ahorroDe(base, d)));
   }, 0);
 
   return (
@@ -781,7 +796,9 @@ function ShoppingView({ stores, month, patchItem, buyAll, priceDate, descuentos 
       {pendings.map(({ store, rows }) => {
         const count = rows.reduce((a, g) => a + g.items.length, 0);
         const subtotal = subtotalDe(rows);
-        const dtos = (descuentos || {})[store.id] || [];
+        const cfgDto = (descuentos || {})[store.id];
+        const dtos = promosDe(cfgDto);
+        const baseDto = baseDtoDe(cfgDto, rows);
         const isCollapsed = !!collapsed[store.id];
         return (
           <section key={store.id} className="rounded-xl overflow-hidden" style={{ background: "#FFFFFF", border: "1px solid #E8E2D6", borderLeft: `6px solid ${store.color}` }}>
@@ -810,12 +827,15 @@ function ShoppingView({ stores, month, patchItem, buyAll, priceDate, descuentos 
                 Dto. adicional:
                 {dtos.map((d, i) => (
                   <span key={i} style={{ fontWeight: esHoyDto(d) ? 700 : 400, color: esHoyDto(d) ? "#2F5E14" : "#6E6757" }}>
-                    {i > 0 ? " · " : " "}{nombreDto(d)} -{d.pct}%{d.tope > 0 ? ` (tope ${fmt(d.tope)})` : ""}{esHoyDto(d) ? " (hoy)" : ""}{subtotal > 0 ? ` ≈ ${fmt(conDtoTope(subtotal, d))}` : ""}
+                    {i > 0 ? " · " : " "}{nombreDto(d)} -{d.pct}%{d.tope > 0 ? ` (tope ${fmt(d.tope)})` : ""}{esHoyDto(d) ? " (hoy)" : ""}{subtotal > 0 ? ` ≈ ${fmt(Math.round(subtotal - ahorroDe(baseDto, d)))}` : ""}
                   </span>
                 ))}
-                {dtos.filter((d) => d.tope > 0 && (subtotal * d.pct) / 100 > d.tope).map((d, i) => (
+                {baseDto < subtotal ? (
+                  <span style={{ color: "#A39B89" }}> · no aplica a {fmt(subtotal - baseDto)} de lo pendiente</span>
+                ) : null}
+                {dtos.filter((d) => d.tope > 0 && (baseDto * d.pct) / 100 > d.tope).map((d, i) => (
                   <div key={"tope" + i} className="mt-1 font-semibold" style={{ color: "#9B3A1C" }}>
-                    ⚠ Lo pendiente ({fmt(subtotal)}) supera el tope del dto: devuelve {fmt(d.tope)} como máximo — conviene comprar hasta {fmt(topeCompra(d))} por vez
+                    ⚠ Lo pendiente ({fmt(baseDto)}) supera el tope del dto: devuelve {fmt(d.tope)} como máximo — conviene comprar hasta {fmt(topeCompra(d))} por vez
                   </div>
                 ))}
               </div>
@@ -848,7 +868,8 @@ function ShoppingView({ stores, month, patchItem, buyAll, priceDate, descuentos 
                                 <PickPending key={it.id} it={it} color={store.color} month={month}
                                   onConfirm={(sel) => patchItem(store.id, sec.id, it.id, { have: true, picked: sel })} />
                               ) : (
-                                <PendingRow key={it.id} it={it} color={store.color} month={month} priceDate={priceDate} descuentos={dtos}
+                                <PendingRow key={it.id} it={it} color={store.color} month={month} priceDate={priceDate}
+                                  descuentos={excluidoDeDto(cfgDto, sec.name, it) ? [] : dtos}
                                   onBuy={(patch) => patchItem(store.id, sec.id, it.id, patch || { have: true })}
                                   onSpec={(v) => patchItem(store.id, sec.id, it.id, { spec: v })} />
                               )

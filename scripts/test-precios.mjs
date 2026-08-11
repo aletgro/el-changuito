@@ -413,18 +413,24 @@ test("Laurel: 25 g de referencia desde el paquete de 100 g", () => {
 });
 
 /* ---------- Descuentos adicionales por comercio ---------- */
-test("DESCUENTOS: config editable con forma válida (días reales, % y tope razonables)", () => {
+test("DESCUENTOS: config editable con forma válida (días reales, % / tope / exclusiones)", () => {
   const validos = ["domingo", "lunes", "martes", "miercoles", "miércoles", "jueves", "viernes", "sabado", "sábado"];
   const tiendas = ["dia", "coto", "farma", "puente", "diet", "otros"];
-  for (const [tienda, lista] of Object.entries(DESCUENTOS)) {
+  for (const [tienda, cfg] of Object.entries(DESCUENTOS)) {
     assert.ok(tiendas.includes(tienda), `id de comercio desconocido: ${tienda}`);
-    assert.ok(Array.isArray(lista) && lista.length > 0, tienda);
-    for (const d of lista) {
+    const promos = Array.isArray(cfg) ? cfg : cfg.promos;
+    assert.ok(Array.isArray(promos) && promos.length > 0, tienda);
+    for (const d of promos) {
       const dias = d.dias || (d.dia ? [d.dia] : []);
       assert.ok(dias.length > 0, `promo sin días en ${tienda}`);
       for (const dd of dias) assert.ok(validos.includes(String(dd).toLowerCase()), `día raro: ${dd}`);
       assert.ok(d.pct >= 1 && d.pct <= 99, `porcentaje raro: ${d.pct}`);
       if (d.tope !== undefined) assert.ok(d.tope > 0, `tope raro: ${d.tope}`);
+    }
+    if (!Array.isArray(cfg) && cfg.sin) {
+      for (const nombre of [...(cfg.sin.secciones || []), ...(cfg.sin.items || [])]) {
+        assert.ok(typeof nombre === "string" && nombre.length > 1, `exclusión rara: ${nombre}`);
+      }
     }
   }
 });
@@ -436,9 +442,10 @@ test("DESCUENTOS: El Puente es lun a vie -20% con tope de $6.000", () => {
   assert.equal(dto.tope, 6000);
 });
 
-test("DESCUENTOS: COTO es mar -20%, mié -15%, jue -30% y vie -25%", () => {
-  const porDia = Object.fromEntries(DESCUENTOS.coto.map((d) => [d.dia, d.pct]));
+test("DESCUENTOS: COTO es mar/mié/jue/vie, sin carnicería ni harinas comunes", () => {
+  const porDia = Object.fromEntries(DESCUENTOS.coto.promos.map((d) => [d.dia, d.pct]));
   assert.deepEqual(porDia, { martes: 20, "miércoles": 15, jueves: 30, viernes: 25 });
+  assert.deepEqual(DESCUENTOS.coto.sin, { secciones: ["Carnicería"], items: ["Harina 000", "Harina 0000"] });
 });
 
 /* ---------- Variación diaria (campo d) ---------- */

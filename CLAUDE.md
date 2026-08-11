@@ -91,10 +91,13 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   Los ✔ del log muestran la flecha (`▲ +$…` / `▼ -$…`) para revisar de un vistazo.
 - Descuentos por día de semana (vigente 08/2026: DIA martes -20% y jueves -15% ·
   El Puente lun a vie -20% con TOPE de $6.000 de descuento · COTO mar -20%, mié -15%,
-  jue -30% y vie -25%): se EDITAN en `DESCUENTOS`
+  jue -30% y vie -25% SIN carnicería ni harinas comunes): se EDITAN en `DESCUENTOS`
   al tope del robot (pueden cambiar días, porcentajes, topes o comercios; clave = id
   del comercio en la app; `dia:"martes"` para un día o `dias:[...]` para un rango,
-  `tope` opcional en $) y viajan en `precios.json` (campo `descuentos`). La app
+  `tope` opcional en $; si la promo excluye partes del comercio, la config es
+  `{ sin: { secciones: [...], items: [...] }, promos: [...] }` con nombres exactos
+  de la app) y viajan en `precios.json` (campo `descuentos`). La app aclara en la
+  tarjeta cuánto de lo pendiente queda afuera ("no aplica a $…"). La app
   muestra en Comprar el precio por día en cada ítem ("mar $…" / "lun-vie $…"), el
   subtotal por día en la tarjeta (recortado al tope si corresponde), resalta si el
   descuento es HOY, y AVISA con ⚠ cuando lo pendiente supera lo que el tope devuelve

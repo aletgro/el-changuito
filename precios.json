@@ -24,24 +24,35 @@
         "tope": 6000
       }
     ],
-    "coto": [
-      {
-        "dia": "martes",
-        "pct": 20
+    "coto": {
+      "sin": {
+        "secciones": [
+          "Carnicería"
+        ],
+        "items": [
+          "Harina 000",
+          "Harina 0000"
+        ]
       },
-      {
-        "dia": "miércoles",
-        "pct": 15
-      },
-      {
-        "dia": "jueves",
-        "pct": 30
-      },
-      {
-        "dia": "viernes",
-        "pct": 25
-      }
-    ]
+      "promos": [
+        {
+          "dia": "martes",
+          "pct": 20
+        },
+        {
+          "dia": "miércoles",
+          "pct": 15
+        },
+        {
+          "dia": "jueves",
+          "pct": 30
+        },
+        {
+          "dia": "viernes",
+          "pct": 25
+        }
+      ]
+    }
   },
   "prices": {
     "Aceite de girasol 1 L": {

@@ -33,12 +33,17 @@ const DESCUENTOS = {
   puente: [
     { dias: ["lunes", "martes", "miércoles", "jueves", "viernes"], pct: 20, tope: 6000 },
   ],
-  coto: [
-    { dia: "martes", pct: 20 },
-    { dia: "miércoles", pct: 15 },
-    { dia: "jueves", pct: 30 },
-    { dia: "viernes", pct: 25 },
-  ],
+  // COTO: la promo NO aplica a la carnicería ni a las harinas comunes (las "de
+  // fuerza" sí). `sin` excluye por nombre de sección de la app y/o de ítem.
+  coto: {
+    sin: { secciones: ["Carnicería"], items: ["Harina 000", "Harina 0000"] },
+    promos: [
+      { dia: "martes", pct: 20 },
+      { dia: "miércoles", pct: 15 },
+      { dia: "jueves", pct: 30 },
+      { dia: "viernes", pct: 25 },
+    ],
+  },
 };
 
 /* ---------- Catálogo: ítem de la app → cómo buscarlo ----------
