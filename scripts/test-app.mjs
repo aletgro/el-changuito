@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /* Smoke test de la app (node scripts/test-app.mjs, corre tras `npm run build`).
    Patrón del proyecto: jsdom + localStorage sembrado con datos viejos +
-   eval de app.js + asserts sobre el DOM. Verifica la migración v6 (Piñones)
-   sin pisar los datos guardados del usuario. */
+   eval de app.js + asserts sobre el DOM. Verifica las migraciones (v6 Piñones,
+   v9 historial de Huevo) sin pisar los datos guardados del usuario, y el flujo
+   de compra con precio (askPrice). */
 
 import assert from "node:assert/strict";
 import fs from "node:fs";
@@ -24,7 +25,7 @@ dom.window.localStorage.setItem("el-changuito-v1", JSON.stringify({
           id: "sec1", name: "Perecederos",
           items: [
             { id: "i1", name: "Nueces 500 g", note: "nota del usuario", spec: "", have: false },
-            { id: "i2", name: "Huevo", note: "", spec: "", have: true, price: 4200, priceNote: "cargado a mano", priceV: "manual@01/08/2026" },
+            { id: "i2", name: "Huevo", note: "", spec: "", have: false, price: 4200, priceNote: "cargado a mano", priceV: "manual@01/08/2026" },
           ],
         },
         { id: "sec2", name: "Muy duraderos", items: [{ id: "i3", name: "Chía 500 g", note: "", spec: "", have: false }] },
@@ -67,6 +68,46 @@ test("migración v7: Champiñones pasa a llamarse Hongos para cocinar (misma not
   assert.match(texto, /vieja nota/);
 });
 
+/* ---------- Compra con precio (askPrice, migración v9) ---------- */
+
+test("v9: el Huevo pendiente muestra el historial sembrado desde su precio manual", () => {
+  assert.match(dom.window.document.body.textContent, /Pagado antes: \$ 4\.200 \(01\/08\)/);
+});
+
+// Tocar el círculo de comprado abre el editor de precio en vez de comprar directo
+const circuloHuevo = [...dom.window.document.querySelectorAll('button[aria-label="Marcar como comprado"]')]
+  .find((b) => b.parentElement.textContent.includes("Huevo"));
+circuloHuevo.click();
+await new Promise((r) => setTimeout(r, 80));
+
+test("askPrice: aparece el editor con la última vez como referencia", () => {
+  assert.ok(dom.window.document.querySelector('input[placeholder="¿Cuánto pagaste?"]'), "falta el input de precio");
+  assert.match(dom.window.document.body.textContent, /Última vez \$ 4\.200 \(01\/08\)/);
+});
+
+// Cargar 4600 y confirmar (setter nativo + evento input para que React se entere)
+const inputPrecio = dom.window.document.querySelector('input[placeholder="¿Cuánto pagaste?"]');
+Object.getOwnPropertyDescriptor(dom.window.HTMLInputElement.prototype, "value").set.call(inputPrecio, "4600");
+inputPrecio.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
+await new Promise((r) => setTimeout(r, 80));
+[...dom.window.document.querySelectorAll("button")].find((b) => b.textContent === "OK").click();
+await new Promise((r) => setTimeout(r, 500)); // debounce del guardado
+
+const p2 = (n) => String(n).padStart(2, "0");
+const d = new Date();
+const HOY = `${p2(d.getDate())}/${p2(d.getMonth() + 1)}/${d.getFullYear()}`;
+
+test("compra con precio: guarda el pago, la nota comparativa y el historial", () => {
+  assert.doesNotMatch(dom.window.document.body.textContent, /Huevo/, "Huevo debería salir de pendientes");
+  const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
+  const huevo = data.stores.find((s) => s.id === "diet").sections[0].items.find((it) => it.name === "Huevo");
+  assert.equal(huevo.have, true);
+  assert.equal(huevo.price, 4600);
+  assert.equal(huevo.priceV, "manual@08/08/2026"); // versión de la foto embebida (sin red)
+  assert.equal(huevo.priceNote, `Pagado el ${HOY} · antes $ 4.200 (+10%)`);
+  assert.deepEqual(huevo.priceHist, [{ p: 4200, t: "01/08/2026" }, { p: 4600, t: HOY }]);
+});
+
 // Piñones entra como "ya tenido" → se ve en la pestaña Listas (expandiendo la tienda)
 const click = async (re) => {
   [...dom.window.document.querySelectorAll("button")].find((b) => re.test(b.textContent)).click();
@@ -93,11 +134,11 @@ test("v6 es idempotente sobre el guardado", () => {
   assert.equal(perecederos.items[iNueces + 1].name, "Piñones", "Piñones va después de Nueces");
 });
 
-test("el precio manual de Huevo se conserva", () => {
+test("v9 es idempotente: el historial de Huevo no se re-siembra tras nuevos guardados", () => {
   const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
   const huevo = data.stores.find((s) => s.id === "diet").sections[0].items.find((it) => it.name === "Huevo");
-  assert.equal(huevo.price, 4200);
-  assert.equal(huevo.priceV, "manual@01/08/2026");
+  assert.equal(huevo.priceHist.length, 2);
+  assert.equal(huevo.price, 4600, "el precio pagado se conserva");
 });
 
 test("v8: Alcohol en gel entra a Farmacity/Higiene después de Alcohol, una sola vez", () => {

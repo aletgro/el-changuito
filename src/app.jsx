@@ -239,6 +239,9 @@ function seedStores() {
 /* Ítems que piden especificar qué buscar al activarse */
 const SPEC_ITEMS = ["Café", "Crema rosácea", "Proteína", "Queso premium", "Fiambre", "Té a elección"];
 
+/* Ítems que piden el precio pagado al marcarlos comprados (queda historial para comparar) */
+const ASK_PRICE_ITEMS = ["Huevo"];
+
 /* ---------- Foto de precios DIA (criterio: más barato normalizado por kg/L en tamaño similar) ---------- */
 const PRICE_SNAPSHOT_V = "08/08/2026";
 const PRICES = {
@@ -261,6 +264,33 @@ const PRICES = {
   "Yerba 1 kg": { p: 3200, n: "Amanda Tradicional 1 kg · oferta -35%" },
 };
 const fmt = (n) => "$ " + Math.round(n).toLocaleString("es-AR");
+
+const hoyStr = () => {
+  const d = new Date();
+  const p2 = (n) => String(n).padStart(2, "0");
+  return p2(d.getDate()) + "/" + p2(d.getMonth() + 1) + "/" + d.getFullYear();
+};
+
+const difTxt = (nuevo, viejo) => {
+  const d = Math.round((nuevo / viejo - 1) * 100);
+  return d === 0 ? "igual" : (d > 0 ? "+" : "") + d + "%";
+};
+
+/* Compra con precio cargado a mano (askPrice, hoy solo Huevo): marca comprado, guarda
+   el pago en el historial (últimos 12) y arma la nota comparativa contra el anterior */
+function compraConPrecio(it, precio, priceDate) {
+  const fecha = hoyStr();
+  const previos = (it.priceHist || []).filter((h) => h.t !== fecha); // corregir el mismo día no duplica
+  const ult = previos[previos.length - 1];
+  const nota = "Pagado el " + fecha + (ult && ult.p > 0 ? ` · antes ${fmt(ult.p)} (${difTxt(precio, ult.p)})` : "");
+  return {
+    have: true,
+    price: precio,
+    priceNote: nota,
+    priceV: "manual@" + priceDate,
+    priceHist: [...previos, { p: precio, t: fecha }].slice(-12),
+  };
+}
 
 /* Aplica un set de precios sobre las listas, respetando ediciones manuales de la misma versión */
 function applyPrices(stores, prices, version) {
@@ -285,7 +315,7 @@ function migrate(stores) {
     ...s,
     sections: s.sections.map((sec) => ({
       ...sec,
-      items: sec.items.map((it) => (it.type === "pick" ? it : { ...it, askSpec: SPEC_ITEMS.includes(it.name) })),
+      items: sec.items.map((it) => (it.type === "pick" ? it : { ...it, askSpec: SPEC_ITEMS.includes(it.name), askPrice: ASK_PRICE_ITEMS.includes(it.name) })),
     })),
   }));
 
@@ -412,6 +442,23 @@ function migrate(stores) {
     }),
   });
 
+  // v9 · askPrice (Huevo): historial de pagos; se siembra una sola vez desde el precio
+  //      manual que ya estuviera cargado (la fecha sale del propio priceV)
+  out = out.map((s) => ({
+    ...s,
+    sections: s.sections.map((sec) => ({
+      ...sec,
+      items: sec.items.map((it) => {
+        if (!ASK_PRICE_ITEMS.includes(it.name)) return it;
+        if (Array.isArray(it.priceHist) && it.priceHist.length > 0) return it;
+        if (it.price > 0 && typeof it.priceV === "string" && it.priceV.startsWith("manual@")) {
+          return { ...it, priceHist: [{ p: it.price, t: it.priceV.slice("manual@".length) }] };
+        }
+        return { ...it, priceHist: [] };
+      }),
+    })),
+  }));
+
   // v5 · asegurar campos de precio y aplicar la foto embebida como base
   out = out.map((s) => ({
     ...s,
@@ -472,21 +519,65 @@ function SpecEditor({ value, color, onSave }) {
   );
 }
 
-/* Ítem pendiente normal (con nota / spec) */
-function PendingRow({ it, color, month, onBuy, onSpec }) {
+/* Editor inline del precio pagado (askPrice): aparece al marcar comprado */
+function PriceEditor({ color, prev, onSave, onSkip }) {
+  const [txt, setTxt] = useState("");
+  const val = parseFloat(txt);
+  const ok = val > 0;
+  return (
+    <div className="mt-1">
+      <div className="flex gap-2 items-center">
+        <span className="text-sm font-semibold" style={{ color: "#8A8170" }}>$</span>
+        <input
+          type="number" min="0" step="any" inputMode="decimal" autoFocus
+          value={txt}
+          onChange={(e) => setTxt(e.target.value)}
+          placeholder="¿Cuánto pagaste?"
+          className="flex-1 rounded-lg border px-2 py-1 text-sm"
+          style={{ borderColor: "#D8D2C4", background: "#FFFFFF", color: "#2B2620", outline: "none" }}
+        />
+        <button onClick={() => ok && onSave(val)} disabled={!ok} className="text-sm font-semibold rounded-lg px-2 py-1"
+          style={{ color: "#FFFFFF", background: ok ? color : "#E5E1D6" }}>
+          OK
+        </button>
+        <button onClick={onSkip} className="text-xs flex-shrink-0" style={{ color: "#A39B89" }}>sin precio</button>
+      </div>
+      {prev && prev.p > 0 ? (
+        <div className="text-xs mt-1" style={{ color: "#8A8170" }}>
+          Última vez {fmt(prev.p)} ({prev.t.slice(0, 5)}){ok ? ` · esta vez ${difTxt(val, prev.p)}` : ""}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+/* Ítem pendiente normal (con nota / spec / precio al comprar) */
+function PendingRow({ it, color, month, onBuy, onSpec, priceDate }) {
   const [editingSpec, setEditingSpec] = useState(!!it.askSpec && !it.spec);
+  const [askingPrice, setAskingPrice] = useState(false);
   const note = it.dyn ? dynNote(it.dyn, month) : it.note;
+  const hist = it.priceHist || [];
   return (
     <div className="flex items-start gap-3 py-2">
-      <CircleBuy color={color} onClick={onBuy} />
+      <CircleBuy color={color} onClick={it.askPrice ? () => setAskingPrice((p) => !p) : () => onBuy()} />
       <div className="flex-1">
         <div className="flex items-center gap-2 flex-wrap">
           <span className="font-medium" style={{ color: "#2B2620" }}>{it.name || "(sin nombre)"}</span>
           <SeasonBadge name={it.name} month={month} />
         </div>
         {note ? <div className="text-xs mt-1" style={{ color: "#8A8170" }}>{note}</div> : null}
-        {it.price > 0 && it.priceNote ? (
+        {it.price > 0 && it.priceNote && !(it.askPrice && hist.length > 0) ? (
           <div className="text-xs mt-1 font-medium" style={{ color: "#4E6B35" }}>→ {it.priceNote}</div>
+        ) : null}
+        {it.askPrice && hist.length > 0 ? (
+          <div className="text-xs mt-1 italic" style={{ color: "#A39B89" }}>
+            Pagado antes: {hist.slice(-3).reverse().map((h) => `${fmt(h.p)} (${h.t.slice(0, 5)})`).join(" · ")}
+          </div>
+        ) : null}
+        {askingPrice ? (
+          <PriceEditor color={color} prev={hist[hist.length - 1]}
+            onSave={(v) => onBuy(compraConPrecio(it, v, priceDate))}
+            onSkip={() => onBuy()} />
         ) : null}
         {it.askSpec ? (
           editingSpec ? (
@@ -678,8 +769,8 @@ function ShoppingView({ stores, month, patchItem, buyAll, priceDate }) {
                                 <PickPending key={it.id} it={it} color={store.color} month={month}
                                   onConfirm={(sel) => patchItem(store.id, sec.id, it.id, { have: true, picked: sel })} />
                               ) : (
-                                <PendingRow key={it.id} it={it} color={store.color} month={month}
-                                  onBuy={() => patchItem(store.id, sec.id, it.id, { have: true })}
+                                <PendingRow key={it.id} it={it} color={store.color} month={month} priceDate={priceDate}
+                                  onBuy={(patch) => patchItem(store.id, sec.id, it.id, patch || { have: true })}
                                   onSpec={(v) => patchItem(store.id, sec.id, it.id, { spec: v })} />
                               )
                             )}

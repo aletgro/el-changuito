@@ -21,7 +21,9 @@ scripts/actualizar-precios.mjs  ← robot de precios (Node 20, sin deps)
 - **Persistencia**: `localStorage`, clave `el-changuito-v1`, forma `{ stores: [...] }`.
 - **Modelo**: `stores[] → sections[] → items[]`. Ítem: `{ id, name, note, have, spec, price,
   priceNote, priceV }` + opcionales `type:"pick"` (con `options[]`, `picked[]`),
-  `askSpec`, `dyn` ("combo"/"roast": notas estacionales de carnicería). Sección puede tener
+  `askSpec`, `askPrice` (pide el precio pagado al marcarlo comprado y acumula
+  `priceHist:[{p,t}]`, últimos 12 pagos — hoy solo Huevo), `dyn` ("combo"/"roast":
+  notas estacionales de carnicería). Sección puede tener
   `banner:"carne"`. `have:false` = "por comprar" (aparece en la pestaña Comprar).
 - **Estilos**: solo clases definidas en `styles.css` + estilos inline. Si usás una clase
   utilitaria nueva, agregala a `styles.css` (no hay compilador de Tailwind).
@@ -48,10 +50,11 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    carnicería · v5 campos de precio + foto embebida · v6 suma Piñones a Dietética/Perecederos ·
    v7 muda Salsa de pescado a Dietética/Muy duraderos (borra la sección "New Garden" vacía)
    y renombra Champiñones congelados → Hongos para cocinar · v8 suma Alcohol en gel a
-   Farmacity/Higiene.
+   Farmacity/Higiene · v9 `askPrice` en Huevo y siembra `priceHist` desde el precio
+   manual previo (fecha tomada del propio `priceV`).
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
-   viendo la versión vieja. Hoy va por **v10**. `precios.json` es red-primero: no requiere bump.
+   viendo la versión vieja. Hoy va por **v11**. `precios.json` es red-primero: no requiere bump.
 3. **Los nombres de ítems son claves**: `precios.json` y el robot matchean por el `name`
    exacto del ítem (tildes incluidas). Renombrar un ítem rompe su precio → actualizar
    también `ITEMS`/`ITEMS_ELPUENTE` en el robot, la `PRICES` embebida y agregar migración.
@@ -63,7 +66,8 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    Fuera de temporada NO se muestra etiqueta (silencio, nunca "fuera de temporada").
    La carnicería de COTO cambia sola: frío (abr–sep) = falda+osobuco / calor = marucha+arañita.
 6. **`askSpec`** (campo "qué buscar" al activar) es solo para: Café, Crema rosácea,
-   Proteína, Queso premium, Fiambre, Té a elección. No generalizarlo.
+   Proteína, Queso premium, Fiambre, Té a elección. No generalizarlo. Ídem `askPrice`
+   (precio pagado al comprar, con historial): solo Huevo.
 7. **Ediciones manuales de precio** en la app llevan `priceV: "manual@" + versión` y se
    respetan hasta que llegue una foto de precios más nueva (que pisa todo).
 8. **Tests**: no hay framework; el patrón usado es smoke-tests con `jsdom` (mock de
@@ -143,8 +147,9 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   "Pimienta negra 50 g + 50 g" pero la referencia es solo en grano) · laurel de a
   25 g · Vainilla = LA CHAUCHA (no esencia) · almendras partidas OK (las prefiere,
   son más baratas) — nueces y cajú siguen enteros. "Huevo" queda SIN precio del robot
-  a propósito: el usuario lo carga a mano al comprarlo (la edición manual se respeta
-  porque el robot nunca escribe ese nombre). "Té a elección" excluido (askSpec
+  a propósito: al marcarlo comprado la app pregunta cuánto pagó (`askPrice`, desde
+  11/08/2026) y guarda historial para comparar; el robot nunca escribe ese nombre,
+  así que el precio pagado no se pisa. "Té a elección" excluido (askSpec
   variable). Piñones (ítem nuevo, migración v6) y Salsa de pescado (mudada a
   Dietética/Muy duraderos por migración v7) salen de New Garden.
 - **Otros lugares (ANDANDO desde 09/08/2026)**: Hongos para cocinar (ex Champiñones,
