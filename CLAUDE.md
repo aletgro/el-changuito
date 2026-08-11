@@ -97,8 +97,10 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   muestra en Comprar el precio por día en cada ítem ("mar $…" / "lun-vie $…"), el
   subtotal por día en la tarjeta (recortado al tope si corresponde), resalta si el
   descuento es HOY, y AVISA con ⚠ cuando lo pendiente supera lo que el tope devuelve
-  (compra óptima = tope ÷ pct). `DESCUENTOS_SNAPSHOT` en `src/app.jsx` es solo el
-  respaldo sin red: mantener a mano con el robot cuando cambie la promo.
+  (compra óptima = tope ÷ pct). El "Total estimado" muestra además el total CON los
+  dtos de hoy (la mejor promo vigente hoy por comercio, tope incluido) y el ahorro.
+  `DESCUENTOS_SNAPSHOT` en `src/app.jsx` es solo el respaldo sin red: mantener a
+  mano con el robot cuando cambie la promo.
 - Promos VTEX "llevando N" (2x1, 3x2, 2da unidad al X%): NO vienen aplicadas en `Price`,
   viajan en `Teasers`/`PromotionTeasers`; `promoVtex()` las detecta y suma un candidato
   extra con el precio EFECTIVO por unidad y la condición a la vista en la nota

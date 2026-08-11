@@ -739,8 +739,16 @@ function ShoppingView({ stores, month, patchItem, buyAll, priceDate, descuentos 
     setCollapsed(next);
   };
 
-  const totalEst = pendings.reduce((a, g) => a + g.rows.reduce((b, r) => b + r.items.reduce((c, i) => c + (i.price > 0 ? i.price : 0), 0), 0), 0);
+  const subtotalDe = (rows) => rows.reduce((a, g) => a + g.items.reduce((b, i) => b + (i.price > 0 ? i.price : 0), 0), 0);
+  const totalEst = pendings.reduce((a, g) => a + subtotalDe(g.rows), 0);
   const totalSinPrecio = pendings.reduce((a, g) => a + g.rows.reduce((b, r) => b + r.items.filter((i) => !(i.price > 0)).length, 0), 0);
+  // Ahorro si se compra HOY: por comercio, la mejor promo vigente hoy (respetando su tope)
+  const ahorroHoy = pendings.reduce((a, { store, rows }) => {
+    const deHoy = ((descuentos || {})[store.id] || []).filter(esHoyDto);
+    const sub = subtotalDe(rows);
+    if (!deHoy.length || sub <= 0) return a;
+    return a + Math.max(...deHoy.map((d) => Math.min((sub * d.pct) / 100, d.tope > 0 ? d.tope : Infinity)));
+  }, 0);
 
   return (
     <div className="space-y-4">
@@ -750,6 +758,12 @@ function ShoppingView({ stores, month, patchItem, buyAll, priceDate, descuentos 
             <span className="text-sm font-semibold">Total estimado</span>
             <span className="font-bold" style={{ fontSize: 18 }}>{fmt(totalEst)}</span>
           </div>
+          {ahorroHoy > 0 ? (
+            <div className="flex items-center justify-between mt-1">
+              <span className="text-sm font-semibold" style={{ color: "#A9D296" }}>Con los dtos de hoy · ahorrás {fmt(ahorroHoy)}</span>
+              <span className="font-bold" style={{ fontSize: 16, color: "#A9D296" }}>≈ {fmt(totalEst - ahorroHoy)}</span>
+            </div>
+          ) : null}
           <div className="text-xs mt-1" style={{ color: "#B3AB9A" }}>
             Precios al {priceDate}{totalSinPrecio > 0 ? ` · ${totalSinPrecio} ítems sin precio` : ""} · editables en Listas → Editar
           </div>
@@ -762,7 +776,7 @@ function ShoppingView({ stores, month, patchItem, buyAll, priceDate, descuentos 
       </div>
       {pendings.map(({ store, rows }) => {
         const count = rows.reduce((a, g) => a + g.items.length, 0);
-        const subtotal = rows.reduce((a, g) => a + g.items.reduce((b, i) => b + (i.price > 0 ? i.price : 0), 0), 0);
+        const subtotal = subtotalDe(rows);
         const dtos = (descuentos || {})[store.id] || [];
         const isCollapsed = !!collapsed[store.id];
         return (

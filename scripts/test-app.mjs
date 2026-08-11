@@ -198,6 +198,13 @@ dom2.window.fetch = () => Promise.resolve({
     },
   }),
 });
+// Fecha fija: lunes 10/08/2026, así "hoy" es determinístico para los dtos del día
+const RealDate = dom2.window.Date;
+dom2.window.Date = class extends RealDate {
+  constructor(...args) { if (args.length) { super(...args); } else { super(2026, 7, 10, 12, 0, 0); } }
+  static now() { return new RealDate(2026, 7, 10, 12, 0, 0).getTime(); }
+};
+
 dom2.window.eval(fs.readFileSync("app.js", "utf8"));
 await new Promise((r) => setTimeout(r, 150));
 
@@ -228,6 +235,13 @@ test("Descuento con tope: subtotal recortado al máximo de devolución y aviso d
   assert.match(texto, /⚠ Lo pendiente \(\$ 14\.806\) supera el tope/);
   assert.match(texto, /conviene comprar hasta \$ 5\.000/);      // 1.000 ÷ 20%
   assert.match(texto, /lun-vie \$ 7\.200/);                     // por ítem sigue el % pleno (el tope es por compra)
+});
+
+test("Total estimado con los dtos de HOY: aplica la mejor promo vigente de cada comercio", () => {
+  const texto = dom2.window.document.body.textContent;
+  // Es lunes (fecha fija): aplican -30% ($4.442) y lun-vie con tope ($1.000) → gana la primera
+  assert.match(texto, /Con los dtos de hoy · ahorrás \$ 4\.442/);
+  assert.match(texto, /lunes -30% \(hoy\)/);                    // la promo de hoy queda resaltada
 });
 
 console.log(`\n${pasan} tests de app OK`);
