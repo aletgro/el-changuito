@@ -23,7 +23,8 @@ const ESPERA_MS = 800; // pausa entre consultas para no castigar al sitio
    pendiente supera lo que el tope devuelve). Viaja en precios.json (campo
    `descuentos`); la app muestra el precio con y sin dto para decidir qué día comprar.
    Vigente hoy (11/08/2026): DIA martes -20% y jueves -15% · El Puente lun a vie -20%
-   con tope de $6.000 de descuento. */
+   con tope de $6.000 de descuento · COTO martes -20%, miércoles -15%, jueves -30%
+   y viernes -25%. */
 const DESCUENTOS = {
   dia: [
     { dia: "martes", pct: 20 },
@@ -31,6 +32,12 @@ const DESCUENTOS = {
   ],
   puente: [
     { dias: ["lunes", "martes", "miércoles", "jueves", "viernes"], pct: 20, tope: 6000 },
+  ],
+  coto: [
+    { dia: "martes", pct: 20 },
+    { dia: "miércoles", pct: 15 },
+    { dia: "jueves", pct: 30 },
+    { dia: "viernes", pct: 25 },
   ],
 };
 

@@ -252,6 +252,7 @@ const PRICE_SNAPSHOT_V = "08/08/2026";
 const DESCUENTOS_SNAPSHOT = {
   dia: [{ dia: "martes", pct: 20 }, { dia: "jueves", pct: 15 }],
   puente: [{ dias: ["lunes", "martes", "miércoles", "jueves", "viernes"], pct: 20, tope: 6000 }],
+  coto: [{ dia: "martes", pct: 20 }, { dia: "miércoles", pct: 15 }, { dia: "jueves", pct: 30 }, { dia: "viernes", pct: 25 }],
 };
 const IDX_DIA_SEMANA = { domingo: 0, lunes: 1, martes: 2, miercoles: 3, "miércoles": 3, jueves: 4, viernes: 5, sabado: 6, "sábado": 6 };
 const esHoyDia = (nombre) => new Date().getDay() === IDX_DIA_SEMANA[String(nombre).toLowerCase()];

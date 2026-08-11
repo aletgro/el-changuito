@@ -436,6 +436,11 @@ test("DESCUENTOS: El Puente es lun a vie -20% con tope de $6.000", () => {
   assert.equal(dto.tope, 6000);
 });
 
+test("DESCUENTOS: COTO es mar -20%, mié -15%, jue -30% y vie -25%", () => {
+  const porDia = Object.fromEntries(DESCUENTOS.coto.map((d) => [d.dia, d.pct]));
+  assert.deepEqual(porDia, { martes: 20, "miércoles": 15, jueves: 30, viernes: 25 });
+});
+
 /* ---------- Variación diaria (campo d) ---------- */
 test("conDelta: anota la diferencia contra la foto anterior solo si el precio cambió", () => {
   assert.deepEqual(conDelta({ p: 900, n: "x" }, { p: 1000, n: "x" }), { p: 900, n: "x", d: -100 }); // bajó

@@ -90,7 +90,8 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   robot DOS veces el mismo día pisa las flechas (la segunda compara contra la primera).
   Los ✔ del log muestran la flecha (`▲ +$…` / `▼ -$…`) para revisar de un vistazo.
 - Descuentos por día de semana (vigente 08/2026: DIA martes -20% y jueves -15% ·
-  El Puente lun a vie -20% con TOPE de $6.000 de descuento): se EDITAN en `DESCUENTOS`
+  El Puente lun a vie -20% con TOPE de $6.000 de descuento · COTO mar -20%, mié -15%,
+  jue -30% y vie -25%): se EDITAN en `DESCUENTOS`
   al tope del robot (pueden cambiar días, porcentajes, topes o comercios; clave = id
   del comercio en la app; `dia:"martes"` para un día o `dias:[...]` para un rango,
   `tope` opcional en $) y viajan en `precios.json` (campo `descuentos`). La app
