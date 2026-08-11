@@ -63,7 +63,7 @@
     },
     "Papas fritas": {
       "p": 4601,
-      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr."
+      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr."
     },
     "Vinagre de manzana 1 L": {
       "p": 4060,
@@ -482,8 +482,9 @@
       "n": "Máquina de Afeitar Descartable Enjoy 3 Filos Mujer x 5 un · oferta -50% · $805/un"
     },
     "Pasta dental": {
-      "p": 4405,
-      "n": "Pasta Dental Colgate Max White Complete Clean x 180 g · 2x1 llevando 2 · oferta -50% · $24.472/kg"
+      "p": 4021,
+      "n": "Pasta Dental Oral B 4 en 1 x 180 g · oferta -40% · $22.339/kg",
+      "d": -384
     },
     "Preservativos": {
       "p": 5874,

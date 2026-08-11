@@ -20,7 +20,9 @@ scripts/actualizar-precios.mjs  ← robot de precios (Node 20, sin deps)
 
 - **Persistencia**: `localStorage`, clave `el-changuito-v1`, forma `{ stores: [...] }`.
 - **Modelo**: `stores[] → sections[] → items[]`. Ítem: `{ id, name, note, have, spec, price,
-  priceNote, priceV }` + opcionales `type:"pick"` (con `options[]`, `picked[]`),
+  priceNote, priceD, priceV }` (`priceD` = variación en $ contra la foto anterior; la
+  pinta `DeltaBadge` como ▲/▼ con porcentaje, y se limpia al editar a mano) + opcionales
+  `type:"pick"` (con `options[]`, `picked[]`),
   `askSpec`, `askPrice` (pide el precio pagado al marcarlo comprado y acumula
   `priceHist:[{p,t}]`, últimos 12 pagos — hoy solo Huevo), `dyn` ("combo"/"roast":
   notas estacionales de carnicería). Sección puede tener
@@ -54,7 +56,7 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    manual previo (fecha tomada del propio `priceV`).
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
-   viendo la versión vieja. Hoy va por **v11**. `precios.json` es red-primero: no requiere bump.
+   viendo la versión vieja. Hoy va por **v12**. `precios.json` es red-primero: no requiere bump.
 3. **Los nombres de ítems son claves**: `precios.json` y el robot matchean por el `name`
    exacto del ítem (tildes incluidas). Renombrar un ítem rompe su precio → actualizar
    también `ITEMS`/`ITEMS_ELPUENTE` en el robot, la `PRICES` embebida y agregar migración.
@@ -83,6 +85,10 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
 - El robot: DIA vía API pública de VTEX (`/api/catalog_system/pub/products/search/?ft=...`)
   con fallback a páginas de categoría HTML (`cat` en la config). Conserva el precio
   anterior si un ítem no matchea; nunca escribe si TODO falló.
+- Variación diaria: cada entrada de `precios.json` puede llevar `d` (diferencia en $
+  contra la foto anterior, `conDelta()`); ausente = precio sin cambios. OJO: correr el
+  robot DOS veces el mismo día pisa las flechas (la segunda compara contra la primera).
+  Los ✔ del log muestran la flecha (`▲ +$…` / `▼ -$…`) para revisar de un vistazo.
 - Promos VTEX "llevando N" (2x1, 3x2, 2da unidad al X%): NO vienen aplicadas en `Price`,
   viajan en `Teasers`/`PromotionTeasers`; `promoVtex()` las detecta y suma un candidato
   extra con el precio EFECTIVO por unidad y la condición a la vista en la nota

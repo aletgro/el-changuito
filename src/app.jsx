@@ -276,6 +276,21 @@ const difTxt = (nuevo, viejo) => {
   return d === 0 ? "igual" : (d > 0 ? "+" : "") + d + "%";
 };
 
+/* ▲/▼ contra la foto de precios anterior (campo d de precios.json → priceD) */
+function DeltaBadge({ it }) {
+  const d = it.priceD || 0;
+  if (!d || !(it.price > 0)) return null;
+  const baja = d < 0;
+  const pct = Math.round((Math.abs(d) / (it.price - d)) * 100);
+  const txt = pct >= 1 ? pct + "%" : "$" + Math.round(Math.abs(d)).toLocaleString("es-AR");
+  return (
+    <span className="rounded-full font-semibold" title={`antes ${fmt(it.price - d)}`}
+      style={{ background: baja ? "#E2F0DA" : "#F8E3DC", color: baja ? "#2F5E14" : "#9B3A1C", fontSize: 10, padding: "1px 6px", whiteSpace: "nowrap" }}>
+      {baja ? "▼ -" : "▲ +"}{txt}
+    </span>
+  );
+}
+
 /* Compra con precio cargado a mano (askPrice, hoy solo Huevo): marca comprado, guarda
    el pago en el historial (últimos 12) y arma la nota comparativa contra el anterior */
 function compraConPrecio(it, precio, priceDate) {
@@ -287,6 +302,7 @@ function compraConPrecio(it, precio, priceDate) {
     have: true,
     price: precio,
     priceNote: nota,
+    priceD: 0,
     priceV: "manual@" + priceDate,
     priceHist: [...previos, { p: precio, t: fecha }].slice(-12),
   };
@@ -301,7 +317,7 @@ function applyPrices(stores, prices, version) {
       items: sec.items.map((it) => {
         const snap = prices[it.name];
         if (snap && snap.p > 0 && it.priceV !== version && it.priceV !== "manual@" + version) {
-          return { ...it, price: snap.p, priceNote: snap.n || "", priceV: version };
+          return { ...it, price: snap.p, priceNote: snap.n || "", priceD: snap.d || 0, priceV: version };
         }
         return it;
       }),
@@ -593,7 +609,10 @@ function PendingRow({ it, color, month, onBuy, onSpec, priceDate }) {
         ) : null}
       </div>
       {it.price > 0 ? (
-        <span className="text-sm font-semibold flex-shrink-0" style={{ color: "#2B2620", marginTop: 3 }}>{fmt(it.price)}</span>
+        <span className="flex-shrink-0" style={{ marginTop: 3, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2 }}>
+          <span className="text-sm font-semibold" style={{ color: "#2B2620" }}>{fmt(it.price)}</span>
+          <DeltaBadge it={it} />
+        </span>
       ) : null}
     </div>
   );
@@ -618,7 +637,10 @@ function PickPending({ it, color, month, onConfirm }) {
         <span className="font-medium" style={{ color: "#2B2620" }}>{it.name}</span>
         <span className="text-xs rounded-full" style={{ background: color + "18", color, padding: "2px 8px" }}>elegí al menos 1</span>
         {it.price > 0 ? (
-          <span className="text-sm font-semibold" style={{ color: "#2B2620", marginLeft: "auto" }}>{fmt(it.price)}</span>
+          <span style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 6 }}>
+            <DeltaBadge it={it} />
+            <span className="text-sm font-semibold" style={{ color: "#2B2620" }}>{fmt(it.price)}</span>
+          </span>
         ) : null}
       </div>
       {it.note ? <div className="text-xs mt-1" style={{ color: "#8A8170" }}>{it.note}</div> : null}
@@ -926,7 +948,10 @@ function DisplayRow({ it, color, month, onToggle }) {
         {it.askSpec && it.spec ? <div className="text-xs mt-1 italic" style={{ color }}>{it.spec}</div> : null}
       </div>
       {it.price > 0 ? (
-        <span className="text-sm font-semibold flex-shrink-0" style={{ color: it.have ? "#A39B89" : "#2B2620", marginTop: 2 }}>{fmt(it.price)}</span>
+        <span className="flex-shrink-0" style={{ marginTop: 2, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2 }}>
+          <span className="text-sm font-semibold" style={{ color: it.have ? "#A39B89" : "#2B2620" }}>{fmt(it.price)}</span>
+          <DeltaBadge it={it} />
+        </span>
       ) : null}
     </div>
   );
@@ -958,7 +983,7 @@ function EditRow({ it, onPatch, onDel, priceDate }) {
           type="number"
           min="0"
           value={it.price ? it.price : ""}
-          onChange={(e) => onPatch({ price: e.target.value === "" ? 0 : Math.max(0, parseFloat(e.target.value) || 0), priceV: "manual@" + priceDate })}
+          onChange={(e) => onPatch({ price: e.target.value === "" ? 0 : Math.max(0, parseFloat(e.target.value) || 0), priceD: 0, priceV: "manual@" + priceDate })}
           placeholder="0"
           className="rounded-lg border px-2 py-1 text-sm"
           style={{ borderColor: "#E5E1D6", background: "#FCFBF7", color: "#2B2620", outline: "none", width: 110 }}

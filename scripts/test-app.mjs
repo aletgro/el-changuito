@@ -162,4 +162,49 @@ test("v7: la salsa de pescado se mudó a Dietética/Muy duraderos y la sección 
   assert.ok(!otros.sections.some((sec) => sec.items.some((it) => it.name === "Salsa de pescado")), "no queda duplicada en Otros lugares");
 });
 
+/* ---------- Variación diaria (DeltaBadge, campo d de precios.json) ----------
+   Instancia aparte: acá el fetch de precios.json SÍ responde, con una baja para
+   Nueces y una suba para Chía, y la etiqueta ▼/▲ debe aparecer junto al precio. */
+const dom2 = new JSDOM('<!doctype html><html><body><div id="root"></div></body></html>', {
+  url: "https://el-changuito.test/",
+  pretendToBeVisual: true,
+  runScripts: "outside-only",
+});
+dom2.window.localStorage.setItem("el-changuito-v1", JSON.stringify({
+  stores: [{
+    id: "diet", name: "Dietética", emoji: "🌿", color: "#9A6A1F", note: "",
+    sections: [{
+      id: "sec1", name: "Perecederos",
+      items: [
+        { id: "i1", name: "Nueces 500 g", note: "", spec: "", have: false },
+        { id: "i2", name: "Chía 500 g", note: "", spec: "", have: false },
+      ],
+    }],
+  }],
+}));
+dom2.window.fetch = () => Promise.resolve({
+  ok: true,
+  json: () => Promise.resolve({
+    version: "11/08/2026",
+    prices: {
+      "Nueces 500 g": { p: 9000, n: "precio de prueba", d: -1000 },
+      "Chía 500 g": { p: 5806, n: "precio de prueba", d: 277 },
+    },
+  }),
+});
+dom2.window.eval(fs.readFileSync("app.js", "utf8"));
+await new Promise((r) => setTimeout(r, 150));
+
+test("DeltaBadge: baja en verde y suba con su porcentaje contra el día anterior", () => {
+  const texto = dom2.window.document.body.textContent;
+  assert.match(texto, /▼ -10%/);  // Nueces: $10.000 → $9.000
+  assert.match(texto, /▲ \+5%/); // Chía: $5.529 → $5.806
+});
+
+test("DeltaBadge: sin cambio de precio no hay etiqueta", () => {
+  // La foto se re-aplica con la misma versión → los ítems sin d no muestran flechas de más
+  const flechas = (dom2.window.document.body.textContent.match(/[▲▼]/g) || []).length;
+  assert.equal(flechas, 2);
+});
+
 console.log(`\n${pasan} tests de app OK`);

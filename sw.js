@@ -1,5 +1,5 @@
 /* El Changuito — service worker: cachea la app para uso offline */
-const CACHE = "changuito-v11";
+const CACHE = "changuito-v12";
 const ASSETS = [
   "./",
   "./index.html",

@@ -8,7 +8,7 @@ import {
   parseQty, elegir, ITEMS_ELPUENTE, parsearListadoElPuente,
   ITEMS_COTO, PARTES_CARNE, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto,
   ITEMS_DIETETICA, normalizarPeso, paresProductoFa, paresVariacionesFa, paresDesdeNewGarden,
-  ITEMS_OTROS, paresDesdeTiendaNube, productoDePagina, ITEMS_FARMACITY, promoVtex,
+  ITEMS_OTROS, paresDesdeTiendaNube, productoDePagina, ITEMS_FARMACITY, promoVtex, conDelta,
 } from "./actualizar-precios.mjs";
 
 const item = (name) => ITEMS_ELPUENTE.find((i) => i.name === name);
@@ -245,6 +245,15 @@ test("Asado: entre vacío y tapa gana el más barato, más la tira, todo en $/kg
 import { ITEMS } from "./actualizar-precios.mjs";
 const itemDia = (name) => ITEMS.find((i) => i.name === name);
 
+test("Atún: la comida para gatos sabor atún no es atún", () => {
+  const el = elegir(itemDia("Atún"), [
+    { nombre: "Alimento Humedo Para Gatos Sabor Atun Felix 85 Gr.", precio: 1450, lista: 1450 },
+    { nombre: "Atún Desmenuzado Al Natural Dia 170 Gr.", precio: 1490, lista: 1490 },
+  ]);
+  assert.equal(el.p, 1490);
+  assert.match(el.n, /Desmenuzado/);
+});
+
 test("Harina de maíz: matchea la Morixe para arepas (el nombre no dice maíz)", () => {
   const el = elegir(itemDia("Harina de maíz 1 kg"), [{ nombre: "Harina Morixe para Arepas 1 Kg.", precio: 3650, lista: 3650 }]);
   assert.equal(el.p, 3650);
@@ -401,6 +410,15 @@ test("Salsa de pescado: se busca solo en New Garden y vale el precio de la botel
 test("Laurel: 25 g de referencia desde el paquete de 100 g", () => {
   const el = elegir(itemDiet("Laurel 15 hojas"), [{ nombre: "Laurel en Hojas 100 gr", precio: 2800, lista: 2800 }]);
   assert.equal(el.p, 700);
+});
+
+/* ---------- Variación diaria (campo d) ---------- */
+test("conDelta: anota la diferencia contra la foto anterior solo si el precio cambió", () => {
+  assert.deepEqual(conDelta({ p: 900, n: "x" }, { p: 1000, n: "x" }), { p: 900, n: "x", d: -100 }); // bajó
+  assert.deepEqual(conDelta({ p: 1200, n: "x" }, { p: 1000, n: "x" }), { p: 1200, n: "x", d: 200 }); // subió
+  assert.deepEqual(conDelta({ p: 1000, n: "x" }, { p: 1000, n: "x", d: -50 }), { p: 1000, n: "x" }); // igual: sin flecha (y no hereda la vieja)
+  assert.deepEqual(conDelta({ p: 1000, n: "x" }, undefined), { p: 1000, n: "x" }); // ítem nuevo
+  assert.equal(conDelta(null, { p: 1000 }), null);
 });
 
 /* ---------- Farmacity ---------- */

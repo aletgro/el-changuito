@@ -29,7 +29,7 @@ const ITEMS = [
   { name: "Aceite de girasol 1 L", q: "aceite de girasol", unit: "l", qty: 1, must: [/aceite/i, /girasol/i], reject: [/fritolim|oleico|spray/i], cat: DIA + "/almacen/aceites-y-aderezos/aceites-de-girasol" },
   { name: "Agua mineral bidón", q: "agua bidon", unit: "l", qty: 6, must: [/agua/i], reject: [/con gas|gasificada|saborizada|t[óo]nica/i], cat: DIA + "/bebidas/aguas/aguas-sin-gas" },
   { name: "Arroz integral 1 kg", q: "arroz integral", unit: "kg", qty: 1, must: [/arroz/i, /integral/i], reject: [/tostadita|galleta|preparado/i], cat: DIA + "/almacen/pastas-y-arroces/arroces" },
-  { name: "Atún", q: "atun", unit: "un", qty: 1, must: [/at[uú]n/i], reject: [/ensalada|pat[eé]/i], cat: DIA + "/almacen/conservas/conservas-de-pescados" },
+  { name: "Atún", q: "atun", unit: "un", qty: 1, must: [/at[uú]n/i], reject: [/ensalada|pat[eé]|gato|perro|alimento|felix|whiskas/i], cat: DIA + "/almacen/conservas/conservas-de-pescados" },
   { name: "Azúcar 500 g", q: "azucar", unit: "kg", qty: 0.5, must: [/az[uú]car/i], reject: [/mascabo|rubia|light|org[áa]nica|impalpable/i], cat: DIA + "/desayuno/infusiones-y-endulzantes/azucar" },
   { name: "Grasa bovina 1 kg", q: "grasa bovina", unit: "kg", qty: 1, must: [/grasa/i, /bovina|vacuna/i], reject: [/vegetal/i], cat: DIA + "/frescos/pastas-frescas/levaduras-y-grasas" },
   // Confirmado por el usuario (09/08/2026): es la Morixe para arepas (el nombre no dice "maíz")
@@ -743,11 +743,21 @@ function elegir(item, candidatos) {
   return { p: Math.round(g.estimado), n: nota };
 }
 
+/* Variación contra la foto anterior: d = diferencia en $ (solo si el precio cambió) */
+function conDelta(el, prev) {
+  if (!el) return el;
+  const { d, ...limpio } = el;
+  return prev && prev.p > 0 && prev.p !== limpio.p ? { ...limpio, d: limpio.p - prev.p } : limpio;
+}
+
+const flecha = (el) => (!el || !el.d ? "" : el.d > 0 ? `  ▲ +$${Math.round(el.d).toLocaleString("es-AR")}` : `  ▼ -$${Math.round(-el.d).toLocaleString("es-AR")}`);
+
 /* ---------- Principal ---------- */
 async function main() {
   const archivo = "precios.json";
   const previo = fs.existsSync(archivo) ? JSON.parse(fs.readFileSync(archivo, "utf8")) : { prices: {} };
-  const precios = { ...(previo.prices || {}) };
+  const previoPrices = previo.prices || {};
+  const precios = { ...previoPrices };
   let ok = 0, fallos = [];
 
   for (const item of ITEMS) {
@@ -765,9 +775,10 @@ async function main() {
       }
     }
     if (elegido) {
-      precios[item.name] = elegido;
+      const elD = conDelta(elegido, previoPrices[item.name]);
+      precios[item.name] = elD;
       ok++;
-      console.log(`✔ ${item.name} → $${elegido.p}  (${elegido.n})`);
+      console.log(`✔ ${item.name} → $${elD.p}  (${elD.n})${flecha(elD)}`);
     } else {
       fallos.push(item.name);
       console.log(`✘ ${item.name} → sin match (queda el precio anterior si había)`);
@@ -784,9 +795,10 @@ async function main() {
     for (const item of ITEMS_ELPUENTE) {
       const el = elegir(item, candEP);
       if (el) {
-        precios[item.name] = el;
+        const elD = conDelta(el, previoPrices[item.name]);
+        precios[item.name] = elD;
         ok++;
-        console.log(`✔ ${item.name} → $${el.p}  (${el.n})`);
+        console.log(`✔ ${item.name} → $${elD.p}  (${elD.n})${flecha(elD)}`);
       } else {
         fallos.push(item.name);
         console.log(`✘ ${item.name} → sin match en el listado`);
@@ -804,9 +816,10 @@ async function main() {
   if (resCoto.length === 0) resCoto = NOMBRES_COTO.map((n) => [n, null]);
   for (const [name, el] of resCoto) {
     if (el) {
-      precios[name] = el;
+      const elD = conDelta(el, previoPrices[name]);
+      precios[name] = elD;
       ok++;
-      console.log(`✔ ${name} → $${el.p}  (${el.n})`);
+      console.log(`✔ ${name} → $${elD.p}  (${elD.n})${flecha(elD)}`);
     } else {
       fallos.push(name);
       console.log(`✘ ${name} → sin match (queda el precio anterior si había)`);
@@ -820,9 +833,10 @@ async function main() {
   if (resDiet.length === 0) resDiet = NOMBRES_DIETETICA.map((n) => [n, null]);
   for (const [name, el] of resDiet) {
     if (el) {
-      precios[name] = el;
+      const elD = conDelta(el, previoPrices[name]);
+      precios[name] = elD;
       ok++;
-      console.log(`✔ ${name} → $${el.p}  (${el.n})`);
+      console.log(`✔ ${name} → $${elD.p}  (${elD.n})${flecha(elD)}`);
     } else {
       fallos.push(name);
       console.log(`✘ ${name} → sin match (queda el precio anterior si había)`);
@@ -836,9 +850,10 @@ async function main() {
   if (resFarma.length === 0) resFarma = NOMBRES_FARMACITY.map((n) => [n, null]);
   for (const [name, el] of resFarma) {
     if (el) {
-      precios[name] = el;
+      const elD = conDelta(el, previoPrices[name]);
+      precios[name] = elD;
       ok++;
-      console.log(`✔ ${name} → $${el.p}  (${el.n})`);
+      console.log(`✔ ${name} → $${elD.p}  (${elD.n})${flecha(elD)}`);
     } else {
       fallos.push(name);
       console.log(`✘ ${name} → sin match (queda el precio anterior si había)`);
@@ -852,9 +867,10 @@ async function main() {
   if (resOtros.length === 0) resOtros = NOMBRES_OTROS.map((n) => [n, null]);
   for (const [name, el] of resOtros) {
     if (el) {
-      precios[name] = el;
+      const elD = conDelta(el, previoPrices[name]);
+      precios[name] = elD;
       ok++;
-      console.log(`✔ ${name} → $${el.p}  (${el.n})`);
+      console.log(`✔ ${name} → $${elD.p}  (${elD.n})${flecha(elD)}`);
     } else {
       fallos.push(name);
       console.log(`✘ ${name} → sin match (queda el precio anterior si había)`);
@@ -872,7 +888,7 @@ async function main() {
 }
 
 export {
-  parseQty, elegir, buscarVtex, promoVtex, ITEMS, ITEMS_ELPUENTE, parsearListadoElPuente, candidatosElPuente,
+  parseQty, elegir, buscarVtex, promoVtex, conDelta, ITEMS, ITEMS_ELPUENTE, parsearListadoElPuente, candidatosElPuente,
   ITEMS_COTO, PARTES_CARNE, NOMBRES_COTO, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto, buscarCoto,
   ITEMS_DIETETICA, NOMBRES_DIETETICA, RECHAZO_DIET, normalizarPeso, paresProductoFa, paresVariacionesFa, buscarFrutosAre,
   paresDesdeNewGarden, buscarNewGarden, preciosDietetica,
