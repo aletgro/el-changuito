@@ -10,12 +10,26 @@
         "dia": "jueves",
         "pct": 15
       }
+    ],
+    "puente": [
+      {
+        "dias": [
+          "lunes",
+          "martes",
+          "miércoles",
+          "jueves",
+          "viernes"
+        ],
+        "pct": 20,
+        "tope": 6000
+      }
     ]
   },
   "prices": {
     "Aceite de girasol 1 L": {
       "p": 5745,
-      "n": "Aceite de Girasol Dia 1,5 Lt."
+      "n": "Aceite de Girasol Dia 1,5 Lt.",
+      "d": 545
     },
     "Agua mineral bidón": {
       "p": 3400,
@@ -27,7 +41,8 @@
     },
     "Atún": {
       "p": 1490,
-      "n": "Atún Desmenuzado Al Natural Dia 170 Gr."
+      "n": "Atún Desmenuzado Al Natural Dia 170 Gr.",
+      "d": 300
     },
     "Azúcar 500 g": {
       "p": 590,
@@ -39,7 +54,8 @@
     },
     "Leche larga vida": {
       "p": 2190,
-      "n": "Leche Entera DIA Larga Vida 1 Lt."
+      "n": "Leche Entera DIA Larga Vida 1 Lt.",
+      "d": 490
     },
     "Maicena 500 g": {
       "p": 2200,
@@ -67,7 +83,8 @@
     },
     "Yerba 1 kg": {
       "p": 2891,
-      "n": "Yerba Mate Dia Elaborado Con Palo 1 Kg."
+      "n": "Yerba Mate Dia Elaborado Con Palo 1 Kg.",
+      "d": 93
     },
     "Grasa bovina 1 kg": {
       "p": 7380,
@@ -83,7 +100,8 @@
     },
     "Aerosol de ambiente": {
       "p": 4190,
-      "n": "Desodorante de Ambiente Poett Primavera en aerosol 360 Ml."
+      "n": "Desodorante de Ambiente Poett Primavera en aerosol 360 Ml.",
+      "d": 1466
     },
     "Bolsa de basura baño": {
       "p": 1950,
@@ -103,7 +121,8 @@
     },
     "Detergente líquido": {
       "p": 1900,
-      "n": "Detergente DIA Limón 300 Ml."
+      "n": "Detergente DIA Limón 300 Ml.",
+      "d": 213
     },
     "Esponja": {
       "p": 915,
@@ -119,7 +138,8 @@
     },
     "Jabón líquido ropa": {
       "p": 7550,
-      "n": "Jabón Líquido para Ropa Héroe Doypack 3 Lt."
+      "n": "Jabón Líquido para Ropa Héroe Doypack 3 Lt.",
+      "d": 200
     },
     "Lavandina": {
       "p": 894,
@@ -139,11 +159,13 @@
     },
     "Rollo de cocina": {
       "p": 1690,
-      "n": "Rollo De Cocina Golf 3 Ud. 40 Mt."
+      "n": "Rollo De Cocina Golf 3 Ud. 40 Mt.",
+      "d": 40
     },
     "Suavizante": {
       "p": 4780,
-      "n": "2× Suavizante Para Ropa Héroe Premium 900 Ml."
+      "n": "2× Suavizante Para Ropa Héroe Premium 900 Ml.",
+      "d": 257
     },
     "Trapo de piso": {
       "p": 2000,
@@ -159,7 +181,8 @@
     },
     "Virulana": {
       "p": 1325,
-      "n": "Esponja de Acero Inoxidable Dia 1 Ud."
+      "n": "Esponja de Acero Inoxidable Dia 1 Ud.",
+      "d": 464
     },
     "Caldo en cubos": {
       "p": 1625,
@@ -179,7 +202,8 @@
     },
     "Levadura": {
       "p": 548,
-      "n": "Levadura Instántanea en Sobre Mi Pan 10 Gr."
+      "n": "Levadura Instántanea en Sobre Mi Pan 10 Gr.",
+      "d": 48
     },
     "Pan rallado": {
       "p": 940,
@@ -496,7 +520,7 @@
     "Pasta dental": {
       "p": 4405,
       "n": "Pasta Dental Colgate Max White Complete Clean x 180 g · 2x1 llevando 2 · oferta -50% · $24.472/kg",
-      "d": 384
+      "d": -384
     },
     "Preservativos": {
       "p": 5874,
@@ -516,7 +540,8 @@
     },
     "Protector solar corporal": {
       "p": 9917,
-      "n": "Protector Solar VN Efecto Seco Fps 30 x 190 ml · oferta -50%"
+      "n": "Protector Solar VN Efecto Seco Fps 30 x 190 ml · oferta -50%",
+      "d": -1289
     },
     "Protector solar facial": {
       "p": 8510,

@@ -186,8 +186,12 @@ dom2.window.fetch = () => Promise.resolve({
   ok: true,
   json: () => Promise.resolve({
     version: "11/08/2026",
-    // Config de descuentos DISTINTA a la embebida: prueba que el JSON manda (días/COMERCIOS pueden cambiar)
-    descuentos: { diet: [{ dia: "lunes", pct: 30 }] },
+    // Config de descuentos DISTINTA a la embebida: prueba que el JSON manda (días/COMERCIOS
+    // pueden cambiar) en los dos esquemas: día suelto y rango con tope
+    descuentos: { diet: [
+      { dia: "lunes", pct: 30 },
+      { dias: ["lunes", "martes", "miércoles", "jueves", "viernes"], pct: 20, tope: 1000 },
+    ] },
     prices: {
       "Nueces 500 g": { p: 9000, n: "precio de prueba", d: -1000 },
       "Chía 500 g": { p: 5806, n: "precio de prueba", d: 277 },
@@ -215,6 +219,15 @@ test("Descuentos por día: la config del JSON pisa la embebida y calcula ambos p
   assert.match(texto, /≈ \$ 10\.364/);                          // …con el subtotal con dto (14.806 × 0,7)
   assert.match(texto, /lun \$ 6\.300/);                         // Nueces $9.000 → $6.300 el lunes
   assert.match(texto, /lun \$ 4\.064/);                         // Chía $5.806 → $4.064 el lunes
+});
+
+test("Descuento con tope: subtotal recortado al máximo de devolución y aviso de compra óptima", () => {
+  const texto = dom2.window.document.body.textContent;
+  assert.match(texto, /lun a vie -20% \(tope \$ 1\.000\)/);     // la promo con rango y tope
+  assert.match(texto, /≈ \$ 13\.806/);                          // 14.806 − min(2.961, 1.000)
+  assert.match(texto, /⚠ Lo pendiente \(\$ 14\.806\) supera el tope/);
+  assert.match(texto, /conviene comprar hasta \$ 5\.000/);      // 1.000 ÷ 20%
+  assert.match(texto, /lun-vie \$ 7\.200/);                     // por ítem sigue el % pleno (el tope es por compra)
 });
 
 console.log(`\n${pasan} tests de app OK`);

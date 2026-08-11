@@ -245,13 +245,23 @@ const ASK_PRICE_ITEMS = ["Huevo"];
 /* ---------- Foto de precios DIA (criterio: más barato normalizado por kg/L en tamaño similar) ---------- */
 const PRICE_SNAPSHOT_V = "08/08/2026";
 
-/* Descuentos adicionales por comercio (ej. DIA martes -20%). La fuente de verdad es
-   el campo `descuentos` de precios.json (se edita en el robot, puede cambiar de días,
-   porcentajes o comercios); esto es solo el respaldo sin red. */
-const DESCUENTOS_SNAPSHOT = { dia: [{ dia: "martes", pct: 20 }, { dia: "jueves", pct: 15 }] };
+/* Descuentos adicionales por comercio (ej. DIA martes -20%; El Puente lun–vie -20%
+   con tope de $6.000 de dto). La fuente de verdad es el campo `descuentos` de
+   precios.json (se edita en el robot, puede cambiar de días, porcentajes, topes o
+   comercios); esto es solo el respaldo sin red. */
+const DESCUENTOS_SNAPSHOT = {
+  dia: [{ dia: "martes", pct: 20 }, { dia: "jueves", pct: 15 }],
+  puente: [{ dias: ["lunes", "martes", "miércoles", "jueves", "viernes"], pct: 20, tope: 6000 }],
+};
 const IDX_DIA_SEMANA = { domingo: 0, lunes: 1, martes: 2, miercoles: 3, "miércoles": 3, jueves: 4, viernes: 5, sabado: 6, "sábado": 6 };
 const esHoyDia = (nombre) => new Date().getDay() === IDX_DIA_SEMANA[String(nombre).toLowerCase()];
+const diasDe = (d) => d.dias || (d.dia ? [d.dia] : []);
+const esHoyDto = (d) => diasDe(d).some(esHoyDia);
+const nombreDto = (d) => { const ds = diasDe(d); return ds.length === 1 ? String(ds[0]) : `${String(ds[0]).slice(0, 3)} a ${String(ds[ds.length - 1]).slice(0, 3)}`; };
+const abrevDto = (d) => { const ds = diasDe(d); return ds.length === 1 ? String(ds[0]).slice(0, 3) : `${String(ds[0]).slice(0, 3)}-${String(ds[ds.length - 1]).slice(0, 3)}`; };
 const conDto = (precio, pct) => Math.round(precio * (1 - pct / 100));
+const conDtoTope = (total, d) => Math.round(total - Math.min((total * d.pct) / 100, d.tope > 0 ? d.tope : Infinity));
+const topeCompra = (d) => Math.round((d.tope * 100) / d.pct); // compra a partir de la cual el dto ya no crece
 const PRICES = {
   "Aceite de girasol 1 L": { p: 5200, n: "Cañuelas 1,5 L · oferta -20% · $3.467/L" },
   "Agua mineral bidón": { p: 3600, n: "DIA 6,25 L" },
@@ -620,9 +630,9 @@ function PendingRow({ it, color, month, onBuy, onSpec, priceDate, descuentos = [
         <span className="flex-shrink-0" style={{ marginTop: 3, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2 }}>
           <span className="text-sm font-semibold" style={{ color: "#2B2620" }}>{fmt(it.price)}</span>
           <DeltaBadge it={it} />
-          {descuentos.map((d) => (
-            <span key={d.dia} className="text-xs" style={{ whiteSpace: "nowrap", color: esHoyDia(d.dia) ? "#2F5E14" : "#A39B89", fontWeight: esHoyDia(d.dia) ? 600 : 400 }}>
-              {String(d.dia).slice(0, 3)} {fmt(conDto(it.price, d.pct))}
+          {descuentos.map((d, i) => (
+            <span key={i} className="text-xs" style={{ whiteSpace: "nowrap", color: esHoyDto(d) ? "#2F5E14" : "#A39B89", fontWeight: esHoyDto(d) ? 600 : 400 }}>
+              {abrevDto(d)} {fmt(conDto(it.price, d.pct))}
             </span>
           ))}
         </span>
@@ -781,9 +791,14 @@ function ShoppingView({ stores, month, patchItem, buyAll, priceDate, descuentos 
               <div className="px-4 pt-2 text-xs" style={{ color: "#6E6757" }}>
                 Dto. adicional:
                 {dtos.map((d, i) => (
-                  <span key={d.dia} style={{ fontWeight: esHoyDia(d.dia) ? 700 : 400, color: esHoyDia(d.dia) ? "#2F5E14" : "#6E6757" }}>
-                    {i > 0 ? " · " : " "}{d.dia} -{d.pct}%{esHoyDia(d.dia) ? " (hoy)" : ""}{subtotal > 0 ? ` ≈ ${fmt(conDto(subtotal, d.pct))}` : ""}
+                  <span key={i} style={{ fontWeight: esHoyDto(d) ? 700 : 400, color: esHoyDto(d) ? "#2F5E14" : "#6E6757" }}>
+                    {i > 0 ? " · " : " "}{nombreDto(d)} -{d.pct}%{d.tope > 0 ? ` (tope ${fmt(d.tope)})` : ""}{esHoyDto(d) ? " (hoy)" : ""}{subtotal > 0 ? ` ≈ ${fmt(conDtoTope(subtotal, d))}` : ""}
                   </span>
+                ))}
+                {dtos.filter((d) => d.tope > 0 && (subtotal * d.pct) / 100 > d.tope).map((d, i) => (
+                  <div key={"tope" + i} className="mt-1 font-semibold" style={{ color: "#9B3A1C" }}>
+                    ⚠ Lo pendiente ({fmt(subtotal)}) supera el tope del dto: devuelve {fmt(d.tope)} como máximo — conviene comprar hasta {fmt(topeCompra(d))} por vez
+                  </div>
                 ))}
               </div>
             ) : null}

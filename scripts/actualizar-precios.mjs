@@ -18,13 +18,19 @@ const ESPERA_MS = 800; // pausa entre consultas para no castigar al sitio
 /* ---------- Descuentos adicionales por comercio ----------
    EDITAR ACÁ cuando cambien las promos (otros días, otros porcentajes u otros
    comercios). La clave es el id del comercio EN LA APP (dia, coto, farma, puente,
-   diet, otros). Viaja en precios.json (campo `descuentos`) y la app muestra el
-   precio de cada producto con y sin descuento, para decidir qué día comprar.
-   Vigente hoy (11/08/2026): DIA martes -20% y jueves -15%. */
+   diet, otros). Cada promo lleva `dia: "martes"` (un día) o `dias: [...]` (varios),
+   `pct`, y opcionalmente `tope` = máximo de descuento en $ (la app avisa cuando lo
+   pendiente supera lo que el tope devuelve). Viaja en precios.json (campo
+   `descuentos`); la app muestra el precio con y sin dto para decidir qué día comprar.
+   Vigente hoy (11/08/2026): DIA martes -20% y jueves -15% · El Puente lun a vie -20%
+   con tope de $6.000 de descuento. */
 const DESCUENTOS = {
   dia: [
     { dia: "martes", pct: 20 },
     { dia: "jueves", pct: 15 },
+  ],
+  puente: [
+    { dias: ["lunes", "martes", "miércoles", "jueves", "viernes"], pct: 20, tope: 6000 },
   ],
 };
 

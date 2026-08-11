@@ -413,17 +413,27 @@ test("Laurel: 25 g de referencia desde el paquete de 100 g", () => {
 });
 
 /* ---------- Descuentos adicionales por comercio ---------- */
-test("DESCUENTOS: config editable con forma válida (día de semana real y % razonable)", () => {
-  const dias = ["domingo", "lunes", "martes", "miercoles", "miércoles", "jueves", "viernes", "sabado", "sábado"];
+test("DESCUENTOS: config editable con forma válida (días reales, % y tope razonables)", () => {
+  const validos = ["domingo", "lunes", "martes", "miercoles", "miércoles", "jueves", "viernes", "sabado", "sábado"];
   const tiendas = ["dia", "coto", "farma", "puente", "diet", "otros"];
   for (const [tienda, lista] of Object.entries(DESCUENTOS)) {
     assert.ok(tiendas.includes(tienda), `id de comercio desconocido: ${tienda}`);
     assert.ok(Array.isArray(lista) && lista.length > 0, tienda);
     for (const d of lista) {
-      assert.ok(dias.includes(String(d.dia).toLowerCase()), `día raro: ${d.dia}`);
+      const dias = d.dias || (d.dia ? [d.dia] : []);
+      assert.ok(dias.length > 0, `promo sin días en ${tienda}`);
+      for (const dd of dias) assert.ok(validos.includes(String(dd).toLowerCase()), `día raro: ${dd}`);
       assert.ok(d.pct >= 1 && d.pct <= 99, `porcentaje raro: ${d.pct}`);
+      if (d.tope !== undefined) assert.ok(d.tope > 0, `tope raro: ${d.tope}`);
     }
   }
+});
+
+test("DESCUENTOS: El Puente es lun a vie -20% con tope de $6.000", () => {
+  const [dto] = DESCUENTOS.puente;
+  assert.equal(dto.dias.length, 5);
+  assert.equal(dto.pct, 20);
+  assert.equal(dto.tope, 6000);
 });
 
 /* ---------- Variación diaria (campo d) ---------- */
