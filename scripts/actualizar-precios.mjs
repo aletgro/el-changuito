@@ -15,6 +15,19 @@ import fs from "node:fs";
 const DIA = "https://diaonline.supermercadosdia.com.ar";
 const ESPERA_MS = 800; // pausa entre consultas para no castigar al sitio
 
+/* ---------- Descuentos adicionales por comercio ----------
+   EDITAR ACÁ cuando cambien las promos (otros días, otros porcentajes u otros
+   comercios). La clave es el id del comercio EN LA APP (dia, coto, farma, puente,
+   diet, otros). Viaja en precios.json (campo `descuentos`) y la app muestra el
+   precio de cada producto con y sin descuento, para decidir qué día comprar.
+   Vigente hoy (11/08/2026): DIA martes -20% y jueves -15%. */
+const DESCUENTOS = {
+  dia: [
+    { dia: "martes", pct: 20 },
+    { dia: "jueves", pct: 15 },
+  ],
+};
+
 /* ---------- Catálogo: ítem de la app → cómo buscarlo ----------
    name  : EXACTAMENTE el nombre del ítem en la app
    q     : término de búsqueda
@@ -882,13 +895,13 @@ async function main() {
     process.exit(1);
   }
 
-  fs.writeFileSync(archivo, JSON.stringify({ version: fechaHoyAR(), prices: precios }, null, 2) + "\n");
+  fs.writeFileSync(archivo, JSON.stringify({ version: fechaHoyAR(), descuentos: DESCUENTOS, prices: precios }, null, 2) + "\n");
   console.log(`\nListo: ${ok}/${ITEMS.length + ITEMS_ELPUENTE.length + NOMBRES_COTO.length + NOMBRES_DIETETICA.length + NOMBRES_FARMACITY.length + NOMBRES_OTROS.length} ítems actualizados en ${archivo} (versión ${fechaHoyAR()}).`);
   if (fallos.length) console.log("Sin match (revisar consultas): " + fallos.join(", "));
 }
 
 export {
-  parseQty, elegir, buscarVtex, promoVtex, conDelta, ITEMS, ITEMS_ELPUENTE, parsearListadoElPuente, candidatosElPuente,
+  parseQty, elegir, buscarVtex, promoVtex, conDelta, DESCUENTOS, ITEMS, ITEMS_ELPUENTE, parsearListadoElPuente, candidatosElPuente,
   ITEMS_COTO, PARTES_CARNE, NOMBRES_COTO, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto, buscarCoto,
   ITEMS_DIETETICA, NOMBRES_DIETETICA, RECHAZO_DIET, normalizarPeso, paresProductoFa, paresVariacionesFa, buscarFrutosAre,
   paresDesdeNewGarden, buscarNewGarden, preciosDietetica,

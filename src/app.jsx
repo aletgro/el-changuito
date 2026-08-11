@@ -244,6 +244,14 @@ const ASK_PRICE_ITEMS = ["Huevo"];
 
 /* ---------- Foto de precios DIA (criterio: más barato normalizado por kg/L en tamaño similar) ---------- */
 const PRICE_SNAPSHOT_V = "08/08/2026";
+
+/* Descuentos adicionales por comercio (ej. DIA martes -20%). La fuente de verdad es
+   el campo `descuentos` de precios.json (se edita en el robot, puede cambiar de días,
+   porcentajes o comercios); esto es solo el respaldo sin red. */
+const DESCUENTOS_SNAPSHOT = { dia: [{ dia: "martes", pct: 20 }, { dia: "jueves", pct: 15 }] };
+const IDX_DIA_SEMANA = { domingo: 0, lunes: 1, martes: 2, miercoles: 3, "miércoles": 3, jueves: 4, viernes: 5, sabado: 6, "sábado": 6 };
+const esHoyDia = (nombre) => new Date().getDay() === IDX_DIA_SEMANA[String(nombre).toLowerCase()];
+const conDto = (precio, pct) => Math.round(precio * (1 - pct / 100));
 const PRICES = {
   "Aceite de girasol 1 L": { p: 5200, n: "Cañuelas 1,5 L · oferta -20% · $3.467/L" },
   "Agua mineral bidón": { p: 3600, n: "DIA 6,25 L" },
@@ -568,7 +576,7 @@ function PriceEditor({ color, prev, onSave, onSkip }) {
 }
 
 /* Ítem pendiente normal (con nota / spec / precio al comprar) */
-function PendingRow({ it, color, month, onBuy, onSpec, priceDate }) {
+function PendingRow({ it, color, month, onBuy, onSpec, priceDate, descuentos = [] }) {
   const [editingSpec, setEditingSpec] = useState(!!it.askSpec && !it.spec);
   const [askingPrice, setAskingPrice] = useState(false);
   const note = it.dyn ? dynNote(it.dyn, month) : it.note;
@@ -612,6 +620,11 @@ function PendingRow({ it, color, month, onBuy, onSpec, priceDate }) {
         <span className="flex-shrink-0" style={{ marginTop: 3, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2 }}>
           <span className="text-sm font-semibold" style={{ color: "#2B2620" }}>{fmt(it.price)}</span>
           <DeltaBadge it={it} />
+          {descuentos.map((d) => (
+            <span key={d.dia} className="text-xs" style={{ whiteSpace: "nowrap", color: esHoyDia(d.dia) ? "#2F5E14" : "#A39B89", fontWeight: esHoyDia(d.dia) ? 600 : 400 }}>
+              {String(d.dia).slice(0, 3)} {fmt(conDto(it.price, d.pct))}
+            </span>
+          ))}
         </span>
       ) : null}
     </div>
@@ -689,7 +702,7 @@ function PickPending({ it, color, month, onConfirm }) {
 }
 
 /* ---------- Vista: COMPRAR ---------- */
-function ShoppingView({ stores, month, patchItem, buyAll, priceDate }) {
+function ShoppingView({ stores, month, patchItem, buyAll, priceDate, descuentos }) {
   const [collapsed, setCollapsed] = useState({});
   const [secClosed, setSecClosed] = useState({});
   const pendings = stores.map((s) => ({
@@ -740,6 +753,7 @@ function ShoppingView({ stores, month, patchItem, buyAll, priceDate }) {
       {pendings.map(({ store, rows }) => {
         const count = rows.reduce((a, g) => a + g.items.length, 0);
         const subtotal = rows.reduce((a, g) => a + g.items.reduce((b, i) => b + (i.price > 0 ? i.price : 0), 0), 0);
+        const dtos = (descuentos || {})[store.id] || [];
         const isCollapsed = !!collapsed[store.id];
         return (
           <section key={store.id} className="rounded-xl overflow-hidden" style={{ background: "#FFFFFF", border: "1px solid #E8E2D6", borderLeft: `6px solid ${store.color}` }}>
@@ -763,6 +777,16 @@ function ShoppingView({ stores, month, patchItem, buyAll, priceDate }) {
                 <span style={{ color: "#A39B89" }}>{isCollapsed ? "▾" : "▴"}</span>
               </div>
             </header>
+            {!isCollapsed && dtos.length > 0 ? (
+              <div className="px-4 pt-2 text-xs" style={{ color: "#6E6757" }}>
+                Dto. adicional:
+                {dtos.map((d, i) => (
+                  <span key={d.dia} style={{ fontWeight: esHoyDia(d.dia) ? 700 : 400, color: esHoyDia(d.dia) ? "#2F5E14" : "#6E6757" }}>
+                    {i > 0 ? " · " : " "}{d.dia} -{d.pct}%{esHoyDia(d.dia) ? " (hoy)" : ""}{subtotal > 0 ? ` ≈ ${fmt(conDto(subtotal, d.pct))}` : ""}
+                  </span>
+                ))}
+              </div>
+            ) : null}
             {!isCollapsed ? (
               <div className="px-4 pb-2">
                 {rows.map(({ sec, items }) => {
@@ -791,7 +815,7 @@ function ShoppingView({ stores, month, patchItem, buyAll, priceDate }) {
                                 <PickPending key={it.id} it={it} color={store.color} month={month}
                                   onConfirm={(sel) => patchItem(store.id, sec.id, it.id, { have: true, picked: sel })} />
                               ) : (
-                                <PendingRow key={it.id} it={it} color={store.color} month={month} priceDate={priceDate}
+                                <PendingRow key={it.id} it={it} color={store.color} month={month} priceDate={priceDate} descuentos={dtos}
                                   onBuy={(patch) => patchItem(store.id, sec.id, it.id, patch || { have: true })}
                                   onSpec={(v) => patchItem(store.id, sec.id, it.id, { spec: v })} />
                               )
@@ -1091,6 +1115,7 @@ function App() {
   const [loaded, setLoaded] = useState(false);
   const [saveErr, setSaveErr] = useState(false);
   const [priceDate, setPriceDate] = useState(PRICE_SNAPSHOT_V);
+  const [descuentos, setDescuentos] = useState(DESCUENTOS_SNAPSHOT);
   const first = useRef(true);
 
   const now = new Date();
@@ -1130,6 +1155,7 @@ function App() {
           setPriceDate(data.version);
           setStores((prev) => (prev ? applyPrices(prev, data.prices, data.version) : prev));
         }
+        if (data && data.descuentos) setDescuentos(data.descuentos);
       })
       .catch(() => {});
   }, [loaded]);
@@ -1204,7 +1230,7 @@ function App() {
       </header>
 
       <main className="max-w-2xl mx-auto px-4 pt-4 pb-24">
-        {tab === "comprar" ? <ShoppingView stores={stores} month={month} patchItem={patchItem} buyAll={buyAll} priceDate={priceDate} /> : null}
+        {tab === "comprar" ? <ShoppingView stores={stores} month={month} patchItem={patchItem} buyAll={buyAll} priceDate={priceDate} descuentos={descuentos} /> : null}
         {tab === "listas" ? <ListsView stores={stores} month={month} patchItem={patchItem} addItem={addItem} delItem={delItem} resetAll={resetAll} priceDate={priceDate} /> : null}
         {tab === "temporada" ? <SeasonView month={month} /> : null}
       </main>

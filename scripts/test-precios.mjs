@@ -8,7 +8,7 @@ import {
   parseQty, elegir, ITEMS_ELPUENTE, parsearListadoElPuente,
   ITEMS_COTO, PARTES_CARNE, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto,
   ITEMS_DIETETICA, normalizarPeso, paresProductoFa, paresVariacionesFa, paresDesdeNewGarden,
-  ITEMS_OTROS, paresDesdeTiendaNube, productoDePagina, ITEMS_FARMACITY, promoVtex, conDelta,
+  ITEMS_OTROS, paresDesdeTiendaNube, productoDePagina, ITEMS_FARMACITY, promoVtex, conDelta, DESCUENTOS,
 } from "./actualizar-precios.mjs";
 
 const item = (name) => ITEMS_ELPUENTE.find((i) => i.name === name);
@@ -410,6 +410,20 @@ test("Salsa de pescado: se busca solo en New Garden y vale el precio de la botel
 test("Laurel: 25 g de referencia desde el paquete de 100 g", () => {
   const el = elegir(itemDiet("Laurel 15 hojas"), [{ nombre: "Laurel en Hojas 100 gr", precio: 2800, lista: 2800 }]);
   assert.equal(el.p, 700);
+});
+
+/* ---------- Descuentos adicionales por comercio ---------- */
+test("DESCUENTOS: config editable con forma válida (día de semana real y % razonable)", () => {
+  const dias = ["domingo", "lunes", "martes", "miercoles", "miércoles", "jueves", "viernes", "sabado", "sábado"];
+  const tiendas = ["dia", "coto", "farma", "puente", "diet", "otros"];
+  for (const [tienda, lista] of Object.entries(DESCUENTOS)) {
+    assert.ok(tiendas.includes(tienda), `id de comercio desconocido: ${tienda}`);
+    assert.ok(Array.isArray(lista) && lista.length > 0, tienda);
+    for (const d of lista) {
+      assert.ok(dias.includes(String(d.dia).toLowerCase()), `día raro: ${d.dia}`);
+      assert.ok(d.pct >= 1 && d.pct <= 99, `porcentaje raro: ${d.pct}`);
+    }
+  }
 });
 
 /* ---------- Variación diaria (campo d) ---------- */

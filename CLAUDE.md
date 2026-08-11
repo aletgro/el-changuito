@@ -89,6 +89,13 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   contra la foto anterior, `conDelta()`); ausente = precio sin cambios. OJO: correr el
   robot DOS veces el mismo día pisa las flechas (la segunda compara contra la primera).
   Los ✔ del log muestran la flecha (`▲ +$…` / `▼ -$…`) para revisar de un vistazo.
+- Descuentos por día de semana (ej. DIA martes -20% y jueves -15%, vigente 08/2026):
+  se EDITAN en `DESCUENTOS` al tope del robot (pueden cambiar días, porcentajes o
+  comercios; clave = id del comercio en la app) y viajan en `precios.json` (campo
+  `descuentos`). La app muestra en Comprar el precio por día en cada ítem ("mar $…"),
+  el subtotal por día en la tarjeta del comercio y resalta si el descuento es HOY.
+  `DESCUENTOS_SNAPSHOT` en `src/app.jsx` es solo el respaldo sin red: mantener a mano
+  con el robot cuando cambie la promo.
 - Promos VTEX "llevando N" (2x1, 3x2, 2da unidad al X%): NO vienen aplicadas en `Price`,
   viajan en `Teasers`/`PromotionTeasers`; `promoVtex()` las detecta y suma un candidato
   extra con el precio EFECTIVO por unidad y la condición a la vista en la nota

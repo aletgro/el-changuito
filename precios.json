@@ -1,5 +1,17 @@
 {
   "version": "11/08/2026",
+  "descuentos": {
+    "dia": [
+      {
+        "dia": "martes",
+        "pct": 20
+      },
+      {
+        "dia": "jueves",
+        "pct": 15
+      }
+    ]
+  },
   "prices": {
     "Aceite de girasol 1 L": {
       "p": 5745,
@@ -14,8 +26,8 @@
       "n": "Arroz Integral 00000 Cuquets 1 Kg. · oferta -34%"
     },
     "Atún": {
-      "p": 1450,
-      "n": "Alimento Humedo Para Gatos Sabor Atun Felix 85 Gr."
+      "p": 1490,
+      "n": "Atún Desmenuzado Al Natural Dia 170 Gr."
     },
     "Azúcar 500 g": {
       "p": 590,
@@ -482,9 +494,9 @@
       "n": "Máquina de Afeitar Descartable Enjoy 3 Filos Mujer x 5 un · oferta -50% · $805/un"
     },
     "Pasta dental": {
-      "p": 4021,
-      "n": "Pasta Dental Oral B 4 en 1 x 180 g · oferta -40% · $22.339/kg",
-      "d": -384
+      "p": 4405,
+      "n": "Pasta Dental Colgate Max White Complete Clean x 180 g · 2x1 llevando 2 · oferta -50% · $24.472/kg",
+      "d": 384
     },
     "Preservativos": {
       "p": 5874,

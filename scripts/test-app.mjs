@@ -186,6 +186,8 @@ dom2.window.fetch = () => Promise.resolve({
   ok: true,
   json: () => Promise.resolve({
     version: "11/08/2026",
+    // Config de descuentos DISTINTA a la embebida: prueba que el JSON manda (días/COMERCIOS pueden cambiar)
+    descuentos: { diet: [{ dia: "lunes", pct: 30 }] },
     prices: {
       "Nueces 500 g": { p: 9000, n: "precio de prueba", d: -1000 },
       "Chía 500 g": { p: 5806, n: "precio de prueba", d: 277 },
@@ -205,6 +207,14 @@ test("DeltaBadge: sin cambio de precio no hay etiqueta", () => {
   // La foto se re-aplica con la misma versión → los ítems sin d no muestran flechas de más
   const flechas = (dom2.window.document.body.textContent.match(/[▲▼]/g) || []).length;
   assert.equal(flechas, 2);
+});
+
+test("Descuentos por día: la config del JSON pisa la embebida y calcula ambos precios", () => {
+  const texto = dom2.window.document.body.textContent;
+  assert.match(texto, /Dto\. adicional: lunes -30%/);          // línea del comercio…
+  assert.match(texto, /≈ \$ 10\.364/);                          // …con el subtotal con dto (14.806 × 0,7)
+  assert.match(texto, /lun \$ 6\.300/);                         // Nueces $9.000 → $6.300 el lunes
+  assert.match(texto, /lun \$ 4\.064/);                         // Chía $5.806 → $4.064 el lunes
 });
 
 console.log(`\n${pasan} tests de app OK`);
