@@ -179,10 +179,13 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   compra de ~500 g · Aceto balsámico Millán desde BonVino · Salsa de soja Lee Kum Kee
   premium desde Tienda Nova (páginas de producto fijas: si cambian la URL, avisar).
 - **Verdulería**: sin precios por decisión del usuario ("por ahora exceptuá verdulería").
-- **DIA, casos confirmados (09/08/2026)**: "Harina de maíz 1 kg" ES la Morixe para
+- **DIA, casos confirmados (09-12/08/2026)**: "Harina de maíz 1 kg" ES la Morixe para
   arepas (el nombre del producto no dice "maíz"; el must exige "arepas") · "Arvejas en
   lata" acepta cualquiera menos congeladas — en DIA las latas se llaman "Arvejas Secas
-  Remojadas", por eso el reject viejo (/secas/) las mataba todas.
+  Remojadas", por eso el reject viejo (/secas/) las mataba todas · "Atún" es SOLO
+  entero al natural (en DIA los enteros se llaman "Lomitos"/"Lomos"; ni desmenuzado
+  ni en aceite) · "Grasa bovina 1 kg" también viene rotulada "Grasa Vacuna" (q amplia
+  "grasa", el must filtra).
 - **Farmacity (ANDANDO desde 09/08/2026)**: 16/16 ítems (incluye Alcohol en gel,
   migración v8, mejor precio por litro). Preferencias CONFIRMADAS del
   usuario: Desodorante = Old Spice EN BARRA solamente (rechazo aerosol/spray/ml) ·

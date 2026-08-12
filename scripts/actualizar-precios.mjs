@@ -60,9 +60,11 @@ const ITEMS = [
   { name: "Aceite de girasol 1 L", q: "aceite de girasol", unit: "l", qty: 1, must: [/aceite/i, /girasol/i], reject: [/fritolim|oleico|spray/i], cat: DIA + "/almacen/aceites-y-aderezos/aceites-de-girasol" },
   { name: "Agua mineral bidón", q: "agua bidon", unit: "l", qty: 6, must: [/agua/i], reject: [/con gas|gasificada|saborizada|t[óo]nica/i], cat: DIA + "/bebidas/aguas/aguas-sin-gas" },
   { name: "Arroz integral 1 kg", q: "arroz integral", unit: "kg", qty: 1, must: [/arroz/i, /integral/i], reject: [/tostadita|galleta|preparado/i], cat: DIA + "/almacen/pastas-y-arroces/arroces" },
-  { name: "Atún", q: "atun", unit: "un", qty: 1, must: [/at[uú]n/i], reject: [/ensalada|pat[eé]|gato|perro|alimento|felix|whiskas/i], cat: DIA + "/almacen/conservas/conservas-de-pescados" },
+  // Solo entero al natural (en DIA los enteros son "Lomitos"/"Lomos"); ni desmenuzado ni en aceite
+  { name: "Atún", q: "atun", unit: "un", qty: 1, must: [/at[uú]n/i, /al natural/i], reject: [/desmenuzado|rallado|en aceite|ensalada|pat[eé]|gato|perro|alimento|felix|whiskas/i], cat: DIA + "/almacen/conservas/conservas-de-pescados" },
   { name: "Azúcar 500 g", q: "azucar", unit: "kg", qty: 0.5, must: [/az[uú]car/i], reject: [/mascabo|rubia|light|org[áa]nica|impalpable/i], cat: DIA + "/desayuno/infusiones-y-endulzantes/azucar" },
-  { name: "Grasa bovina 1 kg", q: "grasa bovina", unit: "kg", qty: 1, must: [/grasa/i, /bovina|vacuna/i], reject: [/vegetal/i], cat: DIA + "/frescos/pastas-frescas/levaduras-y-grasas" },
+  // q amplia: en DIA aparece como "Grasa Bovina" o "Grasa Vacuna" según el envase
+  { name: "Grasa bovina 1 kg", q: "grasa", unit: "kg", qty: 1, must: [/grasa/i, /bovina|vacuna/i], reject: [/vegetal/i], cat: DIA + "/frescos/pastas-frescas/levaduras-y-grasas" },
   // Confirmado por el usuario (09/08/2026): es la Morixe para arepas (el nombre no dice "maíz")
   { name: "Harina de maíz 1 kg", q: "harina arepas", unit: "kg", qty: 1, must: [/harina/i, /arepas/i], reject: [], cat: DIA + "/almacen/harinas/harinas-de-maiz" },
   { name: "Leche larga vida", q: "leche entera larga vida", unit: "l", qty: 1, must: [/leche/i, /entera/i], reject: [/polvo|chocolatada|descremada|s[ée]mi|deslactosada/i] },

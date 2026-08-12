@@ -245,13 +245,26 @@ test("Asado: entre vacío y tapa gana el más barato, más la tira, todo en $/kg
 import { ITEMS } from "./actualizar-precios.mjs";
 const itemDia = (name) => ITEMS.find((i) => i.name === name);
 
-test("Atún: la comida para gatos sabor atún no es atún", () => {
+test("Atún: solo entero al natural — ni desmenuzado, ni en aceite, ni comida de gatos", () => {
   const el = elegir(itemDia("Atún"), [
     { nombre: "Alimento Humedo Para Gatos Sabor Atun Felix 85 Gr.", precio: 1450, lista: 1450 },
     { nombre: "Atún Desmenuzado Al Natural Dia 170 Gr.", precio: 1490, lista: 1490 },
+    { nombre: "Lomitos de Atún en Aceite Dia 170 Gr.", precio: 2260, lista: 2260 },
+    { nombre: "Lomitos de Atún al Natural Dia 170 Gr.", precio: 2260, lista: 2260 },
+    { nombre: "Lomos De Atun Al Natural Swift 170 Gr.", precio: 3149, lista: 3149 },
   ]);
-  assert.equal(el.p, 1490);
-  assert.match(el.n, /Desmenuzado/);
+  assert.equal(el.p, 2260);
+  assert.match(el.n, /Lomitos de Atún al Natural/);
+});
+
+test("Grasa bovina: también cuenta si el envase dice 'vacuna'", () => {
+  const el = elegir(itemDia("Grasa bovina 1 kg"), [
+    { nombre: "Grasa Vacuna Dia 1 Kg.", precio: 7300, lista: 7300 },
+    { nombre: "Grasa Bovina Dia 500 Gr.", precio: 3690, lista: 3690 }, // 2× = $7.380
+    { nombre: "Bizcochos de grasa 9 de Oro Clásico 200 Gr.", precio: 1389, lista: 1389 },
+  ]);
+  assert.equal(el.p, 7300);
+  assert.match(el.n, /Vacuna/);
 });
 
 test("Harina de maíz: matchea la Morixe para arepas (el nombre no dice maíz)", () => {
