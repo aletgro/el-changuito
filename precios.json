@@ -68,8 +68,9 @@
       "n": "Arroz Integral 00000 Cuquets 1 Kg. · oferta -34%"
     },
     "Atún": {
-      "p": 1490,
-      "n": "Atún Desmenuzado Al Natural Dia 170 Gr."
+      "p": 3990,
+      "n": "Lomitos de Atún Al Natural Dia x 3 Ud. · oferta -35% · $1.330/un",
+      "d": 2500
     },
     "Azúcar 500 g": {
       "p": 590,
@@ -77,13 +78,11 @@
     },
     "Harina de maíz 1 kg": {
       "p": 2555,
-      "n": "Harina Morixe para Arepas 1 Kg. · oferta -30%",
-      "d": -1095
+      "n": "Harina Morixe para Arepas 1 Kg. · oferta -30%"
     },
     "Leche larga vida": {
       "p": 1913,
-      "n": "Leche Entera Tregar Larga Vida 1 Lt. · 2da unidad -50% llevando 2 · oferta -25%",
-      "d": -277
+      "n": "Leche Entera Tregar Larga Vida 1 Lt. · 2da unidad -50% llevando 2 · oferta -25%"
     },
     "Maicena 500 g": {
       "p": 2200,
@@ -91,8 +90,7 @@
     },
     "Polenta 1 kg": {
       "p": 1190,
-      "n": "2× Polenta Cocción Rápida Dia 500 Gr. · oferta -26%",
-      "d": -200
+      "n": "2× Polenta Cocción Rápida Dia 500 Gr. · oferta -26%"
     },
     "Sal entrefina 500 g": {
       "p": 840,
@@ -112,7 +110,7 @@
     },
     "Yerba 1 kg": {
       "p": 2891,
-      "n": "Yerba Mate Dia Elaborado Con Palo 1 Kg."
+      "n": "Yerba Mate Dia Elaborado Con Palo 1 Kg. · Playadito $3.990 (+38%)"
     },
     "Grasa bovina 1 kg": {
       "p": 7300,
@@ -120,8 +118,7 @@
     },
     "Papas fritas": {
       "p": 3590,
-      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr. · oferta -22%",
-      "d": -1011
+      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr. · oferta -22%"
     },
     "Vinagre de manzana 1 L": {
       "p": 4060,
@@ -145,13 +142,11 @@
     },
     "Desinfectante de superficies": {
       "p": 1701,
-      "n": "Limpiador Líquido Desinfectante Lysoform Multisuperficies Repuesto 450 · oferta -30%",
-      "d": -99
+      "n": "Limpiador Líquido Desinfectante Lysoform Multisuperficies Repuesto 450 · oferta -30%"
     },
     "Detergente líquido": {
       "p": 1755,
-      "n": "Detergente Cif Bioactive Lima Botella 300 Ml. · oferta -35%",
-      "d": -145
+      "n": "Detergente Cif Bioactive Lima Botella 300 Ml. · oferta -35%"
     },
     "Esponja": {
       "p": 915,
@@ -159,13 +154,12 @@
     },
     "Jabón Dove": {
       "p": 1790,
-      "n": "Jabón en Barra Dove Humectación Enriquecida 75 Gr. · oferta -25%",
-      "d": -168
+      "n": "Jabón en Barra Dove Humectación Enriquecida 75 Gr. · oferta -25%"
     },
     "Jabón líquido manos": {
-      "p": 1049,
-      "n": "Jabon Liquido Protex Balance 200 Ml. · oferta -44%",
-      "d": -350
+      "p": 1399,
+      "n": "Jabón Líquido Para Manos Suave Pepino Y Aloe 220 Ml.",
+      "d": 350
     },
     "Jabón líquido ropa": {
       "p": 7550,
@@ -181,8 +175,7 @@
     },
     "Papel higiénico": {
       "p": 3110,
-      "n": "3× Papel Higiénico Simple Hoja 50 mts 2 Ud. · 3x2 llevando 3 · oferta -33%",
-      "d": -1555
+      "n": "3× Papel Higiénico Simple Hoja 50 mts 2 Ud. · 3x2 llevando 3 · oferta -33%"
     },
     "Pastilla inodoro": {
       "p": 1850,
@@ -198,13 +191,11 @@
     },
     "Trapo de piso": {
       "p": 1500,
-      "n": "Trapo de Piso Blanco Dia 1 Ud. · oferta -25%",
-      "d": -500
+      "n": "Trapo de Piso Blanco Dia 1 Ud. · oferta -25%"
     },
     "Trapo rejilla": {
       "p": 480,
-      "n": "Rejilla Pastelera x Un",
-      "d": -80
+      "n": "Rejilla Pastelera x Un · oferta -14%"
     },
     "Trapo amarillo": {
       "p": 3760,
@@ -228,13 +219,11 @@
     },
     "Jugo de tomate en sachet": {
       "p": 595,
-      "n": "Puré de Tomate Dia 520 Gr. · oferta -38%",
-      "d": -364
+      "n": "Puré de Tomate Dia 520 Gr. · oferta -38%"
     },
     "Levadura": {
       "p": 520,
-      "n": "Levadura Fresca con Masa Madre Calsa 50 Gr · oferta -25%",
-      "d": -28
+      "n": "Levadura Fresca con Masa Madre Calsa 50 Gr · oferta -25%"
     },
     "Pan rallado": {
       "p": 940,
@@ -570,8 +559,7 @@
     },
     "Protector solar corporal": {
       "p": 8824,
-      "n": "Protector Solar VN Efecto Seco Fps 30 x 190 ml · oferta -50%",
-      "d": -1093
+      "n": "Protector Solar VN Efecto Seco Fps 30 x 190 ml · oferta -50%"
     },
     "Protector solar facial": {
       "p": 8510,
