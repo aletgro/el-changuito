@@ -42,6 +42,16 @@ dom.window.localStorage.setItem("el-changuito-v1", JSON.stringify({
       id: "farma", name: "Farmacity", emoji: "💊", color: "#0E8C8C", note: "",
       sections: [{ id: "f1", name: "Higiene", items: [{ id: "h1", name: "Alcohol", note: "", spec: "", have: true }] }],
     },
+    { // para la migración v10 (renombres de DIA); queda colapsada en Listas, no afecta los toggles
+      id: "dia", name: "DIA", emoji: "🛒", color: "#D7263D", note: "",
+      sections: [{
+        id: "d1", name: "Almacén",
+        items: [
+          { id: "v1", name: "Vinagre de manzana 1 L", note: "", spec: "", have: false },
+          { id: "e1", name: "Esponja", note: "", spec: "", have: true },
+        ],
+      }],
+    },
   ],
 }));
 
@@ -139,6 +149,15 @@ test("v9 es idempotente: el historial de Huevo no se re-siembra tras nuevos guar
   const huevo = data.stores.find((s) => s.id === "diet").sections[0].items.find((it) => it.name === "Huevo");
   assert.equal(huevo.priceHist.length, 2);
   assert.equal(huevo.price, 4600, "el precio pagado se conserva");
+});
+
+test("v10: renombres de DIA conservando estado (vinagre 500 ml, esponja salvauñas)", () => {
+  const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
+  const almacen = data.stores.find((s) => s.id === "dia").sections[0];
+  const nombres = almacen.items.map((it) => it.name);
+  assert.deepEqual(nombres, ["Vinagre de manzana 500 ml", "Esponja salvauñas"]);
+  assert.equal(almacen.items[0].have, false, "el vinagre seguía por comprar");
+  assert.equal(almacen.items[1].have, true, "la esponja estaba en stock");
 });
 
 test("v8: Alcohol en gel entra a Farmacity/Higiene después de Alcohol, una sola vez", () => {

@@ -133,8 +133,8 @@ function seedStores() {
       id: "dia", name: "DIA", emoji: "🛒", color: "#D7263D",
       note: "Supermercado general: todo lo que no tiene un lugar mejor.",
       sections: [
-        { id: nid(), name: "Almacén", items: [I("Aceite de girasol 1 L"), I("Agua mineral bidón"), I("Arroz integral 1 kg"), I("Atún"), I("Azúcar 500 g"), I("Grasa bovina 1 kg"), I("Harina de maíz 1 kg"), I("Leche larga vida"), I("Maicena 500 g"), I("Papas fritas"), I("Polenta 1 kg"), I("Sal entrefina 500 g"), I("Sal fina 500 g"), I("Sal gruesa 500 g"), I("Vinagre de alcohol 1 L"), I("Vinagre de manzana 1 L"), I("Yerba 1 kg")] },
-        { id: nid(), name: "Limpieza e higiene", items: [I("Aerosol de ambiente"), I("Bolsa de basura baño"), I("Cif crema"), I("Desinfectante de piso"), I("Desinfectante de superficies"), I("Detergente líquido"), I("Esponja"), I("Jabón Dove"), I("Jabón líquido manos"), I("Jabón líquido ropa"), I("Lavandina"), I("Limpia vidrios"), I("Papel higiénico"), I("Pastilla inodoro"), I("Rollo de cocina"), I("Suavizante"), I("Trapo de piso"), I("Trapo rejilla"), I("Trapo amarillo"), I("Virulana")] },
+        { id: nid(), name: "Almacén", items: [I("Aceite de girasol 1 L"), I("Agua mineral bidón"), I("Arroz integral 1 kg"), I("Atún"), I("Azúcar 500 g"), I("Grasa bovina 1 kg"), I("Harina de maíz 1 kg"), I("Leche larga vida"), I("Maicena 500 g"), I("Papas fritas"), I("Polenta 1 kg"), I("Sal entrefina 500 g"), I("Sal fina 500 g"), I("Sal gruesa 500 g"), I("Vinagre de alcohol 1 L"), I("Vinagre de manzana 500 ml"), I("Yerba 1 kg")] },
+        { id: nid(), name: "Limpieza e higiene", items: [I("Aerosol de ambiente"), I("Bolsa de basura baño"), I("Cif crema"), I("Desinfectante de piso"), I("Desinfectante de superficies"), I("Detergente líquido"), I("Esponja salvauñas"), I("Jabón Dove"), I("Jabón líquido manos"), I("Jabón líquido ropa"), I("Lavandina"), I("Limpia vidrios"), I("Papel higiénico"), I("Pastilla inodoro"), I("Rollo de cocina"), I("Suavizante"), I("Trapo de piso"), I("Trapo rejilla"), I("Trapo amarillo"), I("Virulana")] },
         { id: nid(), name: "Almacén (compra secundaria)", items: [I("Arvejas en lata"), I("Caldo en cubos"), I("Choclo en lata"), I("Jardinera en lata"), I("Jugo de tomate en sachet"), I("Levadura"), I("Pan rallado")] },
         { id: nid(), name: "Electricidad", items: [I("4 pilas AAA", "Control + balanza")] },
         { id: nid(), name: "Otros", items: [I("Escarbadientes")] },
@@ -290,7 +290,7 @@ const PRICES = {
   "Sal fina 500 g": { p: 650, n: "DIA 500 g · oferta -34%" },
   "Sal gruesa 500 g": { p: 1050, n: "DIA 1 kg · mejor $/kg" },
   "Vinagre de alcohol 1 L": { p: 1565, n: "DIA 1 L" },
-  "Vinagre de manzana 1 L": { p: 4060, n: "2× DIA 500 ml" },
+  "Vinagre de manzana 500 ml": { p: 2030, n: "DIA 500 ml" },
   "Yerba 1 kg": { p: 3200, n: "Amanda Tradicional 1 kg · oferta -35%" },
 };
 const fmt = (n) => "$ " + Math.round(n).toLocaleString("es-AR");
@@ -504,6 +504,18 @@ function migrate(stores) {
       }),
     })),
   }));
+
+  // v10 · DIA: Vinagre de manzana pasa a 500 ml (el envase real) y Esponja → Esponja salvauñas
+  out = out.map((s) => s.id !== "dia" ? s : {
+    ...s,
+    sections: s.sections.map((sec) => ({
+      ...sec,
+      items: sec.items.map((it) =>
+        it.name === "Vinagre de manzana 1 L" ? { ...it, name: "Vinagre de manzana 500 ml", price: 0, priceNote: "", priceD: 0, priceV: "" }
+          : it.name === "Esponja" ? { ...it, name: "Esponja salvauñas", price: 0, priceNote: "", priceD: 0, priceV: "" }
+            : it),
+    })),
+  });
 
   // v5 · asegurar campos de precio y aplicar la foto embebida como base
   out = out.map((s) => ({

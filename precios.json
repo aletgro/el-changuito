@@ -60,8 +60,8 @@
       "n": "Aceite de Girasol Dia 1,5 Lt."
     },
     "Agua mineral bidón": {
-      "p": 3400,
-      "n": "Bidón de Agua Sin Tacc Tratada Dia 6,5 Lt."
+      "p": 2550,
+      "n": "3× Agua Mineral Sin Gas Valle Del Sol 2 Lt. · Glaciar $6.052 (+137%)"
     },
     "Arroz integral 1 kg": {
       "p": 1395,
@@ -580,6 +580,14 @@
     "Alcohol en gel": {
       "p": 3819,
       "n": "Alcohol en Gel Neutro Bialcohol con Válvula Dosificadora x 500ml · oferta -35% · $7.638/L"
+    },
+    "Vinagre de manzana 500 ml": {
+      "p": 2030,
+      "n": "Vinagre de Manzana Dia 500 Ml."
+    },
+    "Esponja salvauñas": {
+      "p": 480,
+      "n": "Esponja Salvauñas Virulana 1 Ud. · oferta -40%"
     }
   }
 }

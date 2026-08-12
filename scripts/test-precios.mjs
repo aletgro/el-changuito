@@ -245,16 +245,63 @@ test("Asado: entre vacío y tapa gana el más barato, más la tira, todo en $/kg
 import { ITEMS } from "./actualizar-precios.mjs";
 const itemDia = (name) => ITEMS.find((i) => i.name === name);
 
-test("Atún: solo entero al natural — ni desmenuzado, ni en aceite, ni comida de gatos", () => {
+test("Atún: solo entero al natural y al mejor precio POR LATA (el pack x3 cuenta)", () => {
   const el = elegir(itemDia("Atún"), [
     { nombre: "Alimento Humedo Para Gatos Sabor Atun Felix 85 Gr.", precio: 1450, lista: 1450 },
     { nombre: "Atún Desmenuzado Al Natural Dia 170 Gr.", precio: 1490, lista: 1490 },
     { nombre: "Lomitos de Atún en Aceite Dia 170 Gr.", precio: 2260, lista: 2260 },
     { nombre: "Lomitos de Atún al Natural Dia 170 Gr.", precio: 2260, lista: 2260 },
-    { nombre: "Lomos De Atun Al Natural Swift 170 Gr.", precio: 3149, lista: 3149 },
+    { nombre: "Lomitos de Atún Al Natural Dia x 3 Ud.", precio: 3990, lista: 3990 }, // $1.330/lata ← gana
   ]);
-  assert.equal(el.p, 2260);
-  assert.match(el.n, /Lomitos de Atún al Natural/);
+  assert.equal(el.p, 3990);
+  assert.match(el.n, /x 3 Ud\./);
+  assert.match(el.n, /\$1\.330\/un/);
+});
+
+test("Vinagre de manzana 500 ml: una botella, el envase real", () => {
+  const el = elegir(itemDia("Vinagre de manzana 500 ml"), [
+    { nombre: "Vinagre de Manzana Dia 500 Ml.", precio: 2030, lista: 2030 },
+    { nombre: "Vinagre de Manzana Menoyo 500 Ml.", precio: 2525, lista: 2525 },
+  ]);
+  assert.equal(el.p, 2030);
+  assert.doesNotMatch(el.n, /^2×/);
+});
+
+test("Esponja salvauñas: solo las salvauñas", () => {
+  const el = elegir(itemDia("Esponja salvauñas"), [
+    { nombre: "Esponja Salvauñas Virulana 1 Ud.", precio: 480, lista: 480 },
+    { nombre: "Esponja Salvauñas Dia 1 Ud.", precio: 1205, lista: 1205 },
+  ]);
+  assert.equal(el.p, 480);
+});
+
+test("Marca preferida: si no gana por precio, la nota muestra la diferencia para decidir", () => {
+  const el = elegir(itemDia("Yerba 1 kg"), [
+    { nombre: "Yerba Mate Dia Elaborado Con Palo 1 Kg.", precio: 2891, lista: 2891 },
+    { nombre: "Yerba Mate Playadito Suave 1 Kg.", precio: 3990, lista: 3990 },
+    { nombre: "Yerba Mate Playadito Suave 500 Gr.", precio: 2835, lista: 2835 }, // 2× = $5.670, pierde contra el kilo
+  ]);
+  assert.equal(el.p, 2891);
+  assert.match(el.n, /· Playadito \$3\.990 \(\+38%\)/);
+});
+
+test("Marca preferida: si la marca ES la más barata, no hay nota duplicada", () => {
+  const el = elegir(itemDia("Agua mineral bidón"), [
+    { nombre: "Bidón de Agua Sin Gas Glaciar 6,3 Lt.", precio: 3000, lista: 3000 },
+    { nombre: "Agua Mineral Sin Gas Dia 6,25 Lt.", precio: 3600, lista: 3600 },
+  ]);
+  assert.equal(el.p, 3000);
+  assert.doesNotMatch(el.n, /· Glaciar \$/);
+});
+
+test("Agua: las botellas compiten contra el bidón por litro cubierto", () => {
+  const el = elegir(itemDia("Agua mineral bidón"), [
+    { nombre: "Agua Mineral Sin Gas Dia 6,25 Lt.", precio: 3600, lista: 3600 },
+    { nombre: "Agua Mineral Sin Gas Valle Del Sol 2 Lt.", precio: 850, lista: 850 }, // 3× = $2.550 ← gana
+    { nombre: "Agua Mineral con Gas Glaciar 1,5 Lt.", precio: 2267, lista: 2267 },   // con gas: afuera
+  ]);
+  assert.equal(el.p, 3 * 850);
+  assert.match(el.n, /^3× Agua Mineral Sin Gas Valle Del Sol/);
 });
 
 test("Grasa bovina: también cuenta si el envase dice 'vacuna'", () => {

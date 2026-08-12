@@ -53,7 +53,9 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    v7 muda Salsa de pescado a Dietética/Muy duraderos (borra la sección "New Garden" vacía)
    y renombra Champiñones congelados → Hongos para cocinar · v8 suma Alcohol en gel a
    Farmacity/Higiene · v9 `askPrice` en Huevo y siembra `priceHist` desde el precio
-   manual previo (fecha tomada del propio `priceV`).
+   manual previo (fecha tomada del propio `priceV`) · v10 renombra en DIA
+   "Vinagre de manzana 1 L" → "Vinagre de manzana 500 ml" (envase real) y
+   "Esponja" → "Esponja salvauñas".
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
    viendo la versión vieja. Hoy va por **v13**. `precios.json` es red-primero: no requiere bump.
@@ -184,8 +186,14 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   lata" acepta cualquiera menos congeladas — en DIA las latas se llaman "Arvejas Secas
   Remojadas", por eso el reject viejo (/secas/) las mataba todas · "Atún" es SOLO
   entero al natural (en DIA los enteros se llaman "Lomitos"/"Lomos"; ni desmenuzado
-  ni en aceite) · "Grasa bovina 1 kg" también viene rotulada "Grasa Vacuna" (q amplia
-  "grasa", el must filtra).
+  ni en aceite), al mejor precio POR LATA (`comparaPor:"un"`, los packs x3 cuentan) ·
+  "Grasa bovina 1 kg" también viene rotulada "Grasa Vacuna" (q amplia "grasa", el
+  must filtra) · "Agua mineral bidón": botellas y bidones compiten por litro cubierto.
+- **Marcas preferidas** (campo `marca: { re, nombre }` en la config del ítem): el
+  criterio sigue siendo el más barato, pero si la marca preferida no gana, la nota
+  muestra su precio y diferencia para que el usuario decida. Hoy: Agua = Glaciar ·
+  Yerba = Playadito. `q` puede ser una búsqueda o un array (para que la marca
+  aparezca entre los candidatos).
 - **Farmacity (ANDANDO desde 09/08/2026)**: 16/16 ítems (incluye Alcohol en gel,
   migración v8, mejor precio por litro). Preferencias CONFIRMADAS del
   usuario: Desodorante = Old Spice EN BARRA solamente (rechazo aerosol/spray/ml) ·

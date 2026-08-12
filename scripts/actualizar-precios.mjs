@@ -58,10 +58,11 @@ const DESCUENTOS = {
 const ITEMS = [
   // --- Almacén ---
   { name: "Aceite de girasol 1 L", q: "aceite de girasol", unit: "l", qty: 1, must: [/aceite/i, /girasol/i], reject: [/fritolim|oleico|spray/i], cat: DIA + "/almacen/aceites-y-aderezos/aceites-de-girasol" },
-  { name: "Agua mineral bidón", q: "agua bidon", unit: "l", qty: 6, must: [/agua/i], reject: [/con gas|gasificada|saborizada|t[óo]nica/i], cat: DIA + "/bebidas/aguas/aguas-sin-gas" },
+  // Botellas y bidones compiten por litro; si Glaciar no gana, la nota muestra su diferencia
+  { name: "Agua mineral bidón", q: ["agua mineral", "agua bidon", "agua glaciar"], unit: "l", qty: 6, marca: { re: /glaciar/i, nombre: "Glaciar" }, must: [/agua/i], reject: [/con gas|gasificada|saborizada|t[óo]nica|levit[eé]|manzana|naranja|limonada|pomelo/i], cat: DIA + "/bebidas/aguas/aguas-sin-gas" },
   { name: "Arroz integral 1 kg", q: "arroz integral", unit: "kg", qty: 1, must: [/arroz/i, /integral/i], reject: [/tostadita|galleta|preparado/i], cat: DIA + "/almacen/pastas-y-arroces/arroces" },
-  // Solo entero al natural (en DIA los enteros son "Lomitos"/"Lomos"); ni desmenuzado ni en aceite
-  { name: "Atún", q: "atun", unit: "un", qty: 1, must: [/at[uú]n/i, /al natural/i], reject: [/desmenuzado|rallado|en aceite|ensalada|pat[eé]|gato|perro|alimento|felix|whiskas/i], cat: DIA + "/almacen/conservas/conservas-de-pescados" },
+  // Solo entero al natural (en DIA los enteros son "Lomitos"/"Lomos"); mejor precio POR LATA (packs x3 cuentan)
+  { name: "Atún", q: "atun", unit: "un", qty: 1, comparaPor: "un", must: [/at[uú]n/i, /al natural/i], reject: [/desmenuzado|rallado|en aceite|ensalada|pat[eé]|gato|perro|alimento|felix|whiskas/i], cat: DIA + "/almacen/conservas/conservas-de-pescados" },
   { name: "Azúcar 500 g", q: "azucar", unit: "kg", qty: 0.5, must: [/az[uú]car/i], reject: [/mascabo|rubia|light|org[áa]nica|impalpable/i], cat: DIA + "/desayuno/infusiones-y-endulzantes/azucar" },
   // q amplia: en DIA aparece como "Grasa Bovina" o "Grasa Vacuna" según el envase
   { name: "Grasa bovina 1 kg", q: "grasa", unit: "kg", qty: 1, must: [/grasa/i, /bovina|vacuna/i], reject: [/vegetal/i], cat: DIA + "/frescos/pastas-frescas/levaduras-y-grasas" },
@@ -75,8 +76,8 @@ const ITEMS = [
   { name: "Sal fina 500 g", q: "sal fina", unit: "kg", qty: 0.5, must: [/sal/i, /fina/i], reject: [/light|marina|apio|aj[oi]/i], cat: DIA + "/almacen/aceites-y-aderezos/sal" },
   { name: "Sal gruesa 500 g", q: "sal gruesa", unit: "kg", qty: 0.5, must: [/sal/i, /gruesa/i], reject: [/parrillera light/i], cat: DIA + "/almacen/aceites-y-aderezos/sal" },
   { name: "Vinagre de alcohol 1 L", q: "vinagre de alcohol", unit: "l", qty: 1, must: [/vinagre/i, /alcohol/i], reject: [] },
-  { name: "Vinagre de manzana 1 L", q: "vinagre de manzana", unit: "l", qty: 1, must: [/vinagre/i, /manzana/i], reject: [] },
-  { name: "Yerba 1 kg", q: "yerba mate", unit: "kg", qty: 1, must: [/yerba/i], reject: [/mate cocido|saquitos|compuesta|c[áa]psula/i], cat: DIA + "/desayuno/infusiones-y-endulzantes/yerba-mate" },
+  { name: "Vinagre de manzana 500 ml", q: "vinagre de manzana", unit: "l", qty: 0.5, must: [/vinagre/i, /manzana/i], reject: [] }, // envase real: 500 ml
+  { name: "Yerba 1 kg", q: ["yerba mate", "yerba playadito"], unit: "kg", qty: 1, marca: { re: /playadito/i, nombre: "Playadito" }, must: [/yerba/i], reject: [/mate cocido|saquitos|compuesta|c[áa]psula/i], cat: DIA + "/desayuno/infusiones-y-endulzantes/yerba-mate" },
   // --- Limpieza e higiene ---
   { name: "Aerosol de ambiente", q: "desodorante de ambiente aerosol", unit: "un", qty: 1, must: [/ambiente/i], reject: [/repuesto|el[ée]ctrico|autom[áa]tico/i] },
   { name: "Bolsa de basura baño", q: "bolsas de residuos", unit: "un", qty: 1, must: [/residuo|basura/i], reject: [/consorcio/i] },
@@ -84,7 +85,7 @@ const ITEMS = [
   { name: "Desinfectante de piso", q: "limpiador de pisos", unit: "un", qty: 1, must: [/piso/i], reject: [/madera|autobrillo|cera/i] },
   { name: "Desinfectante de superficies", q: "desinfectante superficies", unit: "un", qty: 1, must: [/desinfectante|lysoform|espadol/i], reject: [/piso|ropa/i] },
   { name: "Detergente líquido", q: "detergente", unit: "un", qty: 1, must: [/detergente/i], reject: [/ropa|matic|lavavajillas autom/i] },
-  { name: "Esponja", q: "esponja cocina", unit: "un", qty: 1, must: [/esponja/i], reject: [/acero|ba[ñn]o|maquillaje/i] },
+  { name: "Esponja salvauñas", q: "esponja salvaunas", unit: "un", qty: 1, must: [/esponja/i, /salvau[ñn]as/i], reject: [] }, // el usuario compra las salvauñas
   { name: "Jabón Dove", q: "jabon dove", unit: "un", qty: 1, must: [/dove/i, /jab[óo]n/i], reject: [/l[íi]quido/i] },
   { name: "Jabón líquido manos", q: "jabon liquido manos", unit: "un", qty: 1, must: [/jab[óo]n l[íi]quido/i], reject: [/ropa|matic/i] },
   { name: "Jabón líquido ropa", q: "jabon liquido para ropa", unit: "l", qty: 3, must: [/jab[óo]n l[íi]quido|jab[óo]n para ropa/i], reject: [/manos|tocador|glicerina/i] },
@@ -773,6 +774,14 @@ function elegir(item, candidatos) {
     nota = (g.paquetes > 1 ? g.paquetes + "× " : "") + limpio + (desc >= 5 ? ` · oferta -${desc}%` : "");
     if (item.comparaPor) nota += " · $" + Math.round(g.porUnidad).toLocaleString("es-AR") + "/" + (item.comparaPor === "l" ? "L" : item.comparaPor);
   }
+  // Marca preferida del usuario: si no ganó por precio, la nota muestra su diferencia para decidir
+  if (item.marca && !item.marca.re.test(g.nombre)) {
+    const m = validos.filter((v) => item.marca.re.test(v.nombre)).sort((a, b) => a.estimado - b.estimado)[0];
+    if (m) {
+      const dif = Math.round((m.estimado / g.estimado - 1) * 100);
+      nota += ` · ${item.marca.nombre} $${Math.round(m.estimado).toLocaleString("es-AR")}${dif !== 0 ? ` (${dif > 0 ? "+" : ""}${dif}%)` : ""}`;
+    }
+  }
   return { p: Math.round(g.estimado), n: nota };
 }
 
@@ -796,7 +805,9 @@ async function main() {
   for (const item of ITEMS) {
     let elegido = null;
     try {
-      const candidatos = await buscarVtex(DIA, item.q);
+      // q puede ser una búsqueda o varias (ej. agua: mineral + bidón + glaciar)
+      const candidatos = [];
+      for (const q of [].concat(item.q)) candidatos.push(...await buscarVtex(DIA, q));
       elegido = elegir(item, candidatos);
     } catch (e) {
       // API caída o bloqueada: probamos la página de categoría si la tenemos
