@@ -96,7 +96,8 @@ const ITEMS = [
   { name: "Rollo de cocina", q: "rollo de cocina", unit: "un", qty: 1, must: [/cocina/i, /rollo|papel/i], reject: [] },
   { name: "Suavizante", q: "suavizante para ropa", unit: "l", qty: 1, must: [/suavizante/i], reject: [] },
   { name: "Trapo de piso", q: "trapo de piso", unit: "un", qty: 1, must: [/trapo/i, /piso/i], reject: [] },
-  { name: "Trapo rejilla", q: "rejilla", unit: "un", qty: 1, must: [/rejilla/i], reject: [] },
+  // Debe ser un TRAPO: la "Rejilla Pastelera" (de metal, para enfriar tortas) no cuenta
+  { name: "Trapo rejilla", q: "trapo rejilla", unit: "un", qty: 1, must: [/trapo/i, /rejilla/i], reject: [/pastelera|parrilla|horno/i] },
   { name: "Trapo amarillo", q: "paño multiuso", unit: "un", qty: 1, must: [/pa[ñn]o|multiuso|amarillo/i], reject: [/microfibra premium/i] },
   { name: "Virulana", q: "esponja de acero", unit: "un", qty: 1, must: [/acero|virulana/i], reject: [] },
   // --- Almacén (compra secundaria) ---

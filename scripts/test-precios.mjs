@@ -275,6 +275,15 @@ test("Esponja salvauñas: solo las salvauñas", () => {
   assert.equal(el.p, 480);
 });
 
+test("Trapo rejilla: la Rejilla Pastelera de metal no es un trapo", () => {
+  const el = elegir(itemDia("Trapo rejilla"), [
+    { nombre: "Rejilla Pastelera x Un", precio: 480, lista: 480 },
+    { nombre: "Trapo Rejilla Dia Multiuso Ecoamigable 1 Ud.", precio: 1460, lista: 1460 },
+  ]);
+  assert.equal(el.p, 1460);
+  assert.match(el.n, /Trapo Rejilla/);
+});
+
 test("Marca preferida: si no gana por precio, la nota muestra la diferencia para decidir", () => {
   const el = elegir(itemDia("Yerba 1 kg"), [
     { nombre: "Yerba Mate Dia Elaborado Con Palo 1 Kg.", precio: 2891, lista: 2891 },
