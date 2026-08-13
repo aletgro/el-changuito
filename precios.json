@@ -1,5 +1,5 @@
 {
-  "version": "12/08/2026",
+  "version": "13/08/2026",
   "descuentos": {
     "dia": [
       {
@@ -69,8 +69,7 @@
     },
     "Atún": {
       "p": 3990,
-      "n": "Lomitos de Atún Al Natural Dia x 3 Ud. · oferta -35% · $1.330/un",
-      "d": 2500
+      "n": "Lomitos de Atún Al Natural Dia x 3 Ud. · oferta -35% · $1.330/un"
     },
     "Azúcar 500 g": {
       "p": 590,
@@ -118,7 +117,7 @@
     },
     "Papas fritas": {
       "p": 3590,
-      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr. · oferta -22%"
+      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr. · oferta -22%"
     },
     "Vinagre de manzana 1 L": {
       "p": 4060,
@@ -158,8 +157,7 @@
     },
     "Jabón líquido manos": {
       "p": 1399,
-      "n": "Jabón Líquido Para Manos Suave Pepino Y Aloe 220 Ml.",
-      "d": 350
+      "n": "Jabón Líquido Para Manos Suave Pepino Y Aloe 220 Ml."
     },
     "Jabón líquido ropa": {
       "p": 7550,
@@ -558,8 +556,9 @@
       "n": "Gel de Limpieza Get The Look Salicílico x 150 ml · 2x1 llevando 2 · oferta -50%"
     },
     "Protector solar corporal": {
-      "p": 8824,
-      "n": "Protector Solar VN Efecto Seco Fps 30 x 190 ml · oferta -50%"
+      "p": 11206,
+      "n": "Protector Solar VN Aerosol Fps 30 x 250 ml · oferta -50%",
+      "d": 2382
     },
     "Protector solar facial": {
       "p": 8510,
