@@ -1,5 +1,5 @@
 {
-  "version": "13/08/2026",
+  "version": "14/08/2026",
   "descuentos": {
     "dia": [
       {
@@ -60,8 +60,9 @@
       "n": "Aceite de Girasol Dia 1,5 Lt."
     },
     "Agua mineral bidón": {
-      "p": 2550,
-      "n": "3× Agua Mineral Sin Gas Valle Del Sol 2 Lt. · Glaciar $6.052 (+137%)"
+      "p": 2670,
+      "n": "3× Agua Mineral Sin Gas Valle Del Sol 2 Lt. · oferta -29% · Glaciar $6.052 (+127%)",
+      "d": 120
     },
     "Arroz integral 1 kg": {
       "p": 1395,
@@ -117,7 +118,7 @@
     },
     "Papas fritas": {
       "p": 3590,
-      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr. · oferta -22%"
+      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr. · oferta -22%"
     },
     "Vinagre de manzana 1 L": {
       "p": 4060,
@@ -368,8 +369,9 @@
       "n": "2 kg de Mani Repelado Crudo 1 kg · $3.698/kg"
     },
     "Nueces 500 g": {
-      "p": 10735,
-      "n": "500 g de Nueces Peladas Mariposa EXTRA Light (Cosecha 2026) 500 g · $21.470/kg"
+      "p": 10779,
+      "n": "500 g de Nueces Peladas Mariposa EXTRA Light (Cosecha 2026) 500 g · $21.558/kg",
+      "d": 44
     },
     "Sésamo integral 500 g": {
       "p": 1800,
@@ -557,8 +559,7 @@
     },
     "Protector solar corporal": {
       "p": 11206,
-      "n": "Protector Solar VN Aerosol Fps 30 x 250 ml · oferta -50%",
-      "d": 2382
+      "n": "Protector Solar VN Aerosol Fps 30 x 250 ml · oferta -50%"
     },
     "Protector solar facial": {
       "p": 8510,
