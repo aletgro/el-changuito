@@ -1,5 +1,5 @@
 {
-  "version": "14/08/2026",
+  "version": "15/08/2026",
   "descuentos": {
     "dia": [
       {
@@ -61,8 +61,7 @@
     },
     "Agua mineral bidón": {
       "p": 2670,
-      "n": "3× Agua Mineral Sin Gas Valle Del Sol 2 Lt. · oferta -29% · Glaciar $6.052 (+127%)",
-      "d": 120
+      "n": "3× Agua Mineral Sin Gas Valle Del Sol 2 Lt. · oferta -29% · Glaciar $6.052 (+127%)"
     },
     "Arroz integral 1 kg": {
       "p": 1395,
@@ -118,7 +117,7 @@
     },
     "Papas fritas": {
       "p": 3590,
-      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr. · oferta -22%"
+      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr. · oferta -22%"
     },
     "Vinagre de manzana 1 L": {
       "p": 4060,
@@ -301,8 +300,9 @@
       "n": "falda $7.699/kg + osobuco $7.899/kg · estimo 1 kg de c/u"
     },
     "Asado": {
-      "p": 25798,
-      "n": "tapa de asado $13.299/kg + tira $12.499/kg · estimo 1 kg de c/u"
+      "p": 24598,
+      "n": "tapa de asado $13.299/kg + tira $11.299/kg · estimo 1 kg de c/u",
+      "d": -1200
     },
     "Ají molido / pimentón picante 100 g": {
       "p": 892,
@@ -370,8 +370,7 @@
     },
     "Nueces 500 g": {
       "p": 10779,
-      "n": "500 g de Nueces Peladas Mariposa EXTRA Light (Cosecha 2026) 500 g · $21.558/kg",
-      "d": 44
+      "n": "500 g de Nueces Peladas Mariposa EXTRA Light (Cosecha 2026) 500 g · $21.558/kg"
     },
     "Sésamo integral 500 g": {
       "p": 1800,
