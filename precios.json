@@ -1,5 +1,5 @@
 {
-  "version": "15/08/2026",
+  "version": "16/08/2026",
   "descuentos": {
     "dia": [
       {
@@ -117,7 +117,7 @@
     },
     "Papas fritas": {
       "p": 3590,
-      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr. · oferta -22%"
+      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr. · oferta -22%"
     },
     "Vinagre de manzana 1 L": {
       "p": 4060,
@@ -301,8 +301,7 @@
     },
     "Asado": {
       "p": 24598,
-      "n": "tapa de asado $13.299/kg + tira $11.299/kg · estimo 1 kg de c/u",
-      "d": -1200
+      "n": "tapa de asado $13.299/kg + tira $11.299/kg · estimo 1 kg de c/u"
     },
     "Ají molido / pimentón picante 100 g": {
       "p": 892,
@@ -537,8 +536,9 @@
       "n": "Máquina de Afeitar Descartable Enjoy 3 Filos Mujer x 5 un · oferta -50% · $805/un"
     },
     "Pasta dental": {
-      "p": 4405,
-      "n": "Pasta Dental Colgate Max White Complete Clean x 180 g · 2x1 llevando 2 · oferta -50% · $24.472/kg"
+      "p": 4021,
+      "n": "Pasta Dental Oral B 4 en 1 x 180 g · oferta -40% · $22.339/kg",
+      "d": -384
     },
     "Preservativos": {
       "p": 5874,
