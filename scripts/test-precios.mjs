@@ -8,7 +8,7 @@ import {
   parseQty, elegir, ITEMS_ELPUENTE, parsearListadoElPuente,
   ITEMS_COTO, PARTES_CARNE, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto,
   ITEMS_DIETETICA, normalizarPeso, paresProductoFa, paresVariacionesFa, paresDesdeNewGarden,
-  ITEMS_OTROS, paresDesdeTiendaNube, productoDePagina, ITEMS_FARMACITY, promoVtex, conDelta, DESCUENTOS, opcionesElPuente,
+  ITEMS_OTROS, paresDesdeTiendaNube, productoDePagina, ITEMS_FARMACITY, ITEMS_PESCE, promoVtex, conDelta, DESCUENTOS, opcionesElPuente,
 } from "./actualizar-precios.mjs";
 
 const item = (name) => ITEMS_ELPUENTE.find((i) => i.name === name);
@@ -647,6 +647,60 @@ test("Pasta dental: normaliza por kg", () => {
   ]);
   assert.equal(el.p, 3315);
   assert.match(el.n, /\$36\.833\/kg/);
+});
+
+/* ---------- Frigorífico Pesce (TiendaNube) ---------- */
+const itemPesce = (name) => ITEMS_PESCE.find((i) => i.name === name);
+
+test("parseQty: 'x kilo' sin dígito es 1 kg; '1.5 kilos' también parsea", () => {
+  assert.deepEqual(parseQty("MEJILLÓN PELADO x kilo"), { amount: 1, unit: "kg" });
+  assert.deepEqual(parseQty("SALMÓN AHUMADO REBANADO x 1.5 kilos"), { amount: 1.5, unit: "kg" });
+});
+
+test("paresDesdeTiendaNube: lo agotado queda afuera, salvo que se pida como referencia", () => {
+  const html = `<script type="application/ld+json">${JSON.stringify({
+    "@type": "ItemList",
+    itemListElement: [
+      { item: { "@type": "Product", name: "LANGOSTINO PELADO CRUDO x kilo", offers: { price: 30200, availability: "https://schema.org/InStock" } } },
+      { item: { "@type": "Product", name: "SALMÓN CONGELADO PORCIONADO X 1 KG", offers: { price: 32000, availability: "https://schema.org/OutOfStock" } } },
+    ],
+  })}</script>`;
+  assert.deepEqual(paresDesdeTiendaNube(html), [{ nombre: "LANGOSTINO PELADO CRUDO x kilo", precio: 30200, lista: 30200 }]);
+  assert.equal(paresDesdeTiendaNube(html, true).length, 2); // con agotados, para la referencia SIN STOCK
+});
+
+test("Langostinos: el más barato POR KILO sin importar tamaño (la caja de 2 kg gana)", () => {
+  const el = elegir(itemPesce("Langostinos"), [
+    { nombre: "WOK DE LANGOSTINOS X 500 GR", precio: 24500, lista: 24500 },
+    { nombre: "LANGOSTINOS EMPANADOS x 1 kg.", precio: 52800, lista: 52800 },
+    { nombre: "LANGOSTINO ENTERO CRUDO NACIONAL x 1 kg.", precio: 24500, lista: 24500 }, // $24.500/kg
+    { nombre: "LANGOSTINO ENTERO ECUADOR CAJA x 2 kg.", precio: 26400, lista: 26400 },   // $13.200/kg ← gana
+  ]);
+  assert.equal(el.p, 26400);
+  assert.match(el.n, /CAJA x 2 kg/);
+  assert.match(el.n, /\$13\.200\/kg/);
+});
+
+test("Mejillones: SOLO pelados, aunque el entero esté más barato", () => {
+  const el = elegir(itemPesce("Mejillones"), [
+    { nombre: "MEJILLÓN PELADO x kilo", precio: 15300, lista: 15300 },
+    { nombre: "MEJILLÓN ENTERO ENVASADOS EN SU JUGO x kilo", precio: 10900, lista: 10900 },
+  ]);
+  assert.equal(el.p, 15300);
+  assert.match(el.n, /PELADO/);
+});
+
+test("Salmón: el mejor $/kg aunque sea el combo de 4 kg; ahumado/pasta/blanco afuera", () => {
+  const el = elegir(itemPesce("Salmón"), [
+    { nombre: "PASTA DE SALMÓN ROSADO PARA RELLENO x kilo", precio: 13200, lista: 13200 },
+    { nombre: "SALMÓN REBANADO SABOR AHUMADO x 200grs.", precio: 12700, lista: 12700 },
+    { nombre: "SALMÓN CONGELADO PORCIONADO X 1 KG", precio: 32000, lista: 32000 },  // $32.000/kg
+    { nombre: "COMBO DE SALMON ROSADO X 2KG", precio: 59000, lista: 59000 },        // $29.500/kg
+    { nombre: "COMBO DE SALMON ROSADO X 4KG", precio: 104000, lista: 104000 },      // $26.000/kg ← gana
+  ]);
+  assert.equal(el.p, 104000);
+  assert.match(el.n, /X 4KG/);
+  assert.match(el.n, /\$26\.000\/kg/);
 });
 
 /* ---------- Otros lugares (Carmín / BonVino / Tienda Nova) ---------- */

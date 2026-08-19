@@ -176,6 +176,14 @@ test("v10: renombres de DIA conservando estado (vinagre 500 ml, esponja salvauñ
   assert.equal(almacen.items[1].have, true, "la esponja estaba en stock");
 });
 
+test("v11: Frigorífico Pesce aparece con sus 3 productos, como ya tenidos", () => {
+  const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
+  const pesce = data.stores.find((s) => s.id === "pesce");
+  assert.ok(pesce, "falta la tienda pesce");
+  assert.deepEqual(pesce.sections[0].items.map((i) => i.name), ["Salmón", "Langostinos", "Mejillones"]);
+  assert.ok(pesce.sections[0].items.every((i) => i.have), "arrancan en stock (nada pendiente)");
+});
+
 test("v8: Alcohol en gel entra a Farmacity/Higiene después de Alcohol, una sola vez", () => {
   const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
   const higiene = data.stores.find((s) => s.id === "farma").sections.find((sec) => sec.name === "Higiene");

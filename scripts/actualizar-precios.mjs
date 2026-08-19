@@ -139,11 +139,12 @@ function parseQty(nombre) {
     if (mx) mult = parseInt(mx[1], 10) || 1;
   }
   let m;
-  if ((m = base.match(/(\d+(?:\.\d+)?)\s*kgm?\b/))) return { amount: parseFloat(m[1]) * mult, unit: "kg" };
+  if ((m = base.match(/(\d+(?:\.\d+)?)\s*(?:kgm?|kilos?)\b/))) return { amount: parseFloat(m[1]) * mult, unit: "kg" };
   if ((m = base.match(/(\d+(?:\.\d+)?)\s*(?:grm|grs?|gs|gr\.|g)\b/))) return { amount: (parseFloat(m[1]) / 1000) * mult, unit: "kg" };
   if ((m = base.match(/(\d+(?:\.\d+)?)\s*(?:ml|cc)\b/))) return { amount: (parseFloat(m[1]) / 1000) * mult, unit: "l" };
   if ((m = base.match(/(\d+(?:\.\d+)?)\s*(?:lts?|lt\.|l)\b/))) return { amount: parseFloat(m[1]) * mult, unit: "l" };
   if ((m = base.match(/(\d+(?:\.\d+)?)\s*m(?:ts?)?\b/))) return { amount: parseFloat(m[1]) * mult, unit: "m" };
+  if (/\bkilo\b/.test(s)) return { amount: mult, unit: "kg" }; // "x kilo" sin dígito (Pesce)
   return { amount: mult, unit: "un" };
 }
 
@@ -681,7 +682,7 @@ const ITEMS_OTROS = [
 const NOMBRES_OTROS = ITEMS_OTROS.map((i) => i.name);
 
 /* Listados de TiendaNube (búsquedas/categorías): productos de los JSON-LD */
-function paresDesdeTiendaNube(html) {
+function paresDesdeTiendaNube(html, incluirAgotados = false) {
   const out = [];
   for (const m of html.matchAll(/<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi)) {
     let d;
@@ -696,7 +697,8 @@ function paresDesdeTiendaNube(html) {
         if (Array.isArray(of)) of = of[0] || {};
         const precio = Number(of.price ?? of.lowPrice);
         const nombre = String(o.name || "").replace(/\s+/g, " ").trim();
-        if (nombre && precio > 0) out.push({ nombre, precio, lista: precio });
+        const agotado = /outofstock/i.test(String(of.availability || ""));
+        if (nombre && precio > 0 && (incluirAgotados || !agotado)) out.push({ nombre, precio, lista: precio });
       }
     }
   }
@@ -731,6 +733,42 @@ async function preciosOtros() {
     } catch (e) { /* sin red: queda el precio anterior */ }
     out.push([item.name, el]);
     await dormir(300);
+  }
+  return out;
+}
+
+/* ---------- FRIGORÍFICO PESCE (tiendapesce.com.ar, TiendaNube) ----------
+   Búsqueda server-rendered con JSON-LD, como Carmín; lo agotado se filtra
+   por availability (los congelados rotan stock seguido). Todo se vende por
+   kilo ("x kilo" = 1 kg); compra asumida ~1 kg por producto. ---------- */
+const PESCE = "https://www.tiendapesce.com.ar";
+
+// Criterio confirmado (19/08/2026): el más barato POR KILO sin importar el tamaño
+// del paquete (si conviene la caja de 4 kg, se compra de a 4 kg) · Mejillones SOLO
+// pelados (mejor relación cáscara/mejillón, aunque el entero esté más barato).
+const ITEMS_PESCE = [
+  { name: "Salmón", q: "salmon", unit: "un", qty: 1, comparaPor: "kg", must: [/salm[óo]n/i], reject: [/pasta|ahumado|blanco|rebanado|at[uú]n|kani|abadejo|cornalito|mejill[óo]n|berberecho|callo/i] },
+  { name: "Langostinos", q: "langostinos", unit: "un", qty: 1, comparaPor: "kg", must: [/langostino/i], reject: [/empanad|rebozad|wok|raba|camar[óo]n|sepia|combo/i] },
+  { name: "Mejillones", q: "mejillones", unit: "un", qty: 1, comparaPor: "kg", must: [/mejill[óo]n/i, /pelado/i], reject: [] },
+];
+
+const NOMBRES_PESCE = ITEMS_PESCE.map((i) => i.name);
+
+async function preciosPesce() {
+  const out = [];
+  for (const item of ITEMS_PESCE) {
+    let el = null;
+    try {
+      const html = await (await fetch(`${PESCE}/search/?q=${encodeURIComponent(item.q)}`, CAB_HTML)).text();
+      el = elegir(item, paresDesdeTiendaNube(html));
+      if (!el) {
+        // Todo agotado: dejamos la referencia igual, avisando que hoy no hay
+        const ref = elegir(item, paresDesdeTiendaNube(html, true));
+        if (ref) el = { ...ref, n: ref.n + " · SIN STOCK hoy" };
+      }
+    } catch (e) { /* sin red: queda el precio anterior */ }
+    out.push([item.name, el]);
+    await dormir(400);
   }
   return out;
 }
@@ -947,13 +985,30 @@ async function main() {
     }
   }
 
+  // --- Frigorífico Pesce ---
+  console.log("\n— Frigorífico Pesce —");
+  let resPesce = [];
+  try { resPesce = await preciosPesce(); } catch (e) { console.log("PESCE: error → " + e.message); }
+  if (resPesce.length === 0) resPesce = NOMBRES_PESCE.map((n) => [n, null]);
+  for (const [name, el] of resPesce) {
+    if (el) {
+      const elD = conDelta(el, previoPrices[name], hoy);
+      precios[name] = elD;
+      ok++;
+      console.log(`✔ ${name} → $${elD.p}  (${elD.n})${flecha(elD, hoy)}`);
+    } else {
+      fallos.push(name);
+      console.log(`✘ ${name} → sin match o sin stock (queda el precio anterior si había)`);
+    }
+  }
+
   if (ok === 0) {
     console.error("\nNingún ítem se pudo actualizar: no escribo el archivo para no romper nada.");
     process.exit(1);
   }
 
   fs.writeFileSync(archivo, JSON.stringify({ version: fechaHoyAR(), descuentos: DESCUENTOS, prices: precios }, null, 2) + "\n");
-  console.log(`\nListo: ${ok}/${ITEMS.length + ITEMS_ELPUENTE.length + NOMBRES_COTO.length + NOMBRES_DIETETICA.length + NOMBRES_FARMACITY.length + NOMBRES_OTROS.length} ítems actualizados en ${archivo} (versión ${fechaHoyAR()}).`);
+  console.log(`\nListo: ${ok}/${ITEMS.length + ITEMS_ELPUENTE.length + NOMBRES_COTO.length + NOMBRES_DIETETICA.length + NOMBRES_FARMACITY.length + NOMBRES_OTROS.length + NOMBRES_PESCE.length} ítems actualizados en ${archivo} (versión ${fechaHoyAR()}).`);
   if (fallos.length) console.log("Sin match (revisar consultas): " + fallos.join(", "));
 }
 
@@ -964,6 +1019,7 @@ export {
   ITEMS_DIETETICA, NOMBRES_DIETETICA, RECHAZO_DIET, normalizarPeso, paresProductoFa, paresVariacionesFa, buscarFrutosAre,
   paresDesdeNewGarden, buscarNewGarden, preciosDietetica,
   ITEMS_OTROS, NOMBRES_OTROS, paresDesdeTiendaNube, productoDePagina, preciosOtros,
+  ITEMS_PESCE, NOMBRES_PESCE, preciosPesce,
   ITEMS_FARMACITY, NOMBRES_FARMACITY, preciosFarmacity,
 };
 

@@ -227,6 +227,13 @@ function seedStores() {
       ],
     },
     {
+      id: "pesce", name: "Frigorífico Pesce", emoji: "🦐", color: "#1B7A8C",
+      note: "Pescados y mariscos congelados (tiendapesce.com.ar).",
+      sections: [
+        { id: nid(), name: "Congelados", items: [I("Salmón"), I("Langostinos"), I("Mejillones")] },
+      ],
+    },
+    {
       id: "gustitos", name: "Gustitos", emoji: "✨", color: "#C2185B",
       note: "Al activarlos, anotá qué buscar exactamente esta vez.",
       sections: [
@@ -531,6 +538,24 @@ function migrate(stores) {
             : it),
     })),
   });
+
+  // v11 · nuevo comercio: Frigorífico Pesce (salmón, langostinos, mejillones)
+  if (!out.some((s) => s.id === "pesce")) {
+    const pesce = {
+      id: "pesce", name: "Frigorífico Pesce", emoji: "🦐", color: "#1B7A8C",
+      note: "Pescados y mariscos congelados (tiendapesce.com.ar).",
+      sections: [{
+        id: "mig-pesce-1", name: "Congelados",
+        items: [
+          { id: "mig-salmon", name: "Salmón", note: "", spec: "", have: true },
+          { id: "mig-lango", name: "Langostinos", note: "", spec: "", have: true },
+          { id: "mig-meji", name: "Mejillones", note: "", spec: "", have: true },
+        ],
+      }],
+    };
+    const iGustitos = out.findIndex((s) => s.id === "gustitos");
+    out = iGustitos >= 0 ? [...out.slice(0, iGustitos), pesce, ...out.slice(iGustitos)] : [...out, pesce];
+  }
 
   // v5 · asegurar campos de precio y aplicar la foto embebida como base
   out = out.map((s) => ({

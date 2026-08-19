@@ -55,7 +55,8 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    Farmacity/Higiene · v9 `askPrice` en Huevo y siembra `priceHist` desde el precio
    manual previo (fecha tomada del propio `priceV`) · v10 renombra en DIA
    "Vinagre de manzana 1 L" → "Vinagre de manzana 500 ml" (envase real) y
-   "Esponja" → "Esponja salvauñas".
+   "Esponja" → "Esponja salvauñas" · v11 suma el comercio Frigorífico Pesce
+   (Salmón, Langostinos, Mejillones), antes de Gustitos.
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
    viendo la versión vieja. Hoy va por **v14**. `precios.json` es red-primero: no requiere bump.
@@ -138,6 +139,15 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   dentro de la banda gana el $/kg más barato) — NUNCA el paquete grande aunque sea más
   barato por kg (no puede stockearlo). `RECHAZO_DIET` filtra especieros/frascos caros
   (El Castillo, Dicomere, Natier…).
+- Frigorífico Pesce (`ITEMS_PESCE`, tiendapesce.com.ar, TiendaNube): búsqueda con
+  JSON-LD como Carmín; TODO se vende por kilo ("x kilo" = 1 kg en `parseQty`) y lo
+  AGOTADO se filtra por `availability` — pero si no queda nada en stock, la
+  referencia se publica igual con "· SIN STOCK hoy" en la nota. Criterio CONFIRMADO
+  (19/08/2026): el más barato POR KILO sin importar el tamaño del paquete (si
+  conviene el combo de 4 kg, compra 4 kg; `comparaPor:"kg"`) · Salmón =
+  rosado/porcionado (ni ahumado, ni pasta, ni blanco) · Langostinos sin preparados
+  (wok, empanados, rabas) · Mejillones = SOLO pelados (mejor relación
+  cáscara/mejillón, aunque el entero esté más barato).
 - Otros lugares (`ITEMS_OTROS`): Carmín (carmin.com.ar, TiendaNube → búsqueda
   server-rendered con JSON-LD, `paresDesdeTiendaNube`) para Hongos para cocinar;
   BonVino y Tienda Nova con página de producto FIJA (`url`) → `productoDePagina()`
