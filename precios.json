@@ -1,5 +1,5 @@
 {
-  "version": "18/08/2026",
+  "version": "19/08/2026",
   "descuentos": {
     "dia": [
       {
@@ -56,12 +56,13 @@
   },
   "prices": {
     "Aceite de girasol 1 L": {
-      "p": 5745,
-      "n": "Aceite de Girasol Dia 1,5 Lt."
+      "p": 5580,
+      "n": "Aceite de Girasol Pureza 1,5 Lt. · oferta -20%",
+      "d": -165
     },
     "Agua mineral bidón": {
       "p": 2670,
-      "n": "3× Agua Mineral Sin Gas Valle Del Sol 2 Lt. · oferta -29% · Glaciar $9.310 (+249%)"
+      "n": "3× Agua Mineral Sin Gas Valle Del Sol 2 Lt. · oferta -29% · Glaciar $6.052 (+127%)"
     },
     "Arroz integral 1 kg": {
       "p": 1395,
@@ -69,8 +70,7 @@
     },
     "Atún": {
       "p": 6150,
-      "n": "Lomitos de Atún Al Natural Dia x 3 Ud. · $2.050/un",
-      "d": 2160
+      "n": "Lomitos de Atún Al Natural Dia x 3 Ud. · $2.050/un"
     },
     "Azúcar 500 g": {
       "p": 590,
@@ -78,13 +78,11 @@
     },
     "Harina de maíz 1 kg": {
       "p": 3650,
-      "n": "Harina Morixe para Arepas 1 Kg.",
-      "d": 1095
+      "n": "Harina Morixe para Arepas 1 Kg."
     },
     "Leche larga vida": {
       "p": 2290,
-      "n": "Leche Entera DIA Larga Vida 1 Lt.",
-      "d": 377
+      "n": "Leche Entera DIA Larga Vida 1 Lt."
     },
     "Maicena 500 g": {
       "p": 2200,
@@ -92,8 +90,7 @@
     },
     "Polenta 1 kg": {
       "p": 1390,
-      "n": "2× Polenta Molinos Ala 500 Gr. · oferta -35%",
-      "d": 200
+      "n": "2× Polenta Molinos Ala 500 Gr. · oferta -35%"
     },
     "Sal entrefina 500 g": {
       "p": 840,
@@ -112,8 +109,9 @@
       "n": "Vinagre de Alcohol Dia 1 Lt."
     },
     "Yerba 1 kg": {
-      "p": 2891,
-      "n": "Yerba Mate Dia Elaborado Con Palo 1 Kg. · Playadito $5.144 (+78%)"
+      "p": 2887,
+      "n": "Yerba Mate La Tranquera Selección Especial 1 Kg. · oferta -35% · Playadito $5.144 (+78%)",
+      "d": -4
     },
     "Grasa bovina 1 kg": {
       "p": 7300,
@@ -121,8 +119,7 @@
     },
     "Papas fritas": {
       "p": 4601,
-      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr.",
-      "d": 1011
+      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr."
     },
     "Vinagre de manzana 1 L": {
       "p": 4060,
@@ -145,22 +142,23 @@
       "n": "Limpiador Líquido Pisos Procenex Lavanda 900 Ml."
     },
     "Desinfectante de superficies": {
-      "p": 1701,
-      "n": "Limpiador Líquido Desinfectante Lysoform Multisuperficies Repuesto 450 · oferta -30%"
+      "p": 1800,
+      "n": "Desinfectante Multisuperficies Ayudín Doypack 450 Ml. · oferta -26%",
+      "d": 99
     },
     "Detergente líquido": {
-      "p": 1900,
-      "n": "Detergente DIA Limón 300 Ml.",
-      "d": 145
+      "p": 1687,
+      "n": "Detergente Magistral Ultra Limon Botella 300 Ml. · oferta -35%",
+      "d": -213
     },
     "Esponja": {
       "p": 915,
       "n": "Esponja Virulana Fibra Extra Duración 1 Ud."
     },
     "Jabón Dove": {
-      "p": 1958,
-      "n": "Jabon En Barra Dove Original Individual 90 Gr. · 2da unidad -50% lleva · oferta -25%",
-      "d": 168
+      "p": 1792,
+      "n": "Jabón en Barra Dove Humectación Enriquecida 75 Gr. · oferta -25%",
+      "d": -166
     },
     "Jabón líquido manos": {
       "p": 1399,
@@ -179,26 +177,27 @@
       "n": "Limpiador Vidrios Y Mulitiuso Cif Expert Doypack 450 Ml. · oferta -26%"
     },
     "Papel higiénico": {
-      "p": 4665,
-      "n": "3× Papel Higiénico Simple Hoja 50 mts 2 Ud.",
-      "d": 1555
+      "p": 2980,
+      "n": "2× Papel Higiénico Simple Hoja 80mts 2 Ud. · oferta -40%",
+      "d": -1685
     },
     "Pastilla inodoro": {
       "p": 1850,
       "n": "Limpiador Inodoro Pastillas Glade Lavanda 25 Gr."
     },
     "Rollo de cocina": {
-      "p": 1690,
-      "n": "Rollo De Cocina Golf 3 Ud. 40 Mt."
+      "p": 1400,
+      "n": "Rollo de Cocina 50 paños 3 Ud. · oferta -40%",
+      "d": -290
     },
     "Suavizante": {
-      "p": 4780,
-      "n": "2× Suavizante Para Ropa Héroe Premium 900 Ml."
+      "p": 4600,
+      "n": "2× Suavizante Para Ropa Flores Silvestre Dia 900 Ml. · oferta -11%",
+      "d": -180
     },
     "Trapo de piso": {
       "p": 2000,
-      "n": "Trapo de Piso Blanco Dia 1 Ud.",
-      "d": 500
+      "n": "Trapo de Piso Blanco Dia 1 Ud."
     },
     "Trapo rejilla": {
       "p": 1460,
@@ -209,8 +208,9 @@
       "n": "Paño Amarillo Multiuso DIA 3 Ud."
     },
     "Virulana": {
-      "p": 1325,
-      "n": "Esponja de Acero Inoxidable Dia 1 Ud."
+      "p": 861,
+      "n": "Esponja de Acero Inoxidable Dia 1 Ud. · 2da unidad -70% llevando 2 · oferta -35%",
+      "d": -464
     },
     "Caldo en cubos": {
       "p": 1625,
@@ -226,13 +226,11 @@
     },
     "Jugo de tomate en sachet": {
       "p": 959,
-      "n": "Puré de Tomate Dia 520 Gr.",
-      "d": 364
+      "n": "Puré de Tomate Dia 520 Gr."
     },
     "Levadura": {
       "p": 548,
-      "n": "Levadura Instántanea en Sobre Mi Pan 10 Gr.",
-      "d": 28
+      "n": "Levadura Instántanea en Sobre Mi Pan 10 Gr."
     },
     "Pan rallado": {
       "p": 940,
@@ -308,13 +306,11 @@
     },
     "Combo de temporada": {
       "p": 17598,
-      "n": "falda $7.699/kg + osobuco $9.899/kg · estimo 1 kg de c/u",
-      "d": 2000
+      "n": "falda $7.699/kg + osobuco $9.899/kg · estimo 1 kg de c/u"
     },
     "Asado": {
       "p": 25798,
-      "n": "tapa de asado $13.299/kg + tira $12.499/kg · estimo 1 kg de c/u",
-      "d": 1200
+      "n": "tapa de asado $13.299/kg + tira $12.499/kg · estimo 1 kg de c/u"
     },
     "Ají molido / pimentón picante 100 g": {
       "p": 892,
@@ -569,8 +565,9 @@
       "n": "Gel de Limpieza Get The Look Salicílico x 150 ml · 2x1 llevando 2 · oferta -50%"
     },
     "Protector solar corporal": {
-      "p": 11206,
-      "n": "Protector Solar VN Aerosol Fps 30 x 250 ml · oferta -50%"
+      "p": 9917,
+      "n": "Protector Solar VN Efecto Seco Fps 30 x 190 ml · oferta -50%",
+      "d": -1289
     },
     "Protector solar facial": {
       "p": 8510,
