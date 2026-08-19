@@ -214,7 +214,9 @@ dom2.window.localStorage.setItem("el-changuito-v1", JSON.stringify({
       id: "quesos", name: "Quesos", emoji: "🧀", color: "#2E6FA3", note: "",
       sections: [{
         id: "q1", name: "Quesos",
-        items: [{ id: "qp", name: "Queso para rayar", type: "pick", options: ["Sardo", "Reggianito", "Romano", "Provolone"], picked: [], note: "", spec: "", have: false }],
+        // priceV YA en la versión de la foto: reproduce el bug de "esta versión ya la tengo"
+        // (el op debe entrar igual — la aplicación es idempotente)
+        items: [{ id: "qp", name: "Queso para rayar", type: "pick", options: ["Sardo", "Reggianito", "Romano", "Provolone"], picked: [], note: "", spec: "", have: false, price: 8730, priceNote: "300 g de Sardo", priceV: "11/08/2026" }],
       }],
     },
   ],

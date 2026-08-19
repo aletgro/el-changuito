@@ -359,7 +359,9 @@ function applyPrices(stores, prices, version) {
       ...sec,
       items: sec.items.map((it) => {
         const snap = prices[it.name];
-        if (snap && snap.p > 0 && it.priceV !== version && it.priceV !== "manual@" + version) {
+        // Re-aplicar la misma versión es inocuo y trae campos nuevos (op, d/dv);
+        // solo una edición manual de ESTA versión se respeta hasta la foto siguiente.
+        if (snap && snap.p > 0 && it.priceV !== "manual@" + version) {
           return { ...it, price: snap.p, priceNote: snap.n || "", priceD: snap.d || 0, priceDV: snap.dv || (snap.d ? version : ""), priceOp: snap.op || null, priceV: version };
         }
         return it;
