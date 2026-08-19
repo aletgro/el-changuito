@@ -217,14 +217,30 @@ async function buscarCategoriaHtml(url) {
    Cantidades por compra según las notas del usuario. ---------- */
 const EP = "https://ofertas.lacteoselpuente.com.ar";
 
+/* Para los picks de queso, el robot también publica el precio de CADA opción
+   (campo `op` en precios.json, claves = nombres de las opciones en la app).
+   En la app, al comprar, se le puede cargar a cada queso el dto del local
+   (las promos de mostrador rotan y no son legibles por el robot). */
+function opcionesElPuente(item, candidatos) {
+  if (!item.op) return null;
+  const out = {};
+  for (const [nombre, re] of Object.entries(item.op)) {
+    const el = elegir({ ...item, op: undefined, must: [/el puente/i, re, /fracc/i] }, candidatos);
+    if (el) out[nombre] = el.p;
+  }
+  return Object.keys(out).length ? out : null;
+}
+
 const ITEMS_ELPUENTE = [
   // Solo marca El Puente (pedido del usuario, 09/08/2026: nada de D70 ni otras marcas).
   // fraccionado: compra al mostrador → solo líneas "fraccionado/fracc." (la horma entera es otro precio)
   { name: "Fundente", qty: 0.8, unit: "kg", fraccionado: true, asumirKg: true, must: [/el puente/i, /cremoso|por salut/i, /fracc/i], reject: [/pizzero|light|untable|sachet/i] }, // ~800 g por vez
   { name: "Pizza", qty: 0.4, unit: "kg", fraccionado: true, asumirKg: true, must: [/el puente/i, /m[uo]zz?arella/i, /fracc/i], reject: [/rallad|light/i] }, // solo mozzarella
   { name: "Provoletta", qty: 0.3, unit: "kg", must: [/el puente/i, /provolet/i], reject: [/rallad/i] }, // se vende en piezas de ~190 g
-  { name: "Queso para picada", qty: 0.3, unit: "kg", fraccionado: true, asumirKg: true, must: [/el puente/i, /fontina|gouda|gruyer|mar del plata|pategr[aá]s|holanda/i, /fracc/i], reject: [/rallad/i] },
-  { name: "Queso para rayar", qty: 0.3, unit: "kg", fraccionado: true, asumirKg: true, must: [/el puente/i, /sardo|reggianito|romano|provolone/i, /fracc/i], reject: [/rallad/i] },
+  { name: "Queso para picada", qty: 0.3, unit: "kg", fraccionado: true, asumirKg: true, must: [/el puente/i, /fontina|gouda|gruyer|mar del plata|pategr[aá]s|holanda/i, /fracc/i], reject: [/rallad/i],
+    op: { "Fontina": /fontina/i, "Gouda": /gouda/i, "Gruyere": /gruyer/i, "Mar del Plata": /mar del plata/i } },
+  { name: "Queso para rayar", qty: 0.3, unit: "kg", fraccionado: true, asumirKg: true, must: [/el puente/i, /sardo|reggianito|romano|provolone/i, /fracc/i], reject: [/rallad/i],
+    op: { "Sardo": /sardo/i, "Reggianito": /reggianito/i, "Romano": /roman/i, "Provolone": /provolone/i } },
   // Crema: 2 potes del tamaño (220 o 330 cc) que esté más barato POR LITRO
   { name: "Crema", qty: 2, unit: "un", comparaPor: "l", must: [/el puente/i, /crema de leche/i], reject: [/helado|queso crema|balde/i] },
   { name: "Leche", qty: 2, unit: "l", must: [/el puente/i, /leche/i, /entera/i], reject: [/polvo|chocolatada|condensada|dulce de leche|yogur|queso/i] }, // solo entera · 2 sachets de 1 L
@@ -848,6 +864,8 @@ async function main() {
       const el = elegir(item, candEP);
       if (el) {
         const elD = conDelta(el, previoPrices[item.name], hoy);
+        const ops = opcionesElPuente(item, candEP);
+        if (ops) elD.op = ops;
         precios[item.name] = elD;
         ok++;
         console.log(`✔ ${item.name} → $${elD.p}  (${elD.n})${flecha(elD, hoy)}`);
@@ -940,7 +958,8 @@ async function main() {
 }
 
 export {
-  parseQty, elegir, buscarVtex, promoVtex, conDelta, DESCUENTOS, ITEMS, ITEMS_ELPUENTE, parsearListadoElPuente, candidatosElPuente,
+  parseQty, elegir, buscarVtex, promoVtex, conDelta, DESCUENTOS, opcionesElPuente,
+  ITEMS, ITEMS_ELPUENTE, parsearListadoElPuente, candidatosElPuente,
   ITEMS_COTO, PARTES_CARNE, NOMBRES_COTO, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto, buscarCoto,
   ITEMS_DIETETICA, NOMBRES_DIETETICA, RECHAZO_DIET, normalizarPeso, paresProductoFa, paresVariacionesFa, buscarFrutosAre,
   paresDesdeNewGarden, buscarNewGarden, preciosDietetica,

@@ -360,7 +360,7 @@ function applyPrices(stores, prices, version) {
       items: sec.items.map((it) => {
         const snap = prices[it.name];
         if (snap && snap.p > 0 && it.priceV !== version && it.priceV !== "manual@" + version) {
-          return { ...it, price: snap.p, priceNote: snap.n || "", priceD: snap.d || 0, priceDV: snap.dv || (snap.d ? version : ""), priceV: version };
+          return { ...it, price: snap.p, priceNote: snap.n || "", priceD: snap.d || 0, priceDV: snap.dv || (snap.d ? version : ""), priceOp: snap.op || null, priceV: version };
         }
         return it;
       }),
@@ -682,9 +682,12 @@ function PendingRow({ it, color, month, onBuy, onSpec, priceDate, descuentos = [
 }
 
 /* Ítem pendiente de tipo "elegir de la categoría" */
+const DTOS_LOCAL = [0, 10, 15, 20, 25]; // los dtos de mostrador son siempre estos
+
 function PickPending({ it, color, month, onConfirm }) {
   const [sel, setSel] = useState([]);
   const [showAll, setShowAll] = useState(false);
+  const [dtoIdx, setDtoIdx] = useState({}); // opción → índice en DTOS_LOCAL (solo para comparar, no se guarda)
   const order = { peak: 0, in: 1, none: 2, out: 3 };
   const opts = [...it.options].sort((a, b) => {
     const sa = seasonOf(a, month) || "none";
@@ -694,6 +697,12 @@ function PickPending({ it, color, month, onConfirm }) {
   });
   const shown = showAll || opts.length <= 10 ? opts : opts.slice(0, 8);
   const toggle = (name) => setSel((p) => (p.includes(name) ? p.filter((x) => x !== name) : [...p, name]));
+  // Con precios por opción (quesos de El Puente): filas comparables con dto de mostrador
+  const conPrecios = !!(it.priceOp && Object.values(it.priceOp).some((v) => v > 0));
+  const efectivos = conPrecios
+    ? shown.filter((n) => it.priceOp[n] > 0).map((n) => Math.round(it.priceOp[n] * (1 - DTOS_LOCAL[dtoIdx[n] || 0] / 100)))
+    : [];
+  const minimo = efectivos.length ? Math.min(...efectivos) : null;
   return (
     <div className="py-2">
       <div className="flex items-center gap-2 flex-wrap">
@@ -713,32 +722,73 @@ function PickPending({ it, color, month, onConfirm }) {
       {it.picked && it.picked.length > 0 ? (
         <div className="text-xs mt-1 italic" style={{ color: "#A39B89" }}>Última vez: {it.picked.join(", ")}</div>
       ) : null}
-      <div className="flex flex-wrap gap-2 mt-2">
-        {shown.map((name) => {
-          const s = seasonOf(name, month);
-          const selected = sel.includes(name);
-          return (
-            <button
-              key={name}
-              onClick={() => toggle(name)}
-              className="rounded-full border text-sm transition-colors presionable"
-              style={{
-                padding: "7px 14px",
-                borderColor: selected ? color : s === "peak" ? "#E0A23C" : "#D8D2C4",
-                background: selected ? color : s === "peak" ? "#FFF4E0" : "#FFFFFF",
-                color: selected ? "#FFFFFF" : s === "out" ? "#B3AB9A" : "#2B2620",
-              }}
-            >
-              {s === "peak" && !selected ? "🔥 " : ""}{name}
+      {conPrecios ? (
+        <div className="mt-2" style={{ borderTop: "1px dashed #EDE8DC" }}>
+          <div className="text-xs mt-1" style={{ color: "#A39B89" }}>
+            Si alguno tiene promo en el local, tocá "dto" (10/15/20/25%) para comparar:
+          </div>
+          {shown.map((name) => {
+            const s = seasonOf(name, month);
+            const selected = sel.includes(name);
+            const base = it.priceOp && it.priceOp[name] > 0 ? it.priceOp[name] : null;
+            const dto = DTOS_LOCAL[dtoIdx[name] || 0];
+            const efectivo = base ? Math.round(base * (1 - dto / 100)) : null;
+            return (
+              <div key={name} onClick={() => toggle(name)} className="flex items-center gap-2 py-1 fila-toque"
+                style={{ borderLeft: `3px solid ${selected ? color : "transparent"}` }}>
+                <span className="rounded flex-shrink-0 flex items-center justify-center text-xs font-bold"
+                  style={{ width: 20, height: 20, border: `2px solid ${selected ? color : "#D8D2C4"}`, background: selected ? color : "#FFFFFF", color: "#FFFFFF" }}>
+                  {selected ? "✓" : ""}
+                </span>
+                <span className="flex-1 text-sm" style={{ color: s === "out" ? "#B3AB9A" : "#2B2620", fontWeight: selected ? 600 : 400 }}>
+                  {s === "peak" ? "🔥 " : ""}{name}
+                </span>
+                {base ? (
+                  <>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setDtoIdx((p) => ({ ...p, [name]: ((p[name] || 0) + 1) % DTOS_LOCAL.length })); }}
+                      className="text-xs font-semibold rounded-full presionable flex-shrink-0"
+                      style={{ border: dto ? `1px solid ${color}` : "1px dashed #C9C2B2", padding: "2px 9px", color: dto ? color : "#A39B89" }}
+                    >
+                      {dto ? `-${dto}%` : "dto"}
+                    </button>
+                    <span className="text-sm flex-shrink-0" style={{ fontWeight: efectivo === minimo ? 700 : 400, color: efectivo === minimo ? "#2F5E14" : "#2B2620" }}>
+                      {fmt(efectivo)}
+                    </span>
+                  </>
+                ) : null}
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="flex flex-wrap gap-2 mt-2">
+          {shown.map((name) => {
+            const s = seasonOf(name, month);
+            const selected = sel.includes(name);
+            return (
+              <button
+                key={name}
+                onClick={() => toggle(name)}
+                className="rounded-full border text-sm transition-colors presionable"
+                style={{
+                  padding: "7px 14px",
+                  borderColor: selected ? color : s === "peak" ? "#E0A23C" : "#D8D2C4",
+                  background: selected ? color : s === "peak" ? "#FFF4E0" : "#FFFFFF",
+                  color: selected ? "#FFFFFF" : s === "out" ? "#B3AB9A" : "#2B2620",
+                }}
+              >
+                {s === "peak" && !selected ? "🔥 " : ""}{name}
+              </button>
+            );
+          })}
+          {!showAll && opts.length > 10 ? (
+            <button onClick={() => setShowAll(true)} className="rounded-full text-sm presionable" style={{ padding: "7px 14px", color, background: "transparent" }}>
+              ver todas ({opts.length})
             </button>
-          );
-        })}
-        {!showAll && opts.length > 10 ? (
-          <button onClick={() => setShowAll(true)} className="rounded-full text-sm presionable" style={{ padding: "7px 14px", color, background: "transparent" }}>
-            ver todas ({opts.length})
-          </button>
-        ) : null}
-      </div>
+          ) : null}
+        </div>
+      )}
       <button
         onClick={() => sel.length > 0 && onConfirm(sel)}
         disabled={sel.length === 0}

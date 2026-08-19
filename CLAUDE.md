@@ -154,6 +154,13 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   líneas "fraccionado/fracc." (la horma entera tiene otro precio); Provoletta se vende
   en piezas de ~190 g (2 piezas ≈ 300 g). Si el sitio cambia y no se lee nada, se
   imprime diagnóstico; atajo: pedir al usuario la URL XHR de la pestaña Red (F12).
+  Promos "Clientes Felices" (imágenes del carrusel del home, ilegibles para el robot):
+  DECISIÓN del usuario (19/08/2026): NO cargarlas a mano en el robot. En cambio, los
+  picks de queso publican el precio de CADA opción (`op` en precios.json, vía
+  `opcionesElPuente()`, claves = nombres de las opciones en la app) y en la app, al
+  comprar, cada queso tiene un chip "dto" que cicla 10/15/20/25 % (`DTOS_LOCAL`,
+  nunca otros valores) para cargar la promo de mostrador del momento y comparar en
+  vivo (el más barato efectivo queda resaltado; no se persiste, es para decidir ahí).
   Criterios confirmados por el usuario (09/08/2026): SOLO marca El Puente (sin D70 ni
   otras marcas del listado) · Fundente ~800 g por vez · Pizza solo mozzarella (400 g) ·
   Crema 2 potes del tamaño más barato POR LITRO (220 o 330 cc, campo `comparaPor`) ·

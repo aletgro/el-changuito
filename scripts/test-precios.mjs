@@ -8,7 +8,7 @@ import {
   parseQty, elegir, ITEMS_ELPUENTE, parsearListadoElPuente,
   ITEMS_COTO, PARTES_CARNE, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto,
   ITEMS_DIETETICA, normalizarPeso, paresProductoFa, paresVariacionesFa, paresDesdeNewGarden,
-  ITEMS_OTROS, paresDesdeTiendaNube, productoDePagina, ITEMS_FARMACITY, promoVtex, conDelta, DESCUENTOS,
+  ITEMS_OTROS, paresDesdeTiendaNube, productoDePagina, ITEMS_FARMACITY, promoVtex, conDelta, DESCUENTOS, opcionesElPuente,
 } from "./actualizar-precios.mjs";
 
 const item = (name) => ITEMS_ELPUENTE.find((i) => i.name === name);
@@ -509,6 +509,24 @@ test("DESCUENTOS: El Puente es lun a vie -20% con tope de $6.000", () => {
   assert.equal(dto.dias.length, 5);
   assert.equal(dto.pct, 20);
   assert.equal(dto.tope, 6000);
+});
+
+test("opcionesElPuente: precio de CADA queso del pick, con los nombres de la app", () => {
+  const cand = [
+    { nombre: "Sardo El Puente por kg fraccionado", precio: 29100, lista: 29100 },
+    { nombre: "Sardo D70 por kg fracc.", precio: 22400, lista: 22400 },              // otra marca: afuera
+    { nombre: "Reggianito El Puente por kg fraccionado", precio: 29400, lista: 29400 },
+    { nombre: "Romanito El Puente x kg fraccionado", precio: 29300, lista: 29300 },  // "Romano" en la app
+    { nombre: "Provolone El Puente por kg fraccionado", precio: 29590, lista: 29590 },
+    { nombre: "Provolone El Puente por kg por horma (aprox. 4,5 kg)", precio: 23700, lista: 23700 }, // horma: afuera
+  ];
+  const ops = opcionesElPuente(ITEMS_ELPUENTE.find((i) => i.name === "Queso para rayar"), cand);
+  assert.deepEqual(ops, {
+    "Sardo": Math.round(0.3 * 29100),
+    "Reggianito": Math.round(0.3 * 29400),
+    "Romano": Math.round(0.3 * 29300),
+    "Provolone": Math.round(0.3 * 29590),
+  });
 });
 
 test("DESCUENTOS: COTO es mar/mié/jue/vie, sin carnicería ni harinas comunes", () => {

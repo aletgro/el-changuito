@@ -210,6 +210,13 @@ dom2.window.localStorage.setItem("el-changuito-v1", JSON.stringify({
         { id: "x2", name: "Harinas", items: [{ id: "xh", name: "Harina T", note: "", spec: "", have: false }] },
       ],
     },
+    { // pick con precios por opción (quesos de El Puente): comparador con dto de mostrador
+      id: "quesos", name: "Quesos", emoji: "🧀", color: "#2E6FA3", note: "",
+      sections: [{
+        id: "q1", name: "Quesos",
+        items: [{ id: "qp", name: "Queso para rayar", type: "pick", options: ["Sardo", "Reggianito", "Romano", "Provolone"], picked: [], note: "", spec: "", have: false }],
+      }],
+    },
   ],
 }));
 dom2.window.fetch = () => Promise.resolve({
@@ -232,6 +239,7 @@ dom2.window.fetch = () => Promise.resolve({
       "Porotos negros 1 kg": { p: 2000, n: "precio de prueba", d: -500, dv: "01/08/2026" }, // baja VIEJA (9 días)
       "Corte X": { p: 1000, n: "precio de prueba" },
       "Harina T": { p: 2000, n: "precio de prueba" },
+      "Queso para rayar": { p: 8730, n: "300 g de Sardo", op: { "Sardo": 8730, "Reggianito": 8820, "Romano": 8790, "Provolone": 8877 } },
     },
   }),
 });
@@ -298,6 +306,25 @@ test("Exclusiones de promo: la carnicería no lleva dto y la tarjeta lo aclara",
   assert.match(texto, /no aplica a \$ 1\.000 de lo pendiente/); // el Corte X queda afuera
   assert.match(texto, /lun \$ 1\.800/);                          // Harina T sí muestra su precio del lunes
   assert.doesNotMatch(texto, /lun \$ 900/);                      // Corte X no muestra línea de dto
+});
+
+test("Pick con precios por opción: cada queso muestra su precio y el más barato resaltado", () => {
+  const texto = dom2.window.document.body.textContent;
+  assert.match(texto, /Si alguno tiene promo en el local, tocá "dto"/);
+  assert.match(texto, /Sardo.*\$ 8\.730/s);
+  assert.match(texto, /Provolone.*\$ 8\.877/s);
+});
+
+// Cargarle -10% al Reggianito ($8.820 → $7.938): el chip cicla s/dto → -10%
+const chipsDto = [...dom2.window.document.querySelectorAll("button")].filter((b) => b.textContent === "dto");
+chipsDto[1].click(); // el orden sigue las opciones de la app: Sardo, Reggianito, ...
+await new Promise((r) => setTimeout(r, 100));
+
+test("dto de mostrador: cicla 10/15/20/25 y recalcula el precio para comparar", () => {
+  const texto = dom2.window.document.body.textContent;
+  assert.match(texto, /-10%/);
+  assert.match(texto, /\$ 7\.938/);   // Reggianito con -10% ahora le gana al Sardo
+  assert.doesNotMatch(texto, /\$ 8\.820(?!\d)/); // el precio sin dto ya no se muestra
 });
 
 // "+ a Comprar" desde la oportunidad: Girasol pasa a pendiente (al final, para no mover los totales de arriba)

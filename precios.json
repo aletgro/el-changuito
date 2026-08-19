@@ -253,11 +253,23 @@
     },
     "Queso para picada": {
       "p": 7107,
-      "n": "300 g de Mar del Plata El Puente. Valor por kg fraccionado · $23.690/kg"
+      "n": "300 g de Mar del Plata El Puente. Valor por kg fraccionado · $23.690/kg",
+      "op": {
+        "Fontina": 7707,
+        "Gouda": 7137,
+        "Gruyere": 8697,
+        "Mar del Plata": 7107
+      }
     },
     "Queso para rayar": {
       "p": 8730,
-      "n": "300 g de Sardo El Puente por kg fraccionado · $29.100/kg"
+      "n": "300 g de Sardo El Puente por kg fraccionado · $29.100/kg",
+      "op": {
+        "Sardo": 8730,
+        "Reggianito": 8820,
+        "Romano": 8790,
+        "Provolone": 8877
+      }
     },
     "Crema": {
       "p": 7520,
