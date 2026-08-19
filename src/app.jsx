@@ -628,9 +628,14 @@ function PriceEditor({ color, prev, onSave, onSkip }) {
 }
 
 /* Ítem pendiente normal (con nota / spec / precio al comprar) */
-function PendingRow({ it, color, month, onBuy, onSpec, priceDate, descuentos = [] }) {
+function PendingRow({ it, color, month, onBuy, onSpec, priceDate, descuentos = [], dtoLocal = false }) {
   const [editingSpec, setEditingSpec] = useState(!!it.askSpec && !it.spec);
   const [askingPrice, setAskingPrice] = useState(false);
+  const [dtoIdx, setDtoIdx] = useState(0); // dto de mostrador (10/15/20/25), solo para comparar
+  const dtoLoc = DTOS_LOCAL[dtoIdx];
+  // Si hoy rige un dto adicional del comercio, el precio efectivo lo incluye también
+  const dtoHoy = descuentos.filter(esHoyDto).reduce((a, d) => Math.max(a, d.pct), 0);
+  const efLocal = dtoLoc ? Math.round(it.price * (1 - dtoLoc / 100) * (1 - dtoHoy / 100)) : 0;
   const note = it.dyn ? dynNote(it.dyn, month) : it.note;
   const hist = it.priceHist || [];
   return (
@@ -677,6 +682,25 @@ function PendingRow({ it, color, month, onBuy, onSpec, priceDate, descuentos = [
               {abrevDto(d)} {fmt(conDto(it.price, d.pct))}
             </span>
           ))}
+          {dtoLocal ? (
+            <>
+              <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <button
+                  onClick={() => setDtoIdx((p) => (p + 1) % DTOS_LOCAL.length)}
+                  className="text-xs font-semibold rounded-full presionable"
+                  style={{ border: dtoLoc ? `1px solid ${color}` : "1px dashed #C9C2B2", padding: "2px 9px", color: dtoLoc ? color : "#A39B89" }}
+                >
+                  {dtoLoc ? `-${dtoLoc}%` : "dto"}
+                </button>
+                {dtoLoc ? (
+                  <span className="text-sm font-semibold" style={{ color: "#2F5E14", whiteSpace: "nowrap" }}>{fmt(efLocal)}</span>
+                ) : null}
+              </span>
+              {dtoLoc && dtoHoy > 0 ? (
+                <span className="text-xs" style={{ color: "#2F5E14", whiteSpace: "nowrap" }}>incluye -{dtoHoy}% de hoy</span>
+              ) : null}
+            </>
+          ) : null}
         </span>
       ) : null}
     </div>
@@ -686,10 +710,11 @@ function PendingRow({ it, color, month, onBuy, onSpec, priceDate, descuentos = [
 /* Ítem pendiente de tipo "elegir de la categoría" */
 const DTOS_LOCAL = [0, 10, 15, 20, 25]; // los dtos de mostrador son siempre estos
 
-function PickPending({ it, color, month, onConfirm }) {
+function PickPending({ it, color, month, onConfirm, descuentos = [] }) {
   const [sel, setSel] = useState([]);
   const [showAll, setShowAll] = useState(false);
   const [dtoIdx, setDtoIdx] = useState({}); // opción → índice en DTOS_LOCAL (solo para comparar, no se guarda)
+  const dtoHoy = descuentos.filter(esHoyDto).reduce((a, d) => Math.max(a, d.pct), 0);
   const order = { peak: 0, in: 1, none: 2, out: 3 };
   const opts = [...it.options].sort((a, b) => {
     const sa = seasonOf(a, month) || "none";
@@ -700,10 +725,10 @@ function PickPending({ it, color, month, onConfirm }) {
   const shown = showAll || opts.length <= 10 ? opts : opts.slice(0, 8);
   const toggle = (name) => setSel((p) => (p.includes(name) ? p.filter((x) => x !== name) : [...p, name]));
   // Con precios por opción (quesos de El Puente): filas comparables con dto de mostrador
+  // (el precio efectivo incluye además el dto del día si hoy rige)
   const conPrecios = !!(it.priceOp && Object.values(it.priceOp).some((v) => v > 0));
-  const efectivos = conPrecios
-    ? shown.filter((n) => it.priceOp[n] > 0).map((n) => Math.round(it.priceOp[n] * (1 - DTOS_LOCAL[dtoIdx[n] || 0] / 100)))
-    : [];
+  const efectivoDe = (n) => Math.round(it.priceOp[n] * (1 - DTOS_LOCAL[dtoIdx[n] || 0] / 100) * (1 - dtoHoy / 100));
+  const efectivos = conPrecios ? shown.filter((n) => it.priceOp[n] > 0).map(efectivoDe) : [];
   const minimo = efectivos.length ? Math.min(...efectivos) : null;
   return (
     <div className="py-2">
@@ -727,14 +752,15 @@ function PickPending({ it, color, month, onConfirm }) {
       {conPrecios ? (
         <div className="mt-2" style={{ borderTop: "1px dashed #EDE8DC" }}>
           <div className="text-xs mt-1" style={{ color: "#A39B89" }}>
-            Si alguno tiene promo en el local, tocá "dto" (10/15/20/25%) para comparar:
+            Si alguno tiene promo en el local, tocá "dto" (10/15/20/25%) para comparar.
+            {dtoHoy > 0 ? <span style={{ color: "#2F5E14", fontWeight: 600 }}> Precios con el -{dtoHoy}% de hoy incluido.</span> : null}
           </div>
           {shown.map((name) => {
             const s = seasonOf(name, month);
             const selected = sel.includes(name);
             const base = it.priceOp && it.priceOp[name] > 0 ? it.priceOp[name] : null;
             const dto = DTOS_LOCAL[dtoIdx[name] || 0];
-            const efectivo = base ? Math.round(base * (1 - dto / 100)) : null;
+            const efectivo = base ? efectivoDe(name) : null;
             return (
               <div key={name} onClick={() => toggle(name)} className="flex items-center gap-2 py-1 fila-toque"
                 style={{ borderLeft: `3px solid ${selected ? color : "transparent"}` }}>
@@ -868,14 +894,20 @@ function OportunidadesCard({ stores, patchItem }) {
 
 /* ---------- Vista: COMPRAR ---------- */
 function ShoppingView({ stores, month, patchItem, buyAll, priceDate, descuentos }) {
-  const [collapsed, setCollapsed] = useState({});
-  const [secClosed, setSecClosed] = useState({});
   const pendings = stores.map((s) => ({
     store: s,
     rows: s.sections
       .map((sec) => ({ sec, items: sec.items.filter((i) => !i.have) }))
       .filter((g) => g.items.length > 0),
   })).filter((g) => g.rows.length > 0);
+  // Con pendientes en MÁS de un comercio, las tarjetas arrancan compactadas (una sola: abierta)
+  const [collapsed, setCollapsed] = useState(() => {
+    if (pendings.length <= 1) return {};
+    const ini = {};
+    pendings.forEach((p) => { ini[p.store.id] = true; });
+    return ini;
+  });
+  const [secClosed, setSecClosed] = useState({});
 
   if (pendings.length === 0) {
     return (
@@ -1007,10 +1039,12 @@ function ShoppingView({ stores, month, patchItem, buyAll, priceDate, descuentos 
                             {items.map((it) =>
                               it.type === "pick" ? (
                                 <PickPending key={it.id} it={it} color={store.color} month={month}
+                                  descuentos={excluidoDeDto(cfgDto, sec.name, it) ? [] : dtos}
                                   onConfirm={(sel) => patchItem(store.id, sec.id, it.id, { have: true, picked: sel })} />
                               ) : (
                                 <PendingRow key={it.id} it={it} color={store.color} month={month} priceDate={priceDate}
                                   descuentos={excluidoDeDto(cfgDto, sec.name, it) ? [] : dtos}
+                                  dtoLocal={store.id === "puente"}
                                   onBuy={(patch) => patchItem(store.id, sec.id, it.id, patch || { have: true })}
                                   onSpec={(v) => patchItem(store.id, sec.id, it.id, { spec: v })} />
                               )
@@ -1075,7 +1109,8 @@ function ListsView({ stores, month, patchItem, addItem, delItem, resetAll, price
                 {store.note ? <p className="text-xs italic mb-2" style={{ color: "#A39B89" }}>{store.note}</p> : null}
                 {store.sections.map((sec) => {
                   const sk = store.id + ":" + sec.id;
-                  const secIsClosed = !!secClosed[sk];
+                  // Secciones cerradas por default (en Editar abiertas, para agregar/borrar cómodo)
+                  const secIsClosed = secClosed[sk] === undefined ? !edit : !!secClosed[sk];
                   const secPending = sec.items.filter((i) => !i.have).length;
                   return (
                     <div key={sec.id} className="pt-1 pb-2">
