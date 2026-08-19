@@ -250,7 +250,7 @@ const PRICE_SNAPSHOT_V = "08/08/2026";
    precios.json (se edita en el robot, puede cambiar de días, porcentajes, topes o
    comercios); esto es solo el respaldo sin red. */
 const DESCUENTOS_SNAPSHOT = {
-  dia: [{ dia: "martes", pct: 20 }, { dia: "jueves", pct: 15 }],
+  dia: [{ dia: "martes", pct: 20 }, { dia: "miércoles", pct: 10 }, { dia: "jueves", pct: 15 }],
   puente: [{ dias: ["lunes", "martes", "miércoles", "jueves", "viernes"], pct: 20, tope: 6000 }],
   coto: {
     sin: { secciones: ["Carnicería"], items: ["Harina 000", "Harina 0000"] },

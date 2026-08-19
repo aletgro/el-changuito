@@ -28,6 +28,7 @@ const ESPERA_MS = 800; // pausa entre consultas para no castigar al sitio
 const DESCUENTOS = {
   dia: [
     { dia: "martes", pct: 20 },
+    { dia: "miércoles", pct: 10 },
     { dia: "jueves", pct: 15 },
   ],
   puente: [

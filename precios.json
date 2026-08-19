@@ -7,6 +7,10 @@
         "pct": 20
       },
       {
+        "dia": "miércoles",
+        "pct": 10
+      },
+      {
         "dia": "jueves",
         "pct": 15
       }
@@ -57,8 +61,7 @@
   "prices": {
     "Aceite de girasol 1 L": {
       "p": 5580,
-      "n": "Aceite de Girasol Pureza 1,5 Lt. · oferta -20%",
-      "d": -165
+      "n": "Aceite de Girasol Pureza 1,5 Lt. · oferta -20%"
     },
     "Agua mineral bidón": {
       "p": 2670,
@@ -110,8 +113,7 @@
     },
     "Yerba 1 kg": {
       "p": 2887,
-      "n": "Yerba Mate La Tranquera Selección Especial 1 Kg. · oferta -35% · Playadito $5.144 (+78%)",
-      "d": -4
+      "n": "Yerba Mate La Tranquera Selección Especial 1 Kg. · oferta -35% · Playadito $5.144 (+78%)"
     },
     "Grasa bovina 1 kg": {
       "p": 7300,
@@ -143,13 +145,11 @@
     },
     "Desinfectante de superficies": {
       "p": 1800,
-      "n": "Desinfectante Multisuperficies Ayudín Doypack 450 Ml. · oferta -26%",
-      "d": 99
+      "n": "Desinfectante Multisuperficies Ayudín Doypack 450 Ml. · oferta -26%"
     },
     "Detergente líquido": {
       "p": 1687,
-      "n": "Detergente Magistral Ultra Limon Botella 300 Ml. · oferta -35%",
-      "d": -213
+      "n": "Detergente Magistral Ultra Limon Botella 300 Ml. · oferta -35%"
     },
     "Esponja": {
       "p": 915,
@@ -157,8 +157,7 @@
     },
     "Jabón Dove": {
       "p": 1792,
-      "n": "Jabón en Barra Dove Humectación Enriquecida 75 Gr. · oferta -25%",
-      "d": -166
+      "n": "Jabón en Barra Dove Humectación Enriquecida 75 Gr. · oferta -25%"
     },
     "Jabón líquido manos": {
       "p": 1399,
@@ -178,8 +177,7 @@
     },
     "Papel higiénico": {
       "p": 2980,
-      "n": "2× Papel Higiénico Simple Hoja 80mts 2 Ud. · oferta -40%",
-      "d": -1685
+      "n": "2× Papel Higiénico Simple Hoja 80mts 2 Ud. · oferta -40%"
     },
     "Pastilla inodoro": {
       "p": 1850,
@@ -187,13 +185,11 @@
     },
     "Rollo de cocina": {
       "p": 1400,
-      "n": "Rollo de Cocina 50 paños 3 Ud. · oferta -40%",
-      "d": -290
+      "n": "Rollo de Cocina 50 paños 3 Ud. · oferta -40%"
     },
     "Suavizante": {
       "p": 4600,
-      "n": "2× Suavizante Para Ropa Flores Silvestre Dia 900 Ml. · oferta -11%",
-      "d": -180
+      "n": "2× Suavizante Para Ropa Flores Silvestre Dia 900 Ml. · oferta -11%"
     },
     "Trapo de piso": {
       "p": 2000,
@@ -209,8 +205,7 @@
     },
     "Virulana": {
       "p": 861,
-      "n": "Esponja de Acero Inoxidable Dia 1 Ud. · 2da unidad -70% llevando 2 · oferta -35%",
-      "d": -464
+      "n": "Esponja de Acero Inoxidable Dia 1 Ud. · 2da unidad -70% llevando 2 · oferta -35%"
     },
     "Caldo en cubos": {
       "p": 1625,
@@ -437,8 +432,9 @@
       "n": "Infusion de Boldo en hojas x 50G"
     },
     "Vainilla": {
-      "p": 11500,
-      "n": "Chaucha de Vainilla x 1 unidad · New Garden"
+      "p": 103500,
+      "n": "Chaucha de Vainilla x 10 unidades · oferta -10% · New Garden",
+      "d": 92000
     },
     "Pimienta negra 50 g + 50 g": {
       "p": 1612,
@@ -565,9 +561,9 @@
       "n": "Gel de Limpieza Get The Look Salicílico x 150 ml · 2x1 llevando 2 · oferta -50%"
     },
     "Protector solar corporal": {
-      "p": 9917,
-      "n": "Protector Solar VN Efecto Seco Fps 30 x 190 ml · oferta -50%",
-      "d": -1289
+      "p": 11206,
+      "n": "Protector Solar VN Aerosol Fps 30 x 250 ml · oferta -50%",
+      "d": 1289
     },
     "Protector solar facial": {
       "p": 8510,
