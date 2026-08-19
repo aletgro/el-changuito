@@ -58,7 +58,7 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    "Esponja" → "Esponja salvauñas".
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
-   viendo la versión vieja. Hoy va por **v13**. `precios.json` es red-primero: no requiere bump.
+   viendo la versión vieja. Hoy va por **v14**. `precios.json` es red-primero: no requiere bump.
 3. **Los nombres de ítems son claves**: `precios.json` y el robot matchean por el `name`
    exacto del ítem (tildes incluidas). Renombrar un ítem rompe su precio → actualizar
    también `ITEMS`/`ITEMS_ELPUENTE` en el robot, la `PRICES` embebida y agregar migración.
@@ -87,10 +87,14 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
 - El robot: DIA vía API pública de VTEX (`/api/catalog_system/pub/products/search/?ft=...`)
   con fallback a páginas de categoría HTML (`cat` en la config). Conserva el precio
   anterior si un ítem no matchea; nunca escribe si TODO falló.
-- Variación diaria: cada entrada de `precios.json` puede llevar `d` (diferencia en $
-  contra la foto anterior, `conDelta()`); ausente = precio sin cambios. OJO: correr el
-  robot DOS veces el mismo día pisa las flechas (la segunda compara contra la primera).
-  Los ✔ del log muestran la flecha (`▲ +$…` / `▼ -$…`) para revisar de un vistazo.
+- Variaciones de precio: cada entrada de `precios.json` puede llevar `d` (diferencia
+  en $) y `dv` (fecha del cambio, `conDelta()`). La variación se CONSERVA mientras el
+  precio no vuelva a cambiar (correr el robot dos veces ya no la pisa); la app la
+  considera "reciente" por 4 días (`DIAS_AVISO`): muestra el badge ▲/▼ con "hace Nd"
+  y arma la tarjeta "Oportunidades" en Comprar — pendientes que bajaron (¡es el
+  momento!), en stock que bajaron (botón "+ a Comprar") y pendientes que subieron
+  (⚠ sobreprecio). Cambios de CRITERIO (otro producto elegido) van sin `d`: no son
+  movimientos de mercado. El log del robot solo flecha lo que cambió HOY.
 - Descuentos por día de semana (vigente 08/2026: DIA martes -20%, miércoles -10%
   y jueves -15% ·
   El Puente lun a vie -20% con TOPE de $6.000 de descuento · COTO mar -20%, mié -15%,

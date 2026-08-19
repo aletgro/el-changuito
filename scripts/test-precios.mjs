@@ -518,12 +518,16 @@ test("DESCUENTOS: COTO es mar/mié/jue/vie, sin carnicería ni harinas comunes",
 });
 
 /* ---------- Variación diaria (campo d) ---------- */
-test("conDelta: anota la diferencia contra la foto anterior solo si el precio cambió", () => {
-  assert.deepEqual(conDelta({ p: 900, n: "x" }, { p: 1000, n: "x" }), { p: 900, n: "x", d: -100 }); // bajó
-  assert.deepEqual(conDelta({ p: 1200, n: "x" }, { p: 1000, n: "x" }), { p: 1200, n: "x", d: 200 }); // subió
-  assert.deepEqual(conDelta({ p: 1000, n: "x" }, { p: 1000, n: "x", d: -50 }), { p: 1000, n: "x" }); // igual: sin flecha (y no hereda la vieja)
-  assert.deepEqual(conDelta({ p: 1000, n: "x" }, undefined), { p: 1000, n: "x" }); // ítem nuevo
-  assert.equal(conDelta(null, { p: 1000 }), null);
+test("conDelta: fecha cada variación y la conserva mientras el precio no cambie", () => {
+  const HOY = "12/08/2026";
+  assert.deepEqual(conDelta({ p: 900, n: "x" }, { p: 1000, n: "x" }, HOY), { p: 900, n: "x", d: -100, dv: HOY }); // bajó hoy
+  assert.deepEqual(conDelta({ p: 1200, n: "x" }, { p: 1000, n: "x" }, HOY), { p: 1200, n: "x", d: 200, dv: HOY }); // subió hoy
+  // mismo precio: conserva la variación anterior con su fecha (correr el robot 2 veces ya no la pisa)
+  assert.deepEqual(conDelta({ p: 1000, n: "x" }, { p: 1000, n: "x", d: -50, dv: "10/08/2026" }, HOY), { p: 1000, n: "x", d: -50, dv: "10/08/2026" });
+  // entrada vieja sin fecha: hereda la variación fechándola hoy
+  assert.deepEqual(conDelta({ p: 1000, n: "x" }, { p: 1000, n: "x", d: 30 }, HOY), { p: 1000, n: "x", d: 30, dv: HOY });
+  assert.deepEqual(conDelta({ p: 1000, n: "x" }, undefined, HOY), { p: 1000, n: "x" }); // ítem nuevo
+  assert.equal(conDelta(null, { p: 1000 }, HOY), null);
 });
 
 /* ---------- Farmacity ---------- */

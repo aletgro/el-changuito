@@ -198,6 +198,8 @@ dom2.window.localStorage.setItem("el-changuito-v1", JSON.stringify({
         items: [
           { id: "i1", name: "Nueces 500 g", note: "", spec: "", have: false },
           { id: "i2", name: "Chía 500 g", note: "", spec: "", have: false },
+          { id: "i3", name: "Girasol 250 g", note: "", spec: "", have: true },
+          { id: "i4", name: "Porotos negros 1 kg", note: "", spec: "", have: true },
         ],
       }],
     },
@@ -226,6 +228,8 @@ dom2.window.fetch = () => Promise.resolve({
     prices: {
       "Nueces 500 g": { p: 9000, n: "precio de prueba", d: -1000 },
       "Chía 500 g": { p: 5806, n: "precio de prueba", d: 277 },
+      "Girasol 250 g": { p: 3000, n: "precio de prueba", d: -300, dv: "09/08/2026" },       // bajó hace 1 día
+      "Porotos negros 1 kg": { p: 2000, n: "precio de prueba", d: -500, dv: "01/08/2026" }, // baja VIEJA (9 días)
       "Corte X": { p: 1000, n: "precio de prueba" },
       "Harina T": { p: 2000, n: "precio de prueba" },
     },
@@ -247,10 +251,21 @@ test("DeltaBadge: baja en verde y suba con su porcentaje contra el día anterior
   assert.match(texto, /▲ \+5%/); // Chía: $5.529 → $5.806
 });
 
-test("DeltaBadge: sin cambio de precio no hay etiqueta", () => {
-  // La foto se re-aplica con la misma versión → los ítems sin d no muestran flechas de más
+test("DeltaBadge: flechas solo para variaciones recientes", () => {
+  // Nueces (fila + resumen) + Chía (fila + resumen) + Girasol (resumen) + título "▼ Bajaron" = 6.
+  // Porotos negros NO suma: su baja tiene 9 días (ventana de aviso = 4).
   const flechas = (dom2.window.document.body.textContent.match(/[▲▼]/g) || []).length;
-  assert.equal(flechas, 2);
+  assert.equal(flechas, 6);
+});
+
+test("Oportunidades: destaca lo pendiente que bajó, ofrece sumar lo que ya tenés y avisa sobreprecios", () => {
+  const texto = dom2.window.document.body.textContent;
+  assert.match(texto, /¡Es el momento! Los necesitás y están más baratos:/); // Nueces
+  assert.match(texto, /Ya los tenés, pero por si querés aprovechar:/);       // Girasol
+  assert.match(texto, /\+ a Comprar/);
+  assert.match(texto, /hace 1d/);                                            // la baja de Girasol tiene fecha
+  assert.match(texto, /⚠ Con sobreprecio/);                                  // Chía subió y está pendiente
+  assert.doesNotMatch(texto, /Porotos negros 1 kg · 🌿/);                    // baja vieja: fuera del resumen
 });
 
 test("Descuentos por día: la config del JSON pisa la embebida y calcula ambos precios", () => {
@@ -283,6 +298,16 @@ test("Exclusiones de promo: la carnicería no lleva dto y la tarjeta lo aclara",
   assert.match(texto, /no aplica a \$ 1\.000 de lo pendiente/); // el Corte X queda afuera
   assert.match(texto, /lun \$ 1\.800/);                          // Harina T sí muestra su precio del lunes
   assert.doesNotMatch(texto, /lun \$ 900/);                      // Corte X no muestra línea de dto
+});
+
+// "+ a Comprar" desde la oportunidad: Girasol pasa a pendiente (al final, para no mover los totales de arriba)
+[...dom2.window.document.querySelectorAll("button")].find((b) => b.textContent === "+ a Comprar").click();
+await new Promise((r) => setTimeout(r, 600));
+
+test("'+ a Comprar' pasa el ítem rebajado a la lista de pendientes", () => {
+  const data = JSON.parse(dom2.window.localStorage.getItem("el-changuito-v1"));
+  const girasol = data.stores.find((s) => s.id === "diet").sections[0].items.find((it) => it.name === "Girasol 250 g");
+  assert.equal(girasol.have, false);
 });
 
 console.log(`\n${pasan} tests de app OK`);

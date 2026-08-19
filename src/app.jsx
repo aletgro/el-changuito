@@ -306,17 +306,29 @@ const difTxt = (nuevo, viejo) => {
   return d === 0 ? "igual" : (d > 0 ? "+" : "") + d + "%";
 };
 
-/* ▲/▼ contra la foto de precios anterior (campo d de precios.json → priceD) */
+/* Variaciones de precio (campos d/dv de precios.json → priceD/priceDV):
+   una variación se considera "reciente" y se muestra durante DIAS_AVISO días,
+   así aunque no abras la app justo ese día no te la perdés. */
+const DIAS_AVISO = 4;
+const edadDias = (fecha) => {
+  const m = String(fecha || "").match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if (!m) return 9999;
+  return Math.floor((new Date() - new Date(+m[3], +m[2] - 1, +m[1])) / 86400000);
+};
+const varReciente = (it) => !!it.priceD && it.price > 0 && edadDias(it.priceDV) <= DIAS_AVISO;
+
+/* ▲/▼ de variación reciente, con cuántos días hace que cambió */
 function DeltaBadge({ it }) {
-  const d = it.priceD || 0;
-  if (!d || !(it.price > 0)) return null;
+  if (!varReciente(it)) return null;
+  const d = it.priceD;
   const baja = d < 0;
   const pct = Math.round((Math.abs(d) / (it.price - d)) * 100);
   const txt = pct >= 1 ? pct + "%" : "$" + Math.round(Math.abs(d)).toLocaleString("es-AR");
+  const dias = Math.max(0, edadDias(it.priceDV));
   return (
     <span className="rounded-full font-semibold" title={`antes ${fmt(it.price - d)}`}
       style={{ background: baja ? "#E2F0DA" : "#F8E3DC", color: baja ? "#2F5E14" : "#9B3A1C", fontSize: 10, padding: "1px 6px", whiteSpace: "nowrap" }}>
-      {baja ? "▼ -" : "▲ +"}{txt}
+      {baja ? "▼ -" : "▲ +"}{txt}{dias >= 1 ? ` · hace ${dias}d` : ""}
     </span>
   );
 }
@@ -333,6 +345,7 @@ function compraConPrecio(it, precio, priceDate) {
     price: precio,
     priceNote: nota,
     priceD: 0,
+    priceDV: "",
     priceV: "manual@" + priceDate,
     priceHist: [...previos, { p: precio, t: fecha }].slice(-12),
   };
@@ -347,7 +360,7 @@ function applyPrices(stores, prices, version) {
       items: sec.items.map((it) => {
         const snap = prices[it.name];
         if (snap && snap.p > 0 && it.priceV !== version && it.priceV !== "manual@" + version) {
-          return { ...it, price: snap.p, priceNote: snap.n || "", priceD: snap.d || 0, priceV: version };
+          return { ...it, price: snap.p, priceNote: snap.n || "", priceD: snap.d || 0, priceDV: snap.dv || (snap.d ? version : ""), priceV: version };
         }
         return it;
       }),
@@ -738,6 +751,69 @@ function PickPending({ it, color, month, onConfirm }) {
   );
 }
 
+/* Resumen de variaciones recientes: pendientes que bajaron (¡es el momento!),
+   en stock que bajaron (chance de adelantar la compra) y pendientes que subieron
+   (aviso de sobreprecio). Silencio total si no hay movimientos. */
+function OportunidadesCard({ stores, patchItem }) {
+  const filas = [];
+  stores.forEach((s) => s.sections.forEach((sec) => sec.items.forEach((it) => {
+    if (varReciente(it)) filas.push({ store: s, sec, it });
+  })));
+  const bajaronPend = filas.filter((f) => f.it.priceD < 0 && !f.it.have);
+  const bajaronStock = filas.filter((f) => f.it.priceD < 0 && f.it.have);
+  const subieronPend = filas.filter((f) => f.it.priceD > 0 && !f.it.have);
+  if (!bajaronPend.length && !bajaronStock.length && !subieronPend.length) return null;
+  const Fila = ({ f, accion }) => (
+    <div className="flex items-center gap-2 py-1" style={{ borderTop: "1px dashed #EDE8DC" }}>
+      <span className="flex-1 text-sm" style={{ color: "#2B2620" }}>
+        <span className="font-medium">{f.it.name}</span>
+        <span className="text-xs" style={{ color: "#8A8170" }}> · {f.store.emoji} {f.store.name}</span>
+      </span>
+      <DeltaBadge it={f.it} />
+      <span className="text-sm font-semibold" style={{ color: "#2B2620" }}>{fmt(f.it.price)}</span>
+      {accion || null}
+    </div>
+  );
+  return (
+    <>
+      {bajaronPend.length > 0 || bajaronStock.length > 0 ? (
+        <section className="rounded-xl px-4 py-3" style={{ background: "#FFFFFF", border: "1px solid #E8E2D6", borderLeft: "6px solid #4E8C3A" }}>
+          <div className="text-sm font-semibold" style={{ color: "#2F5E14" }}>▼ Bajaron de precio</div>
+          {bajaronPend.length > 0 ? (
+            <>
+              <div className="text-xs mt-1 font-semibold" style={{ color: "#2F5E14" }}>¡Es el momento! Los necesitás y están más baratos:</div>
+              {bajaronPend.map((f) => <Fila key={f.it.id} f={f} />)}
+            </>
+          ) : null}
+          {bajaronStock.length > 0 ? (
+            <>
+              <div className="text-xs mt-2" style={{ color: "#8A8170" }}>Ya los tenés, pero por si querés aprovechar:</div>
+              {bajaronStock.map((f) => (
+                <Fila key={f.it.id} f={f} accion={
+                  <button
+                    onClick={() => patchItem(f.store.id, f.sec.id, f.it.id, { have: false })}
+                    className="text-xs font-semibold rounded-full presionable flex-shrink-0"
+                    style={{ color: "#2F5E14", border: "1px solid #A9D296", padding: "3px 9px" }}
+                  >
+                    + a Comprar
+                  </button>
+                } />
+              ))}
+            </>
+          ) : null}
+        </section>
+      ) : null}
+      {subieronPend.length > 0 ? (
+        <section className="rounded-xl px-4 py-3" style={{ background: "#FFF9F0", border: "1px solid #F0DCC0", borderLeft: "6px solid #C77B2B" }}>
+          <div className="text-sm font-semibold" style={{ color: "#9B5A1C" }}>⚠ Con sobreprecio</div>
+          <div className="text-xs mt-1" style={{ color: "#8A8170" }}>Los necesitás pero subieron hace poco — si pueden esperar, mejor:</div>
+          {subieronPend.map((f) => <Fila key={f.it.id} f={f} />)}
+        </section>
+      ) : null}
+    </>
+  );
+}
+
 /* ---------- Vista: COMPRAR ---------- */
 function ShoppingView({ stores, month, patchItem, buyAll, priceDate, descuentos }) {
   const [collapsed, setCollapsed] = useState({});
@@ -800,6 +876,7 @@ function ShoppingView({ stores, month, patchItem, buyAll, priceDate, descuentos 
           </div>
         </section>
       ) : null}
+      <OportunidadesCard stores={stores} patchItem={patchItem} />
       <div className="flex justify-end">
         <button onClick={toggleAll} className="text-xs font-semibold uppercase" style={{ color: "#8A8170", letterSpacing: "0.06em" }}>
           {allCollapsed ? "▾ Expandir todo" : "▴ Compactar todo"}
@@ -1074,7 +1151,7 @@ function EditRow({ it, onPatch, onDel, priceDate }) {
           type="number"
           min="0"
           value={it.price ? it.price : ""}
-          onChange={(e) => onPatch({ price: e.target.value === "" ? 0 : Math.max(0, parseFloat(e.target.value) || 0), priceD: 0, priceV: "manual@" + priceDate })}
+          onChange={(e) => onPatch({ price: e.target.value === "" ? 0 : Math.max(0, parseFloat(e.target.value) || 0), priceD: 0, priceDV: "", priceV: "manual@" + priceDate })}
           placeholder="0"
           className="rounded-lg border px-2 py-1 text-sm"
           style={{ borderColor: "#E5E1D6", background: "#FCFBF7", color: "#2B2620", outline: "none", width: 110 }}

@@ -787,14 +787,19 @@ function elegir(item, candidatos) {
   return { p: Math.round(g.estimado), n: nota };
 }
 
-/* Variación contra la foto anterior: d = diferencia en $ (solo si el precio cambió) */
-function conDelta(el, prev) {
+/* Variación de precio: d = diferencia en $ y dv = fecha en que cambió. Si el precio
+   no cambió hoy, se CONSERVA la última variación (la app decide cuánto tiempo
+   mostrarla — hoy 4 días). Correr el robot dos veces el mismo día ya no las pisa. */
+function conDelta(el, prev, hoy) {
   if (!el) return el;
-  const { d, ...limpio } = el;
-  return prev && prev.p > 0 && prev.p !== limpio.p ? { ...limpio, d: limpio.p - prev.p } : limpio;
+  const { d, dv, ...limpio } = el;
+  if (prev && prev.p > 0 && prev.p !== limpio.p) return { ...limpio, d: limpio.p - prev.p, dv: hoy };
+  if (prev && prev.p === limpio.p && prev.d) return { ...limpio, d: prev.d, dv: prev.dv || hoy };
+  return limpio;
 }
 
-const flecha = (el) => (!el || !el.d ? "" : el.d > 0 ? `  ▲ +$${Math.round(el.d).toLocaleString("es-AR")}` : `  ▼ -$${Math.round(-el.d).toLocaleString("es-AR")}`);
+/* En el log, la flecha solo para lo que cambió HOY (lo conservado no es novedad) */
+const flecha = (el, hoy) => (!el || !el.d || el.dv !== hoy ? "" : el.d > 0 ? `  ▲ +$${Math.round(el.d).toLocaleString("es-AR")}` : `  ▼ -$${Math.round(-el.d).toLocaleString("es-AR")}`);
 
 /* ---------- Principal ---------- */
 async function main() {
@@ -802,6 +807,7 @@ async function main() {
   const previo = fs.existsSync(archivo) ? JSON.parse(fs.readFileSync(archivo, "utf8")) : { prices: {} };
   const previoPrices = previo.prices || {};
   const precios = { ...previoPrices };
+  const hoy = fechaHoyAR();
   let ok = 0, fallos = [];
 
   for (const item of ITEMS) {
@@ -821,10 +827,10 @@ async function main() {
       }
     }
     if (elegido) {
-      const elD = conDelta(elegido, previoPrices[item.name]);
+      const elD = conDelta(elegido, previoPrices[item.name], hoy);
       precios[item.name] = elD;
       ok++;
-      console.log(`✔ ${item.name} → $${elD.p}  (${elD.n})${flecha(elD)}`);
+      console.log(`✔ ${item.name} → $${elD.p}  (${elD.n})${flecha(elD, hoy)}`);
     } else {
       fallos.push(item.name);
       console.log(`✘ ${item.name} → sin match (queda el precio anterior si había)`);
@@ -841,10 +847,10 @@ async function main() {
     for (const item of ITEMS_ELPUENTE) {
       const el = elegir(item, candEP);
       if (el) {
-        const elD = conDelta(el, previoPrices[item.name]);
+        const elD = conDelta(el, previoPrices[item.name], hoy);
         precios[item.name] = elD;
         ok++;
-        console.log(`✔ ${item.name} → $${elD.p}  (${elD.n})${flecha(elD)}`);
+        console.log(`✔ ${item.name} → $${elD.p}  (${elD.n})${flecha(elD, hoy)}`);
       } else {
         fallos.push(item.name);
         console.log(`✘ ${item.name} → sin match en el listado`);
@@ -862,10 +868,10 @@ async function main() {
   if (resCoto.length === 0) resCoto = NOMBRES_COTO.map((n) => [n, null]);
   for (const [name, el] of resCoto) {
     if (el) {
-      const elD = conDelta(el, previoPrices[name]);
+      const elD = conDelta(el, previoPrices[name], hoy);
       precios[name] = elD;
       ok++;
-      console.log(`✔ ${name} → $${elD.p}  (${elD.n})${flecha(elD)}`);
+      console.log(`✔ ${name} → $${elD.p}  (${elD.n})${flecha(elD, hoy)}`);
     } else {
       fallos.push(name);
       console.log(`✘ ${name} → sin match (queda el precio anterior si había)`);
@@ -879,10 +885,10 @@ async function main() {
   if (resDiet.length === 0) resDiet = NOMBRES_DIETETICA.map((n) => [n, null]);
   for (const [name, el] of resDiet) {
     if (el) {
-      const elD = conDelta(el, previoPrices[name]);
+      const elD = conDelta(el, previoPrices[name], hoy);
       precios[name] = elD;
       ok++;
-      console.log(`✔ ${name} → $${elD.p}  (${elD.n})${flecha(elD)}`);
+      console.log(`✔ ${name} → $${elD.p}  (${elD.n})${flecha(elD, hoy)}`);
     } else {
       fallos.push(name);
       console.log(`✘ ${name} → sin match (queda el precio anterior si había)`);
@@ -896,10 +902,10 @@ async function main() {
   if (resFarma.length === 0) resFarma = NOMBRES_FARMACITY.map((n) => [n, null]);
   for (const [name, el] of resFarma) {
     if (el) {
-      const elD = conDelta(el, previoPrices[name]);
+      const elD = conDelta(el, previoPrices[name], hoy);
       precios[name] = elD;
       ok++;
-      console.log(`✔ ${name} → $${elD.p}  (${elD.n})${flecha(elD)}`);
+      console.log(`✔ ${name} → $${elD.p}  (${elD.n})${flecha(elD, hoy)}`);
     } else {
       fallos.push(name);
       console.log(`✘ ${name} → sin match (queda el precio anterior si había)`);
@@ -913,10 +919,10 @@ async function main() {
   if (resOtros.length === 0) resOtros = NOMBRES_OTROS.map((n) => [n, null]);
   for (const [name, el] of resOtros) {
     if (el) {
-      const elD = conDelta(el, previoPrices[name]);
+      const elD = conDelta(el, previoPrices[name], hoy);
       precios[name] = elD;
       ok++;
-      console.log(`✔ ${name} → $${elD.p}  (${elD.n})${flecha(elD)}`);
+      console.log(`✔ ${name} → $${elD.p}  (${elD.n})${flecha(elD, hoy)}`);
     } else {
       fallos.push(name);
       console.log(`✘ ${name} → sin match (queda el precio anterior si había)`);
