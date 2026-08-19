@@ -161,8 +161,7 @@
     },
     "Jabón líquido manos": {
       "p": 1399,
-      "n": "Jabón Líquido Para Manos Suave Pepino Y Aloe 220 Ml.",
-      "dv": "12/08/2026"
+      "n": "Jabón Líquido Para Manos Suave Pepino Y Aloe 220 Ml."
     },
     "Jabón líquido ropa": {
       "p": 7550,
@@ -435,7 +434,8 @@
     "Vainilla": {
       "p": 103500,
       "n": "Chaucha de Vainilla x 10 unidades · oferta -10% · New Garden",
-      "d": 92000
+      "d": 92000,
+      "dv": "19/08/2026"
     },
     "Pimienta negra 50 g + 50 g": {
       "p": 1612,
@@ -564,7 +564,8 @@
     "Protector solar corporal": {
       "p": 11206,
       "n": "Protector Solar VN Aerosol Fps 30 x 250 ml · oferta -50%",
-      "d": 1289
+      "d": 1289,
+      "dv": "19/08/2026"
     },
     "Protector solar facial": {
       "p": 8510,
