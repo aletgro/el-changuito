@@ -196,6 +196,16 @@ test("v12: Pollo entero entra a COTO/Carnicería antes de Roast beef, una sola v
   assert.equal(carne.items[iRoast - 1].name, "Pollo entero");
 });
 
+test("v13: la sección Papelera entra a Otros lugares con sus 5 ítems, una sola vez", () => {
+  const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
+  const otros = data.stores.find((s) => s.id === "otros");
+  const papeleras = otros.sections.filter((sec) => sec.name === "Papelera");
+  assert.equal(papeleras.length, 1);
+  assert.deepEqual(papeleras[0].items.map((i) => i.name),
+    ["Bolsas arranque 10x15", "Bolsas basura 34x38", "16 contenedores n°1", "15 contenedores n°2", "4 contenedores n°3"]);
+  assert.ok(papeleras[0].items.every((i) => i.have), "arrancan en stock");
+});
+
 test("v11: Frigorífico Pesce aparece con sus 3 productos, como ya tenidos", () => {
   const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
   const pesce = data.stores.find((s) => s.id === "pesce");

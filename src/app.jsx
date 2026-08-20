@@ -224,6 +224,7 @@ function seedStores() {
         { id: nid(), name: "BonVino", items: [I("Aceto balsámico Millán")] },
         { id: nid(), name: "Tienda Nova", items: [I("Salsa de soja Lee Kum Kee premium")] },
         { id: nid(), name: "Esquina de las Aceitunas", items: [I("Aceitunas")] },
+        { id: nid(), name: "Papelera", items: [I("Bolsas arranque 10x15"), I("Bolsas basura 34x38"), I("16 contenedores n°1"), I("15 contenedores n°2"), I("4 contenedores n°3")] },
         { id: nid(), name: "Buscar lugar", items: [G("Crema rosácea"), G("Proteína"), I("Shampoo sólido"), I("1 pila LR44"), I("2 pilas LR43"), I("Bombillas techo"), I("Bombillas escritorio")] },
       ],
     },
@@ -568,6 +569,24 @@ function migrate(stores) {
       const items = iRoast >= 0 ? [...sec.items.slice(0, iRoast), nuevo, ...sec.items.slice(iRoast)] : [...sec.items, nuevo];
       return { ...sec, items };
     }),
+  });
+
+  // v13 · Otros lugares: sección Papelera (bolsas y contenedores), antes de "Buscar lugar"
+  out = out.map((s) => {
+    if (s.id !== "otros" || s.sections.some((sec) => sec.name === "Papelera")) return s;
+    const papelera = {
+      id: "mig-papelera", name: "Papelera",
+      items: [
+        { id: "mig-pap-1", name: "Bolsas arranque 10x15", note: "", spec: "", have: true },
+        { id: "mig-pap-2", name: "Bolsas basura 34x38", note: "", spec: "", have: true },
+        { id: "mig-pap-3", name: "16 contenedores n°1", note: "", spec: "", have: true },
+        { id: "mig-pap-4", name: "15 contenedores n°2", note: "", spec: "", have: true },
+        { id: "mig-pap-5", name: "4 contenedores n°3", note: "", spec: "", have: true },
+      ],
+    };
+    const iBuscar = s.sections.findIndex((sec) => sec.name === "Buscar lugar");
+    const sections = iBuscar >= 0 ? [...s.sections.slice(0, iBuscar), papelera, ...s.sections.slice(iBuscar)] : [...s.sections, papelera];
+    return { ...s, sections };
   });
 
   // v5 · asegurar campos de precio y aplicar la foto embebida como base
