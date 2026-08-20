@@ -206,6 +206,18 @@ test("Roast beef: el precio del ítem ES el precio por kilo, con nota limpia", (
   assert.equal(el.n, "Roast Beef Estancias Coto · $13.299/kg");
 });
 
+test("Pollo entero: SOLO refrigerado al mejor $/kg; congelado y elaborados afuera", () => {
+  const el = elegir(itemCoto("Pollo entero"), [
+    { nombre: "Pollo Congelado X Kg", precio: 4399, lista: 4399 },
+    { nombre: "Pollo Entero Fresco X Uni (4 Kg) Refrigerado", precio: 17596, lista: 17596 }, // $4.399/kg
+    { nombre: "Pollo Al Spiedo X Kg", precio: 14990, lista: 14990 },
+    { nombre: "Pollo Relleno X Kg", precio: 14999, lista: 14999 },
+  ]);
+  assert.equal(el.p, 17596);
+  assert.match(el.n, /Refrigerado/);
+  assert.match(el.n, /\$4\.399\/kg/);
+});
+
 test("porKgCoto: elige el corte más barato y filtra cerdo/lomo/envasados", () => {
   const cand = [
     { nombre: "Vacío Del Centro Estancias Coto X KG", precio: 17499, lista: 17499 },

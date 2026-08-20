@@ -42,6 +42,16 @@ dom.window.localStorage.setItem("el-changuito-v1", JSON.stringify({
       id: "farma", name: "Farmacity", emoji: "💊", color: "#0E8C8C", note: "",
       sections: [{ id: "f1", name: "Higiene", items: [{ id: "h1", name: "Alcohol", note: "", spec: "", have: true }] }],
     },
+    { // para la migración v12: Carnicería sin el pollo (todo en stock, no afecta Comprar)
+      id: "coto", name: "COTO", emoji: "🥩", color: "#E4572E", note: "",
+      sections: [{
+        id: "co1", name: "Carnicería",
+        items: [
+          { id: "ca1", name: "Asado", note: "", spec: "", have: true },
+          { id: "ca2", name: "Roast beef", note: "", spec: "", have: true },
+        ],
+      }],
+    },
     { // para la migración v10 (renombres de DIA); queda colapsada en Listas, no afecta los toggles
       id: "dia", name: "DIA", emoji: "🛒", color: "#D7263D", note: "",
       sections: [{
@@ -174,6 +184,16 @@ test("v10: renombres de DIA conservando estado (vinagre 500 ml, esponja salvauñ
   assert.deepEqual(nombres, ["Vinagre de manzana 500 ml", "Esponja salvauñas"]);
   assert.equal(almacen.items[0].have, false, "el vinagre seguía por comprar");
   assert.equal(almacen.items[1].have, true, "la esponja estaba en stock");
+});
+
+test("v12: Pollo entero entra a COTO/Carnicería antes de Roast beef, una sola vez", () => {
+  const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
+  const carne = data.stores.find((s) => s.id === "coto").sections.find((sec) => sec.name === "Carnicería");
+  const pollos = carne.items.filter((it) => it.name === "Pollo entero");
+  assert.equal(pollos.length, 1);
+  assert.equal(pollos[0].note, "Refrigerado (no congelado)");
+  const iRoast = carne.items.findIndex((it) => it.name === "Roast beef");
+  assert.equal(carne.items[iRoast - 1].name, "Pollo entero");
 });
 
 test("v11: Frigorífico Pesce aparece con sus 3 productos, como ya tenidos", () => {

@@ -150,6 +150,7 @@ function seedStores() {
             P("Achura", ["Molleja", "Chinchulín", "Riñón", "Chorizo", "Lengua", "Morcilla"]),
             I("Asado", "Vacío o tapa de asado + tira de asado"),
             I("Combo de temporada", "", { dyn: "combo" }),
+            I("Pollo entero", "Refrigerado (no congelado)"),
             I("Roast beef", "", { dyn: "roast" }),
           ]
         },
@@ -556,6 +557,18 @@ function migrate(stores) {
     const iGustitos = out.findIndex((s) => s.id === "gustitos");
     out = iGustitos >= 0 ? [...out.slice(0, iGustitos), pesce, ...out.slice(iGustitos)] : [...out, pesce];
   }
+
+  // v12 · COTO/Carnicería: sumar Pollo entero (refrigerado), antes de Roast beef
+  out = out.map((s) => s.id !== "coto" ? s : {
+    ...s,
+    sections: s.sections.map((sec) => {
+      if (sec.name !== "Carnicería" || sec.items.some((it) => it.name === "Pollo entero")) return sec;
+      const iRoast = sec.items.findIndex((it) => it.name === "Roast beef");
+      const nuevo = { id: "mig-pollo", name: "Pollo entero", note: "Refrigerado (no congelado)", spec: "", have: true };
+      const items = iRoast >= 0 ? [...sec.items.slice(0, iRoast), nuevo, ...sec.items.slice(iRoast)] : [...sec.items, nuevo];
+      return { ...sec, items };
+    }),
+  });
 
   // v5 · asegurar campos de precio y aplicar la foto embebida como base
   out = out.map((s) => ({

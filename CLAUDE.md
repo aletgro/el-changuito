@@ -56,7 +56,8 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    manual previo (fecha tomada del propio `priceV`) · v10 renombra en DIA
    "Vinagre de manzana 1 L" → "Vinagre de manzana 500 ml" (envase real) y
    "Esponja" → "Esponja salvauñas" · v11 suma el comercio Frigorífico Pesce
-   (Salmón, Langostinos, Mejillones), antes de Gustitos.
+   (Salmón, Langostinos, Mejillones), antes de Gustitos · v12 suma Pollo entero
+   (refrigerado) a COTO/Carnicería.
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
    viendo la versión vieja. Hoy va por **v14**. `precios.json` es red-primero: no requiere bump.
@@ -184,7 +185,9 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   fuerza" (W300, >13 % prot.) = producto "Harina Para Masa Madre Chacabuco" · "Harina
   0000 de fuerza" (Napolitana) = "Harina Trigo 00 Chacabuco". Carnicería, criterio
   CONFIRMADO: el precio de cada corte es POR KILO; los compuestos (Combo, Asado)
-  muestran el $/kg de cada corte y suman "1 kg de c/u". "Achura" SIN precio por
+  muestran el $/kg de cada corte y suman "1 kg de c/u". "Pollo entero" = SOLO
+  refrigerado (no congelado), el más barato por kg con precio publicado — se vende
+  por unidad ("X Uni (4 Kg)", `comparaPor:"kg"`). "Achura" SIN precio por
   decisión del usuario ("por ahora"): es un pick de 6 opciones de valor muy dispar.
   Supuestos que quedan: Sémola 500 g (quedó Pureza, no hay Chacabuco) · precio = moda
   entre sucursales (si pasa el código de su sucursal de La Plata, filtrar `price[]`

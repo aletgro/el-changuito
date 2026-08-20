@@ -333,6 +333,9 @@ const ITEMS_COTO = [
   { name: "Harina integral", q: "harina chacabuco", unit: "kg", qty: 1, must: [/chacabuco/i, /integral/i], reject: [/semillas|org[áa]nica|premezcla/i] },
   { name: "Semolín", q: "harina chacabuco", unit: "kg", qty: 1, must: [/semol[íi]n/i], reject: [] },
   { name: "Sémola", q: "semola", unit: "kg", qty: 0.5, must: [/s[ée]mola/i], reject: [/\bfid|fideo|spaghetti|tallar|ñoqui|vitina|premezcla/i] },
+  // Carnicería: pollo entero SOLO refrigerado (no congelado), el más barato POR KILO
+  // entre lo que tiene precio publicado (se vende por unidad, ej. "X Uni (4 Kg)")
+  { name: "Pollo entero", q: "pollo entero", unit: "un", qty: 1, comparaPor: "kg", must: [/pollo/i, /entero/i, /refrigerado|fresco/i], reject: [/congelad|spiedo|relleno|trozado|arrollado|matambre|milanesa|empanad|brochette|bocadito/i] },
 ];
 
 /* Carnicería: cortes al peso, todos "X KG" → el precio publicado ES por kg.
