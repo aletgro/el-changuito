@@ -137,7 +137,7 @@ function seedStores() {
         { id: nid(), name: "Limpieza e higiene", items: [I("Aerosol de ambiente"), I("Bolsa de basura baño"), I("Cif crema"), I("Desinfectante de piso"), I("Desinfectante de superficies"), I("Detergente líquido"), I("Esponja salvauñas"), I("Jabón Dove"), I("Jabón líquido manos"), I("Jabón líquido ropa"), I("Lavandina"), I("Limpia vidrios"), I("Papel higiénico"), I("Pastilla inodoro"), I("Rollo de cocina"), I("Suavizante"), I("Trapo de piso"), I("Trapo rejilla"), I("Trapo amarillo"), I("Virulana")] },
         { id: nid(), name: "Almacén (compra secundaria)", items: [I("Arvejas en lata"), I("Caldo en cubos"), I("Choclo en lata"), I("Jardinera en lata"), I("Jugo de tomate en sachet"), I("Levadura"), I("Pan rallado")] },
         { id: nid(), name: "Electricidad", items: [I("4 pilas AAA", "Control + balanza")] },
-        { id: nid(), name: "Otros", items: [I("Escarbadientes")] },
+        { id: nid(), name: "Otros", items: [I("Escarbadientes"), I("Film transparente"), I("Papel aluminio"), I("Papel manteca")] },
       ],
     },
     {
@@ -587,6 +587,25 @@ function migrate(stores) {
     const iBuscar = s.sections.findIndex((sec) => sec.name === "Buscar lugar");
     const sections = iBuscar >= 0 ? [...s.sections.slice(0, iBuscar), papelera, ...s.sections.slice(iBuscar)] : [...s.sections, papelera];
     return { ...s, sections };
+  });
+
+  // v14 · DIA/Otros: film transparente, papel aluminio y papel manteca
+  out = out.map((s) => {
+    if (s.id !== "dia") return s;
+    const nuevos = ["Film transparente", "Papel aluminio", "Papel manteca"];
+    const armar = (n) => ({ id: "mig-" + n.toLowerCase().replace(/\s+/g, "-"), name: n, note: "", spec: "", have: true });
+    const iOtros = s.sections.findIndex((sec) => sec.name === "Otros");
+    if (iOtros < 0) {
+      return { ...s, sections: [...s.sections, { id: "mig-dia-otros", name: "Otros", items: nuevos.map(armar) }] };
+    }
+    return {
+      ...s,
+      sections: s.sections.map((sec, i) => {
+        if (i !== iOtros) return sec;
+        const faltan = nuevos.filter((n) => !sec.items.some((it) => it.name === n));
+        return faltan.length ? { ...sec, items: [...sec.items, ...faltan.map(armar)] } : sec;
+      }),
+    };
   });
 
   // v5 · asegurar campos de precio y aplicar la foto embebida como base

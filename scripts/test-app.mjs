@@ -186,6 +186,13 @@ test("v10: renombres de DIA conservando estado (vinagre 500 ml, esponja salvauñ
   assert.equal(almacen.items[1].have, true, "la esponja estaba en stock");
 });
 
+test("v14: film, aluminio y manteca entran a DIA/Otros (creando la sección si falta)", () => {
+  const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
+  const otros = data.stores.find((s) => s.id === "dia").sections.find((sec) => sec.name === "Otros");
+  assert.ok(otros, "falta la sección Otros de DIA");
+  assert.deepEqual(otros.items.map((i) => i.name), ["Film transparente", "Papel aluminio", "Papel manteca"]);
+});
+
 test("v12: Pollo entero entra a COTO/Carnicería antes de Roast beef, una sola vez", () => {
   const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
   const carne = data.stores.find((s) => s.id === "coto").sections.find((sec) => sec.name === "Carnicería");

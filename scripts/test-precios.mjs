@@ -296,6 +296,24 @@ test("Trapo rejilla: la Rejilla Pastelera de metal no es un trapo", () => {
   assert.match(el.n, /Trapo Rejilla/);
 });
 
+test("Rollos de cocina: gana el más barato POR METRO, no el rollo más barato", () => {
+  const el = elegir(itemDia("Film transparente"), [
+    { nombre: "Film Transparente Dia 30 Mt.", precio: 3225, lista: 3225 },  // $107,5/m ← gana
+    { nombre: "Film Adherente Económico 10 Mt.", precio: 2000, lista: 2000 }, // $200/m aunque el rollo sea más barato
+  ]);
+  assert.equal(el.p, 3225);
+  assert.match(el.n, /\$108\/m/);
+});
+
+test("Papel manteca: exige ambas palabras (la manteca de verdad no cuenta)", () => {
+  const el = elegir(itemDia("Papel manteca"), [
+    { nombre: "Manteca La Serenísima 200 Gr.", precio: 3650, lista: 3650 },
+    { nombre: "Rollo Papel Manteca 5 Mts Dia 1 Ud.", precio: 3187.5, lista: 3187.5 },
+  ]);
+  assert.equal(el.p, 3188);
+  assert.match(el.n, /Rollo Papel Manteca/);
+});
+
 test("Marca preferida: si no gana por precio, la nota muestra la diferencia para decidir", () => {
   const el = elegir(itemDia("Yerba 1 kg"), [
     { nombre: "Yerba Mate Dia Elaborado Con Palo 1 Kg.", precio: 2891, lista: 2891 },

@@ -113,6 +113,10 @@ const ITEMS = [
   // --- Electricidad y otros ---
   { name: "4 pilas AAA", q: "pilas aaa", unit: "un", qty: 4, must: [/aaa/i], reject: [/recargable|cargador/i] },
   { name: "Escarbadientes", q: "escarbadientes", unit: "un", qty: 1, must: [/escarbadientes|palillos/i], reject: [] },
+  // Rollos de cocina: mejor precio POR METRO (los largos varían mucho entre marcas)
+  { name: "Film transparente", q: "film", unit: "un", qty: 1, comparaPor: "m", must: [/film/i], reject: [] },
+  { name: "Papel aluminio", q: "papel aluminio", unit: "un", qty: 1, comparaPor: "m", must: [/aluminio/i], reject: [/molde|bandeja/i] },
+  { name: "Papel manteca", q: "papel manteca", unit: "un", qty: 1, comparaPor: "m", must: [/papel/i, /manteca/i], reject: [/untable/i] },
 ];
 
 /* ---------- Utilidades ---------- */

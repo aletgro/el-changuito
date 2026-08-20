@@ -58,7 +58,9 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    "Esponja" → "Esponja salvauñas" · v11 suma el comercio Frigorífico Pesce
    (Salmón, Langostinos, Mejillones), antes de Gustitos · v12 suma Pollo entero
    (refrigerado) a COTO/Carnicería · v13 suma la sección Papelera a Otros lugares
-   (bolsas y contenedores, sin precios: papelera de barrio sin página).
+   (bolsas y contenedores, sin precios: papelera de barrio sin página) · v14 suma
+   Film transparente, Papel aluminio y Papel manteca a DIA/Otros (mejor precio
+   POR METRO, `comparaPor:"m"`).
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
    viendo la versión vieja. Hoy va por **v14**. `precios.json` es red-primero: no requiere bump.
