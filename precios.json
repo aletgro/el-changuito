@@ -1,5 +1,5 @@
 {
-  "version": "20/08/2026",
+  "version": "21/08/2026",
   "descuentos": {
     "dia": [
       {
@@ -121,7 +121,7 @@
     },
     "Papas fritas": {
       "p": 4601,
-      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr."
+      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr."
     },
     "Vinagre de manzana 1 L": {
       "p": 4060,
@@ -380,8 +380,10 @@
       "n": "250 g de Semillas De Lino (Doradas) Organicas x 250G · $8.132/kg"
     },
     "Maní 2 kg": {
-      "p": 7396,
-      "n": "2 kg de Mani Repelado Crudo 1 kg · $3.698/kg"
+      "p": 8552,
+      "n": "2 kg de Mani Repelado Crudo 1 kg · $4.276/kg",
+      "d": 1156,
+      "dv": "21/08/2026"
     },
     "Nueces 500 g": {
       "p": 10779,
@@ -444,10 +446,10 @@
       "n": "Infusion de Boldo en hojas x 50G"
     },
     "Vainilla": {
-      "p": 103500,
-      "n": "Chaucha de Vainilla x 10 unidades · oferta -10% · New Garden",
-      "d": 92000,
-      "dv": "19/08/2026"
+      "p": 11500,
+      "n": "Chaucha de Vainilla x 1 unidad · New Garden",
+      "d": -92000,
+      "dv": "21/08/2026"
     },
     "Pimienta negra 50 g + 50 g": {
       "p": 1612,
@@ -554,8 +556,10 @@
       "n": "Máquina de Afeitar Descartable Enjoy 3 Filos Mujer x 5 un · oferta -50% · $805/un"
     },
     "Pasta dental": {
-      "p": 4405,
-      "n": "Pasta Dental Colgate Max White Complete Clean x 180 g · 2x1 llevando 2 · oferta -50% · $24.472/kg"
+      "p": 4021,
+      "n": "Pasta Dental Oral B 4 en 1 x 180 g · oferta -40% · $22.339/kg",
+      "d": -384,
+      "dv": "21/08/2026"
     },
     "Preservativos": {
       "p": 5874,
@@ -574,10 +578,10 @@
       "n": "Gel de Limpieza Get The Look Salicílico x 150 ml · 2x1 llevando 2 · oferta -50%"
     },
     "Protector solar corporal": {
-      "p": 11206,
-      "n": "Protector Solar VN Aerosol Fps 30 x 250 ml · oferta -50%",
-      "d": 1289,
-      "dv": "19/08/2026"
+      "p": 8824,
+      "n": "Protector Solar VN Efecto Seco Fps 30 x 190 ml · oferta -50%",
+      "d": -2382,
+      "dv": "21/08/2026"
     },
     "Protector solar facial": {
       "p": 8510,
