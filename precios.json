@@ -1,5 +1,5 @@
 {
-  "version": "24/08/2026",
+  "version": "25/08/2026",
   "descuentos": {
     "dia": [
       {
@@ -60,12 +60,14 @@
   },
   "prices": {
     "Aceite de girasol 1 L": {
-      "p": 5580,
-      "n": "Aceite de Girasol Pureza 1,5 Lt. · oferta -20%"
+      "p": 5745,
+      "n": "Aceite de Girasol Dia 1,5 Lt.",
+      "d": 165,
+      "dv": "25/08/2026"
     },
     "Agua mineral bidón": {
       "p": 2670,
-      "n": "3× Agua Mineral Sin Gas Valle Del Sol 2 Lt. · oferta -29% · Glaciar $6.052 (+127%)"
+      "n": "3× Agua Mineral Sin Gas Valle Del Sol 2 Lt. · oferta -29% · Glaciar $9.310 (+249%)"
     },
     "Arroz integral 1 kg": {
       "p": 1395,
@@ -112,8 +114,10 @@
       "n": "Vinagre de Alcohol Dia 1 Lt."
     },
     "Yerba 1 kg": {
-      "p": 2887,
-      "n": "Yerba Mate La Tranquera Selección Especial 1 Kg. · oferta -35% · Playadito $5.208 (+80%)"
+      "p": 2891,
+      "n": "Yerba Mate Dia Elaborado Con Palo 1 Kg. · Playadito $5.208 (+80%)",
+      "d": 4,
+      "dv": "25/08/2026"
     },
     "Grasa bovina 1 kg": {
       "p": 7300,
@@ -121,7 +125,7 @@
     },
     "Papas fritas": {
       "p": 4601,
-      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr."
+      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr."
     },
     "Vinagre de manzana 1 L": {
       "p": 4060,
@@ -148,16 +152,20 @@
       "n": "Desinfectante Multisuperficies Ayudín Doypack 450 Ml. · oferta -26%"
     },
     "Detergente líquido": {
-      "p": 1687,
-      "n": "Detergente Magistral Ultra Limon Botella 300 Ml. · oferta -35%"
+      "p": 1900,
+      "n": "Detergente DIA Limón 300 Ml.",
+      "d": 213,
+      "dv": "25/08/2026"
     },
     "Esponja": {
       "p": 915,
       "n": "Esponja Virulana Fibra Extra Duración 1 Ud."
     },
     "Jabón Dove": {
-      "p": 1792,
-      "n": "Jabón en Barra Dove Humectación Enriquecida 75 Gr. · oferta -25%"
+      "p": 1958,
+      "n": "Jabon En Barra Dove Original Individual 90 Gr. · 2da unidad -50% lleva · oferta -25%",
+      "d": 166,
+      "dv": "25/08/2026"
     },
     "Jabón líquido manos": {
       "p": 1399,
@@ -176,20 +184,26 @@
       "n": "Limpiador Vidrios Y Mulitiuso Cif Expert Doypack 450 Ml. · oferta -26%"
     },
     "Papel higiénico": {
-      "p": 2980,
-      "n": "2× Papel Higiénico Simple Hoja 80mts 2 Ud. · oferta -40%"
+      "p": 4665,
+      "n": "3× Papel Higiénico Simple Hoja 50 mts 2 Ud.",
+      "d": 1685,
+      "dv": "25/08/2026"
     },
     "Pastilla inodoro": {
       "p": 1850,
       "n": "Limpiador Inodoro Pastillas Glade Lavanda 25 Gr."
     },
     "Rollo de cocina": {
-      "p": 1400,
-      "n": "Rollo de Cocina 50 paños 3 Ud. · oferta -40%"
+      "p": 1690,
+      "n": "Rollo De Cocina Golf 3 Ud. 40 Mt.",
+      "d": 290,
+      "dv": "25/08/2026"
     },
     "Suavizante": {
-      "p": 4600,
-      "n": "2× Suavizante Para Ropa Flores Silvestre Dia 900 Ml. · oferta -11%"
+      "p": 4780,
+      "n": "2× Suavizante Para Ropa Héroe Premium 900 Ml.",
+      "d": 180,
+      "dv": "25/08/2026"
     },
     "Trapo de piso": {
       "p": 2000,
@@ -204,8 +218,10 @@
       "n": "Paño Amarillo Multiuso DIA 3 Ud."
     },
     "Virulana": {
-      "p": 861,
-      "n": "Esponja de Acero Inoxidable Dia 1 Ud. · 2da unidad -70% llevando 2 · oferta -35%"
+      "p": 1325,
+      "n": "Esponja de Acero Inoxidable Dia 1 Ud.",
+      "d": 464,
+      "dv": "25/08/2026"
     },
     "Caldo en cubos": {
       "p": 1625,
@@ -524,42 +540,54 @@
       "n": "Lee Kum Kee Salsa de Soja Premium 500ml"
     },
     "Alcohol": {
-      "p": 3684,
-      "n": "Alcohol Etílico Bialcohol 96% Uso Medicinal x 500ml · oferta -25%"
+      "p": 3950,
+      "n": "Alcohol Etílico Farmacity 96% x 500 ml",
+      "d": 266,
+      "dv": "25/08/2026"
     },
     "Algodón": {
       "p": 1700,
       "n": "Algodón Clásico Farmacity x 100 g"
     },
     "Cepillo de dientes": {
-      "p": 3500,
-      "n": "Cepillo de Dientes Colgate Max White Charcoal Cerdas Medianas Blanquea · oferta -50% · $1.750/un"
+      "p": 3728,
+      "n": "Cepillo de Dientes Colgate Max White Charcoal Cerdas Medianas Blanquea · oferta -50% · $1.864/un",
+      "d": 228,
+      "dv": "25/08/2026"
     },
     "Curitas": {
       "p": 1800,
       "n": "Apositos Adhesivos Farmacity x 30 un · 2x1 llevando 2 · oferta -50% · $60/un"
     },
     "Desodorante": {
-      "p": 5170,
-      "n": "Desodorante Old Spice Dragon Blast x 50 g · 2x1 llevando 2 · oferta -50%"
+      "p": 10340,
+      "n": "Desodorante Old Spice Fresh x 50 g",
+      "d": 5170,
+      "dv": "25/08/2026"
     },
     "Enjuague bucal": {
-      "p": 3920,
-      "n": "Enjuague Bucal Colgate Plax Odor Control x 500 ml · 2x1 llevando 2 · oferta -50% · $7.840/L"
+      "p": 3878,
+      "n": "Enjuague Bucal Colgate Plax Odor Control x 500 ml · 2x1 llevando 2 · oferta -50% · $7.755/L",
+      "d": -42,
+      "dv": "25/08/2026"
     },
     "Hilo dental": {
-      "p": 2274,
-      "n": "Hilo Dental Farmacity Sabor Menta x 2 un x 50 m · oferta -40% · $23/m"
+      "p": 1155,
+      "n": "Hilo Dental Farmacity Encerado Sabor Menta x 50 m · 2x1 llevando 2 · oferta -50% · $23/m",
+      "d": -1119,
+      "dv": "25/08/2026"
     },
     "Máquina de afeitar": {
-      "p": 4025,
-      "n": "Máquina de Afeitar Descartable Enjoy 3 Filos Mujer x 5 un · oferta -50% · $805/un"
+      "p": 4127,
+      "n": "Maquina de Afeitar Farmacity 3 Filos para Hombre x 5 un · oferta -35% · $825/un",
+      "d": 102,
+      "dv": "25/08/2026"
     },
     "Pasta dental": {
-      "p": 4405,
-      "n": "Pasta Dental Colgate Max White Complete Clean x 180 g · 2x1 llevando 2 · oferta -50% · $24.472/kg",
-      "d": 384,
-      "dv": "22/08/2026"
+      "p": 2950,
+      "n": "Pasta Dental Odol Doble Acción x 90 g · $32.778/kg",
+      "d": -1455,
+      "dv": "25/08/2026"
     },
     "Preservativos": {
       "p": 5874,
@@ -570,8 +598,10 @@
       "n": "Repelente Farmacity en Aerosol x 165 ml · 2x1 llevando 2 · oferta -50%"
     },
     "Crema humectante": {
-      "p": 4018,
-      "n": "Crema Humectante Pond's Bio-Hydratante x 100 g · oferta -20%"
+      "p": 5023,
+      "n": "Crema Humectante Pond's Bio-Hydratante x 100 g",
+      "d": 1005,
+      "dv": "25/08/2026"
     },
     "Gel de limpieza": {
       "p": 5495,
@@ -616,16 +646,22 @@
       "n": "Pollo Entero Fresco X Uni (4 Kg) Refrigerado · $4.399/kg"
     },
     "Film transparente": {
-      "p": 3225,
-      "n": "Film Transparente Dia 30 Mt. · oferta -25% · $108/m"
+      "p": 4300,
+      "n": "Film Transparente Dia 30 Mt. · $143/m",
+      "d": 1075,
+      "dv": "25/08/2026"
     },
     "Papel aluminio": {
-      "p": 2400,
-      "n": "Papel Aluminio Dia 5 Mt. · oferta -25% · $480/m"
+      "p": 3200,
+      "n": "Papel Aluminio Dia 5 Mt. · $640/m",
+      "d": 800,
+      "dv": "25/08/2026"
     },
     "Papel manteca": {
-      "p": 3188,
-      "n": "Rollo Papel Manteca 5 Mts Dia 1 Ud. · oferta -25% · $638/m"
+      "p": 4250,
+      "n": "Rollo Papel Manteca 5 Mts Dia 1 Ud. · $850/m",
+      "d": 1062,
+      "dv": "25/08/2026"
     }
   }
 }
