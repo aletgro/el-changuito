@@ -1,5 +1,5 @@
 {
-  "version": "25/08/2026",
+  "version": "26/08/2026",
   "descuentos": {
     "dia": [
       {
@@ -67,7 +67,7 @@
     },
     "Agua mineral bidón": {
       "p": 2670,
-      "n": "3× Agua Mineral Sin Gas Valle Del Sol 2 Lt. · oferta -29% · Glaciar $9.310 (+249%)"
+      "n": "3× Agua Mineral Sin Gas Valle Del Sol 2 Lt. · oferta -29% · Glaciar $6.052 (+127%)"
     },
     "Arroz integral 1 kg": {
       "p": 1395,
@@ -86,8 +86,10 @@
       "n": "Harina Morixe para Arepas 1 Kg."
     },
     "Leche larga vida": {
-      "p": 2290,
-      "n": "Leche Entera DIA Larga Vida 1 Lt."
+      "p": 1700,
+      "n": "Leche Entera DIA Larga Vida 1 Lt. · oferta -26%",
+      "d": -590,
+      "dv": "26/08/2026"
     },
     "Maicena 500 g": {
       "p": 2200,
@@ -115,7 +117,7 @@
     },
     "Yerba 1 kg": {
       "p": 2891,
-      "n": "Yerba Mate Dia Elaborado Con Palo 1 Kg. · Playadito $5.208 (+80%)",
+      "n": "Yerba Mate Dia Elaborado Con Palo 1 Kg. · Playadito $4.580 (+58%)",
       "d": 4,
       "dv": "25/08/2026"
     },
@@ -124,16 +126,20 @@
       "n": "Grasa Vacuna Dia 1 Kg."
     },
     "Papas fritas": {
-      "p": 4601,
-      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr."
+      "p": 3200,
+      "n": "Papas Fritas Tubo Dia Sabor Barbacoa 150 Gr. · oferta -30%",
+      "d": -1401,
+      "dv": "26/08/2026"
     },
     "Vinagre de manzana 1 L": {
       "p": 4060,
       "n": "2× Vinagre de Manzana Dia 500 Ml."
     },
     "Aerosol de ambiente": {
-      "p": 4190,
-      "n": "Desodorante de Ambiente Poett Primavera en aerosol 360 Ml."
+      "p": 3450,
+      "n": "Aerosol Desinfectante De Ambientes Y Superficies Cif Lavanda 260 Gr. · oferta -25%",
+      "d": -740,
+      "dv": "26/08/2026"
     },
     "Bolsa de basura baño": {
       "p": 1950,
@@ -152,10 +158,10 @@
       "n": "Desinfectante Multisuperficies Ayudín Doypack 450 Ml. · oferta -26%"
     },
     "Detergente líquido": {
-      "p": 1900,
-      "n": "Detergente DIA Limón 300 Ml.",
-      "d": 213,
-      "dv": "25/08/2026"
+      "p": 1755,
+      "n": "Detergente Cif Bioactive Lima Botella 300 Ml. · oferta -35%",
+      "d": -145,
+      "dv": "26/08/2026"
     },
     "Esponja": {
       "p": 915,
@@ -190,20 +196,22 @@
       "dv": "25/08/2026"
     },
     "Pastilla inodoro": {
-      "p": 1850,
-      "n": "Limpiador Inodoro Pastillas Glade Lavanda 25 Gr."
+      "p": 1640,
+      "n": "Limpiador Inodoro Pastillas Pato Lavanda 25 Gr. · oferta -15%",
+      "d": -210,
+      "dv": "26/08/2026"
     },
     "Rollo de cocina": {
-      "p": 1690,
-      "n": "Rollo De Cocina Golf 3 Ud. 40 Mt.",
-      "d": 290,
-      "dv": "25/08/2026"
+      "p": 1398,
+      "n": "Rollo de Cocina 50 paños 3 Ud. · 2da unidad -80% llevando 2 · oferta -40%",
+      "d": -292,
+      "dv": "26/08/2026"
     },
     "Suavizante": {
-      "p": 4780,
-      "n": "2× Suavizante Para Ropa Héroe Premium 900 Ml.",
-      "d": 180,
-      "dv": "25/08/2026"
+      "p": 4703,
+      "n": "3× Suavizante Para Ropa Vivere Clasico Doypack 450 Ml. · oferta -25%",
+      "d": -77,
+      "dv": "26/08/2026"
     },
     "Trapo de piso": {
       "p": 2000,
@@ -218,10 +226,10 @@
       "n": "Paño Amarillo Multiuso DIA 3 Ud."
     },
     "Virulana": {
-      "p": 1325,
-      "n": "Esponja de Acero Inoxidable Dia 1 Ud.",
-      "d": 464,
-      "dv": "25/08/2026"
+      "p": 995,
+      "n": "Esponja de Acero Inoxidable Dia 1 Ud. · oferta -25%",
+      "d": -330,
+      "dv": "26/08/2026"
     },
     "Caldo en cubos": {
       "p": 1625,
@@ -240,16 +248,20 @@
       "n": "Puré de Tomate Dia 520 Gr."
     },
     "Levadura": {
-      "p": 548,
-      "n": "Levadura Instántanea en Sobre Mi Pan 10 Gr."
+      "p": 450,
+      "n": "Levadura Fresca Amasa Facil Calsa 50 Gr. · oferta -35%",
+      "d": -98,
+      "dv": "26/08/2026"
     },
     "Pan rallado": {
       "p": 940,
       "n": "Pan Rallado Exclusivo 400 Gr."
     },
     "4 pilas AAA": {
-      "p": 6736,
-      "n": "4× Pilas Bixler Aaa 2 Ud. · oferta -40%"
+      "p": 4378,
+      "n": "4× Pilas Bixler Aaa 2 Ud. · oferta -61%",
+      "d": -2358,
+      "dv": "26/08/2026"
     },
     "Escarbadientes": {
       "p": 2251,
@@ -584,10 +596,10 @@
       "dv": "25/08/2026"
     },
     "Pasta dental": {
-      "p": 2950,
-      "n": "Pasta Dental Odol Doble Acción x 90 g · $32.778/kg",
-      "d": -1455,
-      "dv": "25/08/2026"
+      "p": 4690,
+      "n": "Pasta Dental Colgate Max White Complete Clean x 180 g · 2x1 llevando 2 · oferta -50% · $26.056/kg",
+      "d": 1740,
+      "dv": "26/08/2026"
     },
     "Preservativos": {
       "p": 5874,
