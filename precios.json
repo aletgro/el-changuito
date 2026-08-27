@@ -1,5 +1,5 @@
 {
-  "version": "26/08/2026",
+  "version": "27/08/2026",
   "descuentos": {
     "dia": [
       {
@@ -116,10 +116,10 @@
       "n": "Vinagre de Alcohol Dia 1 Lt."
     },
     "Yerba 1 kg": {
-      "p": 2891,
-      "n": "Yerba Mate Dia Elaborado Con Palo 1 Kg. · Playadito $4.580 (+58%)",
-      "d": 4,
-      "dv": "25/08/2026"
+      "p": 3650,
+      "n": "Yerba Mate Dia Elaborado Con Palo 1 Kg. · Playadito $4.580 (+25%)",
+      "d": 759,
+      "dv": "27/08/2026"
     },
     "Grasa bovina 1 kg": {
       "p": 7300,
@@ -127,7 +127,7 @@
     },
     "Papas fritas": {
       "p": 3200,
-      "n": "Papas Fritas Tubo Dia Sabor Barbacoa 150 Gr. · oferta -30%",
+      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr. · oferta -30%",
       "d": -1401,
       "dv": "26/08/2026"
     },
@@ -137,7 +137,7 @@
     },
     "Aerosol de ambiente": {
       "p": 3450,
-      "n": "Aerosol Desinfectante De Ambientes Y Superficies Cif Lavanda 260 Gr. · oferta -25%",
+      "n": "Aerosol Desinfectante De Ambientes Y Superficies Cif Original 260 Gr. · oferta -25%",
       "d": -740,
       "dv": "26/08/2026"
     },
@@ -304,8 +304,10 @@
       "n": "2× Crema de leche El Puente. Pote x 330 cc · $11.394/L"
     },
     "Leche": {
-      "p": 3200,
-      "n": "2× Leche entera El Puente. Sachet por 1 l"
+      "p": 3400,
+      "n": "2× Leche entera El Puente. Sachet por 1 l",
+      "d": 200,
+      "dv": "27/08/2026"
     },
     "Harina 000": {
       "p": 1039,
@@ -336,16 +338,22 @@
       "n": "Sémola De Trigo Pureza 500g"
     },
     "Roast beef": {
-      "p": 13299,
-      "n": "Roast Beef Estancias Coto · $13.299/kg"
+      "p": 14999,
+      "n": "Roast Beef Estancias Coto · $14.999/kg",
+      "d": 1700,
+      "dv": "27/08/2026"
     },
     "Combo de temporada": {
-      "p": 17598,
-      "n": "falda $7.699/kg + osobuco $9.899/kg · estimo 1 kg de c/u"
+      "p": 16898,
+      "n": "falda $6.999/kg + osobuco $9.899/kg · estimo 1 kg de c/u",
+      "d": -700,
+      "dv": "27/08/2026"
     },
     "Asado": {
-      "p": 25798,
-      "n": "tapa de asado $13.299/kg + tira $12.499/kg · estimo 1 kg de c/u"
+      "p": 26498,
+      "n": "tapa de asado $13.499/kg + tira $12.999/kg · estimo 1 kg de c/u",
+      "d": 700,
+      "dv": "27/08/2026"
     },
     "Ají molido / pimentón picante 100 g": {
       "p": 892,
@@ -388,8 +396,10 @@
       "n": "50 g de Tomillo 250 g · $23.080/kg"
     },
     "Almendras 500 g": {
-      "p": 13932,
-      "n": "500 g de Almendras Partidas 500 g · $27.864/kg"
+      "p": 16002,
+      "n": "500 g de Almendras Carmel Grande 500 g · $32.004/kg",
+      "d": 2070,
+      "dv": "27/08/2026"
     },
     "Cacao 500 g": {
       "p": 8812,
