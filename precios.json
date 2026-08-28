@@ -1,5 +1,5 @@
 {
-  "version": "27/08/2026",
+  "version": "28/08/2026",
   "descuentos": {
     "dia": [
       {
@@ -92,8 +92,10 @@
       "dv": "26/08/2026"
     },
     "Maicena 500 g": {
-      "p": 2200,
-      "n": "Almidón de Maíz DIA 500 Gr."
+      "p": 2390,
+      "n": "Almidón de Maíz DIA 500 Gr.",
+      "d": 190,
+      "dv": "28/08/2026"
     },
     "Polenta 1 kg": {
       "p": 1390,
@@ -236,8 +238,10 @@
       "n": "Caldo de Carne En Cubos x 12 Ud Dia 144 Gr."
     },
     "Choclo en lata": {
-      "p": 1375,
-      "n": "Granos de Choclo Amarillo DIA 300 Gr."
+      "p": 1490,
+      "n": "Granos de Choclo Amarillo DIA 300 Gr.",
+      "d": 115,
+      "dv": "28/08/2026"
     },
     "Jardinera en lata": {
       "p": 1440,
@@ -432,8 +436,10 @@
       "n": "500 g de Sesamo Integral 500 g · $3.600/kg"
     },
     "Avena 500 g": {
-      "p": 1339,
-      "n": "500 g de Avena Tradicional x 1KG · $2.677/kg"
+      "p": 1279,
+      "n": "500 g de Avena Tradicional x 1KG · $2.558/kg",
+      "d": -60,
+      "dv": "28/08/2026"
     },
     "Bicarbonato de sodio 200 g": {
       "p": 530,
