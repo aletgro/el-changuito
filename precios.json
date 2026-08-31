@@ -1,5 +1,5 @@
 {
-  "version": "30/08/2026",
+  "version": "31/08/2026",
   "descuentos": {
     "dia": [
       {
@@ -102,8 +102,10 @@
       "n": "2× Polenta Molinos Ala 500 Gr. · oferta -35%"
     },
     "Sal entrefina 500 g": {
-      "p": 840,
-      "n": "Sal Entrefina DIA Parrillera 500 Gr."
+      "p": 900,
+      "n": "Sal Entrefina DIA Parrillera 500 Gr.",
+      "d": 60,
+      "dv": "31/08/2026"
     },
     "Sal fina 500 g": {
       "p": 650,
@@ -262,10 +264,10 @@
       "n": "Pan Rallado Exclusivo 400 Gr."
     },
     "4 pilas AAA": {
-      "p": 4378,
-      "n": "4× Pilas Bixler Aaa 2 Ud. · oferta -61%",
-      "d": -2358,
-      "dv": "26/08/2026"
+      "p": 7296,
+      "n": "4× Pilas Bixler Aaa 2 Ud. · oferta -35%",
+      "d": 2918,
+      "dv": "31/08/2026"
     },
     "Escarbadientes": {
       "p": 2251,
@@ -654,8 +656,10 @@
       "n": "Vinagre de Manzana Dia 500 Ml."
     },
     "Esponja salvauñas": {
-      "p": 480,
-      "n": "Esponja Salvauñas Virulana 1 Ud. · oferta -40%"
+      "p": 905,
+      "n": "Esponja Salvauñas Dia 1 Ud. · oferta -25%",
+      "d": 425,
+      "dv": "31/08/2026"
     },
     "Langostinos": {
       "p": 26400,
