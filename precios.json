@@ -1,5 +1,5 @@
 {
-  "version": "31/08/2026",
+  "version": "01/09/2026",
   "descuentos": {
     "dia": [
       {
@@ -67,11 +67,13 @@
     },
     "Agua mineral bidón": {
       "p": 2670,
-      "n": "3× Agua Mineral Sin Gas Valle Del Sol 2 Lt. · oferta -29% · Glaciar $6.052 (+127%)"
+      "n": "3× Agua Mineral Sin Gas Valle Del Sol 2 Lt. · oferta -29% · Glaciar $9.310 (+249%)"
     },
     "Arroz integral 1 kg": {
-      "p": 1395,
-      "n": "Arroz Integral 00000 Cuquets 1 Kg. · oferta -34%"
+      "p": 1380,
+      "n": "Arroz Integral 00000 Cuquets 1 Kg. · oferta -34%",
+      "d": -15,
+      "dv": "01/09/2026"
     },
     "Atún": {
       "p": 6150,
@@ -82,14 +84,16 @@
       "n": "Azúcar Azucel Común tipo \"A\" 500 Gr. · oferta -17%"
     },
     "Harina de maíz 1 kg": {
-      "p": 3650,
-      "n": "Harina Morixe para Arepas 1 Kg."
+      "p": 2555,
+      "n": "Harina Morixe para Arepas 1 Kg. · oferta -30%",
+      "d": -1095,
+      "dv": "01/09/2026"
     },
     "Leche larga vida": {
-      "p": 1700,
-      "n": "Leche Entera DIA Larga Vida 1 Lt. · oferta -26%",
-      "d": -590,
-      "dv": "26/08/2026"
+      "p": 2290,
+      "n": "Leche Entera DIA Larga Vida 1 Lt.",
+      "d": 590,
+      "dv": "01/09/2026"
     },
     "Maicena 500 g": {
       "p": 2390,
@@ -98,8 +102,10 @@
       "dv": "28/08/2026"
     },
     "Polenta 1 kg": {
-      "p": 1390,
-      "n": "2× Polenta Molinos Ala 500 Gr. · oferta -35%"
+      "p": 1700,
+      "n": "2× Polenta Molinos Ala 500 Gr. · oferta -21%",
+      "d": 310,
+      "dv": "01/09/2026"
     },
     "Sal entrefina 500 g": {
       "p": 900,
@@ -108,12 +114,16 @@
       "dv": "31/08/2026"
     },
     "Sal fina 500 g": {
-      "p": 650,
-      "n": "Sal Fina DIA 500 Gr. · oferta -34%"
+      "p": 900,
+      "n": "Sal Entrefina DIA Parrillera 500 Gr.",
+      "d": 250,
+      "dv": "01/09/2026"
     },
     "Sal gruesa 500 g": {
-      "p": 1050,
-      "n": "Sal Gruesa DIA 1 Kg. · oferta -28%"
+      "p": 1490,
+      "n": "Sal Gruesa Paquete Celusal 500 Gr.",
+      "d": 440,
+      "dv": "01/09/2026"
     },
     "Vinagre de alcohol 1 L": {
       "p": 1565,
@@ -121,7 +131,7 @@
     },
     "Yerba 1 kg": {
       "p": 3650,
-      "n": "Yerba Mate Dia Elaborado Con Palo 1 Kg. · Playadito $4.580 (+25%)",
+      "n": "Yerba Mate Dia Elaborado Con Palo 1 Kg. · Playadito $5.068 (+39%)",
       "d": 759,
       "dv": "27/08/2026"
     },
@@ -130,20 +140,20 @@
       "n": "Grasa Vacuna Dia 1 Kg."
     },
     "Papas fritas": {
-      "p": 3200,
-      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr. · oferta -30%",
-      "d": -1401,
-      "dv": "26/08/2026"
+      "p": 4800,
+      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr.",
+      "d": 1600,
+      "dv": "01/09/2026"
     },
     "Vinagre de manzana 1 L": {
       "p": 4060,
       "n": "2× Vinagre de Manzana Dia 500 Ml."
     },
     "Aerosol de ambiente": {
-      "p": 3450,
-      "n": "Aerosol Desinfectante De Ambientes Y Superficies Cif Original 260 Gr. · oferta -25%",
-      "d": -740,
-      "dv": "26/08/2026"
+      "p": 4190,
+      "n": "Desodorante de Ambiente Poett Primavera en aerosol 360 Ml.",
+      "d": 740,
+      "dv": "01/09/2026"
     },
     "Bolsa de basura baño": {
       "p": 1950,
@@ -158,24 +168,26 @@
       "n": "Limpiador Líquido Pisos Procenex Lavanda 900 Ml."
     },
     "Desinfectante de superficies": {
-      "p": 1800,
-      "n": "Desinfectante Multisuperficies Ayudín Doypack 450 Ml. · oferta -26%"
+      "p": 2430,
+      "n": "Desinfectante Multisuperficies Ayudín Doypack 450 Ml.",
+      "d": 630,
+      "dv": "01/09/2026"
     },
     "Detergente líquido": {
-      "p": 1755,
-      "n": "Detergente Cif Bioactive Lima Botella 300 Ml. · oferta -35%",
-      "d": -145,
-      "dv": "26/08/2026"
+      "p": 1900,
+      "n": "Detergente DIA Limón 300 Ml.",
+      "d": 145,
+      "dv": "01/09/2026"
     },
     "Esponja": {
       "p": 915,
       "n": "Esponja Virulana Fibra Extra Duración 1 Ud."
     },
     "Jabón Dove": {
-      "p": 1958,
-      "n": "Jabon En Barra Dove Original Individual 90 Gr. · 2da unidad -50% lleva · oferta -25%",
-      "d": 166,
-      "dv": "25/08/2026"
+      "p": 1960,
+      "n": "Jabon En Barra Dove Original Individual 90 Gr. · oferta -25%",
+      "d": 2,
+      "dv": "01/09/2026"
     },
     "Jabón líquido manos": {
       "p": 1399,
@@ -200,40 +212,42 @@
       "dv": "25/08/2026"
     },
     "Pastilla inodoro": {
-      "p": 1640,
-      "n": "Limpiador Inodoro Pastillas Pato Lavanda 25 Gr. · oferta -15%",
-      "d": -210,
-      "dv": "26/08/2026"
+      "p": 1850,
+      "n": "Limpiador Inodoro Pastillas Glade Lavanda 25 Gr.",
+      "d": 210,
+      "dv": "01/09/2026"
     },
     "Rollo de cocina": {
-      "p": 1398,
-      "n": "Rollo de Cocina 50 paños 3 Ud. · 2da unidad -80% llevando 2 · oferta -40%",
-      "d": -292,
-      "dv": "26/08/2026"
+      "p": 1690,
+      "n": "Rollo De Cocina Golf 3 Ud. 40 Mt.",
+      "d": 292,
+      "dv": "01/09/2026"
     },
     "Suavizante": {
-      "p": 4703,
-      "n": "3× Suavizante Para Ropa Vivere Clasico Doypack 450 Ml. · oferta -25%",
-      "d": -77,
-      "dv": "26/08/2026"
+      "p": 4780,
+      "n": "2× Suavizante Para Ropa Héroe Premium 900 Ml.",
+      "d": 77,
+      "dv": "01/09/2026"
     },
     "Trapo de piso": {
       "p": 2000,
       "n": "Trapo de Piso Blanco Dia 1 Ud."
     },
     "Trapo rejilla": {
-      "p": 1460,
-      "n": "Trapo Rejilla Dia Multiuso Ecoamigable 1 Ud. · oferta -15%"
+      "p": 1545,
+      "n": "Trapo Rejilla Dia Multiuso Ecoamigable 1 Ud. · oferta -10%",
+      "d": 85,
+      "dv": "01/09/2026"
     },
     "Trapo amarillo": {
       "p": 3760,
       "n": "Paño Amarillo Multiuso DIA 3 Ud."
     },
     "Virulana": {
-      "p": 995,
-      "n": "Esponja de Acero Inoxidable Dia 1 Ud. · oferta -25%",
-      "d": -330,
-      "dv": "26/08/2026"
+      "p": 1325,
+      "n": "Esponja de Acero Inoxidable Dia 1 Ud.",
+      "d": 330,
+      "dv": "01/09/2026"
     },
     "Caldo en cubos": {
       "p": 1625,
@@ -254,20 +268,20 @@
       "n": "Puré de Tomate Dia 520 Gr."
     },
     "Levadura": {
-      "p": 450,
-      "n": "Levadura Fresca Amasa Facil Calsa 50 Gr. · oferta -35%",
-      "d": -98,
-      "dv": "26/08/2026"
+      "p": 548,
+      "n": "Levadura Instántanea en Sobre Mi Pan 10 Gr.",
+      "d": 98,
+      "dv": "01/09/2026"
     },
     "Pan rallado": {
       "p": 940,
       "n": "Pan Rallado Exclusivo 400 Gr."
     },
     "4 pilas AAA": {
-      "p": 7296,
-      "n": "4× Pilas Bixler Aaa 2 Ud. · oferta -35%",
-      "d": 2918,
-      "dv": "31/08/2026"
+      "p": 11224,
+      "n": "4× Pilas Bixler Aaa 2 Ud.",
+      "d": 3928,
+      "dv": "01/09/2026"
     },
     "Escarbadientes": {
       "p": 2251,
@@ -570,10 +584,10 @@
       "n": "Lee Kum Kee Salsa de Soja Premium 500ml"
     },
     "Alcohol": {
-      "p": 3950,
-      "n": "Alcohol Etílico Farmacity 96% x 500 ml",
-      "d": 266,
-      "dv": "25/08/2026"
+      "p": 3193,
+      "n": "Alcohol Etílico Bialcohol 96% Uso Medicinal x 500ml · oferta -35%",
+      "d": -757,
+      "dv": "01/09/2026"
     },
     "Algodón": {
       "p": 1700,
@@ -590,52 +604,58 @@
       "n": "Apositos Adhesivos Farmacity x 30 un · 2x1 llevando 2 · oferta -50% · $60/un"
     },
     "Desodorante": {
-      "p": 10340,
-      "n": "Desodorante Old Spice Fresh x 50 g",
-      "d": 5170,
-      "dv": "25/08/2026"
+      "p": 5170,
+      "n": "Desodorante Old Spice Dragon Blast x 50 g · 2x1 llevando 2 · oferta -50%",
+      "d": -5170,
+      "dv": "01/09/2026"
     },
     "Enjuague bucal": {
-      "p": 3878,
-      "n": "Enjuague Bucal Colgate Plax Odor Control x 500 ml · 2x1 llevando 2 · oferta -50% · $7.755/L",
-      "d": -42,
-      "dv": "25/08/2026"
+      "p": 3920,
+      "n": "Enjuague Bucal Colgate Plax Odor Control x 500 ml · 2x1 llevando 2 · oferta -50% · $7.840/L",
+      "d": 42,
+      "dv": "01/09/2026"
     },
     "Hilo dental": {
       "p": 1155,
-      "n": "Hilo Dental Farmacity Encerado Sabor Menta x 50 m · 2x1 llevando 2 · oferta -50% · $23/m",
+      "n": "Hilo Dental Farmacity Encerado Sabor Menta x 50 m · oferta -50% · $23/m",
       "d": -1119,
       "dv": "25/08/2026"
     },
     "Máquina de afeitar": {
-      "p": 4127,
-      "n": "Maquina de Afeitar Farmacity 3 Filos para Hombre x 5 un · oferta -35% · $825/un",
-      "d": 102,
-      "dv": "25/08/2026"
+      "p": 4762,
+      "n": "Maquina de Afeitar Farmacity 3 Filos para Hombre x 5 un · oferta -25% · $952/un",
+      "d": 635,
+      "dv": "01/09/2026"
     },
     "Pasta dental": {
-      "p": 4690,
-      "n": "Pasta Dental Colgate Max White Complete Clean x 180 g · 2x1 llevando 2 · oferta -50% · $26.056/kg",
-      "d": 1740,
-      "dv": "26/08/2026"
+      "p": 1855,
+      "n": "Pasta Dental Colgate Protección Anticaries x 90 g · oferta -50% · $20.611/kg",
+      "d": -2835,
+      "dv": "01/09/2026"
     },
     "Preservativos": {
-      "p": 5874,
-      "n": "Preservativo de Látex Mega x 3 un · $1.958/un"
+      "p": 4112,
+      "n": "Preservativo de Látex Mega x 3 un · oferta -30% · $1.371/un",
+      "d": -1762,
+      "dv": "01/09/2026"
     },
     "Repelente": {
-      "p": 2595,
-      "n": "Repelente Farmacity en Aerosol x 165 ml · 2x1 llevando 2 · oferta -50%"
+      "p": 2860,
+      "n": "Repelente para Mosquitos en Aerosol Vn Familiar x 170 ml · oferta -35%",
+      "d": 265,
+      "dv": "01/09/2026"
     },
     "Crema humectante": {
-      "p": 5023,
-      "n": "Crema Humectante Pond's Bio-Hydratante x 100 g",
-      "d": 1005,
-      "dv": "25/08/2026"
+      "p": 4018,
+      "n": "Crema Humectante Pond's Bio-Hydratante x 100 g · oferta -20%",
+      "d": -1005,
+      "dv": "01/09/2026"
     },
     "Gel de limpieza": {
-      "p": 5495,
-      "n": "Gel de Limpieza Get The Look Salicílico x 150 ml · 2x1 llevando 2 · oferta -50%"
+      "p": 6594,
+      "n": "Gel de Limpieza Get The Look x 130 ml · oferta -40%",
+      "d": 1099,
+      "dv": "01/09/2026"
     },
     "Protector solar corporal": {
       "p": 8824,
@@ -648,18 +668,20 @@
       "n": "Protector Solar Facial Villeneuve Sin Color Fps 50 x 50 ml · oferta -50%"
     },
     "Alcohol en gel": {
-      "p": 3819,
-      "n": "Alcohol en Gel Neutro Bialcohol con Válvula Dosificadora x 500ml · oferta -35% · $7.638/L"
+      "p": 6560,
+      "n": "Alcohol en Gel Farmacity Neutro Dosificador x 980 ml · oferta -20% · $6.694/L",
+      "d": 2741,
+      "dv": "01/09/2026"
     },
     "Vinagre de manzana 500 ml": {
       "p": 2030,
       "n": "Vinagre de Manzana Dia 500 Ml."
     },
     "Esponja salvauñas": {
-      "p": 905,
-      "n": "Esponja Salvauñas Dia 1 Ud. · oferta -25%",
-      "d": 425,
-      "dv": "31/08/2026"
+      "p": 1005,
+      "n": "Esponja Salvauñas Virulana 1 Ud.",
+      "d": 100,
+      "dv": "01/09/2026"
     },
     "Langostinos": {
       "p": 26400,
