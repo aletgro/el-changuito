@@ -1,5 +1,5 @@
 {
-  "version": "01/09/2026",
+  "version": "02/09/2026",
   "descuentos": {
     "dia": [
       {
@@ -67,7 +67,7 @@
     },
     "Agua mineral bidón": {
       "p": 2670,
-      "n": "3× Agua Mineral Sin Gas Valle Del Sol 2 Lt. · oferta -29% · Glaciar $9.310 (+249%)"
+      "n": "3× Agua Mineral Sin Gas Valle Del Sol 2 Lt. · oferta -29% · Glaciar $6.052 (+127%)"
     },
     "Arroz integral 1 kg": {
       "p": 1380,
@@ -80,8 +80,10 @@
       "n": "Lomitos de Atún Al Natural Dia x 3 Ud. · $2.050/un"
     },
     "Azúcar 500 g": {
-      "p": 590,
-      "n": "Azúcar Azucel Común tipo \"A\" 500 Gr. · oferta -17%"
+      "p": 691,
+      "n": "Azucar Cuquets 500 Gr.",
+      "d": 101,
+      "dv": "02/09/2026"
     },
     "Harina de maíz 1 kg": {
       "p": 2555,
@@ -90,10 +92,10 @@
       "dv": "01/09/2026"
     },
     "Leche larga vida": {
-      "p": 2290,
-      "n": "Leche Entera DIA Larga Vida 1 Lt.",
-      "d": 590,
-      "dv": "01/09/2026"
+      "p": 1913,
+      "n": "Leche Entera Tregar Larga Vida 1 Lt. · 2da unidad -50% llevando 2 · oferta -25%",
+      "d": -377,
+      "dv": "02/09/2026"
     },
     "Maicena 500 g": {
       "p": 2390,
@@ -102,10 +104,10 @@
       "dv": "28/08/2026"
     },
     "Polenta 1 kg": {
-      "p": 1700,
-      "n": "2× Polenta Molinos Ala 500 Gr. · oferta -21%",
-      "d": 310,
-      "dv": "01/09/2026"
+      "p": 600,
+      "n": "Polenta Morixe 1 Kg. · oferta -66%",
+      "d": -1100,
+      "dv": "02/09/2026"
     },
     "Sal entrefina 500 g": {
       "p": 900,
@@ -130,10 +132,10 @@
       "n": "Vinagre de Alcohol Dia 1 Lt."
     },
     "Yerba 1 kg": {
-      "p": 3650,
-      "n": "Yerba Mate Dia Elaborado Con Palo 1 Kg. · Playadito $5.068 (+39%)",
-      "d": 759,
-      "dv": "27/08/2026"
+      "p": 3380,
+      "n": "Yerba Mate Cruz de Malta Tradicional sin tacc 1 Kg. · oferta -35% · Playadito $4.150 (+23%)",
+      "d": -270,
+      "dv": "02/09/2026"
     },
     "Grasa bovina 1 kg": {
       "p": 7300,
@@ -141,7 +143,7 @@
     },
     "Papas fritas": {
       "p": 4800,
-      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr.",
+      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr.",
       "d": 1600,
       "dv": "01/09/2026"
     },
@@ -150,10 +152,10 @@
       "n": "2× Vinagre de Manzana Dia 500 Ml."
     },
     "Aerosol de ambiente": {
-      "p": 4190,
-      "n": "Desodorante de Ambiente Poett Primavera en aerosol 360 Ml.",
-      "d": 740,
-      "dv": "01/09/2026"
+      "p": 3143,
+      "n": "Desodorante de Ambiente Poett Primavera en aerosol 360 Ml. · oferta -25%",
+      "d": -1047,
+      "dv": "02/09/2026"
     },
     "Bolsa de basura baño": {
       "p": 1950,
@@ -164,8 +166,10 @@
       "n": "Limpiador en crema CIF Multiuso Original 250 Ml."
     },
     "Desinfectante de piso": {
-      "p": 2610,
-      "n": "Limpiador Líquido Pisos Procenex Lavanda 900 Ml."
+      "p": 1958,
+      "n": "Limpiador Líquido Pisos Procenex Lavanda 900 Ml. · 2da unidad -50% lle · oferta -25%",
+      "d": -652,
+      "dv": "02/09/2026"
     },
     "Desinfectante de superficies": {
       "p": 2430,
@@ -174,20 +178,20 @@
       "dv": "01/09/2026"
     },
     "Detergente líquido": {
-      "p": 1900,
-      "n": "Detergente DIA Limón 300 Ml.",
-      "d": 145,
-      "dv": "01/09/2026"
+      "p": 1755,
+      "n": "Detergente Cif Bioactive Lima Botella 300 Ml. · oferta -35%",
+      "d": -145,
+      "dv": "02/09/2026"
     },
     "Esponja": {
       "p": 915,
       "n": "Esponja Virulana Fibra Extra Duración 1 Ud."
     },
     "Jabón Dove": {
-      "p": 1960,
-      "n": "Jabon En Barra Dove Original Individual 90 Gr. · oferta -25%",
-      "d": 2,
-      "dv": "01/09/2026"
+      "p": 1949,
+      "n": "Jabon Hidratacion Fresca Dove 90 Gr. · 2da unidad -50% llevando 2 · oferta -25%",
+      "d": -11,
+      "dv": "02/09/2026"
     },
     "Jabón líquido manos": {
       "p": 1399,
@@ -198,8 +202,10 @@
       "n": "Jabón Líquido para Ropa Héroe Doypack 3 Lt."
     },
     "Lavandina": {
-      "p": 894,
-      "n": "Lavandina DIA Triple Acción 1 Lt. · oferta -40%"
+      "p": 880,
+      "n": "Lavandina Clasica Heroe 1 Lt. · oferta -20%",
+      "d": -14,
+      "dv": "02/09/2026"
     },
     "Limpia vidrios": {
       "p": 1850,
@@ -218,16 +224,16 @@
       "dv": "01/09/2026"
     },
     "Rollo de cocina": {
-      "p": 1690,
-      "n": "Rollo De Cocina Golf 3 Ud. 40 Mt.",
-      "d": 292,
-      "dv": "01/09/2026"
+      "p": 1680,
+      "n": "Mega Rollo De Cocina Dia 200 Paños 1 Ud. · 2da unidad -80% llevando 2 · oferta -40%",
+      "d": -10,
+      "dv": "02/09/2026"
     },
     "Suavizante": {
-      "p": 4780,
-      "n": "2× Suavizante Para Ropa Héroe Premium 900 Ml.",
-      "d": 77,
-      "dv": "01/09/2026"
+      "p": 4523,
+      "n": "2× Suavizante Para Ropa Flores Silvestres Doypack 900 Ml. · oferta -25%",
+      "d": -257,
+      "dv": "02/09/2026"
     },
     "Trapo de piso": {
       "p": 2000,
@@ -244,14 +250,16 @@
       "n": "Paño Amarillo Multiuso DIA 3 Ud."
     },
     "Virulana": {
-      "p": 1325,
-      "n": "Esponja de Acero Inoxidable Dia 1 Ud.",
-      "d": 330,
-      "dv": "01/09/2026"
+      "p": 861,
+      "n": "Esponja de Acero Inoxidable Dia 1 Ud. · 2da unidad -70% llevando 2 · oferta -35%",
+      "d": -464,
+      "dv": "02/09/2026"
     },
     "Caldo en cubos": {
-      "p": 1625,
-      "n": "Caldo de Carne En Cubos x 12 Ud Dia 144 Gr."
+      "p": 1138,
+      "n": "Caldo Knorr De Verdura Deshidratado 6 Ud. · 2da unidad -70% llevando 2 · oferta -35%",
+      "d": -487,
+      "dv": "02/09/2026"
     },
     "Choclo en lata": {
       "p": 1490,
@@ -264,8 +272,10 @@
       "n": "Jardinera Sin Sal Dia 300 Gr."
     },
     "Jugo de tomate en sachet": {
-      "p": 959,
-      "n": "Puré de Tomate Dia 520 Gr."
+      "p": 690,
+      "n": "Puré de Tomate Dia 520 Gr. · oferta -28%",
+      "d": -269,
+      "dv": "02/09/2026"
     },
     "Levadura": {
       "p": 548,
@@ -384,8 +394,10 @@
       "n": "25 g de Amapola 250 g · $19.656/kg"
     },
     "Canela 15 g": {
-      "p": 705,
-      "n": "15 g de Canela en Rama Partida 100 g · $47.000/kg · New Garden"
+      "p": 1290,
+      "n": "15 g de Canela en Rama x 100 g · $86.000/kg · New Garden",
+      "d": 585,
+      "dv": "02/09/2026"
     },
     "Comino 100 g": {
       "p": 3300,
@@ -616,10 +628,10 @@
       "dv": "01/09/2026"
     },
     "Hilo dental": {
-      "p": 1155,
-      "n": "Hilo Dental Farmacity Encerado Sabor Menta x 50 m · oferta -50% · $23/m",
-      "d": -1119,
-      "dv": "25/08/2026"
+      "p": 3127,
+      "n": "Hilo Dental Farmacity Sabor Menta x 2 un x 50 m · oferta -25% · $31/m",
+      "d": 1972,
+      "dv": "02/09/2026"
     },
     "Máquina de afeitar": {
       "p": 4762,
@@ -628,10 +640,10 @@
       "dv": "01/09/2026"
     },
     "Pasta dental": {
-      "p": 1855,
-      "n": "Pasta Dental Colgate Protección Anticaries x 90 g · oferta -50% · $20.611/kg",
-      "d": -2835,
-      "dv": "01/09/2026"
+      "p": 2968,
+      "n": "Pasta Dental Colgate Sensitive Whitening x 100 g · 2x1 llevando 2 · oferta -50% · $29.675/kg",
+      "d": 1113,
+      "dv": "02/09/2026"
     },
     "Preservativos": {
       "p": 4112,
@@ -678,10 +690,10 @@
       "n": "Vinagre de Manzana Dia 500 Ml."
     },
     "Esponja salvauñas": {
-      "p": 1005,
-      "n": "Esponja Salvauñas Virulana 1 Ud.",
-      "d": 100,
-      "dv": "01/09/2026"
+      "p": 588,
+      "n": "Esponja Salvauñas Dia 1 Ud. · 2da unidad -70% llevando 2 · oferta -51%",
+      "d": -417,
+      "dv": "02/09/2026"
     },
     "Langostinos": {
       "p": 26400,
@@ -700,22 +712,22 @@
       "n": "Pollo Entero Fresco X Uni (4 Kg) Refrigerado · $4.399/kg"
     },
     "Film transparente": {
-      "p": 4300,
-      "n": "Film Transparente Dia 30 Mt. · $143/m",
-      "d": 1075,
-      "dv": "25/08/2026"
+      "p": 3225,
+      "n": "Film Transparente Dia 30 Mt. · 2da unidad -50% llevando 2 · oferta -25% · $108/m",
+      "d": -1075,
+      "dv": "02/09/2026"
     },
     "Papel aluminio": {
-      "p": 3200,
-      "n": "Papel Aluminio Dia 5 Mt. · $640/m",
-      "d": 800,
-      "dv": "25/08/2026"
+      "p": 2400,
+      "n": "Papel Aluminio Dia 5 Mt. · 2da unidad -50% llevando 2 · oferta -25% · $480/m",
+      "d": -800,
+      "dv": "02/09/2026"
     },
     "Papel manteca": {
-      "p": 4250,
-      "n": "Rollo Papel Manteca 5 Mts Dia 1 Ud. · $850/m",
-      "d": 1062,
-      "dv": "25/08/2026"
+      "p": 3188,
+      "n": "Rollo Papel Manteca 5 Mts Dia 1 Ud. · 2da unidad -50% llevando 2 · oferta -25% · $638/m",
+      "d": -1062,
+      "dv": "02/09/2026"
     }
   }
 }
