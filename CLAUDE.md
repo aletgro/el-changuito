@@ -78,6 +78,9 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
 5. **Temporada**: calendario del hemisferio sur (zona pampeana), datos en `SEASON`.
    Fuera de temporada NO se muestra etiqueta (silencio, nunca "fuera de temporada").
    La carnicería de COTO cambia sola: frío (abr–sep) = falda+osobuco / calor = marucha+arañita.
+   La pestaña Temporada arranca en el mes actual y tiene una tira de 12 letras (E F M A
+   M J J A S O N D) para consultar cualquier otro mes, con "volver a hoy"; el mes de
+   hoy queda marcado con borde aunque se esté mirando otro.
 6. **`askSpec`** (campo "qué buscar" al activar) es solo para: Café, Crema rosácea,
    Proteína, Queso premium, Fiambre, Té a elección. No generalizarlo. Ídem `askPrice`
    (precio pagado al comprar, con historial): solo Huevo.

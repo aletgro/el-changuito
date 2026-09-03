@@ -258,6 +258,26 @@ test("v7: la salsa de pescado se mudó a Dietética/Muy duraderos y la sección 
   assert.ok(!otros.sections.some((sec) => sec.items.some((it) => it.name === "Salsa de pescado")), "no queda duplicada en Otros lugares");
 });
 
+/* ---------- Temporada: hoy por default + tira de meses ---------- */
+await click(/^❄️Temporada$|Temporada$/);
+
+test("Temporada: arranca en el mes actual y ofrece la tira de 12 meses", () => {
+  const texto = dom.window.document.body.textContent;
+  const mesActual = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"][new Date().getMonth()];
+  assert.match(texto, new RegExp(mesActual.charAt(0).toUpperCase() + mesActual.slice(1) + " · "));
+  assert.equal(dom.window.document.querySelectorAll('button[title="enero"]').length, 1);
+  assert.doesNotMatch(texto, /volver a hoy/);
+});
+
+dom.window.document.querySelector('button[title="enero"]').click();
+await new Promise((r) => setTimeout(r, 80));
+
+test("Temporada: tocar un mes muestra su quinta y un atajo para volver a hoy", () => {
+  const texto = dom.window.document.body.textContent;
+  assert.match(texto, /Enero · verano/);
+  assert.match(texto, /volver a hoy/);
+});
+
 /* ---------- Variación diaria (DeltaBadge, campo d de precios.json) ----------
    Instancia aparte: acá el fetch de precios.json SÍ responde, con una baja para
    Nueces y una suba para Chía, y la etiqueta ▼/▲ debe aparecer junto al precio. */

@@ -1295,20 +1295,21 @@ function DisplayRow({ it, color, month, onToggle }) {
 
 /* ---------- Vista: TEMPORADA ---------- */
 function SeasonView({ month }) {
-  const est = estacionDe(month);
-  const next = (month % 12) + 1;
+  const [mes, setMes] = useState(month); // hoy por default; la tira de meses permite consultar otros
+  const est = estacionDe(mes);
+  const next = (mes % 12) + 1;
   const entries = Object.entries(SEASON);
   const list = (kind) =>
     entries
-      .filter(([, d]) => d.k === kind && d.m.includes(month))
+      .filter(([, d]) => d.k === kind && d.m.includes(mes))
       .sort(([a, da], [b, db]) => {
-        const pa = da.p.includes(month) ? 0 : 1;
-        const pb = db.p.includes(month) ? 0 : 1;
+        const pa = da.p.includes(mes) ? 0 : 1;
+        const pb = db.p.includes(mes) ? 0 : 1;
         if (pa !== pb) return pa - pb;
         return a.localeCompare(b);
       });
-  const ending = entries.filter(([, d]) => d.m.includes(month) && !d.m.includes(next)).map(([n]) => n);
-  const coming = entries.filter(([, d]) => !d.m.includes(month) && d.m.includes(next)).map(([n]) => n);
+  const ending = entries.filter(([, d]) => d.m.includes(mes) && !d.m.includes(next)).map(([n]) => n);
+  const coming = entries.filter(([, d]) => !d.m.includes(mes) && d.m.includes(next)).map(([n]) => n);
 
   const Chip = ({ name, peak }) => (
     <span className="rounded-full text-sm" style={{
@@ -1334,20 +1335,39 @@ function SeasonView({ month }) {
       <div className="text-center py-2">
         <div style={{ fontSize: 36 }}>{est.emoji}</div>
         <h2 className="font-semibold" style={{ color: "#2B2620", fontSize: 20, fontFamily: "Futura, 'Trebuchet MS', 'Century Gothic', sans-serif" }}>
-          {MESES[month - 1].charAt(0).toUpperCase() + MESES[month - 1].slice(1)} · {est.name}
+          {MESES[mes - 1].charAt(0).toUpperCase() + MESES[mes - 1].slice(1)} · {est.name}
         </h2>
-        <p className="text-xs mt-1" style={{ color: "#A39B89" }}>La quinta se actualiza sola con la fecha. 🔥 = punto justo de precio y sabor.</p>
+        {mes === month ? (
+          <p className="text-xs mt-1" style={{ color: "#A39B89" }}>La quinta se actualiza sola con la fecha. 🔥 = punto justo de precio y sabor.</p>
+        ) : (
+          <p className="text-xs mt-1" style={{ color: "#A39B89" }}>
+            Mirando otro mes · <button onClick={() => setMes(month)} className="font-semibold presionable" style={{ color: "#2B2620" }}>volver a hoy</button>
+          </p>
+        )}
+        <div className="flex justify-center gap-1 mt-2 flex-wrap" aria-label="Consultar otro mes">
+          {MESES.map((m, i) => {
+            const n = i + 1;
+            const sel = n === mes;
+            const hoy = n === month;
+            return (
+              <button key={m} onClick={() => setMes(n)} title={m} className="rounded-full text-xs font-semibold presionable"
+                style={{ width: 26, height: 26, background: sel ? "#2B2620" : "transparent", color: sel ? "#F4F5F1" : hoy ? "#2B2620" : "#A39B89", border: `1px solid ${sel || hoy ? "#2B2620" : "#E0DACB"}` }}>
+                {m.charAt(0).toUpperCase()}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <Card title="Frutas en temporada">
         <div className="flex flex-wrap gap-2">
-          {list("f").map(([name, d]) => <Chip key={name} name={name} peak={d.p.includes(month)} />)}
+          {list("f").map(([name, d]) => <Chip key={name} name={name} peak={d.p.includes(mes)} />)}
         </div>
       </Card>
 
       <Card title="Verduras en temporada">
         <div className="flex flex-wrap gap-2">
-          {list("v").map(([name, d]) => <Chip key={name} name={name} peak={d.p.includes(month)} />)}
+          {list("v").map(([name, d]) => <Chip key={name} name={name} peak={d.p.includes(mes)} />)}
         </div>
       </Card>
 
@@ -1364,10 +1384,10 @@ function SeasonView({ month }) {
       ) : null}
 
       <Card title="Carnicería COTO · temporada">
-        <CarneBanner month={month} />
+        <CarneBanner mes={mes} />
         <div className="space-y-1 text-sm mt-1" style={{ color: "#2B2620" }}>
-          <p><b>Combo:</b> {dynNote("combo", month)}</p>
-          <p><b>Roast beef:</b> {dynNote("roast", month).toLowerCase()}</p>
+          <p><b>Combo:</b> {dynNote("combo", mes)}</p>
+          <p><b>Roast beef:</b> {dynNote("roast", mes).toLowerCase()}</p>
         </div>
       </Card>
     </div>
