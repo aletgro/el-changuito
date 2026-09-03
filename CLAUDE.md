@@ -29,6 +29,12 @@ scripts/actualizar-precios.mjs  ← robot de precios (Node 20, sin deps)
   `banner:"carne"`. `have:false` = "por comprar" (aparece en la pestaña Comprar).
 - **Estilos**: solo clases definidas en `styles.css` + estilos inline. Si usás una clase
   utilitaria nueva, agregala a `styles.css` (no hay compilador de Tailwind).
+- **Táctil (la app se usa en celular)**: todo lo tocable con blanco de toque de 32–44 px
+  (chips y links chicos llevan `padding`/`minHeight`, el círculo de comprado es de 40 px,
+  las filas de Listas se tocan enteras); inputs con `fontSize: 16` (iOS hace zoom con
+  menos) y 40 px de alto; nav inferior y `main` con `env(safe-area-inset-bottom)`;
+  feedback al presionar con la clase `presionable`; grises de texto interactivo
+  `#8A8170` (el `#A39B89` es solo decorativo).
 
 ## Comandos
 

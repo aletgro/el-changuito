@@ -337,7 +337,7 @@ function DeltaBadge({ it }) {
   const dias = Math.max(0, edadDias(it.priceDV));
   return (
     <span className="rounded-full font-semibold" title={`antes ${fmt(it.price - d)}`}
-      style={{ background: baja ? "#E2F0DA" : "#F8E3DC", color: baja ? "#2F5E14" : "#9B3A1C", fontSize: 10, padding: "1px 6px", whiteSpace: "nowrap" }}>
+      style={{ background: baja ? "#E2F0DA" : "#F8E3DC", color: baja ? "#2F5E14" : "#9B3A1C", fontSize: 11, padding: "2px 7px", whiteSpace: "nowrap" }}>
       {baja ? "▼ -" : "▲ +"}{txt}{dias >= 1 ? ` · hace ${dias}d` : ""}
     </span>
   );
@@ -687,10 +687,10 @@ function SpecEditor({ value, color, onSave }) {
         value={txt}
         onChange={(e) => setTxt(e.target.value)}
         placeholder="¿Qué buscar esta vez?"
-        className="flex-1 rounded-lg border px-2 py-1 text-sm"
-        style={{ borderColor: "#D8D2C4", background: "#FFFFFF", color: "#2B2620", outline: "none" }}
+        className="flex-1 rounded-lg border px-3 py-2"
+        style={{ borderColor: "#D8D2C4", background: "#FFFFFF", color: "#2B2620", outline: "none", fontSize: 16, minHeight: 40 }}
       />
-      <button onClick={() => onSave(txt)} className="text-sm font-semibold rounded-lg px-2 py-1" style={{ color: "#FFFFFF", background: color }}>
+      <button onClick={() => onSave(txt)} className="text-sm font-semibold rounded-lg px-3 py-2 presionable" style={{ color: "#FFFFFF", background: color }}>
         OK
       </button>
     </div>
@@ -711,14 +711,14 @@ function PriceEditor({ color, prev, onSave, onSkip }) {
           value={txt}
           onChange={(e) => setTxt(e.target.value)}
           placeholder="¿Cuánto pagaste?"
-          className="flex-1 rounded-lg border px-2 py-1 text-sm"
-          style={{ borderColor: "#D8D2C4", background: "#FFFFFF", color: "#2B2620", outline: "none" }}
+          className="flex-1 rounded-lg border px-3 py-2"
+          style={{ borderColor: "#D8D2C4", background: "#FFFFFF", color: "#2B2620", outline: "none", fontSize: 16, minHeight: 40 }}
         />
-        <button onClick={() => ok && onSave(val)} disabled={!ok} className="text-sm font-semibold rounded-lg px-2 py-1"
+        <button onClick={() => ok && onSave(val)} disabled={!ok} className="text-sm font-semibold rounded-lg px-3 py-2 presionable"
           style={{ color: "#FFFFFF", background: ok ? color : "#E5E1D6" }}>
           OK
         </button>
-        <button onClick={onSkip} className="text-xs flex-shrink-0" style={{ color: "#A39B89" }}>sin precio</button>
+        <button onClick={onSkip} className="text-xs flex-shrink-0 presionable" style={{ color: "#8A8170", padding: "8px 6px" }}>sin precio</button>
       </div>
       {prev && prev.p > 0 ? (
         <div className="text-xs mt-1" style={{ color: "#8A8170" }}>
@@ -790,7 +790,7 @@ function PendingRow({ it, color, month, onBuy, onSpec, priceDate, descuentos = [
                 <button
                   onClick={() => setDtoIdx((p) => (p + 1) % DTOS_LOCAL.length)}
                   className="text-xs font-semibold rounded-full presionable"
-                  style={{ border: dtoLoc ? `1px solid ${color}` : "1px dashed #C9C2B2", padding: "2px 9px", color: dtoLoc ? color : "#A39B89" }}
+                  style={{ border: dtoLoc ? `1px solid ${color}` : "1px dashed #C9C2B2", padding: "6px 12px", minHeight: 32, color: dtoLoc ? color : "#8A8170" }}
                 >
                   {dtoLoc ? `-${dtoLoc}%` : "dto"}
                 </button>
@@ -864,10 +864,10 @@ function PickPending({ it, color, month, onConfirm, descuentos = [] }) {
             const dto = DTOS_LOCAL[dtoIdx[name] || 0];
             const efectivo = base ? efectivoDe(name) : null;
             return (
-              <div key={name} onClick={() => toggle(name)} className="flex items-center gap-2 py-1 fila-toque"
+              <div key={name} onClick={() => toggle(name)} className="flex items-center gap-2 py-2 fila-toque"
                 style={{ borderLeft: `3px solid ${selected ? color : "transparent"}` }}>
                 <span className="rounded flex-shrink-0 flex items-center justify-center text-xs font-bold"
-                  style={{ width: 20, height: 20, border: `2px solid ${selected ? color : "#D8D2C4"}`, background: selected ? color : "#FFFFFF", color: "#FFFFFF" }}>
+                  style={{ width: 24, height: 24, border: `2px solid ${selected ? color : "#D8D2C4"}`, background: selected ? color : "#FFFFFF", color: "#FFFFFF" }}>
                   {selected ? "✓" : ""}
                 </span>
                 <span className="flex-1 text-sm" style={{ color: s === "out" ? "#B3AB9A" : "#2B2620", fontWeight: selected ? 600 : 400 }}>
@@ -878,7 +878,7 @@ function PickPending({ it, color, month, onConfirm, descuentos = [] }) {
                     <button
                       onClick={(e) => { e.stopPropagation(); setDtoIdx((p) => ({ ...p, [name]: ((p[name] || 0) + 1) % DTOS_LOCAL.length })); }}
                       className="text-xs font-semibold rounded-full presionable flex-shrink-0"
-                      style={{ border: dto ? `1px solid ${color}` : "1px dashed #C9C2B2", padding: "2px 9px", color: dto ? color : "#A39B89" }}
+                      style={{ border: dto ? `1px solid ${color}` : "1px dashed #C9C2B2", padding: "6px 12px", minHeight: 32, color: dto ? color : "#8A8170" }}
                     >
                       {dto ? `-${dto}%` : "dto"}
                     </button>
@@ -902,7 +902,7 @@ function PickPending({ it, color, month, onConfirm, descuentos = [] }) {
                 onClick={() => toggle(name)}
                 className="rounded-full border text-sm transition-colors presionable"
                 style={{
-                  padding: "7px 14px",
+                  padding: "9px 14px",
                   borderColor: selected ? color : s === "peak" ? "#E0A23C" : "#D8D2C4",
                   background: selected ? color : s === "peak" ? "#FFF4E0" : "#FFFFFF",
                   color: selected ? "#FFFFFF" : s === "out" ? "#B3AB9A" : "#2B2620",
@@ -913,7 +913,7 @@ function PickPending({ it, color, month, onConfirm, descuentos = [] }) {
             );
           })}
           {!showAll && opts.length > 10 ? (
-            <button onClick={() => setShowAll(true)} className="rounded-full text-sm presionable" style={{ padding: "7px 14px", color, background: "transparent" }}>
+            <button onClick={() => setShowAll(true)} className="rounded-full text-sm presionable" style={{ padding: "9px 14px", color, background: "transparent" }}>
               ver todas ({opts.length})
             </button>
           ) : null}
@@ -973,7 +973,7 @@ function OportunidadesCard({ stores, patchItem }) {
                   <button
                     onClick={() => patchItem(f.store.id, f.sec.id, f.it.id, { have: false })}
                     className="text-xs font-semibold rounded-full presionable flex-shrink-0"
-                    style={{ color: "#2F5E14", border: "1px solid #A9D296", padding: "3px 9px" }}
+                    style={{ color: "#2F5E14", border: "1px solid #A9D296", padding: "8px 12px", minHeight: 36 }}
                   >
                     + a Comprar
                   </button>
@@ -1119,7 +1119,7 @@ function ShoppingView({ stores, month, patchItem, priceDate, descuentos }) {
                     <div key={sec.id} className="pt-2">
                       <button
                         onClick={() => setSecClosed((p) => ({ ...p, [sk]: !secIsClosed }))}
-                        className="w-full flex items-center justify-between select-none"
+                        className="w-full flex items-center justify-between py-2 select-none"
                       >
                         <span className="text-xs uppercase font-semibold" style={{ color: "#A39B89", letterSpacing: "0.08em" }}>{sec.name}</span>
                         <span className="flex items-center gap-2">
@@ -1203,7 +1203,7 @@ function ListsView({ stores, month, patchItem, resetAll }) {
                     <div key={sec.id} className="pt-1 pb-2">
                       <button
                         onClick={() => setSecClosed((p) => ({ ...p, [sk]: !secIsClosed }))}
-                        className="w-full flex items-center justify-between py-1 select-none"
+                        className="w-full flex items-center justify-between py-2 select-none"
                         style={{ borderBottom: "1px dashed #EDE8DC" }}
                       >
                         <span className="text-xs uppercase font-semibold" style={{ color: "#A39B89", letterSpacing: "0.08em" }}>{sec.name}</span>
@@ -1250,6 +1250,8 @@ function ListsView({ stores, month, patchItem, resetAll }) {
 
 function DisplayRow({ it, color, month, onToggle }) {
   // Toda la fila cambia el estado (no solo el check): más fácil de tocar en el celular
+  const [verOpc, setVerOpc] = useState(false); // picks: desplegar las opciones sin tocar el estado
+  const ordenTemp = { peak: 0, in: 1, none: 2, out: 3 };
   return (
     <div onClick={onToggle} className="flex items-start gap-3 py-2 fila-toque" style={{ borderBottom: "1px solid #F6F2EA" }}>
       <button
@@ -1275,6 +1277,35 @@ function DisplayRow({ it, color, month, onToggle }) {
         {it.price > 0 && it.priceNote ? <div className="text-xs mt-1" style={{ color: "#A39B89" }}>{it.priceNote}</div> : null}
         {it.type === "pick" && it.picked && it.picked.length > 0 ? (
           <div className="text-xs mt-1 italic" style={{ color: "#A39B89" }}>Última compra: {it.picked.join(", ")}</div>
+        ) : null}
+        {it.type === "pick" && it.options && it.options.length > 0 ? (
+          <div className="mt-1" onClick={(e) => e.stopPropagation()}>
+            <button onClick={() => setVerOpc((v) => !v)} className="text-xs font-semibold rounded-full presionable"
+              style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "6px 12px", minHeight: 32,
+                color: verOpc ? "#2B2620" : "#8A8170", background: verOpc ? "#F1EDE3" : "#FAF7F0",
+                border: `1px ${verOpc ? "solid #C9C2B2" : "dashed #C9C2B2"}` }}>
+              {it.options.length} opciones {verOpc ? "▴" : "▾"}
+            </button>
+            {verOpc ? (
+              <div className="flex flex-wrap gap-1 mt-1">
+                {[...it.options]
+                  .sort((a, b) => (ordenTemp[seasonOf(a, month) || "none"] - ordenTemp[seasonOf(b, month) || "none"]) || a.localeCompare(b))
+                  .map((name) => {
+                    const st = seasonOf(name, month);
+                    return (
+                      <span key={name} className="rounded-full text-xs" style={{
+                        padding: "2px 8px",
+                        background: st === "peak" ? "#FFF4E0" : "#FAF7F0",
+                        border: `1px solid ${st === "peak" ? "#E0A23C" : "#EDE8DC"}`,
+                        color: st === "out" ? "#B3AB9A" : "#2B2620",
+                      }}>
+                        {st === "peak" ? "🔥 " : ""}{name}
+                      </span>
+                    );
+                  })}
+              </div>
+            ) : null}
+          </div>
         ) : null}
         {it.askSpec && it.spec ? <div className="text-xs mt-1 italic" style={{ color }}>{it.spec}</div> : null}
       </div>
@@ -1336,17 +1367,17 @@ function SeasonView({ month }) {
           <p className="text-xs mt-1" style={{ color: "#A39B89" }}>La quinta se actualiza sola con la fecha. 🔥 = punto justo de precio y sabor.</p>
         ) : (
           <p className="text-xs mt-1" style={{ color: "#A39B89" }}>
-            Mirando otro mes · <button onClick={() => setMes(month)} className="font-semibold presionable" style={{ color: "#2B2620" }}>volver a hoy</button>
+            Mirando otro mes · <button onClick={() => setMes(month)} className="font-semibold presionable" style={{ color: "#2B2620", padding: "6px 6px" }}>volver a hoy</button>
           </p>
         )}
-        <div className="flex justify-center gap-1 mt-2 flex-wrap" aria-label="Consultar otro mes">
+        <div className="flex justify-center gap-1 flex-wrap" aria-label="Consultar otro mes" style={{ maxWidth: 300, margin: "8px auto 0" }}>
           {MESES.map((m, i) => {
             const n = i + 1;
             const sel = n === mes;
             const hoy = n === month;
             return (
               <button key={m} onClick={() => setMes(n)} title={m} className="rounded-full text-xs font-semibold presionable"
-                style={{ width: 26, height: 26, background: sel ? "#2B2620" : "transparent", color: sel ? "#F4F5F1" : hoy ? "#2B2620" : "#A39B89", border: `1px solid ${sel || hoy ? "#2B2620" : "#E0DACB"}` }}>
+                style={{ width: 44, height: 36, background: sel ? "#2B2620" : "transparent", color: sel ? "#F4F5F1" : hoy ? "#2B2620" : "#A39B89", border: `1px solid ${sel || hoy ? "#2B2620" : "#E0DACB"}` }}>
                 {m.charAt(0).toUpperCase()}
               </button>
             );
@@ -1486,13 +1517,13 @@ function App() {
         ) : null}
       </header>
 
-      <main className="max-w-2xl mx-auto px-4 pt-4 pb-24">
+      <main className="max-w-2xl mx-auto px-4 pt-4" style={{ paddingBottom: "calc(96px + env(safe-area-inset-bottom))" }}>
         {tab === "comprar" ? <ShoppingView stores={stores} month={month} patchItem={patchItem} priceDate={priceDate} descuentos={descuentos} /> : null}
         {tab === "listas" ? <ListsView stores={stores} month={month} patchItem={patchItem} resetAll={resetAll} /> : null}
         {tab === "temporada" ? <SeasonView month={month} /> : null}
       </main>
 
-      <nav className="fixed bottom-0 left-0 right-0 z-20" style={{ background: "#FFFFFF", borderTop: "1px solid #E3E0D6" }}>
+      <nav className="fixed bottom-0 left-0 right-0 z-20" style={{ background: "#FFFFFF", borderTop: "1px solid #E3E0D6", paddingBottom: "env(safe-area-inset-bottom)" }}>
         <div className="max-w-2xl mx-auto flex">
           {tabs.map((t) => (
             <button key={t.id} onClick={() => setTab(t.id)} className="flex-1 py-2 flex flex-col items-center gap-1 select-none presionable">

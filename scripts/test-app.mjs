@@ -26,6 +26,7 @@ dom.window.localStorage.setItem("el-changuito-v1", JSON.stringify({
           items: [
             { id: "i1", name: "Nueces 500 g", note: "nota del usuario", spec: "", have: false },
             { id: "i2", name: "Huevo", note: "", spec: "", have: false, price: 4200, priceNote: "cargado a mano", priceV: "manual@01/08/2026" },
+            { id: "i9", name: "Fruta", type: "pick", options: ["Kiwi", "Banana"], picked: [], note: "", spec: "", have: true },
           ],
         },
         { id: "sec2", name: "Muy duraderos", items: [{ id: "i3", name: "Chía 500 g", note: "", spec: "", have: false }] },
@@ -165,6 +166,22 @@ await click(/^Perecederos/); // abrir la sección para seguir
 
 test("migración v6: Piñones aparece en las listas aunque el guardado no lo tenía", () => {
   assert.match(dom.window.document.body.textContent, /Piñones/);
+});
+
+test("Listas: un pick muestra '2 opciones ▾' plegado, sin listar las opciones", () => {
+  const texto = dom.window.document.body.textContent;
+  assert.match(texto, /2 opciones ▾/);
+  assert.doesNotMatch(texto, /Banana/);
+});
+
+[...dom.window.document.querySelectorAll("button")].find((b) => /2 opciones/.test(b.textContent)).click();
+await new Promise((r) => setTimeout(r, 80));
+
+test("Listas: desplegar las opciones no cambia el estado del ítem", () => {
+  const texto = dom.window.document.body.textContent;
+  assert.match(texto, /Banana/);
+  assert.match(texto, /Kiwi/);
+  assert.doesNotMatch(texto, /Fruta · por comprar/); // sigue en stock
 });
 
 // La app persiste recién en el próximo cambio de estado (con debounce): tocamos el ✓ de
