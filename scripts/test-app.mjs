@@ -92,6 +92,10 @@ test("la app renderiza y muestra lo pendiente del usuario", () => {
   assert.match(texto, /nota del usuario/);
 });
 
+test("Comprar: ya no existe el botón 'todo comprado' (se apretaba sin querer)", () => {
+  assert.doesNotMatch(dom.window.document.body.textContent, /todo comprado/);
+});
+
 test("migración v7: Champiñones pasa a llamarse Hongos para cocinar (misma nota y estado)", () => {
   const texto = dom.window.document.body.textContent;
   assert.match(texto, /Hongos para cocinar/); // seguía por comprar → aparece en Comprar

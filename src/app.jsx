@@ -995,7 +995,7 @@ function OportunidadesCard({ stores, patchItem }) {
 }
 
 /* ---------- Vista: COMPRAR ---------- */
-function ShoppingView({ stores, month, patchItem, buyAll, priceDate, descuentos }) {
+function ShoppingView({ stores, month, patchItem, priceDate, descuentos }) {
   const pendings = stores.map((s) => ({
     store: s,
     rows: s.sections
@@ -1089,11 +1089,6 @@ function ShoppingView({ stores, month, patchItem, buyAll, priceDate, descuentos 
                 {subtotal > 0 ? <span className="text-xs font-semibold" style={{ color: "#6E6757" }}>≈ {fmt(subtotal)}</span> : null}
               </div>
               <div className="flex items-center gap-3">
-                {!isCollapsed ? (
-                  <button onClick={(e) => { e.stopPropagation(); buyAll(store.id); }} className="text-xs font-medium presionable" style={{ color: store.color, padding: "6px 8px", margin: "-6px -8px" }}>
-                    ✓ todo comprado
-                  </button>
-                ) : null}
                 <span style={{ color: "#A39B89" }}>{isCollapsed ? "▾" : "▴"}</span>
               </div>
             </header>
@@ -1455,12 +1450,6 @@ function App() {
       }),
     }));
 
-  const buyAll = (sId) =>
-    setStores((prev) => prev.map((s) => s.id !== sId ? s : {
-      ...s,
-      sections: s.sections.map((sec) => ({ ...sec, items: sec.items.map((it) => ({ ...it, have: true })) })),
-    }));
-
   const resetAll = () => setStores(seedStores());
 
   const totalPending = stores
@@ -1498,7 +1487,7 @@ function App() {
       </header>
 
       <main className="max-w-2xl mx-auto px-4 pt-4 pb-24">
-        {tab === "comprar" ? <ShoppingView stores={stores} month={month} patchItem={patchItem} buyAll={buyAll} priceDate={priceDate} descuentos={descuentos} /> : null}
+        {tab === "comprar" ? <ShoppingView stores={stores} month={month} patchItem={patchItem} priceDate={priceDate} descuentos={descuentos} /> : null}
         {tab === "listas" ? <ListsView stores={stores} month={month} patchItem={patchItem} resetAll={resetAll} /> : null}
         {tab === "temporada" ? <SeasonView month={month} /> : null}
       </main>
