@@ -1,5 +1,5 @@
 {
-  "version": "02/09/2026",
+  "version": "03/09/2026",
   "descuentos": {
     "dia": [
       {
@@ -434,12 +434,16 @@
       "dv": "27/08/2026"
     },
     "Cacao 500 g": {
-      "p": 8812,
-      "n": "500 g de Cacao Amargo Alcalino 500 g · $17.624/kg"
+      "p": 7931,
+      "n": "500 g de Cacao Amargo Alcalino 500 g · $15.862/kg",
+      "d": -881,
+      "dv": "03/09/2026"
     },
     "Castañas de cajú 500 g": {
-      "p": 11180,
-      "n": "500 g de Castañas De Caju Crudas W3 (Premium) 500 g · $22.360/kg"
+      "p": 10062,
+      "n": "500 g de Castañas De Caju Crudas W3 (Premium) 500 g · $20.124/kg",
+      "d": -1118,
+      "dv": "03/09/2026"
     },
     "Girasol 250 g": {
       "p": 1490,
@@ -470,40 +474,50 @@
       "dv": "28/08/2026"
     },
     "Bicarbonato de sodio 200 g": {
-      "p": 530,
-      "n": "200 g de Bicarbonato De Sodio x 1KG · $2.648/kg"
+      "p": 429,
+      "n": "200 g de Bicarbonato De Sodio x 1KG · $2.143/kg",
+      "d": -101,
+      "dv": "03/09/2026"
     },
     "Polvo para hornear 100 g": {
       "p": 571,
       "n": "100 g de Polvo Para Hornear x 1KG · $5.710/kg"
     },
     "Arvejas 1 kg": {
-      "p": 1665,
-      "n": "1 kg de Arvejas Partidas x 1KG · $1.665/kg"
+      "p": 1849,
+      "n": "1 kg de Arvejas Partidas x 1KG · $1.849/kg",
+      "d": 184,
+      "dv": "03/09/2026"
     },
     "Chía 500 g": {
       "p": 5529,
       "n": "500 g de Chia 500 g · $11.058/kg"
     },
     "Garbanzos 1 kg": {
-      "p": 2391,
-      "n": "1 kg de Garbanzos x 1KG (9mm) · $2.391/kg"
+      "p": 2152,
+      "n": "1 kg de Garbanzos x 1KG (9mm) · $2.152/kg",
+      "d": -239,
+      "dv": "03/09/2026"
     },
     "Lentejas 1 kg": {
       "p": 3186,
       "n": "1 kg de Lentejas Nacional x 1KG · $3.186/kg"
     },
     "Porotos negros 1 kg": {
-      "p": 2245,
-      "n": "1 kg de Porotos Negros x 1KG · $2.245/kg"
+      "p": 2494,
+      "n": "1 kg de Porotos Negros x 1KG · $2.494/kg",
+      "d": 249,
+      "dv": "03/09/2026"
     },
     "Porotos de soja 1 kg": {
       "p": 1709,
       "n": "1 kg de Porotos De Soja x 1KG · $1.709/kg"
     },
     "Quínoa 1 kg": {
-      "p": 11675,
-      "n": "1 kg de Quinoa Real Premium 1 kg · $11.675/kg"
+      "p": 10508,
+      "n": "1 kg de Quinoa Real Premium 1 kg · $10.508/kg",
+      "d": -1167,
+      "dv": "03/09/2026"
     },
     "Té negro": {
       "p": 4731,
@@ -690,10 +704,10 @@
       "n": "Vinagre de Manzana Dia 500 Ml."
     },
     "Esponja salvauñas": {
-      "p": 588,
-      "n": "Esponja Salvauñas Dia 1 Ud. · 2da unidad -70% llevando 2 · oferta -51%",
-      "d": -417,
-      "dv": "02/09/2026"
+      "p": 783,
+      "n": "Esponja Salvauñas Dia 1 Ud. · 2da unidad -70% llevando 2 · oferta -35%",
+      "d": 195,
+      "dv": "03/09/2026"
     },
     "Langostinos": {
       "p": 26400,
