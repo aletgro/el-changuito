@@ -284,6 +284,13 @@ const excluidoDeDto = (cfg, secName, it) => {
   return ((sin.secciones || []).includes(secName)) || ((sin.items || []).includes(it.name));
 };
 const ahorroDe = (base, d) => Math.min((base * d.pct) / 100, d.tope > 0 ? d.tope : Infinity);
+/* Opciones de un pick con precio: número (quesos) o { p, s: comercio de origen, u: kg|un } (verdulería) */
+const opPrecio = (v) => (v && typeof v === "object" ? v.p : v);
+const opSrc = (v) => (v && typeof v === "object" ? v.s || "" : "");
+const opUnidad = (v) => (v && typeof v === "object" ? v.u || "" : "");
+const ETIQUETA_SRC = { dia: "DIA", coto: "COTO" };
+/* Mejor % vigente HOY de una config de descuentos (sin tope: es para un ítem suelto) */
+const pctHoyDe = (cfg) => promosDe(cfg).filter(esHoyDto).reduce((a, d) => Math.max(a, d.pct), 0);
 const PRICES = {
   "Aceite de girasol": { p: 5200, n: "Cañuelas 1,5 L · oferta -20%" },
   "Agua mineral bidón": { p: 3600, n: "DIA 6,25 L" },
@@ -372,7 +379,7 @@ function applyPrices(stores, prices, version) {
         // Re-aplicar la misma versión es inocuo y trae campos nuevos (op, d/dv);
         // solo una edición manual de ESTA versión se respeta hasta la foto siguiente.
         if (snap && snap.p > 0 && it.priceV !== "manual@" + version) {
-          return { ...it, price: snap.p, priceNote: snap.n || "", priceD: snap.d || 0, priceDV: snap.dv || (snap.d ? version : ""), priceOp: snap.op || null, priceV: version };
+          return { ...it, price: snap.p, priceNote: snap.n || "", priceD: snap.d || 0, priceDV: snap.dv || (snap.d ? version : ""), priceOp: snap.op || null, priceSrc: snap.s || "", priceV: version };
         }
         return it;
       }),
@@ -812,11 +819,11 @@ function PendingRow({ it, color, month, onBuy, onSpec, priceDate, descuentos = [
 /* Ítem pendiente de tipo "elegir de la categoría" */
 const DTOS_LOCAL = [0, 10, 15, 20, 25]; // los dtos de mostrador son siempre estos
 
-function PickPending({ it, color, month, onConfirm, descuentos = [] }) {
+function PickPending({ it, color, month, onConfirm, dtoHoyDe = () => 0, dtoLocal = false }) {
   const [sel, setSel] = useState([]);
   const [showAll, setShowAll] = useState(false);
   const [dtoIdx, setDtoIdx] = useState({}); // opción → índice en DTOS_LOCAL (solo para comparar, no se guarda)
-  const dtoHoy = descuentos.filter(esHoyDto).reduce((a, d) => Math.max(a, d.pct), 0);
+  const dtoHoyOp = (n) => dtoHoyDe(opSrc(it.priceOp && it.priceOp[n]) || it.priceSrc);
   const order = { peak: 0, in: 1, none: 2, out: 3 };
   const opts = [...it.options].sort((a, b) => {
     const sa = seasonOf(a, month) || "none";
@@ -828,10 +835,15 @@ function PickPending({ it, color, month, onConfirm, descuentos = [] }) {
   const toggle = (name) => setSel((p) => (p.includes(name) ? p.filter((x) => x !== name) : [...p, name]));
   // Con precios por opción (quesos de El Puente): filas comparables con dto de mostrador
   // (el precio efectivo incluye además el dto del día si hoy rige)
-  const conPrecios = !!(it.priceOp && Object.values(it.priceOp).some((v) => v > 0));
-  const efectivoDe = (n) => Math.round(it.priceOp[n] * (1 - DTOS_LOCAL[dtoIdx[n] || 0] / 100) * (1 - dtoHoy / 100));
-  const efectivos = conPrecios ? shown.filter((n) => it.priceOp[n] > 0).map(efectivoDe) : [];
+  const conPrecios = !!(it.priceOp && Object.values(it.priceOp).some((v) => opPrecio(v) > 0));
+  const efectivoDe = (n) => Math.round(opPrecio(it.priceOp[n]) * (1 - DTOS_LOCAL[dtoIdx[n] || 0] / 100) * (1 - dtoHoyOp(n) / 100));
+  const conPrecio = conPrecios ? shown.filter((n) => opPrecio(it.priceOp[n]) > 0) : [];
+  const efectivos = conPrecio.map(efectivoDe);
   const minimo = efectivos.length ? Math.min(...efectivos) : null;
+  // Aviso del dto de hoy: uno solo si todas las opciones lo comparten, genérico si difiere por comercio
+  const pctsHoy = [...new Set(conPrecio.map(dtoHoyOp))];
+  const avisoHoy = pctsHoy.length === 1 && pctsHoy[0] > 0 ? ` Precios con el -${pctsHoy[0]}% de hoy incluido.`
+    : pctsHoy.some((x) => x > 0) ? " Precios con el dto de hoy de cada comercio incluido." : "";
   return (
     <div className="py-2">
       <div className="flex items-center gap-2 flex-wrap">
@@ -854,13 +866,15 @@ function PickPending({ it, color, month, onConfirm, descuentos = [] }) {
       {conPrecios ? (
         <div className="mt-2" style={{ borderTop: "1px dashed #EDE8DC" }}>
           <div className="text-xs mt-1" style={{ color: "#A39B89" }}>
-            Si alguno tiene promo en el local, tocá "dto" (10/15/20/25%) para comparar.
-            {dtoHoy > 0 ? <span style={{ color: "#2F5E14", fontWeight: 600 }}> Precios con el -{dtoHoy}% de hoy incluido.</span> : null}
+            {dtoLocal ? 'Si alguno tiene promo en el local, tocá "dto" (10/15/20/25%) para comparar.' : "Referencia del más barato entre DIA y COTO para cada una."}
+            {avisoHoy ? <span style={{ color: "#2F5E14", fontWeight: 600 }}>{avisoHoy}</span> : null}
           </div>
           {shown.map((name) => {
             const s = seasonOf(name, month);
             const selected = sel.includes(name);
-            const base = it.priceOp && it.priceOp[name] > 0 ? it.priceOp[name] : null;
+            const base = it.priceOp && opPrecio(it.priceOp[name]) > 0 ? opPrecio(it.priceOp[name]) : null;
+            const src = base ? opSrc(it.priceOp[name]) : "";
+            const unidad = base ? opUnidad(it.priceOp[name]) : "";
             const dto = DTOS_LOCAL[dtoIdx[name] || 0];
             const efectivo = base ? efectivoDe(name) : null;
             return (
@@ -872,18 +886,19 @@ function PickPending({ it, color, month, onConfirm, descuentos = [] }) {
                 </span>
                 <span className="flex-1 text-sm" style={{ color: s === "out" ? "#B3AB9A" : "#2B2620", fontWeight: selected ? 600 : 400 }}>
                   {s === "peak" ? "🔥 " : ""}{name}
+                  {src ? <span className="text-xs" style={{ color: "#A39B89" }}> · {ETIQUETA_SRC[src] || src}</span> : null}
                 </span>
                 {base ? (
                   <>
-                    <button
+                    {dtoLocal ? <button
                       onClick={(e) => { e.stopPropagation(); setDtoIdx((p) => ({ ...p, [name]: ((p[name] || 0) + 1) % DTOS_LOCAL.length })); }}
                       className="text-xs font-semibold rounded-full presionable flex-shrink-0"
                       style={{ border: dto ? `1px solid ${color}` : "1px dashed #C9C2B2", padding: "6px 12px", minHeight: 32, color: dto ? color : "#8A8170" }}
                     >
                       {dto ? `-${dto}%` : "dto"}
-                    </button>
+                    </button> : null}
                     <span className="text-sm flex-shrink-0" style={{ fontWeight: efectivo === minimo ? 700 : 400, color: efectivo === minimo ? "#2F5E14" : "#2B2620" }}>
-                      {fmt(efectivo)}
+                      {fmt(efectivo)}{unidad ? <span className="text-xs" style={{ fontWeight: 400, color: "#8A8170" }}>/{unidad}</span> : null}
                     </span>
                   </>
                 ) : null}
@@ -1031,16 +1046,25 @@ function ShoppingView({ stores, month, patchItem, priceDate, descuentos }) {
   const subtotalDe = (rows) => rows.reduce((a, g) => a + g.items.reduce((b, i) => b + (i.price > 0 ? i.price : 0), 0), 0);
   const totalEst = pendings.reduce((a, g) => a + subtotalDe(g.rows), 0);
   const totalSinPrecio = pendings.reduce((a, g) => a + g.rows.reduce((b, r) => b + r.items.filter((i) => !(i.price > 0)).length, 0), 0);
-  // Subtotal que SÍ entra en la promo del comercio (deja afuera secciones/ítems excluidos)
-  const baseDtoDe = (cfg, rows) => rows.reduce((a, g) => a + g.items.reduce((b, i) => b + (i.price > 0 && !excluidoDeDto(cfg, g.sec.name, i) ? i.price : 0), 0), 0);
-  // Ahorro si se compra HOY: por comercio, la mejor promo vigente hoy (respetando tope y exclusiones)
+  // Subtotal que SÍ entra en la promo del comercio (deja afuera secciones/ítems excluidos y los
+  // ítems de referencia que traen su propio comercio de origen, ej. verdulería vía DIA/COTO)
+  const baseDtoDe = (cfg, rows) => rows.reduce((a, g) => a + g.items.reduce((b, i) => b + (i.price > 0 && !i.priceSrc && !excluidoDeDto(cfg, g.sec.name, i) ? i.price : 0), 0), 0);
+  // Promos que le tocan a UN ítem: las de su comercio de origen si lo trae, si no las de la tarjeta
+  const dtosDeItem = (storeId, secName, it) => {
+    const cfg = (descuentos || {})[it.priceSrc || storeId];
+    return excluidoDeDto(cfg, secName, it) ? [] : promosDe(cfg);
+  };
+  // Ahorro si se compra HOY: por comercio la mejor promo vigente (tope y exclusiones), más los
+  // ítems con comercio de origen propio, cada uno con el dto de hoy de SU comercio
   const ahorroHoy = pendings.reduce((a, { store, rows }) => {
     const cfg = (descuentos || {})[store.id];
     const deHoy = promosDe(cfg).filter(esHoyDto);
-    if (!deHoy.length) return a;
     const base = baseDtoDe(cfg, rows);
-    if (base <= 0) return a;
-    return a + Math.max(...deHoy.map((d) => ahorroDe(base, d)));
+    let ahorro = deHoy.length && base > 0 ? Math.max(...deHoy.map((d) => ahorroDe(base, d))) : 0;
+    rows.forEach((g) => g.items.forEach((i) => {
+      if (i.price > 0 && i.priceSrc) ahorro += (i.price * pctHoyDe(excluidoDeDto((descuentos || {})[i.priceSrc], g.sec.name, i) ? null : (descuentos || {})[i.priceSrc])) / 100;
+    }));
+    return a + ahorro;
   }, 0);
 
   return (
@@ -1136,11 +1160,12 @@ function ShoppingView({ stores, month, patchItem, priceDate, descuentos }) {
                             {items.map((it) =>
                               it.type === "pick" ? (
                                 <PickPending key={it.id} it={it} color={store.color} month={month}
-                                  descuentos={excluidoDeDto(cfgDto, sec.name, it) ? [] : dtos}
+                                  dtoHoyDe={(src) => pctHoyDe(excluidoDeDto((descuentos || {})[src || store.id], sec.name, it) ? null : (descuentos || {})[src || store.id])}
+                                  dtoLocal={store.id === "puente"}
                                   onConfirm={(sel) => patchItem(store.id, sec.id, it.id, { have: true, picked: sel })} />
                               ) : (
                                 <PendingRow key={it.id} it={it} color={store.color} month={month} priceDate={priceDate}
-                                  descuentos={excluidoDeDto(cfgDto, sec.name, it) ? [] : dtos}
+                                  descuentos={dtosDeItem(store.id, sec.name, it)}
                                   dtoLocal={store.id === "puente"}
                                   onBuy={(patch) => patchItem(store.id, sec.id, it.id, patch || { have: true })}
                                   onSpec={(v) => patchItem(store.id, sec.id, it.id, { spec: v })} />

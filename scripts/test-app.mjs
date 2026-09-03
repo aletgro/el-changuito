@@ -328,6 +328,16 @@ dom2.window.localStorage.setItem("el-changuito-v1", JSON.stringify({
         { id: "x2", name: "Harinas", items: [{ id: "xh", name: "Harina T", note: "", spec: "", have: false }] },
       ],
     },
+    { // Verdulería: referencia con comercio de origen (DIA/COTO) → dtos por día del comercio de origen
+      id: "verdu", name: "Verdulería", emoji: "🥬", color: "#3E8914", note: "",
+      sections: [{
+        id: "vd1", name: "Siempre en stock",
+        items: [
+          { id: "vp", name: "Papa", note: "", spec: "", have: false },
+          { id: "vf", name: "Fruta", type: "pick", options: ["Banana", "Pomelo"], picked: [], note: "", spec: "", have: false },
+        ],
+      }],
+    },
     { // El Puente: pick con precios por opción + dto de mostrador en cualquier ítem
       id: "puente", name: "El Puente", emoji: "🧀", color: "#2E6FA3", note: "",
       sections: [
@@ -355,6 +365,8 @@ dom2.window.fetch = () => Promise.resolve({
       ],
       extra: { sin: { secciones: ["Carnicería"] }, promos: [{ dia: "lunes", pct: 10 }] },
       puente: [{ dia: "lunes", pct: 20 }], // para combinar con el dto de mostrador
+      dia: [{ dia: "lunes", pct: 20 }],    // los de verdulería vía DIA/COTO usan el dto de SU comercio
+      coto: [{ dia: "lunes", pct: 30 }],
     },
     prices: {
       "Nueces 500 g": { p: 9000, n: "precio de prueba", d: -1000 },
@@ -365,6 +377,9 @@ dom2.window.fetch = () => Promise.resolve({
       "Harina T": { p: 2000, n: "precio de prueba" },
       "Queso para rayar": { p: 8730, n: "300 g de Sardo", op: { "Sardo": 8730, "Reggianito": 8820, "Romano": 8790, "Provolone": 8877 } },
       "Crema": { p: 7520, n: "2× Pote x 330 cc · $11.394/L" },
+      "Papa": { p: 2990, n: "Papa Negra · $2.990/kg · DIA", s: "dia", u: "kg" },
+      "Fruta": { p: 799, n: "la más barata hoy: Pomelo ($799/kg, COTO) · 2/2 con precio", s: "coto", u: "kg",
+        op: { "Banana": { p: 3990, s: "dia", u: "kg" }, "Pomelo": { p: 799, s: "coto", u: "kg" } } },
     },
   }),
 });
@@ -425,7 +440,8 @@ test("Descuento con tope: subtotal recortado al máximo de devolución y aviso d
 test("Total estimado con los dtos de HOY: aplica la mejor promo vigente de cada comercio", () => {
   const texto = dom2.window.document.body.textContent;
   // Lunes (fecha fija): dietética -30% ($4.442) + extra -10% sobre lo no excluido ($200) + puente -20% ($3.250)
-  assert.match(texto, /Con los dtos de hoy · ahorrás \$ 7\.892/);
+  // + verdulería: Papa vía DIA -20% ($598) y Fruta vía COTO -30% ($240) → $8.730
+  assert.match(texto, /Con los dtos de hoy · ahorrás \$ 8\.730/);
   assert.match(texto, /lunes -30% \(hoy\)/);                    // la promo de hoy queda resaltada
 });
 
@@ -467,6 +483,16 @@ test("dto de mostrador en ítems comunes de El Puente: combina con el dto del d�
   assert.match(texto, /Crema/);
   assert.match(texto, /\$ 5\.414/);            // 7.520 × 0,9 (mostrador) × 0,8 (lunes)
   assert.match(texto, /incluye -20% de hoy/);  // la aclaración bajo el precio efectivo
+});
+
+test("Verdulería: cada referencia usa el dto por día de SU comercio de origen", () => {
+  const texto = dom2.window.document.body.textContent;
+  assert.match(texto, /Papa Negra · \$2\.990\/kg · DIA/);
+  assert.match(texto, /lun \$ 2\.392/);                                       // Papa: DIA lunes -20%
+  assert.match(texto, /Referencia del más barato entre DIA y COTO/);            // pick sin chips de mostrador
+  assert.match(texto, /Precios con el dto de hoy de cada comercio incluido/);  // mezcla DIA/COTO
+  assert.match(texto, /Banana.*DIA.*\$ 3\.192\/kg/s);                          // 3.990 × 0,8
+  assert.match(texto, /Pomelo.*COTO.*\$ 559\/kg/s);                            // 799 × 0,7
 });
 
 // "+ a Comprar" desde la oportunidad: Girasol pasa a pendiente (al final, para no mover los totales de arriba)

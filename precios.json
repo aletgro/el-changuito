@@ -59,11 +59,9 @@
     }
   },
   "prices": {
-    "Aceite de girasol 1 L": {
+    "Aceite de girasol": {
       "p": 5745,
-      "n": "Aceite de Girasol Dia 1,5 Lt.",
-      "d": 165,
-      "dv": "25/08/2026"
+      "n": "Aceite de Girasol Dia 1,5 Lt. · $3.830/L"
     },
     "Agua mineral bidón": {
       "p": 2670,
@@ -71,9 +69,7 @@
     },
     "Arroz integral 1 kg": {
       "p": 1380,
-      "n": "Arroz Integral 00000 Cuquets 1 Kg. · oferta -34%",
-      "d": -15,
-      "dv": "01/09/2026"
+      "n": "Arroz Integral 00000 Cuquets 1 Kg. · oferta -34%"
     },
     "Atún": {
       "p": 6150,
@@ -81,81 +77,59 @@
     },
     "Azúcar 500 g": {
       "p": 691,
-      "n": "Azucar Cuquets 500 Gr.",
-      "d": 101,
-      "dv": "02/09/2026"
-    },
-    "Harina de maíz 1 kg": {
-      "p": 2555,
-      "n": "Harina Morixe para Arepas 1 Kg. · oferta -30%",
-      "d": -1095,
-      "dv": "01/09/2026"
-    },
-    "Leche larga vida": {
-      "p": 1913,
-      "n": "Leche Entera Tregar Larga Vida 1 Lt. · 2da unidad -50% llevando 2 · oferta -25%",
-      "d": -377,
-      "dv": "02/09/2026"
-    },
-    "Maicena 500 g": {
-      "p": 2390,
-      "n": "Almidón de Maíz DIA 500 Gr.",
-      "d": 190,
-      "dv": "28/08/2026"
-    },
-    "Polenta 1 kg": {
-      "p": 600,
-      "n": "Polenta Morixe 1 Kg. · oferta -66%",
-      "d": -1100,
-      "dv": "02/09/2026"
-    },
-    "Sal entrefina 500 g": {
-      "p": 900,
-      "n": "Sal Entrefina DIA Parrillera 500 Gr.",
-      "d": 60,
-      "dv": "31/08/2026"
-    },
-    "Sal fina 500 g": {
-      "p": 900,
-      "n": "Sal Entrefina DIA Parrillera 500 Gr.",
-      "d": 250,
-      "dv": "01/09/2026"
-    },
-    "Sal gruesa 500 g": {
-      "p": 1490,
-      "n": "Sal Gruesa Paquete Celusal 500 Gr.",
-      "d": 440,
-      "dv": "01/09/2026"
-    },
-    "Vinagre de alcohol 1 L": {
-      "p": 1565,
-      "n": "Vinagre de Alcohol Dia 1 Lt."
-    },
-    "Yerba 1 kg": {
-      "p": 3380,
-      "n": "Yerba Mate Cruz de Malta Tradicional sin tacc 1 Kg. · oferta -35% · Playadito $4.150 (+23%)",
-      "d": -270,
-      "dv": "02/09/2026"
+      "n": "Azucar Cuquets 500 Gr."
     },
     "Grasa bovina 1 kg": {
       "p": 7300,
       "n": "Grasa Vacuna Dia 1 Kg."
     },
+    "Harina de maíz 1 kg": {
+      "p": 2555,
+      "n": "Harina Morixe para Arepas 1 Kg. · oferta -30%"
+    },
+    "Leche larga vida": {
+      "p": 1913,
+      "n": "Leche Entera Tregar Larga Vida 1 Lt. · 2da unidad -50% llevando 2 · oferta -25%"
+    },
+    "Maicena 500 g": {
+      "p": 2390,
+      "n": "Almidón de Maíz DIA 500 Gr."
+    },
     "Papas fritas": {
       "p": 4800,
-      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr.",
-      "d": 1600,
-      "dv": "01/09/2026"
+      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr."
     },
-    "Vinagre de manzana 1 L": {
-      "p": 4060,
-      "n": "2× Vinagre de Manzana Dia 500 Ml."
+    "Polenta 1 kg": {
+      "p": 600,
+      "n": "Polenta Morixe 1 Kg. · oferta -66%"
+    },
+    "Sal entrefina 500 g": {
+      "p": 900,
+      "n": "Sal Entrefina DIA Parrillera 500 Gr."
+    },
+    "Sal fina 500 g": {
+      "p": 900,
+      "n": "Sal Entrefina DIA Parrillera 500 Gr."
+    },
+    "Sal gruesa 500 g": {
+      "p": 1490,
+      "n": "Sal Gruesa Paquete Celusal 500 Gr."
+    },
+    "Vinagre de alcohol 1 L": {
+      "p": 1565,
+      "n": "Vinagre de Alcohol Dia 1 Lt."
+    },
+    "Vinagre de manzana 500 ml": {
+      "p": 2030,
+      "n": "Vinagre de Manzana Dia 500 Ml."
+    },
+    "Yerba 1 kg": {
+      "p": 3380,
+      "n": "Yerba Mate Cruz de Malta Tradicional sin tacc 1 Kg. · oferta -35% · Playadito $4.150 (+23%)"
     },
     "Aerosol de ambiente": {
       "p": 3143,
-      "n": "Desodorante de Ambiente Poett Primavera en aerosol 360 Ml. · oferta -25%",
-      "d": -1047,
-      "dv": "02/09/2026"
+      "n": "Desodorante de Ambiente Poett Primavera en aerosol 360 Ml. · oferta -25%"
     },
     "Bolsa de basura baño": {
       "p": 1950,
@@ -167,31 +141,23 @@
     },
     "Desinfectante de piso": {
       "p": 1958,
-      "n": "Limpiador Líquido Pisos Procenex Lavanda 900 Ml. · 2da unidad -50% lle · oferta -25%",
-      "d": -652,
-      "dv": "02/09/2026"
+      "n": "Limpiador Líquido Pisos Procenex Lavanda 900 Ml. · 2da unidad -50% lle · oferta -25%"
     },
     "Desinfectante de superficies": {
       "p": 2430,
-      "n": "Desinfectante Multisuperficies Ayudín Doypack 450 Ml.",
-      "d": 630,
-      "dv": "01/09/2026"
+      "n": "Desinfectante Multisuperficies Ayudín Doypack 450 Ml."
     },
     "Detergente líquido": {
       "p": 1755,
-      "n": "Detergente Cif Bioactive Lima Botella 300 Ml. · oferta -35%",
-      "d": -145,
-      "dv": "02/09/2026"
+      "n": "Detergente Cif Bioactive Lima Botella 300 Ml. · oferta -35%"
     },
-    "Esponja": {
-      "p": 915,
-      "n": "Esponja Virulana Fibra Extra Duración 1 Ud."
+    "Esponja salvauñas": {
+      "p": 783,
+      "n": "Esponja Salvauñas Dia 1 Ud. · 2da unidad -70% llevando 2 · oferta -35%"
     },
     "Jabón Dove": {
       "p": 1949,
-      "n": "Jabon Hidratacion Fresca Dove 90 Gr. · 2da unidad -50% llevando 2 · oferta -25%",
-      "d": -11,
-      "dv": "02/09/2026"
+      "n": "Jabon Hidratacion Fresca Dove 90 Gr. · 2da unidad -50% llevando 2 · oferta -25%"
     },
     "Jabón líquido manos": {
       "p": 1399,
@@ -203,9 +169,7 @@
     },
     "Lavandina": {
       "p": 880,
-      "n": "Lavandina Clasica Heroe 1 Lt. · oferta -20%",
-      "d": -14,
-      "dv": "02/09/2026"
+      "n": "Lavandina Clasica Heroe 1 Lt. · oferta -20%"
     },
     "Limpia vidrios": {
       "p": 1850,
@@ -213,27 +177,19 @@
     },
     "Papel higiénico": {
       "p": 4665,
-      "n": "3× Papel Higiénico Simple Hoja 50 mts 2 Ud.",
-      "d": 1685,
-      "dv": "25/08/2026"
+      "n": "3× Papel Higiénico Simple Hoja 50 mts 2 Ud."
     },
     "Pastilla inodoro": {
       "p": 1850,
-      "n": "Limpiador Inodoro Pastillas Glade Lavanda 25 Gr.",
-      "d": 210,
-      "dv": "01/09/2026"
+      "n": "Limpiador Inodoro Pastillas Glade Lavanda 25 Gr."
     },
     "Rollo de cocina": {
       "p": 1680,
-      "n": "Mega Rollo De Cocina Dia 200 Paños 1 Ud. · 2da unidad -80% llevando 2 · oferta -40%",
-      "d": -10,
-      "dv": "02/09/2026"
+      "n": "Mega Rollo De Cocina Dia 200 Paños 1 Ud. · 2da unidad -80% llevando 2 · oferta -40%"
     },
     "Suavizante": {
       "p": 4523,
-      "n": "2× Suavizante Para Ropa Flores Silvestres Doypack 900 Ml. · oferta -25%",
-      "d": -257,
-      "dv": "02/09/2026"
+      "n": "2× Suavizante Para Ropa Flores Silvestres Doypack 900 Ml. · oferta -25%"
     },
     "Trapo de piso": {
       "p": 2000,
@@ -241,9 +197,7 @@
     },
     "Trapo rejilla": {
       "p": 1545,
-      "n": "Trapo Rejilla Dia Multiuso Ecoamigable 1 Ud. · oferta -10%",
-      "d": 85,
-      "dv": "01/09/2026"
+      "n": "Trapo Rejilla Dia Multiuso Ecoamigable 1 Ud. · oferta -10%"
     },
     "Trapo amarillo": {
       "p": 3760,
@@ -251,21 +205,19 @@
     },
     "Virulana": {
       "p": 861,
-      "n": "Esponja de Acero Inoxidable Dia 1 Ud. · 2da unidad -70% llevando 2 · oferta -35%",
-      "d": -464,
-      "dv": "02/09/2026"
+      "n": "Esponja de Acero Inoxidable Dia 1 Ud. · 2da unidad -70% llevando 2 · oferta -35%"
+    },
+    "Arvejas en lata": {
+      "p": 729,
+      "n": "Arvejas Secas Remojadas Dia 300 Gr."
     },
     "Caldo en cubos": {
       "p": 1138,
-      "n": "Caldo Knorr De Verdura Deshidratado 6 Ud. · 2da unidad -70% llevando 2 · oferta -35%",
-      "d": -487,
-      "dv": "02/09/2026"
+      "n": "Caldo Knorr De Verdura Deshidratado 6 Ud. · 2da unidad -70% llevando 2 · oferta -35%"
     },
     "Choclo en lata": {
       "p": 1490,
-      "n": "Granos de Choclo Amarillo DIA 300 Gr.",
-      "d": 115,
-      "dv": "28/08/2026"
+      "n": "Granos de Choclo Amarillo DIA 300 Gr."
     },
     "Jardinera en lata": {
       "p": 1440,
@@ -273,15 +225,11 @@
     },
     "Jugo de tomate en sachet": {
       "p": 690,
-      "n": "Puré de Tomate Dia 520 Gr. · oferta -28%",
-      "d": -269,
-      "dv": "02/09/2026"
+      "n": "Puré de Tomate Dia 520 Gr. · oferta -28%"
     },
     "Levadura": {
       "p": 548,
-      "n": "Levadura Instántanea en Sobre Mi Pan 10 Gr.",
-      "d": 98,
-      "dv": "01/09/2026"
+      "n": "Levadura Instántanea en Sobre Mi Pan 10 Gr."
     },
     "Pan rallado": {
       "p": 940,
@@ -289,13 +237,23 @@
     },
     "4 pilas AAA": {
       "p": 11224,
-      "n": "4× Pilas Bixler Aaa 2 Ud.",
-      "d": 3928,
-      "dv": "01/09/2026"
+      "n": "4× Pilas Bixler Aaa 2 Ud."
     },
     "Escarbadientes": {
       "p": 2251,
       "n": "Escarbadientes Dia 2 x 50 Ud."
+    },
+    "Film transparente": {
+      "p": 3225,
+      "n": "Film Transparente Dia 30 Mt. · 2da unidad -50% llevando 2 · oferta -25%"
+    },
+    "Papel aluminio": {
+      "p": 2400,
+      "n": "Papel Aluminio Dia 5 Mt. · 2da unidad -50% llevando 2 · oferta -25%"
+    },
+    "Papel manteca": {
+      "p": 3188,
+      "n": "Rollo Papel Manteca 5 Mts Dia 1 Ud. · 2da unidad -50% llevando 2 · oferta -25%"
     },
     "Fundente": {
       "p": 8400,
@@ -335,9 +293,7 @@
     },
     "Leche": {
       "p": 3400,
-      "n": "2× Leche entera El Puente. Sachet por 1 l",
-      "d": 200,
-      "dv": "27/08/2026"
+      "n": "2× Leche entera El Puente. Sachet por 1 l"
     },
     "Harina 000": {
       "p": 1039,
@@ -367,23 +323,25 @@
       "p": 2030,
       "n": "Sémola De Trigo Pureza 500g"
     },
+    "Extracto de tomate": {
+      "p": 1429,
+      "n": "Extracto De Tomate Doble Vigente Lat 150 Grm"
+    },
+    "Pollo entero": {
+      "p": 17596,
+      "n": "Pollo Entero Fresco X Uni (4 Kg) Refrigerado · $4.399/kg"
+    },
     "Roast beef": {
       "p": 14999,
-      "n": "Roast Beef Estancias Coto · $14.999/kg",
-      "d": 1700,
-      "dv": "27/08/2026"
+      "n": "Roast Beef Estancias Coto · $14.999/kg"
     },
     "Combo de temporada": {
       "p": 16898,
-      "n": "falda $6.999/kg + osobuco $9.899/kg · estimo 1 kg de c/u",
-      "d": -700,
-      "dv": "27/08/2026"
+      "n": "falda $6.999/kg + osobuco $9.899/kg · estimo 1 kg de c/u"
     },
     "Asado": {
       "p": 26498,
-      "n": "tapa de asado $13.499/kg + tira $12.999/kg · estimo 1 kg de c/u",
-      "d": 700,
-      "dv": "27/08/2026"
+      "n": "tapa de asado $13.499/kg + tira $12.999/kg · estimo 1 kg de c/u"
     },
     "Ají molido / pimentón picante 100 g": {
       "p": 892,
@@ -395,17 +353,35 @@
     },
     "Canela 15 g": {
       "p": 1290,
-      "n": "15 g de Canela en Rama x 100 g · $86.000/kg · New Garden",
-      "d": 585,
-      "dv": "02/09/2026"
+      "n": "15 g de Canela en Rama x 100 g · $86.000/kg · New Garden"
+    },
+    "Clavos de olor 10 g": {
+      "p": 630,
+      "n": "10 g de Clavo de Olor en Grano 50 Gr · $63.000/kg · New Garden"
     },
     "Comino 100 g": {
       "p": 3300,
       "n": "100 g de Comino en grano 100 Gr · $33.000/kg · New Garden"
     },
+    "Coriandro 25 g": {
+      "p": 275,
+      "n": "25 g de Coriandro Molido 100 g · $11.000/kg · New Garden"
+    },
+    "Hinojo 50 g": {
+      "p": 950,
+      "n": "50 g de Semilla de Hinojo 100 g · $19.000/kg · New Garden"
+    },
+    "Laurel 15 hojas": {
+      "p": 700,
+      "n": "25 g de Laurel en Hojas 100 gr · $28.000/kg · New Garden"
+    },
     "Mostaza rubia 25 g": {
       "p": 275,
       "n": "25 g de Mostaza En Grano 250 g · $10.992/kg"
+    },
+    "Nuez moscada 5 unidades": {
+      "p": 3750,
+      "n": "25 g de Nuez Moscada en Grano x 10 g. · $150.000/kg · New Garden"
     },
     "Orégano 50 g": {
       "p": 382,
@@ -419,6 +395,10 @@
       "p": 1075,
       "n": "50 g de Pimienta Blanca Molida 250 g · $21.492/kg"
     },
+    "Pimienta negra 50 g + 50 g": {
+      "p": 1612,
+      "n": "50 g de Pimienta Negra En Grano 250 g · $32.240/kg"
+    },
     "Romero 25 g": {
       "p": 471,
       "n": "25 g de Romero 250 g · $18.836/kg"
@@ -429,21 +409,15 @@
     },
     "Almendras 500 g": {
       "p": 16002,
-      "n": "500 g de Almendras Carmel Grande 500 g · $32.004/kg",
-      "d": 2070,
-      "dv": "27/08/2026"
+      "n": "500 g de Almendras Carmel Grande 500 g · $32.004/kg"
     },
     "Cacao 500 g": {
       "p": 7931,
-      "n": "500 g de Cacao Amargo Alcalino 500 g · $15.862/kg",
-      "d": -881,
-      "dv": "03/09/2026"
+      "n": "500 g de Cacao Amargo Alcalino 500 g · $15.862/kg"
     },
     "Castañas de cajú 500 g": {
       "p": 10062,
-      "n": "500 g de Castañas De Caju Crudas W3 (Premium) 500 g · $20.124/kg",
-      "d": -1118,
-      "dv": "03/09/2026"
+      "n": "500 g de Castañas De Caju Crudas W3 (Premium) 500 g · $20.124/kg"
     },
     "Girasol 250 g": {
       "p": 1490,
@@ -455,13 +429,15 @@
     },
     "Maní 2 kg": {
       "p": 8552,
-      "n": "2 kg de Mani Repelado Crudo 1 kg · $4.276/kg",
-      "d": 1156,
-      "dv": "21/08/2026"
+      "n": "2 kg de Mani Repelado Crudo 1 kg · $4.276/kg"
     },
     "Nueces 500 g": {
       "p": 10779,
       "n": "500 g de Nueces Peladas Mariposa EXTRA Light (Cosecha 2026) 500 g · $21.558/kg"
+    },
+    "Piñones": {
+      "p": 6500,
+      "n": "50 g de Piñones 50g · $130.000/kg · New Garden"
     },
     "Sésamo integral 500 g": {
       "p": 1800,
@@ -469,15 +445,15 @@
     },
     "Avena 500 g": {
       "p": 1279,
-      "n": "500 g de Avena Tradicional x 1KG · $2.558/kg",
-      "d": -60,
-      "dv": "28/08/2026"
+      "n": "500 g de Avena Tradicional x 1KG · $2.558/kg"
     },
     "Bicarbonato de sodio 200 g": {
       "p": 429,
-      "n": "200 g de Bicarbonato De Sodio x 1KG · $2.143/kg",
-      "d": -101,
-      "dv": "03/09/2026"
+      "n": "200 g de Bicarbonato De Sodio x 1KG · $2.143/kg"
+    },
+    "Copos de maíz 500 g": {
+      "p": 3600,
+      "n": "500 g de Copos de Maiz x 500 g · $7.200/kg · New Garden"
     },
     "Polvo para hornear 100 g": {
       "p": 571,
@@ -485,9 +461,7 @@
     },
     "Arvejas 1 kg": {
       "p": 1849,
-      "n": "1 kg de Arvejas Partidas x 1KG · $1.849/kg",
-      "d": 184,
-      "dv": "03/09/2026"
+      "n": "1 kg de Arvejas Partidas x 1KG · $1.849/kg"
     },
     "Chía 500 g": {
       "p": 5529,
@@ -495,9 +469,7 @@
     },
     "Garbanzos 1 kg": {
       "p": 2152,
-      "n": "1 kg de Garbanzos x 1KG (9mm) · $2.152/kg",
-      "d": -239,
-      "dv": "03/09/2026"
+      "n": "1 kg de Garbanzos x 1KG (9mm) · $2.152/kg"
     },
     "Lentejas 1 kg": {
       "p": 3186,
@@ -505,9 +477,7 @@
     },
     "Porotos negros 1 kg": {
       "p": 2494,
-      "n": "1 kg de Porotos Negros x 1KG · $2.494/kg",
-      "d": 249,
-      "dv": "03/09/2026"
+      "n": "1 kg de Porotos Negros x 1KG · $2.494/kg"
     },
     "Porotos de soja 1 kg": {
       "p": 1709,
@@ -515,9 +485,7 @@
     },
     "Quínoa 1 kg": {
       "p": 10508,
-      "n": "1 kg de Quinoa Real Premium 1 kg · $10.508/kg",
-      "d": -1167,
-      "dv": "03/09/2026"
+      "n": "1 kg de Quinoa Real Premium 1 kg · $10.508/kg"
     },
     "Té negro": {
       "p": 4731,
@@ -533,41 +501,7 @@
     },
     "Vainilla": {
       "p": 11500,
-      "n": "Chaucha de Vainilla x 1 unidad · New Garden",
-      "d": -92000,
-      "dv": "21/08/2026"
-    },
-    "Pimienta negra 50 g + 50 g": {
-      "p": 1612,
-      "n": "50 g de Pimienta Negra En Grano 250 g · $32.240/kg"
-    },
-    "Clavos de olor 10 g": {
-      "p": 630,
-      "n": "10 g de Clavo de Olor en Grano 50 Gr · $63.000/kg · New Garden"
-    },
-    "Coriandro 25 g": {
-      "p": 275,
-      "n": "25 g de Coriandro Molido 100 g · $11.000/kg · New Garden"
-    },
-    "Hinojo 50 g": {
-      "p": 950,
-      "n": "50 g de Semilla de Hinojo 100 g · $19.000/kg · New Garden"
-    },
-    "Laurel 15 hojas": {
-      "p": 700,
-      "n": "25 g de Laurel en Hojas 100 gr · $28.000/kg · New Garden"
-    },
-    "Nuez moscada 5 unidades": {
-      "p": 3750,
-      "n": "25 g de Nuez Moscada en Grano x 10 g. · $150.000/kg · New Garden"
-    },
-    "Piñones": {
-      "p": 6500,
-      "n": "50 g de Piñones 50g · $130.000/kg · New Garden"
-    },
-    "Copos de maíz 500 g": {
-      "p": 3600,
-      "n": "500 g de Copos de Maiz x 500 g · $7.200/kg · New Garden"
+      "n": "Chaucha de Vainilla x 1 unidad · New Garden"
     },
     "Salsa de pescado": {
       "p": 5600,
@@ -593,9 +527,69 @@
       "p": 180,
       "n": "15 g de Fenogreco Entero 100 g · $12.000/kg · New Garden"
     },
-    "Arvejas en lata": {
-      "p": 729,
-      "n": "Arvejas Secas Remojadas Dia 300 Gr."
+    "Alcohol": {
+      "p": 3193,
+      "n": "Alcohol Etílico Bialcohol 96% Uso Medicinal x 500ml · oferta -35%"
+    },
+    "Alcohol en gel": {
+      "p": 6560,
+      "n": "Alcohol en Gel Farmacity Neutro Dosificador x 980 ml · oferta -20% · $6.694/L"
+    },
+    "Algodón": {
+      "p": 1700,
+      "n": "Algodón Clásico Farmacity x 100 g"
+    },
+    "Cepillo de dientes": {
+      "p": 3728,
+      "n": "Cepillo de Dientes Colgate Max White Charcoal Cerdas Medianas Blanquea · oferta -50% · $1.864/un"
+    },
+    "Curitas": {
+      "p": 1800,
+      "n": "Apositos Adhesivos Farmacity x 30 un · 2x1 llevando 2 · oferta -50% · $60/un"
+    },
+    "Desodorante": {
+      "p": 5170,
+      "n": "Desodorante Old Spice Dragon Blast x 50 g · 2x1 llevando 2 · oferta -50%"
+    },
+    "Enjuague bucal": {
+      "p": 3920,
+      "n": "Enjuague Bucal Colgate Plax Odor Control x 500 ml · 2x1 llevando 2 · oferta -50% · $7.840/L"
+    },
+    "Hilo dental": {
+      "p": 3127,
+      "n": "Hilo Dental Farmacity Sabor Menta x 2 un x 50 m · oferta -25% · $31/m"
+    },
+    "Máquina de afeitar": {
+      "p": 4762,
+      "n": "Maquina de Afeitar Farmacity 3 Filos para Hombre x 5 un · oferta -25% · $952/un"
+    },
+    "Pasta dental": {
+      "p": 2968,
+      "n": "Pasta Dental Colgate Sensitive Whitening x 100 g · 2x1 llevando 2 · oferta -50% · $29.675/kg"
+    },
+    "Preservativos": {
+      "p": 4112,
+      "n": "Preservativo de Látex Mega x 3 un · oferta -30% · $1.371/un"
+    },
+    "Repelente": {
+      "p": 2860,
+      "n": "Repelente para Mosquitos en Aerosol Vn Familiar x 170 ml · oferta -35%"
+    },
+    "Crema humectante": {
+      "p": 4018,
+      "n": "Crema Humectante Pond's Bio-Hydratante x 100 g · oferta -20%"
+    },
+    "Gel de limpieza": {
+      "p": 6594,
+      "n": "Gel de Limpieza Get The Look x 130 ml · oferta -40%"
+    },
+    "Protector solar corporal": {
+      "p": 8824,
+      "n": "Protector Solar VN Efecto Seco Fps 30 x 190 ml · oferta -50%"
+    },
+    "Protector solar facial": {
+      "p": 8510,
+      "n": "Protector Solar Facial Villeneuve Sin Color Fps 50 x 50 ml · oferta -50%"
     },
     "Hongos para cocinar": {
       "p": 7702,
@@ -609,105 +603,9 @@
       "p": 10500,
       "n": "Lee Kum Kee Salsa de Soja Premium 500ml"
     },
-    "Alcohol": {
-      "p": 3193,
-      "n": "Alcohol Etílico Bialcohol 96% Uso Medicinal x 500ml · oferta -35%",
-      "d": -757,
-      "dv": "01/09/2026"
-    },
-    "Algodón": {
-      "p": 1700,
-      "n": "Algodón Clásico Farmacity x 100 g"
-    },
-    "Cepillo de dientes": {
-      "p": 3728,
-      "n": "Cepillo de Dientes Colgate Max White Charcoal Cerdas Medianas Blanquea · oferta -50% · $1.864/un",
-      "d": 228,
-      "dv": "25/08/2026"
-    },
-    "Curitas": {
-      "p": 1800,
-      "n": "Apositos Adhesivos Farmacity x 30 un · 2x1 llevando 2 · oferta -50% · $60/un"
-    },
-    "Desodorante": {
-      "p": 5170,
-      "n": "Desodorante Old Spice Dragon Blast x 50 g · 2x1 llevando 2 · oferta -50%",
-      "d": -5170,
-      "dv": "01/09/2026"
-    },
-    "Enjuague bucal": {
-      "p": 3920,
-      "n": "Enjuague Bucal Colgate Plax Odor Control x 500 ml · 2x1 llevando 2 · oferta -50% · $7.840/L",
-      "d": 42,
-      "dv": "01/09/2026"
-    },
-    "Hilo dental": {
-      "p": 3127,
-      "n": "Hilo Dental Farmacity Sabor Menta x 2 un x 50 m · oferta -25% · $31/m",
-      "d": 1972,
-      "dv": "02/09/2026"
-    },
-    "Máquina de afeitar": {
-      "p": 4762,
-      "n": "Maquina de Afeitar Farmacity 3 Filos para Hombre x 5 un · oferta -25% · $952/un",
-      "d": 635,
-      "dv": "01/09/2026"
-    },
-    "Pasta dental": {
-      "p": 2968,
-      "n": "Pasta Dental Colgate Sensitive Whitening x 100 g · 2x1 llevando 2 · oferta -50% · $29.675/kg",
-      "d": 1113,
-      "dv": "02/09/2026"
-    },
-    "Preservativos": {
-      "p": 4112,
-      "n": "Preservativo de Látex Mega x 3 un · oferta -30% · $1.371/un",
-      "d": -1762,
-      "dv": "01/09/2026"
-    },
-    "Repelente": {
-      "p": 2860,
-      "n": "Repelente para Mosquitos en Aerosol Vn Familiar x 170 ml · oferta -35%",
-      "d": 265,
-      "dv": "01/09/2026"
-    },
-    "Crema humectante": {
-      "p": 4018,
-      "n": "Crema Humectante Pond's Bio-Hydratante x 100 g · oferta -20%",
-      "d": -1005,
-      "dv": "01/09/2026"
-    },
-    "Gel de limpieza": {
-      "p": 6594,
-      "n": "Gel de Limpieza Get The Look x 130 ml · oferta -40%",
-      "d": 1099,
-      "dv": "01/09/2026"
-    },
-    "Protector solar corporal": {
-      "p": 8824,
-      "n": "Protector Solar VN Efecto Seco Fps 30 x 190 ml · oferta -50%",
-      "d": -2382,
-      "dv": "21/08/2026"
-    },
-    "Protector solar facial": {
-      "p": 8510,
-      "n": "Protector Solar Facial Villeneuve Sin Color Fps 50 x 50 ml · oferta -50%"
-    },
-    "Alcohol en gel": {
-      "p": 6560,
-      "n": "Alcohol en Gel Farmacity Neutro Dosificador x 980 ml · oferta -20% · $6.694/L",
-      "d": 2741,
-      "dv": "01/09/2026"
-    },
-    "Vinagre de manzana 500 ml": {
-      "p": 2030,
-      "n": "Vinagre de Manzana Dia 500 Ml."
-    },
-    "Esponja salvauñas": {
-      "p": 783,
-      "n": "Esponja Salvauñas Dia 1 Ud. · 2da unidad -70% llevando 2 · oferta -35%",
-      "d": 195,
-      "dv": "03/09/2026"
+    "Salmón": {
+      "p": 104000,
+      "n": "COMBO DE SALMON ROSADO X 4KG · $26.000/kg"
     },
     "Langostinos": {
       "p": 26400,
@@ -717,31 +615,386 @@
       "p": 15300,
       "n": "MEJILLÓN PELADO x kilo · $15.300/kg"
     },
-    "Salmón": {
-      "p": 104000,
-      "n": "COMBO DE SALMON ROSADO X 4KG · $26.000/kg"
+    "Ajo": {
+      "p": 19083,
+      "n": "Dientes de Ajo Seleccionados 120 Gr. · $19.083/kg · DIA",
+      "s": "dia",
+      "u": "kg"
     },
-    "Pollo entero": {
-      "p": 17596,
-      "n": "Pollo Entero Fresco X Uni (4 Kg) Refrigerado · $4.399/kg"
+    "Cebolla": {
+      "p": 999,
+      "n": "Cebolla Premium Xkg 1 Kgm · $999/kg · COTO",
+      "s": "coto",
+      "u": "kg"
     },
-    "Film transparente": {
-      "p": 3225,
-      "n": "Film Transparente Dia 30 Mt. · 2da unidad -50% llevando 2 · oferta -25% · $108/m",
-      "d": -1075,
-      "dv": "02/09/2026"
+    "Cúrcuma": {
+      "p": 1799,
+      "n": "Cúrcuma · $1.799/kg · COTO",
+      "s": "coto",
+      "u": "kg"
     },
-    "Papel aluminio": {
-      "p": 2400,
-      "n": "Papel Aluminio Dia 5 Mt. · 2da unidad -50% llevando 2 · oferta -25% · $480/m",
-      "d": -800,
-      "dv": "02/09/2026"
+    "Jengibre": {
+      "p": 6999,
+      "n": "Jengibre · $6.999/kg · COTO",
+      "s": "coto",
+      "u": "kg"
     },
-    "Papel manteca": {
-      "p": 3188,
-      "n": "Rollo Papel Manteca 5 Mts Dia 1 Ud. · 2da unidad -50% llevando 2 · oferta -25% · $638/m",
-      "d": -1062,
-      "dv": "02/09/2026"
+    "Limón": {
+      "p": 999,
+      "n": "Limón COSECHA CRIOLLA (Peso Aproximado 1.5 Kg) · $999/kg · COTO",
+      "s": "coto",
+      "u": "kg"
+    },
+    "Morrón": {
+      "p": 6290,
+      "n": "Morrón Verde · $6.290/kg · DIA",
+      "s": "dia",
+      "u": "kg"
+    },
+    "Papa": {
+      "p": 2990,
+      "n": "Papa Negra · $2.990/kg · DIA",
+      "s": "dia",
+      "u": "kg"
+    },
+    "Palta": {
+      "p": 6999,
+      "n": "Palta Hass · $6.999/kg · COTO",
+      "s": "coto",
+      "u": "kg"
+    },
+    "Tomate": {
+      "p": 1990,
+      "n": "Tomate Comercial en bolsa malla x 1 Kg. · $1.990/kg · DIA",
+      "s": "dia",
+      "u": "kg"
+    },
+    "Zanahoria": {
+      "p": 1390,
+      "n": "Zanahoria · $1.390/kg · DIA",
+      "s": "dia",
+      "u": "kg"
+    },
+    "Fruta": {
+      "p": 799,
+      "n": "la más barata hoy: Pomelo ($799/kg, COTO) · 24/26 con precio",
+      "s": "coto",
+      "u": "kg",
+      "op": {
+        "Ananá": {
+          "p": 7649,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Arándanos": {
+          "p": 21520,
+          "s": "dia",
+          "u": "kg"
+        },
+        "Banana": {
+          "p": 3990,
+          "s": "dia",
+          "u": "kg"
+        },
+        "Cereza": {
+          "p": 7999,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Ciruela": {
+          "p": 4499,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Durazno": {
+          "p": 3890,
+          "s": "dia",
+          "u": "kg"
+        },
+        "Frambuesa": {
+          "p": 1675,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Frutilla": {
+          "p": 14889,
+          "s": "dia",
+          "u": "kg"
+        },
+        "Granada": {
+          "p": 6999,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Higo": {
+          "p": 14999,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Kiwi": {
+          "p": 7999,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Mandarina": {
+          "p": 999,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Mango": {
+          "p": 5999,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Manzana": {
+          "p": 2990,
+          "s": "dia",
+          "u": "kg"
+        },
+        "Maracuya (fruta de la pasión)": {
+          "p": 5999,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Melón": {
+          "p": 3299,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Membrillo": {
+          "p": 8955,
+          "s": "dia",
+          "u": "kg"
+        },
+        "Mora": {
+          "p": 27718,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Naranja": {
+          "p": 1199,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Papaya": {
+          "p": 8999,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Pera": {
+          "p": 2299,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Pomelo": {
+          "p": 799,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Sandía": {
+          "p": 3990,
+          "s": "dia",
+          "u": "kg"
+        },
+        "Uva": {
+          "p": 10990,
+          "s": "dia",
+          "u": "kg"
+        }
+      }
+    },
+    "Solo ensalada": {
+      "p": 2010,
+      "n": "la más barata hoy: Rúcula ($2.010/kg, COTO) · 6/6 con precio",
+      "s": "coto",
+      "u": "kg",
+      "op": {
+        "Apio": {
+          "p": 5790,
+          "s": "dia",
+          "u": "kg"
+        },
+        "Berro": {
+          "p": 7199,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Lechuga": {
+          "p": 5690,
+          "s": "dia",
+          "u": "kg"
+        },
+        "Rabanitos": {
+          "p": 5299,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Radicheta": {
+          "p": 8632,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Rúcula": {
+          "p": 2010,
+          "s": "coto",
+          "u": "kg"
+        }
+      }
+    },
+    "Estructurales": {
+      "p": 1699,
+      "n": "la más barata hoy: Repollo ($1.699/kg, COTO) · 8/9 con precio",
+      "s": "coto",
+      "u": "kg",
+      "op": {
+        "Alcaucil": {
+          "p": 15999,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Berenjena": {
+          "p": 3299,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Brócoli": {
+          "p": 13144,
+          "s": "dia",
+          "u": "kg"
+        },
+        "Espárragos": {
+          "p": 2006,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Hakusay": {
+          "p": 4999,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Hinojo": {
+          "p": 3999,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Repollo": {
+          "p": 1699,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Zapallito": {
+          "p": 4499,
+          "s": "coto",
+          "u": "kg"
+        }
+      }
+    },
+    "Apoyo": {
+      "p": 4290,
+      "n": "la más barata hoy: Acelga ($4.290/kg, DIA) · 4/4 con precio",
+      "s": "dia",
+      "u": "kg",
+      "op": {
+        "Acelga": {
+          "p": 4290,
+          "s": "dia",
+          "u": "kg"
+        },
+        "Chaucha": {
+          "p": 4999,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Espinaca": {
+          "p": 4400,
+          "s": "dia",
+          "u": "kg"
+        },
+        "Kale": {
+          "p": 11967,
+          "s": "dia",
+          "u": "kg"
+        }
+      }
+    },
+    "Contundentes": {
+      "p": 999,
+      "n": "la más barata hoy: Batata ($999/kg, COTO) · 7/7 con precio",
+      "s": "coto",
+      "u": "kg",
+      "op": {
+        "Batata": {
+          "p": 999,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Calabaza": {
+          "p": 26633,
+          "s": "dia",
+          "u": "kg"
+        },
+        "Choclo": {
+          "p": 7693,
+          "s": "dia",
+          "u": "kg"
+        },
+        "Coliflor": {
+          "p": 3248,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Mandioca": {
+          "p": 4999,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Remolacha": {
+          "p": 2999,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Zapallo anco": {
+          "p": 3190,
+          "s": "dia",
+          "u": "kg"
+        }
+      }
+    },
+    "Hierbas de terminación": {
+      "p": 4778,
+      "n": "la más barata hoy: Albahaca ($4.778/kg, COTO) · 2/3 con precio",
+      "s": "coto",
+      "u": "kg",
+      "op": {
+        "Albahaca": {
+          "p": 4778,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Perejil": {
+          "p": 11327,
+          "s": "coto",
+          "u": "kg"
+        }
+      }
+    },
+    "Aromáticos de cocción": {
+      "p": 3997,
+      "n": "la más barata hoy: Puerro (frío) ($3.997/kg, COTO) · 2/2 con precio",
+      "s": "coto",
+      "u": "kg",
+      "op": {
+        "Puerro (frío)": {
+          "p": 3997,
+          "s": "coto",
+          "u": "kg"
+        },
+        "Verdeo (calor)": {
+          "p": 11333,
+          "s": "dia",
+          "u": "kg"
+        }
+      }
     }
   }
 }

@@ -226,7 +226,17 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   renombrado en v7) desde Carmín — ganó el MIX DE HONGOS IQF 500 g Biomac, supuesto:
   compra de ~500 g · Aceto balsámico Millán desde BonVino · Salsa de soja Lee Kum Kee
   premium desde Tienda Nova (páginas de producto fijas: si cambian la URL, avisar).
-- **Verdulería**: sin precios por decisión del usuario ("por ahora exceptuá verdulería").
+- **Verdulería (referencia DIA/COTO desde 09/2026)**: el usuario compra en la verdulería
+  de barrio; la referencia es el más barato entre DIA y COTO para cada verdura/fruta
+  (`preciosVerdu()`: 10 ítems fijos + las 57 opciones de los picks, `VERDU_SIMPLES` /
+  `VERDU_PICKS` = nombres exactos de la app). Criterio: $/kg del fresco más barato (por
+  unidad solo si nadie lo vende por kg); `RECHAZO_VERDU` saca conservas, congelados,
+  jugos, especias, elaborados y limpieza; sanidad: paquetes ≥ 80 g, $500–30.000 el kg, y
+  un COTO por debajo del 40 % de DIA se descarta (COTO tiene SKUs con precio placeholder,
+  ej. "Cebolla Roja Bolsa $299"). Cada entrada lleva `s` (comercio de origen) y `u`
+  (kg/un); las opciones de los picks van como `{ p, s, u }`. En la app `priceSrc` hace
+  que el ítem use los DESCUENTOS POR DÍA DE SU COMERCIO DE ORIGEN (líneas "mar $…",
+  total con dtos de hoy, opción por opción en los picks) aunque viva en Verdulería.
 - **DIA, casos confirmados (09-12/08/2026)**: "Harina de maíz 1 kg" ES la Morixe para
   arepas (el nombre del producto no dice "maíz"; el must exige "arepas") · "Arvejas en
   lata" acepta cualquiera menos congeladas — en DIA las latas se llaman "Arvejas Secas

@@ -9,6 +9,7 @@ import {
   ITEMS_COTO, PARTES_CARNE, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto,
   ITEMS_DIETETICA, normalizarPeso, paresProductoFa, paresVariacionesFa, paresDesdeNewGarden,
   ITEMS_OTROS, paresDesdeTiendaNube, productoDePagina, ITEMS_FARMACITY, ITEMS_PESCE, promoVtex, conDelta, DESCUENTOS, opcionesElPuente,
+  regexVerdu, elegirVerdura, mejorVerdura,
 } from "./actualizar-precios.mjs";
 
 const item = (name) => ITEMS_ELPUENTE.find((i) => i.name === name);
@@ -757,6 +758,37 @@ test("Salmón: el mejor $/kg aunque sea el combo de 4 kg; ahumado/pasta/blanco a
   assert.equal(el.p, 104000);
   assert.match(el.n, /X 4KG/);
   assert.match(el.n, /\$26\.000\/kg/);
+});
+
+/* ---------- Verdulería: referencia DIA vs COTO ---------- */
+test("regexVerdu: tolera tildes y plurales, respeta palabras (papa ≠ papaya)", () => {
+  assert.ok(regexVerdu("Papa").test("Papa Negra x Kg."));
+  assert.ok(!regexVerdu("Papa").test("Papaya X Kg"));
+  assert.ok(regexVerdu("Limón").test("Limon x Kg."));
+  assert.ok(regexVerdu("Verdeo (calor)").test("Cebolla De Verdeo X Uni"));
+  assert.ok(regexVerdu("Zapallo anco").test("Zapallo Anco X Kg"));
+});
+
+test("elegirVerdura: $/kg del fresco más barato; conservas, sobrecitos y precios basura afuera", () => {
+  const el = elegirVerdura("Tomate", [
+    { nombre: "Puré de Tomate Dia 520 Gr.", precio: 690, lista: 690 },                 // conserva
+    { nombre: "Tomate Cubeteado alco 400 Gr.", precio: 1535, lista: 1535 },            // conserva
+    { nombre: "Tomate Comercial en bolsa malla x 1 Kg.", precio: 1990, lista: 1990 },  // ← gana
+    { nombre: "Tomate Redondo x Kg.", precio: 6490, lista: 6490 },
+    { nombre: "Tomate Deshidratado Sobre 30 Gr.", precio: 900, lista: 900 },           // sobrecito
+  ]);
+  assert.equal(el.p, 1990);
+  assert.equal(el.u, "kg");
+  assert.match(el.n, /bolsa malla x 1 Kg\. · \$1\.990\/kg/);
+});
+
+test("mejorVerdura: gana el más barato entre DIA y COTO, y un COTO absurdo (<40 % de DIA) se descarta", () => {
+  const dia = [{ nombre: "Cebolla Comercial en bolsa malla x Kg.", precio: 1990, lista: 1990 }];
+  const cotoBasura = [{ nombre: "Cebolla Roja Bolsa X 1 Kgm", precio: 299, lista: 299 }];
+  const cotoReal = [{ nombre: "Cebolla A Granel X Kg", precio: 1499, lista: 1499 }];
+  assert.deepEqual(mejorVerdura("Cebolla", dia, cotoBasura), { p: 1990, n: "Cebolla Comercial en bolsa malla · $1.990/kg · DIA", s: "dia", u: "kg" });
+  assert.deepEqual(mejorVerdura("Cebolla", dia, cotoReal), { p: 1499, n: "Cebolla A Granel · $1.499/kg · COTO", s: "coto", u: "kg" });
+  assert.equal(mejorVerdura("Cebolla", null, null), null);
 });
 
 /* ---------- Otros lugares (Carmín / BonVino / Tienda Nova) ---------- */

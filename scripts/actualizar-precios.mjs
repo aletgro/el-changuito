@@ -149,7 +149,7 @@ function parseQty(nombre) {
   if ((m = base.match(/(\d+(?:\.\d+)?)\s*(?:ml|cc)\b/))) return { amount: (parseFloat(m[1]) / 1000) * mult, unit: "l" };
   if ((m = base.match(/(\d+(?:\.\d+)?)\s*(?:lts?|lt\.|l)\b/))) return { amount: parseFloat(m[1]) * mult, unit: "l" };
   if ((m = base.match(/(\d+(?:\.\d+)?)\s*m(?:ts?)?\b/))) return { amount: parseFloat(m[1]) * mult, unit: "m" };
-  if (/\bkilo\b/.test(s)) return { amount: mult, unit: "kg" }; // "x kilo" sin dígito (Pesce)
+  if (/\bkilo\b|\bx\s*kg\b/.test(s)) return { amount: mult, unit: "kg" }; // "x kilo" / "x kg" sin dígito (Pesce, DIA)
   return { amount: mult, unit: "un" };
 }
 
@@ -783,6 +783,105 @@ async function preciosPesce() {
   return out;
 }
 
+/* ---------- VERDULERÍA: referencia DIA vs COTO ----------
+   El usuario compra en la verdulería de barrio (sin página); la referencia es el
+   más barato entre DIA y COTO para cada verdura/fruta, POR KILO cuando se vende
+   por kilo (si en ningún lado hay por kilo, por unidad). Cada precio recuerda su
+   comercio (`s`) para que la app le aplique los descuentos por día de ESE
+   comercio. Los picks (Fruta, Estructurales…) publican el precio de cada opción. */
+const VERDU_SIMPLES = ["Ajo", "Cebolla", "Cúrcuma", "Jengibre", "Limón", "Morrón", "Papa", "Palta", "Tomate", "Zanahoria"];
+const VERDU_PICKS = {
+  "Fruta": ["Ananá", "Arándanos", "Banana", "Caqui", "Cereza", "Ciruela", "Durazno", "Frambuesa", "Frutilla", "Granada", "Higo", "Kiwi", "Mandarina", "Mango", "Manzana", "Maracuya (fruta de la pasión)", "Melón", "Membrillo", "Mora", "Naranja", "Papaya", "Pera", "Pitahaya (fruta del dragón)", "Pomelo", "Sandía", "Uva"],
+  "Solo ensalada": ["Apio", "Berro", "Lechuga", "Rabanitos", "Radicheta", "Rúcula"],
+  "Estructurales": ["Alcaucil", "Berenjena", "Brócoli", "Espárragos", "Hakusay", "Hinojo", "Repollo", "Zapallito", "Zucchini"],
+  "Apoyo": ["Acelga", "Chaucha", "Espinaca", "Kale"],
+  "Contundentes": ["Batata", "Calabaza", "Choclo", "Coliflor", "Mandioca", "Remolacha", "Zapallo anco"],
+  "Hierbas de terminación": ["Albahaca", "Cilantro", "Perejil"],
+  "Aromáticos de cocción": ["Puerro (frío)", "Verdeo (calor)"],
+};
+const NOMBRES_VERDU = [...VERDU_SIMPLES, ...Object.keys(VERDU_PICKS)];
+
+/* Productos elaborados/no frescos que NO son la verdura (conservas, congelados, jugos, especias, limpieza…) */
+const RECHAZO_VERDU = /vigente|hummus|cubetead|\balco\b|pelados?\b|jardinera|dicomere|\blat\b|\bgranos?\b|crem\b|crem\/|dueto|raviol|lucchetti|granja del sol|mccain|rallado|\bpan\b|aderezo|mayonesa|confitura|\bfid\b|fid\.|spaghetti|tallar[ií]n|hair|pouch|mascarilla|acondicionador|shock|ba[ñn]ad|\bgio\b|fra-nui|quillen|papilla|\bsabor\b|oblea|galleta|postre|gelatina|flan\b|\bleche\b|en cubos?|\bcubos?\b|en granos?|\bgranos\b|inalpa|nestl[eé]|marolio|arcor|knorr|maggi|congelad|\blatas?\b|conserva|jugo|mermelada|\bdulce\b|pur[eé]|deshidratad|\bsec[oa]s?\b|polvo|molid|pasta|snack|chips|frit[oa]s|yogur|helado|alm[ií]bar|salsa|triturad|extracto|f[eé]cula|almid[oó]n|harina|ravioles|tarta|empanada|barrita|galletita|semillas?\b|\bt[eé]\b|aceite|vinagre|jab[oó]n|shampoo|crema|esencia|aroma|detergente|limpia|lavandina|desodorante|caramelo|gomita|gaseosa|\bagua\b|cerveza|vino|licor|bebida|cereal|granola|\bmix\b|ensalada|sopa|caldo|condimento|especia|saborizad|pulpa|compota|pasas|pickles|encurtid|escabeche|al natural|relleno|pizza|milanesa|hamburguesa|medall[oó]n|nugget|torta|bud[ií]n|bizcocho|alfajor|chocolate|bomb[oó]n|pa[ñn]al|toallita|\bperro|\bgato|alimento|planta|maceta|vela|sahumerio|perfume|jarabe|c[aá]psula|comprimido|infusi[oó]n|saquito|hebras|\bmate\b|yerba|az[uú]car|edulcorante|licuado|smoothie|baby\b|premezcla|rebozad|nuggets|fideo|arroz|sal\b|cebollita|ajo en|en aceite/i;
+
+/* Nombre de la app → regex tolerante a tildes/plurales, sobre la palabra base */
+function regexVerdu(nombre) {
+  const especiales = { "Zapallo anco": /zapallo\s*anco|\banco\b/i, "Hakusay": /hakusa[yi]/i, "Verdeo (calor)": /\bverdeo\b|cebolla de verdeo/i, "Puerro (frío)": /\bpuerro/i, "Maracuya (fruta de la pasión)": /maracuy[aá]/i, "Pitahaya (fruta del dragón)": /pitahaya|pitaya/i, "Zapallito": /zapallito/i, "Rabanitos": /rabanito/i, "Arándanos": /ar[aá]ndano/i, "Espárragos": /esp[aá]rrago/i, "Morrón": /morr[oó]n|piment[oó]n\s*(rojo|verde|amarillo)/i };
+  if (especiales[nombre]) return especiales[nombre];
+  const base = nombre.replace(/\s*\(.*\)$/, "").toLowerCase();
+  const pat = base.replace(/[aá]/g, "[aá]").replace(/[eé]/g, "[eé]").replace(/[ií]/g, "[ií]").replace(/[oó]/g, "[oó]").replace(/[uú]/g, "[uú]").replace(/[ñn]/g, "[ñn]");
+  return new RegExp("\\b" + pat + "s?\\b", "i");
+}
+
+/* Mejor referencia de UN comercio: $/kg si se vende por kg; si no, por unidad.
+   Umbral de sanidad: en COTO hay listados con precios basura ($250-450 el kg). */
+function elegirVerdura(nombre, candidatos) {
+  const must = regexVerdu(nombre);
+  const validos = (candidatos || []).filter((c) => c.precio >= 250 && must.test(c.nombre) && !RECHAZO_VERDU.test(c.nombre));
+  let porKg = [];
+  const porUn = [];
+  for (const c of validos) {
+    const q = parseQty(c.nombre);
+    // Fresco por kilo: paquetes de 80 g o más (menos = sobrecito de especia), entre $500 y $30.000 el kg
+    if (q.unit === "kg" && q.amount >= 0.08) { const v = c.precio / q.amount; if (v >= 500 && v <= 30000) porKg.push({ c, v }); }
+    else if (q.unit === "un") porUn.push({ c, v: c.precio / (q.amount || 1) });
+  }
+  const limpio = (n) => n.replace(/\s+/g, " ").replace(/\s+x\s*kg\.?$/i, "").trim().slice(0, 60);
+  if (porKg.length) {
+    porKg.sort((a, b) => a.v - b.v);
+    return { p: Math.round(porKg[0].v), n: `${limpio(porKg[0].c.nombre)} · $${Math.round(porKg[0].v).toLocaleString("es-AR")}/kg`, u: "kg" };
+  }
+  if (porUn.length) {
+    porUn.sort((a, b) => a.v - b.v);
+    return { p: Math.round(porUn[0].v), n: `${limpio(porUn[0].c.nombre)} · $${Math.round(porUn[0].v).toLocaleString("es-AR")}/un`, u: "un" };
+  }
+  return null;
+}
+
+/* DIA vs COTO: gana el más barato; una referencia por kg le gana a una por unidad (no son comparables) */
+function mejorVerdura(nombre, candDia, candCoto) {
+  const opciones = [];
+  const d = elegirVerdura(nombre, candDia); if (d) opciones.push({ ...d, s: "dia", etiqueta: "DIA" });
+  const c = elegirVerdura(nombre, candCoto);
+  // COTO trae SKUs con precio placeholder ($299 la bolsa de cebolla): si está por debajo del
+  // 40 % de lo que cobra DIA por lo mismo, no es un precio real
+  const cotoBasura = c && d && c.u === "kg" && d.u === "kg" && c.p < d.p * 0.4;
+  if (c && !cotoBasura) opciones.push({ ...c, s: "coto", etiqueta: "COTO" });
+  if (!opciones.length) return null;
+  opciones.sort((a, b) => ((b.u === "kg") - (a.u === "kg")) || (a.p - b.p));
+  const g = opciones[0];
+  return { p: g.p, n: `${g.n} · ${g.etiqueta}`, s: g.s, u: g.u };
+}
+
+async function preciosVerdu() {
+  const cacheDia = new Map(), cacheCoto = new Map();
+  const buscarAmbos = async (nombre) => {
+    const q = nombre.replace(/\s*\(.*\)$/, "");
+    if (!cacheDia.has(q)) { try { cacheDia.set(q, await buscarVtex(DIA, q)); } catch (e) { cacheDia.set(q, null); } await dormir(500); }
+    if (!cacheCoto.has(q)) { try { cacheCoto.set(q, await buscarCoto(q)); } catch (e) { cacheCoto.set(q, null); } await dormir(300); }
+    return [cacheDia.get(q), cacheCoto.get(q)];
+  };
+  const out = [];
+  for (const nombre of VERDU_SIMPLES) {
+    const [cd, cc] = await buscarAmbos(nombre);
+    out.push([nombre, mejorVerdura(nombre, cd, cc)]);
+  }
+  for (const [pick, opciones] of Object.entries(VERDU_PICKS)) {
+    const op = {};
+    for (const o of opciones) {
+      const [cd, cc] = await buscarAmbos(o);
+      const m = mejorVerdura(o, cd, cc);
+      if (m) op[o] = { p: m.p, s: m.s, u: m.u };
+    }
+    const nombres = Object.keys(op);
+    if (!nombres.length) { out.push([pick, null]); continue; }
+    const porKilo = nombres.filter((n) => op[n].u === "kg");
+    const masBarata = (porKilo.length ? porKilo : nombres).sort((a, b) => op[a].p - op[b].p)[0];
+    out.push([pick, { p: op[masBarata].p, n: `la más barata hoy: ${masBarata} ($${op[masBarata].p.toLocaleString("es-AR")}/${op[masBarata].u}, ${op[masBarata].s === "dia" ? "DIA" : "COTO"}) · ${nombres.length}/${opciones.length} con precio`, s: op[masBarata].s, u: op[masBarata].u, op }]);
+  }
+  return out;
+}
+
 /* ---------- Selección según el criterio ---------- */
 function elegir(item, candidatos) {
   const validos = [];
@@ -1012,13 +1111,30 @@ async function main() {
     }
   }
 
+  // --- Verdulería (referencia DIA vs COTO) ---
+  console.log("\n— Verdulería (referencia DIA/COTO) —");
+  let resVerdu = [];
+  try { resVerdu = await preciosVerdu(); } catch (e) { console.log("VERDU: error → " + e.message); }
+  if (resVerdu.length === 0) resVerdu = NOMBRES_VERDU.map((n) => [n, null]);
+  for (const [name, el] of resVerdu) {
+    if (el) {
+      const elD = conDelta(el, previoPrices[name], hoy);
+      precios[name] = elD;
+      ok++;
+      console.log(`✔ ${name} → $${elD.p}  (${elD.n})${flecha(elD, hoy)}`);
+    } else {
+      fallos.push(name);
+      console.log(`✘ ${name} → sin match en DIA ni COTO (queda el precio anterior si había)`);
+    }
+  }
+
   if (ok === 0) {
     console.error("\nNingún ítem se pudo actualizar: no escribo el archivo para no romper nada.");
     process.exit(1);
   }
 
   fs.writeFileSync(archivo, JSON.stringify({ version: fechaHoyAR(), descuentos: DESCUENTOS, prices: precios }, null, 2) + "\n");
-  console.log(`\nListo: ${ok}/${ITEMS.length + ITEMS_ELPUENTE.length + NOMBRES_COTO.length + NOMBRES_DIETETICA.length + NOMBRES_FARMACITY.length + NOMBRES_OTROS.length + NOMBRES_PESCE.length} ítems actualizados en ${archivo} (versión ${fechaHoyAR()}).`);
+  console.log(`\nListo: ${ok}/${ITEMS.length + ITEMS_ELPUENTE.length + NOMBRES_COTO.length + NOMBRES_DIETETICA.length + NOMBRES_FARMACITY.length + NOMBRES_OTROS.length + NOMBRES_PESCE.length + NOMBRES_VERDU.length} ítems actualizados en ${archivo} (versión ${fechaHoyAR()}).`);
   if (fallos.length) console.log("Sin match (revisar consultas): " + fallos.join(", "));
 }
 
@@ -1030,6 +1146,7 @@ export {
   paresDesdeNewGarden, buscarNewGarden, preciosDietetica,
   ITEMS_OTROS, NOMBRES_OTROS, paresDesdeTiendaNube, productoDePagina, preciosOtros,
   ITEMS_PESCE, NOMBRES_PESCE, preciosPesce,
+  VERDU_SIMPLES, VERDU_PICKS, NOMBRES_VERDU, regexVerdu, elegirVerdura, mejorVerdura, preciosVerdu,
   ITEMS_FARMACITY, NOMBRES_FARMACITY, preciosFarmacity,
 };
 
