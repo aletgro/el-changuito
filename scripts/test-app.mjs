@@ -59,6 +59,7 @@ dom.window.localStorage.setItem("el-changuito-v1", JSON.stringify({
         items: [
           { id: "v1", name: "Vinagre de manzana 1 L", note: "", spec: "", have: false },
           { id: "e1", name: "Esponja", note: "", spec: "", have: true },
+          { id: "a1", name: "Aceite de girasol 1 L", note: "", spec: "", have: false },
         ],
       }],
     },
@@ -150,6 +151,12 @@ test("Listas: las secciones del comercio abierto arrancan compactadas", () => {
   assert.doesNotMatch(dom.window.document.body.textContent, /Piñones/);
 });
 
+test("Listas: ya no hay modo Editar (ni botón, ni agregar/borrar ítems)", () => {
+  const botones = [...dom.window.document.querySelectorAll("button")].map((b) => b.textContent);
+  assert.ok(!botones.some((t) => /^(Editar|Listo)$/.test(t)), "sobrevive el botón Editar");
+  assert.ok(!botones.some((t) => /Agregar ítem/.test(t)));
+});
+
 await click(/^Perecederos/); // abrir la sección para seguir
 
 test("migración v6: Piñones aparece en las listas aunque el guardado no lo tenía", () => {
@@ -177,11 +184,12 @@ test("v9 es idempotente: el historial de Huevo no se re-siembra tras nuevos guar
   assert.equal(huevo.price, 4600, "el precio pagado se conserva");
 });
 
-test("v10: renombres de DIA conservando estado (vinagre 500 ml, esponja salvauñas)", () => {
+test("v10/v16: renombres de DIA conservando estado (vinagre, esponja, aceite)", () => {
   const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
   const almacen = data.stores.find((s) => s.id === "dia").sections[0];
   const nombres = almacen.items.map((it) => it.name);
-  assert.deepEqual(nombres, ["Vinagre de manzana 500 ml", "Esponja salvauñas"]);
+  assert.deepEqual(nombres, ["Vinagre de manzana 500 ml", "Esponja salvauñas", "Aceite de girasol"]);
+  assert.equal(almacen.items[2].have, false, "el aceite seguía por comprar");
   assert.equal(almacen.items[0].have, false, "el vinagre seguía por comprar");
   assert.equal(almacen.items[1].have, true, "la esponja estaba en stock");
 });
@@ -191,6 +199,14 @@ test("v14: film, aluminio y manteca entran a DIA/Otros (creando la sección si f
   const otros = data.stores.find((s) => s.id === "dia").sections.find((sec) => sec.name === "Otros");
   assert.ok(otros, "falta la sección Otros de DIA");
   assert.deepEqual(otros.items.map((i) => i.name), ["Film transparente", "Papel aluminio", "Papel manteca"]);
+});
+
+test("v15: COTO queda con Almacén (Extracto de tomate) separado de Harinas Chacabuco", () => {
+  const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
+  const coto = data.stores.find((s) => s.id === "coto");
+  assert.equal(coto.sections[0].name, "Almacén");
+  assert.deepEqual(coto.sections[0].items.map((i) => i.name), ["Extracto de tomate"]);
+  assert.ok(!coto.sections.some((sec) => sec.name === "Almacén · harinas Chacabuco"), "la sección mixta ya no existe");
 });
 
 test("v12: Pollo entero entra a COTO/Carnicería antes de Roast beef, una sola vez", () => {

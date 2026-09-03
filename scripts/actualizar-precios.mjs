@@ -58,7 +58,8 @@ const DESCUENTOS = {
 --------------------------------------------------------------- */
 const ITEMS = [
   // --- Almacén ---
-  { name: "Aceite de girasol 1 L", q: "aceite de girasol", unit: "l", qty: 1, must: [/aceite/i, /girasol/i], reject: [/fritolim|oleico|spray/i], cat: DIA + "/almacen/aceites-y-aderezos/aceites-de-girasol" },
+  // Una botella de la más barata POR LITRO, del tamaño que sea (900 ml o 1,5 L); si la promo es "llevando 2", valen 2
+  { name: "Aceite de girasol", q: "aceite de girasol", unit: "un", qty: 1, comparaPor: "l", must: [/aceite/i, /girasol/i], reject: [/fritolim|oleico|spray/i], cat: DIA + "/almacen/aceites-y-aderezos/aceites-de-girasol" },
   // Botellas y bidones compiten por litro; si Glaciar no gana, la nota muestra su diferencia
   { name: "Agua mineral bidón", q: ["agua mineral", "agua bidon", "agua glaciar"], unit: "l", qty: 6, marca: { re: /glaciar/i, nombre: "Glaciar" }, must: [/agua/i], reject: [/con gas|gasificada|saborizada|t[óo]nica|levit[eé]|manzana|naranja|limonada|pomelo/i], cat: DIA + "/bebidas/aguas/aguas-sin-gas" },
   { name: "Arroz integral 1 kg", q: "arroz integral", unit: "kg", qty: 1, must: [/arroz/i, /integral/i], reject: [/tostadita|galleta|preparado/i], cat: DIA + "/almacen/pastas-y-arroces/arroces" },
@@ -113,10 +114,10 @@ const ITEMS = [
   // --- Electricidad y otros ---
   { name: "4 pilas AAA", q: "pilas aaa", unit: "un", qty: 4, must: [/aaa/i], reject: [/recargable|cargador/i] },
   { name: "Escarbadientes", q: "escarbadientes", unit: "un", qty: 1, must: [/escarbadientes|palillos/i], reject: [] },
-  // Rollos de cocina: mejor precio POR METRO (los largos varían mucho entre marcas)
-  { name: "Film transparente", q: "film", unit: "un", qty: 1, comparaPor: "m", must: [/film/i], reject: [] },
-  { name: "Papel aluminio", q: "papel aluminio", unit: "un", qty: 1, comparaPor: "m", must: [/aluminio/i], reject: [/molde|bandeja/i] },
-  { name: "Papel manteca", q: "papel manteca", unit: "un", qty: 1, comparaPor: "m", must: [/papel/i, /manteca/i], reject: [/untable/i] },
+  // Rollos de cocina: el rollo más barato (el usuario NO quiere comparar por metro)
+  { name: "Film transparente", q: "film", unit: "un", qty: 1, must: [/film/i], reject: [] },
+  { name: "Papel aluminio", q: "papel aluminio", unit: "un", qty: 1, must: [/aluminio/i], reject: [/molde|bandeja/i] },
+  { name: "Papel manteca", q: "papel manteca", unit: "un", qty: 1, must: [/papel/i, /manteca/i], reject: [/untable/i] },
 ];
 
 /* ---------- Utilidades ---------- */
@@ -337,6 +338,8 @@ const ITEMS_COTO = [
   { name: "Harina integral", q: "harina chacabuco", unit: "kg", qty: 1, must: [/chacabuco/i, /integral/i], reject: [/semillas|org[áa]nica|premezcla/i] },
   { name: "Semolín", q: "harina chacabuco", unit: "kg", qty: 1, must: [/semol[íi]n/i], reject: [] },
   { name: "Sémola", q: "semola", unit: "kg", qty: 0.5, must: [/s[ée]mola/i], reject: [/\bfid|fideo|spaghetti|tallar|ñoqui|vitina|premezcla/i] },
+  // Almacén
+  { name: "Extracto de tomate", q: "extracto de tomate", unit: "kg", qty: 0.15, must: [/extracto/i, /tomate/i], reject: [] },
   // Carnicería: pollo entero SOLO refrigerado (no congelado), el más barato POR KILO
   // entre lo que tiene precio publicado (se vende por unidad, ej. "X Uni (4 Kg)")
   { name: "Pollo entero", q: "pollo entero", unit: "un", qty: 1, comparaPor: "kg", must: [/pollo/i, /entero/i, /refrigerado|fresco/i], reject: [/congelad|spiedo|relleno|trozado|arrollado|matambre|milanesa|empanad|brochette|bocadito/i] },

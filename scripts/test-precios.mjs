@@ -257,6 +257,22 @@ test("Asado: entre vacío y tapa gana el más barato, más la tira, todo en $/kg
 import { ITEMS } from "./actualizar-precios.mjs";
 const itemDia = (name) => ITEMS.find((i) => i.name === name);
 
+test("Aceite de girasol: UNA botella de la más barata POR LITRO (no la más barata en $); la promo llevando 2 cuenta", () => {
+  const sin = elegir(itemDia("Aceite de girasol"), [
+    { nombre: "Aceite de Girasol Dia 1,5 Lt.", precio: 5745, lista: 5745 },   // $3.830/L ← gana aunque la botella cueste más
+    { nombre: "Aceite de Girasol Natura 900 Ml.", precio: 4000, lista: 4000 }, // $4.444/L
+  ]);
+  assert.equal(sin.p, 5745);
+  assert.match(sin.n, /1,5 Lt.*\$3\.830\/L/);
+  const con = elegir(itemDia("Aceite de girasol"), [
+    { nombre: "Aceite de Girasol Dia 1,5 Lt.", precio: 5745, lista: 5745 },
+    { nombre: "Aceite de Girasol Dia 1,5 Lt. · 2x1 llevando 2", precio: 2872.5, lista: 5745 },
+    { nombre: "Aceite de Girasol Natura 900 Ml.", precio: 4000, lista: 4000 },
+  ]);
+  assert.equal(con.p, 2873);
+  assert.match(con.n, /2x1 llevando 2/);
+});
+
 test("Atún: solo entero al natural y al mejor precio POR LATA (el pack x3 cuenta)", () => {
   const el = elegir(itemDia("Atún"), [
     { nombre: "Alimento Humedo Para Gatos Sabor Atun Felix 85 Gr.", precio: 1450, lista: 1450 },
@@ -296,13 +312,23 @@ test("Trapo rejilla: la Rejilla Pastelera de metal no es un trapo", () => {
   assert.match(el.n, /Trapo Rejilla/);
 });
 
-test("Rollos de cocina: gana el más barato POR METRO, no el rollo más barato", () => {
+test("Rollos de cocina: gana el rollo más barato, sin comparar por metro (pedido del usuario)", () => {
   const el = elegir(itemDia("Film transparente"), [
-    { nombre: "Film Transparente Dia 30 Mt.", precio: 3225, lista: 3225 },  // $107,5/m ← gana
-    { nombre: "Film Adherente Económico 10 Mt.", precio: 2000, lista: 2000 }, // $200/m aunque el rollo sea más barato
+    { nombre: "Film Transparente Dia 30 Mt.", precio: 3225, lista: 3225 },
+    { nombre: "Film Adherente Económico 10 Mt.", precio: 2000, lista: 2000 }, // ← gana: es el rollo más barato
   ]);
-  assert.equal(el.p, 3225);
-  assert.match(el.n, /\$108\/m/);
+  assert.equal(el.p, 2000);
+  assert.doesNotMatch(el.n, /\/m/);
+});
+
+test("Extracto de tomate (COTO): la lata más barata; el importado caro no gana", () => {
+  const el = elegir(itemCoto("Extracto de tomate"), [
+    { nombre: "Extracto De Tomate INCA 150 Gr", precio: 1518, lista: 1518 },
+    { nombre: "Extracto De Tomate Doppio Concentrado MUTTI 130 Grm", precio: 9198, lista: 9198 },
+    { nombre: "Extracto De Tomate Doble Vigente Lat 150 Grm", precio: 1429, lista: 1429 },
+  ]);
+  assert.equal(el.p, 1429);
+  assert.match(el.n, /Vigente/);
 });
 
 test("Papel manteca: exige ambas palabras (la manteca de verdad no cuenta)", () => {

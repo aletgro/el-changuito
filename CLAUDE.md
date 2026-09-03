@@ -59,8 +59,12 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    (Salmón, Langostinos, Mejillones), antes de Gustitos · v12 suma Pollo entero
    (refrigerado) a COTO/Carnicería · v13 suma la sección Papelera a Otros lugares
    (bolsas y contenedores, sin precios: papelera de barrio sin página) · v14 suma
-   Film transparente, Papel aluminio y Papel manteca a DIA/Otros (mejor precio
-   POR METRO, `comparaPor:"m"`).
+   Film transparente, Papel aluminio y Papel manteca a DIA/Otros (el rollo más
+   barato: el usuario NO quiere comparar por metro) · v15 COTO: la sección
+   "Almacén · harinas Chacabuco" pasa a "Harinas Chacabuco" y nace "Almacén"
+   (primera) con Extracto de tomate. · v16 renombra "Aceite de girasol 1 L" → "Aceite de girasol"
+   (UNA botella de la más barata POR LITRO, del tamaño que sea — no la más barata en $;
+   `comparaPor:"l"`; la promo "llevando 2" cuenta).
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
    viendo la versión vieja. Hoy va por **v14**. `precios.json` es red-primero: no requiere bump.
@@ -77,8 +81,10 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
 6. **`askSpec`** (campo "qué buscar" al activar) es solo para: Café, Crema rosácea,
    Proteína, Queso premium, Fiambre, Té a elección. No generalizarlo. Ídem `askPrice`
    (precio pagado al comprar, con historial): solo Huevo.
-7. **Ediciones manuales de precio** en la app llevan `priceV: "manual@" + versión` y se
-   respetan hasta que llegue una foto de precios más nueva (que pisa todo).
+7. **Ediciones manuales de precio** llevan `priceV: "manual@" + versión` y se respetan
+   hasta que llegue una foto de precios más nueva (que pisa todo). Desde 20/08/2026 la
+   app NO tiene modo Editar (el usuario lo pidió: sin renombrar/agregar/borrar ítems ni
+   tocar precios a mano); la única entrada manual que queda es `askPrice` (Huevo).
 8. **Tests**: no hay framework; el patrón usado es smoke-tests con `jsdom` (mock de
    `localStorage` y `fetch`, eval de `app.js`, asserts sobre `textContent`) y tests de
    `elegir()`/`parseQty()` importando el robot con listados simulados

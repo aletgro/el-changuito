@@ -133,7 +133,7 @@ function seedStores() {
       id: "dia", name: "DIA", emoji: "🛒", color: "#D7263D",
       note: "Supermercado general: todo lo que no tiene un lugar mejor.",
       sections: [
-        { id: nid(), name: "Almacén", items: [I("Aceite de girasol 1 L"), I("Agua mineral bidón"), I("Arroz integral 1 kg"), I("Atún"), I("Azúcar 500 g"), I("Grasa bovina 1 kg"), I("Harina de maíz 1 kg"), I("Leche larga vida"), I("Maicena 500 g"), I("Papas fritas"), I("Polenta 1 kg"), I("Sal entrefina 500 g"), I("Sal fina 500 g"), I("Sal gruesa 500 g"), I("Vinagre de alcohol 1 L"), I("Vinagre de manzana 500 ml"), I("Yerba 1 kg")] },
+        { id: nid(), name: "Almacén", items: [I("Aceite de girasol"), I("Agua mineral bidón"), I("Arroz integral 1 kg"), I("Atún"), I("Azúcar 500 g"), I("Grasa bovina 1 kg"), I("Harina de maíz 1 kg"), I("Leche larga vida"), I("Maicena 500 g"), I("Papas fritas"), I("Polenta 1 kg"), I("Sal entrefina 500 g"), I("Sal fina 500 g"), I("Sal gruesa 500 g"), I("Vinagre de alcohol 1 L"), I("Vinagre de manzana 500 ml"), I("Yerba 1 kg")] },
         { id: nid(), name: "Limpieza e higiene", items: [I("Aerosol de ambiente"), I("Bolsa de basura baño"), I("Cif crema"), I("Desinfectante de piso"), I("Desinfectante de superficies"), I("Detergente líquido"), I("Esponja salvauñas"), I("Jabón Dove"), I("Jabón líquido manos"), I("Jabón líquido ropa"), I("Lavandina"), I("Limpia vidrios"), I("Papel higiénico"), I("Pastilla inodoro"), I("Rollo de cocina"), I("Suavizante"), I("Trapo de piso"), I("Trapo rejilla"), I("Trapo amarillo"), I("Virulana")] },
         { id: nid(), name: "Almacén (compra secundaria)", items: [I("Arvejas en lata"), I("Caldo en cubos"), I("Choclo en lata"), I("Jardinera en lata"), I("Jugo de tomate en sachet"), I("Levadura"), I("Pan rallado")] },
         { id: nid(), name: "Electricidad", items: [I("4 pilas AAA", "Control + balanza")] },
@@ -144,7 +144,8 @@ function seedStores() {
       id: "coto", name: "COTO", emoji: "🥩", color: "#E4572E",
       note: "Harinas Chacabuco y carnicería.",
       sections: [
-        { id: nid(), name: "Almacén · harinas Chacabuco", items: [I("Harina 000"), I("Harina 000 de fuerza", "Chacabuco W300 · 13 g proteína"), I("Harina 0000"), I("Harina 0000 de fuerza", "Chacabuco Napolitana W330"), I("Harina integral"), I("Sémola"), I("Semolín")] },
+        { id: nid(), name: "Almacén", items: [I("Extracto de tomate")] },
+        { id: nid(), name: "Harinas Chacabuco", items: [I("Harina 000"), I("Harina 000 de fuerza", "Chacabuco W300 · 13 g proteína"), I("Harina 0000"), I("Harina 0000 de fuerza", "Chacabuco Napolitana W330"), I("Harina integral"), I("Sémola"), I("Semolín")] },
         {
           id: nid(), name: "Carnicería", banner: "carne", items: [
             P("Achura", ["Molleja", "Chinchulín", "Riñón", "Chorizo", "Lengua", "Morcilla"]),
@@ -284,7 +285,7 @@ const excluidoDeDto = (cfg, secName, it) => {
 };
 const ahorroDe = (base, d) => Math.min((base * d.pct) / 100, d.tope > 0 ? d.tope : Infinity);
 const PRICES = {
-  "Aceite de girasol 1 L": { p: 5200, n: "Cañuelas 1,5 L · oferta -20% · $3.467/L" },
+  "Aceite de girasol": { p: 5200, n: "Cañuelas 1,5 L · oferta -20%" },
   "Agua mineral bidón": { p: 3600, n: "DIA 6,25 L" },
   "Arroz integral 1 kg": { p: 1395, n: "Cuquets 1 kg · oferta -34%" },
   "Atún": { p: 1390, n: "Desmenuzado DIA 170 g · lomitos DIA $2.300 c/oferta" },
@@ -606,6 +607,31 @@ function migrate(stores) {
         return faltan.length ? { ...sec, items: [...sec.items, ...faltan.map(armar)] } : sec;
       }),
     };
+  });
+
+  // v15 · COTO: "Almacén · harinas Chacabuco" pasa a "Harinas Chacabuco" y nace la sección
+  //       Almacén (primera) con Extracto de tomate
+  out = out.map((s) => {
+    if (s.id !== "coto") return s;
+    let sections = s.sections.map((sec) => sec.name === "Almacén · harinas Chacabuco" ? { ...sec, name: "Harinas Chacabuco" } : sec);
+    const extracto = { id: "mig-extracto", name: "Extracto de tomate", note: "", spec: "", have: true };
+    const iAlmacen = sections.findIndex((sec) => sec.name === "Almacén");
+    if (iAlmacen < 0) sections = [{ id: "mig-coto-almacen", name: "Almacén", items: [extracto] }, ...sections];
+    else if (!sections[iAlmacen].items.some((it) => it.name === "Extracto de tomate")) {
+      sections = sections.map((sec, i) => (i === iAlmacen ? { ...sec, items: [...sec.items, extracto] } : sec));
+    }
+    return { ...s, sections };
+  });
+
+  // v16 · DIA: "Aceite de girasol 1 L" → "Aceite de girasol" (la botella más barata, del tamaño que sea)
+  out = out.map((s) => s.id !== "dia" ? s : {
+    ...s,
+    sections: s.sections.map((sec) => ({
+      ...sec,
+      items: sec.items.map((it) => it.name === "Aceite de girasol 1 L"
+        ? { ...it, name: "Aceite de girasol", price: 0, priceNote: "", priceD: 0, priceDV: "", priceV: "" }
+        : it),
+    })),
   });
 
   // v5 · asegurar campos de precio y aplicar la foto embebida como base
@@ -1032,7 +1058,7 @@ function ShoppingView({ stores, month, patchItem, buyAll, priceDate, descuentos 
             </div>
           ) : null}
           <div className="text-xs mt-1" style={{ color: "#B3AB9A" }}>
-            Precios al {priceDate}{totalSinPrecio > 0 ? ` · ${totalSinPrecio} ítems sin precio` : ""} · editables en Listas → Editar
+            Precios al {priceDate}{totalSinPrecio > 0 ? ` · ${totalSinPrecio} ítems sin precio` : ""}
           </div>
         </section>
       ) : null}
@@ -1141,26 +1167,16 @@ function ShoppingView({ stores, month, patchItem, buyAll, priceDate, descuentos 
 }
 
 /* ---------- Vista: LISTAS ---------- */
-function ListsView({ stores, month, patchItem, addItem, delItem, resetAll, priceDate }) {
+function ListsView({ stores, month, patchItem, resetAll }) {
   const [open, setOpen] = useState({});
   const [secClosed, setSecClosed] = useState({});
-  const [edit, setEdit] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <p className="text-sm" style={{ color: "#8A8170" }}>
-          Tildado = en stock. <b>Destildá lo que se te terminó</b> y pasa a Comprar.
-        </p>
-        <button
-          onClick={() => setEdit(!edit)}
-          className="rounded-lg text-sm font-semibold flex-shrink-0"
-          style={{ padding: "6px 12px", background: edit ? "#2B2620" : "#FFFFFF", color: edit ? "#FFFFFF" : "#2B2620", border: "1px solid #D8D2C4", marginLeft: 8 }}
-        >
-          {edit ? "Listo" : "Editar"}
-        </button>
-      </div>
+      <p className="text-sm" style={{ color: "#8A8170" }}>
+        Tildado = en stock. <b>Destildá lo que se te terminó</b> y pasa a Comprar.
+      </p>
 
       {stores.map((store) => {
         const total = store.sections.reduce((a, s) => a + s.items.length, 0);
@@ -1185,8 +1201,8 @@ function ListsView({ stores, month, patchItem, addItem, delItem, resetAll, price
                 {store.note ? <p className="text-xs italic mb-2" style={{ color: "#A39B89" }}>{store.note}</p> : null}
                 {store.sections.map((sec) => {
                   const sk = store.id + ":" + sec.id;
-                  // Secciones cerradas por default (en Editar abiertas, para agregar/borrar cómodo)
-                  const secIsClosed = secClosed[sk] === undefined ? !edit : !!secClosed[sk];
+                  // Secciones cerradas por default
+                  const secIsClosed = secClosed[sk] === undefined ? true : !!secClosed[sk];
                   const secPending = sec.items.filter((i) => !i.have).length;
                   return (
                     <div key={sec.id} className="pt-1 pb-2">
@@ -1210,20 +1226,9 @@ function ListsView({ stores, month, patchItem, addItem, delItem, resetAll, price
                         <div>
                           {sec.banner === "carne" ? <CarneBanner month={month} /> : null}
                           {sec.items.map((it) => (
-                            edit ? (
-                              <EditRow key={it.id} it={it} priceDate={priceDate}
-                                onPatch={(patch) => patchItem(store.id, sec.id, it.id, patch)}
-                                onDel={() => delItem(store.id, sec.id, it.id)} />
-                            ) : (
-                              <DisplayRow key={it.id} it={it} color={store.color} month={month}
-                                onToggle={() => patchItem(store.id, sec.id, it.id, (prev) => ({ have: !prev.have }))} />
-                            )
+                            <DisplayRow key={it.id} it={it} color={store.color} month={month}
+                              onToggle={() => patchItem(store.id, sec.id, it.id, (prev) => ({ have: !prev.have }))} />
                           ))}
-                          {edit ? (
-                            <button onClick={() => addItem(store.id, sec.id)} className="text-sm font-medium mt-1" style={{ color: store.color }}>
-                              + Agregar ítem
-                            </button>
-                          ) : null}
                         </div>
                       ) : null}
                     </div>
@@ -1283,52 +1288,6 @@ function DisplayRow({ it, color, month, onToggle }) {
           <span className="text-sm font-semibold" style={{ color: it.have ? "#A39B89" : "#2B2620" }}>{fmt(it.price)}</span>
           <DeltaBadge it={it} />
         </span>
-      ) : null}
-    </div>
-  );
-}
-
-function EditRow({ it, onPatch, onDel, priceDate }) {
-  return (
-    <div className="py-2 space-y-1" style={{ borderBottom: "1px solid #F6F2EA" }}>
-      <div className="flex items-center gap-2">
-        <input
-          value={it.name}
-          onChange={(e) => onPatch({ name: e.target.value })}
-          placeholder="Nombre del producto"
-          className="flex-1 rounded-lg border px-2 py-1 text-sm font-medium"
-          style={{ borderColor: "#D8D2C4", background: "#FFFFFF", color: "#2B2620", outline: "none" }}
-        />
-        <button onClick={onDel} aria-label="Eliminar" className="text-sm flex-shrink-0" style={{ color: "#D7263D" }}>🗑</button>
-      </div>
-      <input
-        value={it.note || ""}
-        onChange={(e) => onPatch({ note: e.target.value })}
-        placeholder="Nota (opcional)"
-        className="w-full rounded-lg border px-2 py-1 text-xs"
-        style={{ borderColor: "#E5E1D6", background: "#FCFBF7", color: "#6E6757", outline: "none" }}
-      />
-      <div className="flex items-center gap-2">
-        <span className="text-xs" style={{ color: "#8A8170" }}>Precio $</span>
-        <input
-          type="number"
-          min="0"
-          value={it.price ? it.price : ""}
-          onChange={(e) => onPatch({ price: e.target.value === "" ? 0 : Math.max(0, parseFloat(e.target.value) || 0), priceD: 0, priceDV: "", priceV: "manual@" + priceDate })}
-          placeholder="0"
-          className="rounded-lg border px-2 py-1 text-sm"
-          style={{ borderColor: "#E5E1D6", background: "#FCFBF7", color: "#2B2620", outline: "none", width: 110 }}
-        />
-      </div>
-      {it.type === "pick" ? (
-        <input
-          key={it.id + "-opts"}
-          defaultValue={it.options.join(", ")}
-          onBlur={(e) => onPatch({ options: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) })}
-          placeholder="Opciones separadas por coma"
-          className="w-full rounded-lg border px-2 py-1 text-xs"
-          style={{ borderColor: "#E5E1D6", background: "#FCFBF7", color: "#6E6757", outline: "none" }}
-        />
       ) : null}
     </div>
   );
@@ -1476,24 +1435,6 @@ function App() {
       }),
     }));
 
-  const addItem = (sId, secId) =>
-    setStores((prev) => prev.map((s) => s.id !== sId ? s : {
-      ...s,
-      sections: s.sections.map((sec) => sec.id !== secId ? sec : {
-        ...sec,
-        items: [...sec.items, { id: "n" + Date.now(), name: "", note: "", spec: "", have: false }],
-      }),
-    }));
-
-  const delItem = (sId, secId, itId) =>
-    setStores((prev) => prev.map((s) => s.id !== sId ? s : {
-      ...s,
-      sections: s.sections.map((sec) => sec.id !== secId ? sec : {
-        ...sec,
-        items: sec.items.filter((it) => it.id !== itId),
-      }),
-    }));
-
   const buyAll = (sId) =>
     setStores((prev) => prev.map((s) => s.id !== sId ? s : {
       ...s,
@@ -1538,7 +1479,7 @@ function App() {
 
       <main className="max-w-2xl mx-auto px-4 pt-4 pb-24">
         {tab === "comprar" ? <ShoppingView stores={stores} month={month} patchItem={patchItem} buyAll={buyAll} priceDate={priceDate} descuentos={descuentos} /> : null}
-        {tab === "listas" ? <ListsView stores={stores} month={month} patchItem={patchItem} addItem={addItem} delItem={delItem} resetAll={resetAll} priceDate={priceDate} /> : null}
+        {tab === "listas" ? <ListsView stores={stores} month={month} patchItem={patchItem} resetAll={resetAll} /> : null}
         {tab === "temporada" ? <SeasonView month={month} /> : null}
       </main>
 
