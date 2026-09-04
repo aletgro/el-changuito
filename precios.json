@@ -1,5 +1,5 @@
 {
-  "version": "03/09/2026",
+  "version": "04/09/2026",
   "descuentos": {
     "dia": [
       {
@@ -256,8 +256,10 @@
       "n": "Rollo Papel Manteca 5 Mts Dia 1 Ud. · 2da unidad -50% llevando 2 · oferta -25%"
     },
     "Fundente": {
-      "p": 8400,
-      "n": "800 g de Cremoso El Puente. Valor por kg fraccionado · $10.500/kg"
+      "p": 8792,
+      "n": "800 g de Cremoso El Puente. Valor por kg fraccionado · $10.990/kg",
+      "d": 392,
+      "dv": "04/09/2026"
     },
     "Pizza": {
       "p": 6396,
@@ -504,8 +506,10 @@
       "n": "Chaucha de Vainilla x 1 unidad · New Garden"
     },
     "Salsa de pescado": {
-      "p": 5600,
-      "n": "Salsa de Pescado He Shun Yuan 150 ml · New Garden"
+      "p": 5400,
+      "n": "Salsa de Pescado He Shun Yuan 150 ml · New Garden",
+      "d": -200,
+      "dv": "04/09/2026"
     },
     "Anís 20 g": {
       "p": 540,
@@ -652,10 +656,12 @@
       "u": "kg"
     },
     "Papa": {
-      "p": 2990,
-      "n": "Papa Negra · $2.990/kg · DIA",
+      "p": 2390,
+      "n": "Papa Negra · $2.390/kg · DIA",
       "s": "dia",
-      "u": "kg"
+      "u": "kg",
+      "d": -600,
+      "dv": "04/09/2026"
     },
     "Palta": {
       "p": 6999,
@@ -815,7 +821,7 @@
           "u": "kg"
         },
         "Berro": {
-          "p": 7199,
+          "p": 6999,
           "s": "coto",
           "u": "kg"
         },
@@ -918,14 +924,14 @@
       }
     },
     "Contundentes": {
-      "p": 999,
-      "n": "la más barata hoy: Batata ($999/kg, COTO) · 7/7 con precio",
-      "s": "coto",
+      "p": 2690,
+      "n": "la más barata hoy: Batata ($2.690/kg, DIA) · 7/7 con precio",
+      "s": "dia",
       "u": "kg",
       "op": {
         "Batata": {
-          "p": 999,
-          "s": "coto",
+          "p": 2690,
+          "s": "dia",
           "u": "kg"
         },
         "Calabaza": {
@@ -954,11 +960,13 @@
           "u": "kg"
         },
         "Zapallo anco": {
-          "p": 3190,
+          "p": 3490,
           "s": "dia",
           "u": "kg"
         }
-      }
+      },
+      "d": 1691,
+      "dv": "04/09/2026"
     },
     "Hierbas de terminación": {
       "p": 4778,
