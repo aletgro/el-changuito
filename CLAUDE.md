@@ -211,7 +211,7 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   refrigerado (no congelado), el más barato por kg con precio publicado — se vende
   por unidad ("X Uni (4 Kg)", `comparaPor:"kg"`). "Achura" SIN precio por
   decisión del usuario ("por ahora"): es un pick de 6 opciones de valor muy dispar.
-  Supuestos que quedan: Sémola 500 g (quedó Pureza, no hay Chacabuco) · precio = moda
+  Sémola = SOLO Pureza o Bonalma (confirmado 04/09/2026), 500 g · precio = moda
   entre sucursales (si pasa el código de su sucursal de La Plata, filtrar `price[]`
   por `store`).
 - **Dietética (ANDANDO desde 09/08/2026)**: 44/45 ítems con referencia (Frutos del Are

@@ -216,10 +216,12 @@ test("Harina integral: rechaza la de semillas y elige la integral fina", () => {
   assert.match(el.n, /Integral Fina/);
 });
 
-test("Sémola: los fideos de sémola no cuentan", () => {
+test("Sémola: solo Pureza o Bonalma; ni fideos de sémola ni la marca COTO aunque esté en 2x1", () => {
   const el = elegir(itemCoto("Sémola"), [
     { nombre: "Fid.Semola De Trig Spaghetti Arcor Paq 500 Grm", precio: 1485, lista: 1485 },
+    { nombre: "Sémola COTO Bolsa 400 Gr · 2x1 llevando 2", precio: 745, lista: 1490 },
     { nombre: "Sémola De Trigo Pureza 500g", precio: 2030, lista: 2030 },
+    { nombre: "Semola Bonalma 500 Grm", precio: 3580, lista: 3580 },
   ]);
   assert.equal(el.p, 2030);
   assert.match(el.n, /Pureza/);

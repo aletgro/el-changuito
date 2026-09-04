@@ -337,7 +337,8 @@ const ITEMS_COTO = [
   { name: "Harina 0000 de fuerza", q: "harina chacabuco", unit: "kg", qty: 1, must: [/chacabuco/i, /\b00\b/], reject: [/premezcla/i] },
   { name: "Harina integral", q: "harina chacabuco", unit: "kg", qty: 1, must: [/chacabuco/i, /integral/i], reject: [/semillas|org[áa]nica|premezcla/i] },
   { name: "Semolín", q: "harina chacabuco", unit: "kg", qty: 1, must: [/semol[íi]n/i], reject: [] },
-  { name: "Sémola", q: "semola", unit: "kg", qty: 0.5, must: [/s[ée]mola/i], reject: [/\bfid|fideo|spaghetti|tallar|ñoqui|vitina|premezcla/i] },
+  // Solo Pureza o Bonalma (pedido del usuario, 04/09/2026): la marca COTO no cuenta aunque esté en 2x1
+  { name: "Sémola", q: "semola", unit: "kg", qty: 0.5, must: [/s[ée]mola/i, /pureza|bonalma/i], reject: [/\bfid|fideo|spaghetti|tallar|ñoqui|vitina|premezcla/i] },
   // Almacén
   { name: "Extracto de tomate", q: "extracto de tomate", unit: "kg", qty: 0.15, must: [/extracto/i, /tomate/i], reject: [] },
   // Carnicería: pollo entero SOLO refrigerado (no congelado), el más barato POR KILO
