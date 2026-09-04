@@ -368,6 +368,28 @@ function modaPrecios(valores) {
   return [...cuenta.entries()].sort((a, b) => b[1] - a[1] || a[0] - b[0])[0][0];
 }
 
+/* Ofertas de COTO: NO tocan listPrice, viajan en data.discounts[] como
+   { discountText: "15%Dto" | "2x1" | "3x2" | "2do al 50%", discountPrice: "$14956.60",
+     takingText: "Llevando 3" | null }. Devuelve el precio efectivo por unidad y la
+   condición (null = descuento directo, ya vale llevando 1). */
+function promoCoto(dto, precioBase) {
+  if (!dto) return null;
+  const texto = String(dto.discountText || "");
+  let precio = parseFloat(String(dto.discountPrice || "").replace(/[^\d.]/g, ""));
+  if (!(precio > 0)) {
+    let factor = null, m;
+    if (/2\s*x\s*1/i.test(texto)) factor = 0.5;
+    else if (/3\s*x\s*2/i.test(texto)) factor = 2 / 3;
+    else if ((m = texto.match(/(\d{1,3})\s*%/))) factor = /2°|2d[oa]|segund/i.test(texto) ? (2 - m[1] / 100) / 2 : 1 - m[1] / 100;
+    if (factor === null || factor <= 0 || factor >= 1) return null;
+    precio = precioBase * factor;
+  }
+  if (!(precio > 0) || precio >= precioBase) return null;
+  const llevando = (String(dto.takingText || "").match(/llevando\s*(\d+)/i) || [])[1];
+  const etiqueta = /x\s*\d/i.test(texto) ? texto.replace(/\s+/g, "") : `-${(texto.match(/\d{1,3}/) || [Math.round((1 - precio / precioBase) * 100)])[0]}%`;
+  return { precio, txt: llevando ? `${etiqueta} llevando ${llevando}` : null };
+}
+
 /* Respuesta del buscador de Constructor → pares nombre/precio */
 function paresDesdeCoto(data) {
   const out = [];
@@ -375,7 +397,13 @@ function paresDesdeCoto(data) {
     const nombre = String(res.value || "").replace(/\s+/g, " ").trim();
     const valores = (res.data?.price || []).map((p) => p.listPrice ?? p.formatPrice).filter((v) => v > 0);
     const precio = modaPrecios(valores);
-    if (nombre && precio) out.push({ nombre, precio, lista: precio });
+    if (!nombre || !precio) continue;
+    const promo = promoCoto((res.data?.discounts || [])[0], precio);
+    if (promo && !promo.txt) out.push({ nombre, precio: promo.precio, lista: precio }); // oferta directa: ES el precio
+    else {
+      out.push({ nombre, precio, lista: precio });
+      if (promo) out.push({ nombre: `${nombre} · ${promo.txt}`, precio: promo.precio, lista: precio }); // "llevando N": candidato aparte
+    }
   }
   return out;
 }
@@ -1141,7 +1169,7 @@ async function main() {
 export {
   parseQty, elegir, buscarVtex, promoVtex, conDelta, DESCUENTOS, opcionesElPuente,
   ITEMS, ITEMS_ELPUENTE, parsearListadoElPuente, candidatosElPuente,
-  ITEMS_COTO, PARTES_CARNE, NOMBRES_COTO, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto, buscarCoto,
+  ITEMS_COTO, PARTES_CARNE, NOMBRES_COTO, modaPrecios, promoCoto, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto, buscarCoto, preciosCoto,
   ITEMS_DIETETICA, NOMBRES_DIETETICA, RECHAZO_DIET, normalizarPeso, paresProductoFa, paresVariacionesFa, buscarFrutosAre,
   paresDesdeNewGarden, buscarNewGarden, preciosDietetica,
   ITEMS_OTROS, NOMBRES_OTROS, paresDesdeTiendaNube, productoDePagina, preciosOtros,

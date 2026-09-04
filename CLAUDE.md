@@ -144,7 +144,11 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
 - COTO: el sitio nuevo (coto.com.ar) es una SPA; el catálogo se lee del buscador
   Constructor.io (`ac.cnstrc.com/search/...?key=` con la key pública del bundle).
   `listPrice` = precio del paquete POR SUCURSAL (en cortes "X KG" es $/kg); se toma la
-  moda entre sucursales (hay outliers de data mala). Ítems compuestos: "Combo de
+  moda entre sucursales (hay outliers de data mala). Las OFERTAS no tocan `listPrice`:
+  viajan en `data.discounts[]` (`discountText` "15%Dto"/"2x1", `discountPrice`,
+  `takingText` "Llevando N" o null) — `promoCoto()` las lee: la directa REEMPLAZA el
+  precio (nota "oferta -X%"), la de "llevando N" suma un candidato aparte con el
+  precio efectivo, igual que las promos VTEX. Ítems compuestos: "Combo de
   temporada" (estacional, misma regla abr–sep que la app) y "Asado" (vacío o tapa, el
   más barato, + tira) se arman con `comboCoto()`/`asadoCoto()` sobre `PARTES_CARNE`.
 - Dietética: frutosare.com.ar (WooCommerce) vía Store API pública

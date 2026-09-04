@@ -6,7 +6,7 @@
 import assert from "node:assert/strict";
 import {
   parseQty, elegir, ITEMS_ELPUENTE, parsearListadoElPuente,
-  ITEMS_COTO, PARTES_CARNE, modaPrecios, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto,
+  ITEMS_COTO, PARTES_CARNE, modaPrecios, promoCoto, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto,
   ITEMS_DIETETICA, normalizarPeso, paresProductoFa, paresVariacionesFa, paresDesdeNewGarden,
   ITEMS_OTROS, paresDesdeTiendaNube, productoDePagina, ITEMS_FARMACITY, ITEMS_PESCE, promoVtex, conDelta, DESCUENTOS, opcionesElPuente,
   regexVerdu, elegirVerdura, mejorVerdura,
@@ -146,6 +146,34 @@ test("modaPrecios: gana el precio más repetido entre sucursales, no el outlier"
   assert.equal(modaPrecios([1039, 1039, 9.19, 989, 1039]), 1039);
   assert.equal(modaPrecios([989, 1039]), 989); // empate → el más barato
   assert.equal(modaPrecios([]), null);
+});
+
+test("promoCoto: lee las ofertas de discounts[] (directas y 'llevando N')", () => {
+  assert.deepEqual(promoCoto({ discountText: "15%Dto", discountPrice: "$14956.60", takingText: null }, 17596), { precio: 14956.6, txt: null });
+  assert.deepEqual(promoCoto({ discountText: "25%Dto", discountPrice: "$3298.81", takingText: "Llevando 3" }, 4399), { precio: 3298.81, txt: "-25% llevando 3" });
+  assert.deepEqual(promoCoto({ discountText: "2x1", discountPrice: "$3999.50", takingText: "Llevando 2" }, 7999), { precio: 3999.5, txt: "2x1 llevando 2" });
+  assert.deepEqual(promoCoto({ discountText: "20%Dto", discountPrice: null, takingText: null }, 1000), { precio: 800, txt: null }); // sin precio: se calcula
+  assert.equal(promoCoto(null, 1000), null);
+  assert.equal(promoCoto({ discountText: "Precio Contado", discountPrice: "$1000" }, 1000), null); // no es rebaja
+});
+
+test("paresDesdeCoto: la oferta directa reemplaza el precio; 'llevando N' suma un candidato aparte", () => {
+  const pares = paresDesdeCoto({ response: { results: [
+    { value: "Pollo Entero Fresco X Uni (4 Kg) Refrigerado", data: { price: [{ store: "200", listPrice: 17596 }], discounts: [{ discountText: "15%Dto", discountPrice: "$14956.60", takingText: null }] } },
+    { value: "Pollo Congelado X Kg", data: { price: [{ store: "200", listPrice: 4399 }], discounts: [{ discountText: "25%Dto", discountPrice: "$3298.81", takingText: "Llevando 3" }] } },
+  ] } });
+  assert.deepEqual(pares, [
+    { nombre: "Pollo Entero Fresco X Uni (4 Kg) Refrigerado", precio: 14956.6, lista: 17596 },
+    { nombre: "Pollo Congelado X Kg", precio: 4399, lista: 4399 },
+    { nombre: "Pollo Congelado X Kg · -25% llevando 3", precio: 3298.81, lista: 4399 },
+  ]);
+});
+
+test("Pollo entero: con la oferta de COTO la nota muestra la rebaja y el $/kg efectivo", () => {
+  const el = elegir(itemCoto("Pollo entero"), [{ nombre: "Pollo Entero Fresco X Uni (4 Kg) Refrigerado", precio: 14956.6, lista: 17596 }]);
+  assert.equal(el.p, 14957);
+  assert.match(el.n, /oferta -15%/);
+  assert.match(el.n, /\$3\.739\/kg/);
 });
 
 test("paresDesdeCoto: listPrice por sucursal con respaldo formatPrice; sin precio se descarta", () => {
