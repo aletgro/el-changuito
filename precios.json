@@ -1,5 +1,5 @@
 {
-  "version": "04/09/2026",
+  "version": "05/09/2026",
   "descuentos": {
     "dia": [
       {
@@ -414,8 +414,10 @@
       "n": "50 g de Tomillo 250 g · $23.080/kg"
     },
     "Almendras 500 g": {
-      "p": 16002,
-      "n": "500 g de Almendras Carmel Grande 500 g · $32.004/kg"
+      "p": 15642,
+      "n": "500 g de Almendras Carmel Grande 500 g · $31.284/kg",
+      "d": -360,
+      "dv": "05/09/2026"
     },
     "Cacao 500 g": {
       "p": 7931,
@@ -454,8 +456,10 @@
       "n": "500 g de Avena Tradicional x 1KG · $2.558/kg"
     },
     "Bicarbonato de sodio 200 g": {
-      "p": 429,
-      "n": "200 g de Bicarbonato De Sodio x 1KG · $2.143/kg"
+      "p": 653,
+      "n": "200 g de Bicarbonato De Sodio x 1KG · $3.263/kg",
+      "d": 224,
+      "dv": "05/09/2026"
     },
     "Copos de maíz 500 g": {
       "p": 3600,
@@ -596,8 +600,10 @@
       "n": "Protector Solar VN Efecto Seco Fps 30 x 190 ml · oferta -50%"
     },
     "Protector solar facial": {
-      "p": 8510,
-      "n": "Protector Solar Facial Villeneuve Sin Color Fps 50 x 50 ml · oferta -50%"
+      "p": 9795,
+      "n": "Protector Solar Facial Get The Look Tono Medio Fps 40 x 40 ml · oferta -50%",
+      "d": 1285,
+      "dv": "05/09/2026"
     },
     "Hongos para cocinar": {
       "p": 7702,
@@ -654,10 +660,12 @@
       "u": "kg"
     },
     "Morrón": {
-      "p": 6290,
-      "n": "Morrón Verde · $6.290/kg · DIA",
-      "s": "dia",
-      "u": "kg"
+      "p": 6160,
+      "n": "Fetuccini Morrón Don Vicente 500g · $6.160/kg · COTO",
+      "s": "coto",
+      "u": "kg",
+      "d": -130,
+      "dv": "05/09/2026"
     },
     "Papa": {
       "p": 2390,
@@ -680,10 +688,12 @@
       "u": "kg"
     },
     "Zanahoria": {
-      "p": 1390,
-      "n": "Zanahoria · $1.390/kg · DIA",
-      "s": "dia",
-      "u": "kg"
+      "p": 1274,
+      "n": "Zanahoria Seleccion · $1.274/kg · COTO",
+      "s": "coto",
+      "u": "kg",
+      "d": -116,
+      "dv": "05/09/2026"
     },
     "Fruta": {
       "p": 799,
@@ -767,7 +777,7 @@
           "u": "kg"
         },
         "Melón": {
-          "p": 3299,
+          "p": 3229,
           "s": "coto",
           "u": "kg"
         },
@@ -792,7 +802,7 @@
           "u": "kg"
         },
         "Pera": {
-          "p": 2299,
+          "p": 1954,
           "s": "coto",
           "u": "kg"
         },
@@ -858,12 +868,12 @@
       "u": "kg",
       "op": {
         "Alcaucil": {
-          "p": 15999,
+          "p": 13999,
           "s": "coto",
           "u": "kg"
         },
         "Berenjena": {
-          "p": 3299,
+          "p": 2549,
           "s": "coto",
           "u": "kg"
         },
@@ -900,9 +910,9 @@
       }
     },
     "Apoyo": {
-      "p": 4290,
-      "n": "la más barata hoy: Acelga ($4.290/kg, DIA) · 4/4 con precio",
-      "s": "dia",
+      "p": 4079,
+      "n": "la más barata hoy: Chaucha ($4.079/kg, COTO) · 4/4 con precio",
+      "s": "coto",
       "u": "kg",
       "op": {
         "Acelga": {
@@ -911,7 +921,7 @@
           "u": "kg"
         },
         "Chaucha": {
-          "p": 4999,
+          "p": 4079,
           "s": "coto",
           "u": "kg"
         },
@@ -925,7 +935,9 @@
           "s": "dia",
           "u": "kg"
         }
-      }
+      },
+      "d": -211,
+      "dv": "05/09/2026"
     },
     "Contundentes": {
       "p": 2690,
