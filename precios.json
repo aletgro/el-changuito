@@ -1,5 +1,5 @@
 {
-  "version": "05/09/2026",
+  "version": "06/09/2026",
   "descuentos": {
     "dia": [
       {
@@ -100,8 +100,10 @@
       "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr."
     },
     "Polenta 1 kg": {
-      "p": 600,
-      "n": "Polenta Morixe 1 Kg. · oferta -66%"
+      "p": 900,
+      "n": "2× Polenta Cocción Rápida Dia 500 Gr. · oferta -44%",
+      "d": 300,
+      "dv": "06/09/2026"
     },
     "Sal entrefina 500 g": {
       "p": 900,
@@ -668,12 +670,12 @@
       "dv": "05/09/2026"
     },
     "Papa": {
-      "p": 2390,
-      "n": "Papa Negra · $2.390/kg · DIA",
+      "p": 2990,
+      "n": "Papa Negra · $2.990/kg · DIA",
       "s": "dia",
       "u": "kg",
-      "d": -600,
-      "dv": "04/09/2026"
+      "d": 600,
+      "dv": "06/09/2026"
     },
     "Palta": {
       "p": 6999,
