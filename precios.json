@@ -1,5 +1,5 @@
 {
-  "version": "06/09/2026",
+  "version": "07/09/2026",
   "descuentos": {
     "dia": [
       {
@@ -97,7 +97,7 @@
     },
     "Papas fritas": {
       "p": 4800,
-      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr."
+      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr."
     },
     "Polenta 1 kg": {
       "p": 900,
@@ -158,8 +158,10 @@
       "n": "Esponja Salvauñas Dia 1 Ud. · 2da unidad -70% llevando 2 · oferta -35%"
     },
     "Jabón Dove": {
-      "p": 1949,
-      "n": "Jabon Hidratacion Fresca Dove 90 Gr. · 2da unidad -50% llevando 2 · oferta -25%"
+      "p": 1955,
+      "n": "Jabón de Tocador Dove Leche de Coco 90 Gr. · 2da unidad -50% llevando  · oferta -25%",
+      "d": 6,
+      "dv": "07/09/2026"
     },
     "Jabón líquido manos": {
       "p": 1399,
@@ -334,10 +336,10 @@
       "dv": "04/09/2026"
     },
     "Pollo entero": {
-      "p": 14957,
-      "n": "Pollo Entero Fresco X Uni (4 Kg) Refrigerado · oferta -15% · $3.739/kg",
-      "d": -2639,
-      "dv": "04/09/2026"
+      "p": 17596,
+      "n": "Pollo Entero Fresco X Uni (4 Kg) Refrigerado · $4.399/kg",
+      "d": 2639,
+      "dv": "07/09/2026"
     },
     "Roast beef": {
       "p": 14999,
@@ -570,16 +572,22 @@
       "n": "Enjuague Bucal Colgate Plax Odor Control x 500 ml · 2x1 llevando 2 · oferta -50% · $7.840/L"
     },
     "Hilo dental": {
-      "p": 3127,
-      "n": "Hilo Dental Farmacity Sabor Menta x 2 un x 50 m · oferta -25% · $31/m"
+      "p": 2919,
+      "n": "Hilo Dental Farmacity Sabor Menta x 2 un x 50 m · oferta -30% · $29/m",
+      "d": -208,
+      "dv": "07/09/2026"
     },
     "Máquina de afeitar": {
-      "p": 4762,
-      "n": "Maquina de Afeitar Farmacity 3 Filos para Hombre x 5 un · oferta -25% · $952/un"
+      "p": 4445,
+      "n": "Maquina de Afeitar Farmacity 3 Filos para Hombre x 5 un · oferta -30% · $889/un",
+      "d": -317,
+      "dv": "07/09/2026"
     },
     "Pasta dental": {
-      "p": 2968,
-      "n": "Pasta Dental Colgate Sensitive Whitening x 100 g · 2x1 llevando 2 · oferta -50% · $29.675/kg"
+      "p": 3351,
+      "n": "Pasta Dental Oral B 4 en 1 x 180 g · oferta -50% · $18.617/kg",
+      "d": 383,
+      "dv": "07/09/2026"
     },
     "Preservativos": {
       "p": 4112,
@@ -590,12 +598,16 @@
       "n": "Repelente para Mosquitos en Aerosol Vn Familiar x 170 ml · oferta -35%"
     },
     "Crema humectante": {
-      "p": 4018,
-      "n": "Crema Humectante Pond's Bio-Hydratante x 100 g · oferta -20%"
+      "p": 4380,
+      "n": "Crema Humectante Pond's Bio-Hydratante x 100 g · oferta -20%",
+      "d": 362,
+      "dv": "07/09/2026"
     },
     "Gel de limpieza": {
-      "p": 6594,
-      "n": "Gel de Limpieza Get The Look x 130 ml · oferta -40%"
+      "p": 5495,
+      "n": "Gel de Limpieza Get The Look x 130 ml · oferta -50%",
+      "d": -1099,
+      "dv": "07/09/2026"
     },
     "Protector solar corporal": {
       "p": 8824,
@@ -639,7 +651,7 @@
     },
     "Cebolla": {
       "p": 999,
-      "n": "Cebolla Premium Xkg 1 Kgm · $999/kg · COTO",
+      "n": "Cebolla Tubo . Bsa 1 Kgm · $999/kg · COTO",
       "s": "coto",
       "u": "kg"
     },
@@ -690,16 +702,16 @@
       "u": "kg"
     },
     "Zanahoria": {
-      "p": 1274,
-      "n": "Zanahoria Seleccion · $1.274/kg · COTO",
-      "s": "coto",
+      "p": 1390,
+      "n": "Zanahoria · $1.390/kg · DIA",
+      "s": "dia",
       "u": "kg",
-      "d": -116,
-      "dv": "05/09/2026"
+      "d": 116,
+      "dv": "07/09/2026"
     },
     "Fruta": {
-      "p": 799,
-      "n": "la más barata hoy: Pomelo ($799/kg, COTO) · 24/26 con precio",
+      "p": 849,
+      "n": "la más barata hoy: Pomelo ($849/kg, COTO) · 24/26 con precio",
       "s": "coto",
       "u": "kg",
       "op": {
@@ -809,7 +821,7 @@
           "u": "kg"
         },
         "Pomelo": {
-          "p": 799,
+          "p": 849,
           "s": "coto",
           "u": "kg"
         },
@@ -823,7 +835,9 @@
           "s": "dia",
           "u": "kg"
         }
-      }
+      },
+      "d": 50,
+      "dv": "07/09/2026"
     },
     "Solo ensalada": {
       "p": 2010,
