@@ -15,6 +15,8 @@ sw.js                           ← service worker · CACHE = "changuito-vN" (ve
 manifest.webmanifest / icon-*.png
 precios.json                    ← foto de precios que la app descarga al abrir (red-primero en el SW)
 scripts/actualizar-precios.mjs  ← robot de precios (Node 20, sin deps)
+scripts/mercado-central.mjs     ← precios MAYORISTAS del Mercado Central (Node 20, sin deps)
+precios-mayoristas/AAAA-MM.json ← salida de ese script (+ .csv con todas las filas); no lo usa la app
 .github/workflows/precios.yml   ← corre el robot todos los días 6:00 AR + botón Run workflow
 ```
 
@@ -43,6 +45,8 @@ npm install        # una vez
 npm run build      # src/app.jsx → app.js (obligatorio tras tocar la fuente)
 npm run check      # sintaxis de la app y del robot
 npm run precios    # corre el robot localmente (escribe precios.json)
+npm run mayoristas # precios por kilo del Mercado Central del mes actual (o el último publicado);
+                   #   `-- --mes 2026-09` para un mes puntual, `-- --todos` para todos los de la página
 npm test           # tests del robot + smoke test de la app (jsdom sobre app.js compilado)
 npm run servir     # servidor local para probar la PWA
 ```
@@ -97,8 +101,10 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
 8. **Tests**: no hay framework; el patrón usado es smoke-tests con `jsdom` (mock de
    `localStorage` y `fetch`, eval de `app.js`, asserts sobre `textContent`) y tests de
    `elegir()`/`parseQty()` importando el robot con listados simulados
-   (`scripts/test-precios.mjs`, se corren con `npm test`). Ante cambios de
-   lógica, escribir uno de esos antes de dar por cerrado.
+   (`scripts/test-precios.mjs`, se corren con `npm test`); el lector del Mercado
+   Central tiene los suyos con ZIP y planillas BIFF2 sintéticas
+   (`scripts/test-mercado-central.mjs`). Ante cambios de lógica, escribir uno de
+   esos antes de dar por cerrado.
 
 ## Sistema de precios
 
@@ -176,6 +182,26 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   BonVino y Tienda Nova con página de producto FIJA (`url`) → `productoDePagina()`
   lee el bloque de analytics (`"item_name":"...","price":N`); el `must` verifica que
   la página siga siendo el producto correcto, si no queda el precio anterior.
+
+- **Mercado Central (mayorista, desde 07/09/2026)**: `scripts/mercado-central.mjs`
+  es independiente del robot y de la app (no toca `precios.json`). Lee la página
+  https://mercadocentral.gob.ar/informaci%C3%B3n/precios-mayoristas, que publica UN
+  ZIP por mes y rubro (frutas / hortalizas) con nombres irregulares y con errores
+  de tipeo ("FRUTRAS_AGOSTO-26_0", "HORTALIZA_SEPTIENBRE_26_0", "FRUTAS  ENERO-26"):
+  `mesDeNombre()` los tolera (mes por patrón laxo, año 20AA o AA) y el rubro sale
+  de FRUT*/HORT*. Adentro hay un Excel 2.x (BIFF2, binario viejo) por día hábil,
+  `RFddmmaa.XLS` / `RHddmmaa.XLS`; puede venir otro ZIP anidado con un día repetido
+  (se deduplica por rubro+fecha). Lectores propios sin deps: `leerZip()` (directorio
+  central + `inflateRawSync`) y `leerBiff2()` (celdas LABEL/NUMBER/INTEGER; la Ñ
+  viene como 0xA5 de CP437 y a veces 0xF1 de Latin-1). Columnas: ESP VAR PROC ENV
+  KG CAL TAM GRADO · MA/MO/MI+fecha = máximo/moda/mínimo POR BULTO · MAPK/MOPK/MIPK
+  = lo mismo POR KILO; la fila "Prom.Esp." es el promedio de la especie. Salida:
+  `precios-mayoristas/AAAA-MM.json` (por especie: `porDia` = $/kg moda de la fila
+  Prom.Esp. de cada día, `mes` = promedio de esos días, `lineas` con cada
+  variedad/procedencia/envase y su $/kg por día) y `.csv` largo con todas las
+  filas. Sin `--mes`, usa el mes actual (hora AR) y si todavía no está publicado
+  cae al último con aviso. Si `leerBiff2()` tira "Excel moderno", el Mercado
+  cambió de formato y hay que reescribir el lector.
 
 ## Estado actual y pendientes
 
