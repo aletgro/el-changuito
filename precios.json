@@ -124,9 +124,9 @@
       "url": "https://diaonline.supermercadosdia.com.ar/sal-entrefina-dia-parrillera-500-gr-55546/p"
     },
     "Sal fina 500 g": {
-      "p": 900,
-      "n": "Sal Entrefina DIA Parrillera 500 Gr.",
-      "url": "https://diaonline.supermercadosdia.com.ar/sal-entrefina-dia-parrillera-500-gr-55546/p"
+      "p": 1050,
+      "n": "Sal Fina DIA 500 Gr.",
+      "url": "https://diaonline.supermercadosdia.com.ar/sal-fina-dia-500-gr-55538/p"
     },
     "Sal gruesa 500 g": {
       "p": 1490,
@@ -1489,6 +1489,11 @@
         }
       },
       "url": "https://www.coto.com.ar/productos/puerro-rocky-fresco-seleccionado-150g-/_/R-00632441-00632441-200"
+    },
+    "Guantes grandes": {
+      "p": 2690,
+      "n": "Guantes Dia Grandes 2 Ud.",
+      "url": "https://diaonline.supermercadosdia.com.ar/guantes-dia-grandes-2-ud-32899/p"
     }
   }
 }

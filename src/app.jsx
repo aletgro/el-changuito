@@ -134,7 +134,7 @@ function seedStores() {
       note: "Supermercado general: todo lo que no tiene un lugar mejor.",
       sections: [
         { id: nid(), name: "Almacén", items: [I("Aceite de girasol"), I("Agua mineral bidón"), I("Arroz integral 1 kg"), I("Atún"), I("Azúcar 500 g"), I("Grasa bovina 1 kg"), I("Harina de maíz 1 kg"), I("Leche larga vida"), I("Maicena 500 g"), I("Papas fritas"), I("Polenta 1 kg"), I("Sal entrefina 500 g"), I("Sal fina 500 g"), I("Sal gruesa 500 g"), I("Vinagre de alcohol 1 L"), I("Vinagre de manzana 500 ml"), I("Yerba 1 kg")] },
-        { id: nid(), name: "Limpieza e higiene", items: [I("Aerosol de ambiente"), I("Bolsa de basura baño"), I("Cif crema"), I("Desinfectante de piso"), I("Desinfectante de superficies"), I("Detergente líquido"), I("Esponja salvauñas"), I("Jabón Dove"), I("Jabón líquido manos"), I("Jabón líquido ropa"), I("Lavandina"), I("Limpia vidrios"), I("Papel higiénico"), I("Pastilla inodoro"), I("Rollo de cocina"), I("Suavizante"), I("Trapo de piso"), I("Trapo rejilla"), I("Trapo amarillo"), I("Virulana")] },
+        { id: nid(), name: "Limpieza e higiene", items: [I("Aerosol de ambiente"), I("Bolsa de basura baño"), I("Cif crema"), I("Desinfectante de piso"), I("Desinfectante de superficies"), I("Detergente líquido"), I("Esponja salvauñas"), I("Guantes grandes"), I("Jabón Dove"), I("Jabón líquido manos"), I("Jabón líquido ropa"), I("Lavandina"), I("Limpia vidrios"), I("Papel higiénico"), I("Pastilla inodoro"), I("Rollo de cocina"), I("Suavizante"), I("Trapo de piso"), I("Trapo rejilla"), I("Trapo amarillo"), I("Virulana")] },
         { id: nid(), name: "Almacén (compra secundaria)", items: [I("Arvejas en lata"), I("Caldo en cubos"), I("Choclo en lata"), I("Jardinera en lata"), I("Jugo de tomate en sachet"), I("Levadura"), I("Pan rallado")] },
         { id: nid(), name: "Electricidad", items: [I("4 pilas AAA", "Control + balanza")] },
         { id: nid(), name: "Otros", items: [I("Escarbadientes"), I("Film transparente"), I("Papel aluminio"), I("Papel manteca")] },
@@ -220,7 +220,7 @@ function seedStores() {
       id: "otros", name: "Otros lugares", emoji: "📍", color: "#6C5CE7",
       note: "Cada producto tiene su lugar identificado.",
       sections: [
-        { id: nid(), name: "Tercero", items: [G("Café"), I("Aceite de oliva"), I("Miel")] },
+        { id: nid(), name: "Tercero", items: [G("Café"), I("Aceite de oliva"), I("Miel"), I("Comida para gatos"), I("Piedras sanitarias para gatos")] },
         { id: nid(), name: "Carmín (congelados)", items: [I("Hongos para cocinar", "Si aparece más barato en otro lado, cambiar")] },
         { id: nid(), name: "BonVino", items: [I("Aceto balsámico Millán")] },
         { id: nid(), name: "Tienda Nova", items: [I("Salsa de soja Lee Kum Kee premium")] },
@@ -693,6 +693,44 @@ function migrate(stores) {
         ? { ...it, name: "Aceite de girasol", price: 0, priceNote: "", priceD: 0, priceDV: "", priceV: "" }
         : it),
     })),
+  });
+
+  // v17 · Otros lugares/Tercero: comida y piedras sanitarias para gatos (sin precio: se compran en Tercero)
+  out = out.map((s) => {
+    if (s.id !== "otros") return s;
+    const nuevos = ["Comida para gatos", "Piedras sanitarias para gatos"];
+    const armar = (n) => ({ id: "mig-" + n.toLowerCase().replace(/\s+/g, "-"), name: n, note: "", spec: "", have: true });
+    const iTercero = s.sections.findIndex((sec) => sec.name === "Tercero");
+    if (iTercero < 0) return { ...s, sections: [{ id: "mig-tercero", name: "Tercero", items: nuevos.map(armar) }, ...s.sections] };
+    return {
+      ...s,
+      sections: s.sections.map((sec, i) => {
+        if (i !== iTercero) return sec;
+        const faltan = nuevos.filter((n) => !sec.items.some((it) => it.name === n));
+        return faltan.length ? { ...sec, items: [...sec.items, ...faltan.map(armar)] } : sec;
+      }),
+    };
+  });
+
+  // v18 · DIA/Limpieza e higiene: Guantes grandes (antes de Jabón Dove; crea la sección si falta)
+  out = out.map((s) => {
+    if (s.id !== "dia") return s;
+    const guantes = { id: "mig-guantes-grandes", name: "Guantes grandes", note: "", spec: "", have: true };
+    const iLimp = s.sections.findIndex((sec) => sec.name === "Limpieza e higiene");
+    if (iLimp < 0) {
+      const iAlm = s.sections.findIndex((sec) => sec.name === "Almacén");
+      const nueva = { id: "mig-dia-limpieza", name: "Limpieza e higiene", items: [guantes] };
+      return { ...s, sections: [...s.sections.slice(0, iAlm + 1), nueva, ...s.sections.slice(iAlm + 1)] };
+    }
+    return {
+      ...s,
+      sections: s.sections.map((sec, i) => {
+        if (i !== iLimp || sec.items.some((it) => it.name === "Guantes grandes")) return sec;
+        const iJabon = sec.items.findIndex((it) => it.name === "Jabón Dove");
+        const items = iJabon >= 0 ? [...sec.items.slice(0, iJabon), guantes, ...sec.items.slice(iJabon)] : [...sec.items, guantes];
+        return { ...sec, items };
+      }),
+    };
   });
 
   // v5 · asegurar campos de precio y aplicar la foto embebida como base

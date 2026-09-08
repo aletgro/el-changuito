@@ -81,10 +81,14 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    "Almacén · harinas Chacabuco" pasa a "Harinas Chacabuco" y nace "Almacén"
    (primera) con Extracto de tomate. · v16 renombra "Aceite de girasol 1 L" → "Aceite de girasol"
    (UNA botella de la más barata POR LITRO, del tamaño que sea — no la más barata en $;
-   `comparaPor:"l"`; la promo "llevando 2" cuenta).
+   `comparaPor:"l"`; la promo "llevando 2" cuenta) · v17 suma Comida para gatos y Piedras
+   sanitarias para gatos a Otros lugares/Tercero (sin precio: Tercero no tiene página;
+   crea la sección primera si el celular no la tiene) · v18 suma Guantes grandes a
+   DIA/Limpieza e higiene, antes de Jabón Dove (talle grande solamente; el paquete más
+   barato; crea la sección después de Almacén si falta).
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
-   viendo la versión vieja. Hoy va por **v17**. `precios.json` es red-primero: no requiere bump.
+   viendo la versión vieja. Hoy va por **v19**. `precios.json` es red-primero: no requiere bump.
 3. **Los nombres de ítems son claves**: `precios.json` y el robot matchean por el `name`
    exacto del ítem (tildes incluidas). Renombrar un ítem rompe su precio → actualizar
    también `ITEMS`/`ITEMS_ELPUENTE` en el robot, la `PRICES` embebida y agregar migración.
@@ -337,7 +341,10 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   entero al natural (en DIA los enteros se llaman "Lomitos"/"Lomos"; ni desmenuzado
   ni en aceite), al mejor precio POR LATA (`comparaPor:"un"`, los packs x3 cuentan) ·
   "Grasa bovina 1 kg" también viene rotulada "Grasa Vacuna" (q amplia "grasa", el
-  must filtra) · "Agua mineral bidón": botellas y bidones compiten por litro cubierto.
+  must filtra) · "Agua mineral bidón": botellas y bidones compiten por litro cubierto ·
+  "Sal fina 500 g" (08/09/2026): "Sal ENTREfina" pasaba el must `/fina/` y ganaba por
+  barata; ahora `must` exige `\bsal\b` y `\bfina\b` (palabras enteras) y `reject`
+  suma entrefina y salero. Entrefina y gruesa son ítems aparte, no equivalentes.
 - **Suavizante** (08/09/2026): igual que el aceite, UNA botella de la más barata POR LITRO
   del tamaño que sea (`unit:"un", qty:1, comparaPor:"l"`); antes `unit:"l", qty:1` hacía
   comprar 2× 900 ml para "cubrir" el litro. `q` son dos búsquedas: con "para ropa" DIA no

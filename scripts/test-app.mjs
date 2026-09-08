@@ -250,6 +250,26 @@ test("v12: Pollo entero entra a COTO/Carnicería antes de Roast beef, una sola v
   assert.equal(carne.items[iRoast - 1].name, "Pollo entero");
 });
 
+test("v17: comida y piedras sanitarias para gatos entran a Otros lugares/Tercero (creando la sección si falta), en stock", () => {
+  const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
+  const otros = data.stores.find((s) => s.id === "otros");
+  const terceros = otros.sections.filter((sec) => sec.name === "Tercero");
+  assert.equal(terceros.length, 1);
+  assert.equal(otros.sections[0].name, "Tercero", "la sección nueva va primera, como en el seed");
+  assert.deepEqual(terceros[0].items.map((i) => i.name), ["Comida para gatos", "Piedras sanitarias para gatos"]);
+  assert.ok(terceros[0].items.every((i) => i.have && !i.price), "arrancan en stock y sin precio");
+});
+
+test("v18: Guantes grandes entra a DIA/Limpieza e higiene (creando la sección después de Almacén si falta)", () => {
+  const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
+  const dia = data.stores.find((s) => s.id === "dia");
+  const limp = dia.sections.filter((sec) => sec.name === "Limpieza e higiene");
+  assert.equal(limp.length, 1);
+  assert.equal(dia.sections[dia.sections.findIndex((sec) => sec.name === "Almacén") + 1].name, "Limpieza e higiene");
+  assert.deepEqual(limp[0].items.map((i) => i.name), ["Guantes grandes"]);
+  assert.ok(limp[0].items[0].have, "arranca en stock");
+});
+
 test("v13: la sección Papelera entra a Otros lugares con sus 5 ítems, una sola vez", () => {
   const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
   const otros = data.stores.find((s) => s.id === "otros");

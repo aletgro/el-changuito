@@ -359,6 +359,41 @@ test("Aceite de girasol: UNA botella de la más barata POR LITRO (no la más bar
   assert.match(con.n, /2x1 llevando 2/);
 });
 
+test("Sal fina: la ENTREfina no es sal fina aunque esté más barata (listado real de DIA, 08/09/2026)", () => {
+  const el = elegir(itemDia("Sal fina 500 g"), [
+    { nombre: "Sal Fina DIA 500 Gr.", precio: 1050, lista: 1050 },                       // ← gana
+    { nombre: "Sal Fina Estuche Celusal 500 Gr.", precio: 1785, lista: 1785 },
+    { nombre: "Sal Fina Light Celusal 235 Gr.", precio: 5578, lista: 5578 },
+    { nombre: "Sal Fina en Paquete Celusal 500 Gr.", precio: 1160, lista: 1549 },
+    { nombre: "Sal Entrefina DIA Parrillera 500 Gr.", precio: 900, lista: 900 },         // más barata, pero es otra sal
+    { nombre: "Sal Entrefina Paquete Celusal 500 Gr.", precio: 1119, lista: 1490 },
+    { nombre: "Celusal Fina Salero 250 Gr.", precio: 3172, lista: 3172 },
+    { nombre: "Pan de molde Salvado DIA rodajas finas 360 Gr.", precio: 3375, lista: 3375 },
+    { nombre: "Salame Milan Feteado Fetas Mas Finas Dia 180 Gr.", precio: 7650, lista: 7650 },
+  ]);
+  assert.equal(el.p, 1050);
+  assert.match(el.n, /^Sal Fina DIA 500 Gr\./);
+  // Sin la fina de DIA tampoco cae en la entrefina: pasa a la siguiente sal fina
+  const sinDia = elegir(itemDia("Sal fina 500 g"), [
+    { nombre: "Sal Entrefina DIA Parrillera 500 Gr.", precio: 900, lista: 900 },
+    { nombre: "Sal Fina en Paquete Celusal 500 Gr.", precio: 1160, lista: 1549 },
+  ]);
+  assert.equal(sinDia.p, 1160);
+  assert.equal(elegir(itemDia("Sal fina 500 g"), [{ nombre: "Sal Entrefina DIA Parrillera 500 Gr.", precio: 900, lista: 900 }]), null);
+});
+
+test("Guantes grandes: solo talle grande, el paquete más barato (listado real de DIA, 08/09/2026)", () => {
+  const el = elegir(itemDia("Guantes grandes"), [
+    { nombre: "Guantes Dia Medianos 2 Ud.", precio: 2690, lista: 2690 },   // otro talle
+    { nombre: "Guantes Dia Grandes 2 Ud.", precio: 2690, lista: 2690 },    // ← gana
+    { nombre: "Guante Mapa Grande 1 Ud.", precio: 5450, lista: 5450 },
+    { nombre: "Guante Mapa Mediano Plisse 2 Ud.", precio: 5450, lista: 5450 },
+  ]);
+  assert.equal(el.p, 2690);
+  assert.match(el.n, /^Guantes Dia Grandes 2 Ud\./);
+  assert.equal(elegir(itemDia("Guantes grandes"), [{ nombre: "Guantes Dia Medianos 2 Ud.", precio: 2690, lista: 2690 }]), null);
+});
+
 test("Atún: solo entero al natural y al mejor precio POR LATA (el pack x3 cuenta)", () => {
   const el = elegir(itemDia("Atún"), [
     { nombre: "Alimento Humedo Para Gatos Sabor Atun Felix 85 Gr.", precio: 1450, lista: 1450 },

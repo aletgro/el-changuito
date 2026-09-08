@@ -76,7 +76,8 @@ const ITEMS = [
   { name: "Papas fritas", q: "papas fritas tubo", unit: "kg", qty: 0.15, must: [/papas fritas/i, /tubo/i], reject: [/congelad/i], cat: DIA + "/almacen/picadas/papas-fritas" },
   { name: "Polenta 1 kg", q: "polenta", unit: "kg", qty: 1, must: [/polenta/i], reject: [/quesos|espinaca|vegetales|lista/i], cat: DIA + "/almacen/harinas/harinas-de-maiz" },
   { name: "Sal entrefina 500 g", q: "sal entrefina", unit: "kg", qty: 0.5, must: [/sal/i, /entrefina/i], reject: [], cat: DIA + "/almacen/aceites-y-aderezos/sal" },
-  { name: "Sal fina 500 g", q: "sal fina", unit: "kg", qty: 0.5, must: [/sal/i, /fina/i], reject: [/light|marina|apio|aj[oi]/i], cat: DIA + "/almacen/aceites-y-aderezos/sal" },
+  // "fina" como palabra entera: "Sal ENTREfina" no es sal fina (08/09/2026). "sal" entera deja afuera Celusal/Salvado/Salame.
+  { name: "Sal fina 500 g", q: "sal fina", unit: "kg", qty: 0.5, must: [/\bsal\b/i, /\bfina\b/i], reject: [/entrefina|light|marina|apio|aj[oi]|salero/i], cat: DIA + "/almacen/aceites-y-aderezos/sal" },
   { name: "Sal gruesa 500 g", q: "sal gruesa", unit: "kg", qty: 0.5, must: [/sal/i, /gruesa/i], reject: [/parrillera light/i], cat: DIA + "/almacen/aceites-y-aderezos/sal" },
   { name: "Vinagre de alcohol 1 L", q: "vinagre de alcohol", unit: "l", qty: 1, must: [/vinagre/i, /alcohol/i], reject: [] },
   { name: "Vinagre de manzana 500 ml", q: "vinagre de manzana", unit: "l", qty: 0.5, must: [/vinagre/i, /manzana/i], reject: [] }, // envase real: 500 ml
@@ -89,6 +90,7 @@ const ITEMS = [
   { name: "Desinfectante de superficies", q: "desinfectante superficies", unit: "un", qty: 1, must: [/desinfectante|lysoform|espadol/i], reject: [/piso|ropa/i] },
   { name: "Detergente líquido", q: "detergente", unit: "un", qty: 1, must: [/detergente/i], reject: [/ropa|matic|lavavajillas autom/i] },
   { name: "Esponja salvauñas", q: "esponja salvaunas", unit: "un", qty: 1, must: [/esponja/i, /salvau[ñn]as/i], reject: [] }, // el usuario compra las salvauñas
+  { name: "Guantes grandes", q: "guantes grandes", unit: "un", qty: 1, must: [/guantes?/i, /grandes?/i], reject: [/median|chic[oa]|peque[ñn]/i] }, // talle grande; el más barato por paquete (08/09/2026)
   { name: "Jabón Dove", q: "jabon dove", unit: "un", qty: 1, must: [/dove/i, /jab[óo]n/i], reject: [/l[íi]quido/i] },
   { name: "Jabón líquido manos", q: "jabon liquido manos", unit: "un", qty: 1, must: [/jab[óo]n l[íi]quido/i], reject: [/ropa|matic/i] },
   { name: "Jabón líquido ropa", q: "jabon liquido para ropa", unit: "l", qty: 3, must: [/jab[óo]n l[íi]quido|jab[óo]n para ropa/i], reject: [/manos|tocador|glicerina/i] },
