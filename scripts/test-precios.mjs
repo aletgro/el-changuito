@@ -921,6 +921,21 @@ test("Verdulería: solo lo que el súper vende en Frutas y Verduras; el nombre n
   assert.equal(esDeVerduleria({}), false);
 });
 
+test("Ajo: se mide POR UNIDAD (cabeza), como se compra en el minorista; la bandeja de dientes por kg no es referencia", () => {
+  assert.deepEqual(parseQty("Ajo en malla 2u"), { amount: 2, unit: "un" });
+  assert.deepEqual(parseQty("Ajo Malla X 3 Uni"), { amount: 3, unit: "un" });
+  const FV = "/Frescos/Frutas y Verduras/Verduras/";
+  const el = elegirVerdura("Ajo", [
+    { nombre: "Dientes de Ajo Seleccionados 120 Gr.", precio: 2690, lista: 2690, cat: FV }, // $22.417/kg: antes ganaba por ser "por kilo"
+    { nombre: "Ajo X 2 Ud.", precio: 2490, lista: 2490, cat: FV },                        // $1.245/un
+    { nombre: "Ajo Malla X 3 Uni", precio: 1249, lista: 1249, cat: FV },                  // $416/un ← gana
+    { nombre: "Ajo en malla 2u", precio: 1149, lista: 1149, cat: FV },                    // $575/un ("ajo en" ya no lo rechaza)
+    { nombre: "Ajo Gigante X Uni", precio: 999, lista: 999, cat: FV },
+    { nombre: "Ajo en polvo La Parmesana 15g", precio: 900, lista: 900, cat: FV },        // sigue rechazado
+  ]);
+  assert.deepEqual(el, { p: 416, n: "Ajo Malla X 3 Uni · $416/un", u: "un" });
+});
+
 test("regexVerdu: límites de palabra con tildes (Ananá x Kg) y Calabaza = zapallo del súper, sin el anco ni el zapallito", () => {
   assert.ok(regexVerdu("Ananá").test("Ananá x Kg."));
   assert.ok(regexVerdu("Ananá").test("Anana Xkg"));

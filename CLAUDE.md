@@ -304,7 +304,10 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   unidas, "/Frescos/Frutas y Verduras/Verduras/"; COTO: `catCoto()` une `groups[]` con su
   `path_list`, "Categorias / Frescos / Frutas y Verduras / Hortalizas") y `esDeVerduleria()`
   exige `CAT_VERDU` (/frutas y verduras/); sin `cat`, afuera. `RECHAZO_VERDU` sigue como
-  segunda red (conservas, congelados, jugos, especias, elaborados, limpieza, "mixto"); sanidad: paquetes ≥ 80 g, $500–30.000 el kg, y
+  segunda red (conservas, congelados, jugos, especias, elaborados, limpieza, "mixto").
+  **Ajo se mide POR UNIDAD** (cabeza, como se compra en el minorista; pedido 08/09/2026):
+  `VERDU_POR_UNIDAD` ignora los candidatos por kilo (la bandeja "Dientes de Ajo 120 g");
+  `parseQty` entiende "2u"/"3 un" sin la x; sanidad: paquetes ≥ 80 g, $500–30.000 el kg, y
   un COTO por debajo del 40 % de DIA se descarta (COTO tiene SKUs con precio placeholder,
   ej. "Cebolla Roja Bolsa $299"). Cada entrada lleva `s` (comercio de origen) y `u`
   (kg/un); las opciones de los picks van como `{ p, s, u }`. En la app `priceSrc` hace

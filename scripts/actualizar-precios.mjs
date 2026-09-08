@@ -145,6 +145,11 @@ function parseQty(nombre) {
     // "x N" es multiplicador solo si N no es un tamaño ("x 3 ud." sí; "x 190 g" no)
     const mx = s.match(/(?:^|\s)x\s*(\d+)\b(?!\s*(?:kgm?|grs?|grm|gs|gr\.|g|ml|cc|lts?|lt\.|l|m(?:ts?)?)\b)/);
     if (mx) mult = parseInt(mx[1], 10) || 1;
+    else {
+      // "2u" / "3 un" / "6 unidades" sin la x (COTO: "Ajo en malla 2u")
+      const mu = s.match(/(?:^|\s)(\d+)\s*(?:u|ud|uds|un|uni|unid|unidades)\.?(?=\s|$)/);
+      if (mu) mult = parseInt(mu[1], 10) || 1;
+    }
   }
   let m;
   if ((m = base.match(/(\d+(?:\.\d+)?)\s*(?:kgm?|kilos?)\b/))) return { amount: parseFloat(m[1]) * mult, unit: "kg" };
@@ -884,7 +889,7 @@ const VERDU_PICKS = {
 const NOMBRES_VERDU = [...VERDU_SIMPLES, ...Object.keys(VERDU_PICKS)];
 
 /* Productos elaborados/no frescos que NO son la verdura (conservas, congelados, jugos, especias, limpieza…) */
-const RECHAZO_VERDU = /\bmixto\b|papines|cocid[oa]s?\b|al vac[ií]o|almohadita|chis buby|nikitos|\bpaq\b|marquesa|vigente|hummus|cubetead|\balco\b|pelados?\b|jardinera|dicomere|\blat\b|\bgranos?\b|crem\b|crem\/|dueto|raviol|lucchetti|granja del sol|mccain|rallado|\bpan\b|aderezo|mayonesa|confitura|\bfid\b|fid\.|spaghetti|tallar[ií]n|hair|pouch|mascarilla|acondicionador|shock|ba[ñn]ad|\bgio\b|fra-nui|quillen|papilla|\bsabor\b|oblea|galleta|postre|gelatina|flan\b|\bleche\b|en cubos?|\bcubos?\b|en granos?|\bgranos\b|inalpa|nestl[eé]|marolio|arcor|knorr|maggi|congelad|\blatas?\b|conserva|jugo|mermelada|\bdulce\b|pur[eé]|deshidratad|\bsec[oa]s?\b|polvo|molid|pasta|snack|chips|frit[oa]s|yogur|helado|alm[ií]bar|salsa|triturad|extracto|f[eé]cula|almid[oó]n|harina|ravioles|tarta|empanada|barrita|galletita|semillas?\b|\bt[eé]\b|aceite|vinagre|jab[oó]n|shampoo|crema|esencia|aroma|detergente|limpia|lavandina|desodorante|caramelo|gomita|gaseosa|\bagua\b|cerveza|vino|licor|bebida|cereal|granola|\bmix\b|ensalada|sopa|caldo|condimento|especia|saborizad|pulpa|compota|pasas|pickles|encurtid|escabeche|al natural|relleno|pizza|milanesa|hamburguesa|medall[oó]n|nugget|torta|bud[ií]n|bizcocho|alfajor|chocolate|bomb[oó]n|pa[ñn]al|toallita|\bperro|\bgato|alimento|planta|maceta|vela|sahumerio|perfume|jarabe|c[aá]psula|comprimido|infusi[oó]n|saquito|hebras|\bmate\b|yerba|az[uú]car|edulcorante|licuado|smoothie|baby\b|premezcla|rebozad|nuggets|fideo|arroz|sal\b|cebollita|ajo en|en aceite/i;
+const RECHAZO_VERDU = /\bmixto\b|papines|cocid[oa]s?\b|al vac[ií]o|almohadita|chis buby|nikitos|\bpaq\b|marquesa|vigente|hummus|cubetead|\balco\b|pelados?\b|jardinera|dicomere|\blat\b|\bgranos?\b|crem\b|crem\/|dueto|raviol|lucchetti|granja del sol|mccain|rallado|\bpan\b|aderezo|mayonesa|confitura|\bfid\b|fid\.|spaghetti|tallar[ií]n|hair|pouch|mascarilla|acondicionador|shock|ba[ñn]ad|\bgio\b|fra-nui|quillen|papilla|\bsabor\b|oblea|galleta|postre|gelatina|flan\b|\bleche\b|en cubos?|\bcubos?\b|en granos?|\bgranos\b|inalpa|nestl[eé]|marolio|arcor|knorr|maggi|congelad|\blatas?\b|conserva|jugo|mermelada|\bdulce\b|pur[eé]|deshidratad|\bsec[oa]s?\b|polvo|molid|pasta|snack|chips|frit[oa]s|yogur|helado|alm[ií]bar|salsa|triturad|extracto|f[eé]cula|almid[oó]n|harina|ravioles|tarta|empanada|barrita|galletita|semillas?\b|\bt[eé]\b|aceite|vinagre|jab[oó]n|shampoo|crema|esencia|aroma|detergente|limpia|lavandina|desodorante|caramelo|gomita|gaseosa|\bagua\b|cerveza|vino|licor|bebida|cereal|granola|\bmix\b|ensalada|sopa|caldo|condimento|especia|saborizad|pulpa|compota|pasas|pickles|encurtid|escabeche|al natural|relleno|pizza|milanesa|hamburguesa|medall[oó]n|nugget|torta|bud[ií]n|bizcocho|alfajor|chocolate|bomb[oó]n|pa[ñn]al|toallita|\bperro|\bgato|alimento|planta|maceta|vela|sahumerio|perfume|jarabe|c[aá]psula|comprimido|infusi[oó]n|saquito|hebras|\bmate\b|yerba|az[uú]car|edulcorante|licuado|smoothie|baby\b|premezcla|rebozad|nuggets|fideo|arroz|sal\b|cebollita|ajo en (aceite|polvo|escama|pasta|conserva)|en aceite/i;
 
 /* Nombre de la app → regex tolerante a tildes/plurales, sobre la palabra base */
 function regexVerdu(nombre) {
@@ -902,6 +907,9 @@ function regexVerdu(nombre) {
    nombre solo dejaba pasar "Fetuccini Morrón", "Papines con ajo", "Chupetín cereza"… */
 const CAT_VERDU = /frutas y verduras/i;
 const esDeVerduleria = (c) => CAT_VERDU.test(c.cat || "");
+/* Lo que en el minorista se compra POR UNIDAD (cabeza), no por peso (pedido 08/09/2026: Ajo):
+   solo cuentan los candidatos por unidad; la bandeja de dientes pelados "120 g" no es referencia. */
+const VERDU_POR_UNIDAD = new Set(["Ajo"]);
 
 /* Mejor referencia de UN comercio: $/kg si se vende por kg; si no, por unidad.
    Umbral de sanidad: en COTO hay listados con precios basura ($250-450 el kg). */
@@ -910,10 +918,11 @@ function elegirVerdura(nombre, candidatos) {
   const validos = (candidatos || []).filter((c) => c.precio >= 250 && esDeVerduleria(c) && must.test(c.nombre) && !RECHAZO_VERDU.test(c.nombre));
   let porKg = [];
   const porUn = [];
+  const soloUnidad = VERDU_POR_UNIDAD.has(nombre);
   for (const c of validos) {
     const q = parseQty(c.nombre);
     // Fresco por kilo: paquetes de 80 g o más (menos = sobrecito de especia), entre $500 y $30.000 el kg
-    if (q.unit === "kg" && q.amount >= 0.08) { const v = c.precio / q.amount; if (v >= 500 && v <= 30000) porKg.push({ c, v }); }
+    if (q.unit === "kg" && q.amount >= 0.08 && !soloUnidad) { const v = c.precio / q.amount; if (v >= 500 && v <= 30000) porKg.push({ c, v }); }
     else if (q.unit === "un") porUn.push({ c, v: c.precio / (q.amount || 1) });
   }
   const limpio = (n) => n.replace(/\s+/g, " ").replace(/\s+x\s*kg\.?$/i, "").trim().slice(0, 60);
