@@ -84,7 +84,7 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    `comparaPor:"l"`; la promo "llevando 2" cuenta).
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
-   viendo la versión vieja. Hoy va por **v16**. `precios.json` es red-primero: no requiere bump.
+   viendo la versión vieja. Hoy va por **v17**. `precios.json` es red-primero: no requiere bump.
 3. **Los nombres de ítems son claves**: `precios.json` y el robot matchean por el `name`
    exacto del ítem (tildes incluidas). Renombrar un ítem rompe su precio → actualizar
    también `ITEMS`/`ITEMS_ELPUENTE` en el robot, la `PRICES` embebida y agregar migración.
@@ -135,7 +135,10 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   considera "reciente" por 4 días (`DIAS_AVISO`): muestra el badge ▲/▼ con "hace Nd"
   y arma la tarjeta "Oportunidades" en Comprar — pendientes que bajaron (¡es el
   momento!), en stock que bajaron (botón "+ a Comprar") y pendientes que subieron
-  (⚠ sobreprecio). Cambios de CRITERIO (otro producto elegido) van sin `d`: no son
+  (⚠ sobreprecio). Compacta (08/09/2026, las listas empujaban la compra fuera de
+  pantalla): el título lleva las cuentas ("· 2 que necesitás · 9 que ya tenés"), cada
+  lista de pendientes muestra hasta 3 filas y el resto va detrás de la píldora "ver las
+  N ▾", y lo que ya tenés queda plegado entero en "Ya los tenés y bajaron · N ▾". Cambios de CRITERIO (otro producto elegido) van sin `d`: no son
   movimientos de mercado. El log del robot solo flecha lo que cambió HOY.
 - Descuentos por día de semana (vigente 08/2026: DIA martes -20%, miércoles -10%
   y jueves -15% ·

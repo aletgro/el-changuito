@@ -1015,6 +1015,13 @@ function PickPending({ it, color, month, onConfirm, dtoHoyDe = () => 0, dtoLocal
    en stock que bajaron (chance de adelantar la compra) y pendientes que subieron
    (aviso de sobreprecio). Silencio total si no hay movimientos. */
 function OportunidadesCard({ stores, patchItem }) {
+  // Compacta (pedido 08/09/2026: las listas crecían y había que scrollear hasta la compra):
+  // a la vista solo lo pendiente (hasta MAX filas por lista, el resto detrás de "ver las N");
+  // lo que ya tenés y bajó queda plegado en una píldora con la cuenta.
+  const MAX = 3;
+  const [verStock, setVerStock] = useState(false);
+  const [todoPend, setTodoPend] = useState(false);
+  const [todoSub, setTodoSub] = useState(false);
   const filas = [];
   stores.forEach((s) => s.sections.forEach((sec) => sec.items.forEach((it) => {
     if (varReciente(it)) filas.push({ store: s, sec, it });
@@ -1034,40 +1041,62 @@ function OportunidadesCard({ stores, patchItem }) {
       {accion || null}
     </div>
   );
+  const Pill = ({ onClick, abierto, children }) => (
+    <button onClick={onClick} className="text-xs font-semibold rounded-full presionable"
+      style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "6px 12px", minHeight: 32, marginTop: 6,
+        color: abierto ? "#2B2620" : "#8A8170", background: abierto ? "#F1EDE3" : "#FAF7F0", border: `1px ${abierto ? "solid" : "dashed"} #C9C2B2` }}>
+      {children} {abierto ? "▴" : "▾"}
+    </button>
+  );
+  const Lista = ({ filas: fs, todo, setTodo, accion }) => (
+    <>
+      {(todo ? fs : fs.slice(0, MAX)).map((f) => <Fila key={f.it.id} f={f} accion={accion ? accion(f) : null} />)}
+      {fs.length > MAX ? <Pill onClick={() => setTodo((v) => !v)} abierto={todo}>{todo ? "ver menos" : `ver las ${fs.length}`}</Pill> : null}
+    </>
+  );
+  const Cuenta = ({ children }) => <span className="text-xs" style={{ fontWeight: 400, color: "#8A8170" }}>{children}</span>;
   return (
     <>
       {bajaronPend.length > 0 || bajaronStock.length > 0 ? (
         <section className="rounded-xl px-4 py-3" style={{ background: "#FFFFFF", border: "1px solid #E8E2D6", borderLeft: "6px solid #4E8C3A" }}>
-          <div className="text-sm font-semibold" style={{ color: "#2F5E14" }}>▼ Bajaron de precio</div>
+          <div className="text-sm font-semibold" style={{ color: "#2F5E14" }}>
+            ▼ Bajaron de precio
+            <Cuenta>{bajaronPend.length > 0 ? ` · ${bajaronPend.length} que necesitás` : ""}{bajaronStock.length > 0 ? ` · ${bajaronStock.length} que ya tenés` : ""}</Cuenta>
+          </div>
           {bajaronPend.length > 0 ? (
             <>
               <div className="text-xs mt-1 font-semibold" style={{ color: "#2F5E14" }}>¡Es el momento! Los necesitás y están más baratos:</div>
-              {bajaronPend.map((f) => <Fila key={f.it.id} f={f} />)}
+              <Lista filas={bajaronPend} todo={todoPend} setTodo={setTodoPend} />
             </>
           ) : null}
           {bajaronStock.length > 0 ? (
-            <>
-              <div className="text-xs mt-2" style={{ color: "#8A8170" }}>Ya los tenés, pero por si querés aprovechar:</div>
-              {bajaronStock.map((f) => (
-                <Fila key={f.it.id} f={f} accion={
-                  <button
-                    onClick={() => patchItem(f.store.id, f.sec.id, f.it.id, { have: false })}
-                    className="text-xs font-semibold rounded-full presionable flex-shrink-0"
-                    style={{ color: "#2F5E14", border: "1px solid #A9D296", padding: "8px 12px", minHeight: 36 }}
-                  >
-                    + a Comprar
-                  </button>
-                } />
-              ))}
-            </>
+            <div>
+              <Pill onClick={() => setVerStock((v) => !v)} abierto={verStock}>Ya los tenés y bajaron · {bajaronStock.length}</Pill>
+              {verStock ? (
+                <>
+                  <div className="text-xs mt-2" style={{ color: "#8A8170" }}>Por si querés aprovechar:</div>
+                  {bajaronStock.map((f) => (
+                    <Fila key={f.it.id} f={f} accion={
+                      <button
+                        onClick={() => patchItem(f.store.id, f.sec.id, f.it.id, { have: false })}
+                        className="text-xs font-semibold rounded-full presionable flex-shrink-0"
+                        style={{ color: "#2F5E14", border: "1px solid #A9D296", padding: "8px 12px", minHeight: 36 }}
+                      >
+                        + a Comprar
+                      </button>
+                    } />
+                  ))}
+                </>
+              ) : null}
+            </div>
           ) : null}
         </section>
       ) : null}
       {subieronPend.length > 0 ? (
         <section className="rounded-xl px-4 py-3" style={{ background: "#FFF9F0", border: "1px solid #F0DCC0", borderLeft: "6px solid #C77B2B" }}>
-          <div className="text-sm font-semibold" style={{ color: "#9B5A1C" }}>⚠ Con sobreprecio</div>
+          <div className="text-sm font-semibold" style={{ color: "#9B5A1C" }}>⚠ Con sobreprecio <Cuenta>· {subieronPend.length}</Cuenta></div>
           <div className="text-xs mt-1" style={{ color: "#8A8170" }}>Los necesitás pero subieron hace poco — si pueden esperar, mejor:</div>
-          {subieronPend.map((f) => <Fila key={f.it.id} f={f} />)}
+          <Lista filas={subieronPend} todo={todoSub} setTodo={setTodoSub} />
         </section>
       ) : null}
     </>

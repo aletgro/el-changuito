@@ -419,20 +419,33 @@ test("DeltaBadge: baja en verde y suba con su porcentaje contra el día anterior
 });
 
 test("DeltaBadge: flechas solo para variaciones recientes", () => {
-  // Nueces (fila + resumen) + Chía (fila + resumen) + Girasol (resumen) + título "▼ Bajaron" = 6.
+  // Nueces (fila + resumen) + Chía (fila + resumen) + título "▼ Bajaron" = 5.
+  // Girasol (ya lo tenés) está plegado en la píldora, sin flecha a la vista.
   // Porotos negros NO suma: su baja tiene 9 días (ventana de aviso = 4).
   const flechas = (dom2.window.document.body.textContent.match(/[▲▼]/g) || []).length;
-  assert.equal(flechas, 6);
+  assert.equal(flechas, 5);
 });
 
-test("Oportunidades: destaca lo pendiente que bajó, ofrece sumar lo que ya tenés y avisa sobreprecios", () => {
+test("Oportunidades: destaca lo pendiente que bajó y avisa sobreprecios; lo que ya tenés queda plegado con la cuenta", () => {
   const texto = dom2.window.document.body.textContent;
+  assert.match(texto, /▼ Bajaron de precio · 1 que necesitás · 1 que ya tenés/);
   assert.match(texto, /¡Es el momento! Los necesitás y están más baratos:/); // Nueces
-  assert.match(texto, /Ya los tenés, pero por si querés aprovechar:/);       // Girasol
-  assert.match(texto, /\+ a Comprar/);
-  assert.match(texto, /hace 1d/);                                            // la baja de Girasol tiene fecha
-  assert.match(texto, /⚠ Con sobreprecio/);                                  // Chía subió y está pendiente
+  assert.match(texto, /Ya los tenés y bajaron · 1 ▾/);                       // Girasol, plegado
+  assert.doesNotMatch(texto, /\+ a Comprar/);                                // …sin filas ni botón hasta abrirlo
+  assert.doesNotMatch(texto, /Girasol 250 g · 🌿/);
+  assert.match(texto, /⚠ Con sobreprecio · 1/);                              // Chía subió y está pendiente
   assert.doesNotMatch(texto, /Porotos negros 1 kg · 🌿/);                    // baja vieja: fuera del resumen
+});
+
+[...dom2.window.document.querySelectorAll("button")].find((b) => /Ya los tenés y bajaron/.test(b.textContent)).click();
+await new Promise((r) => setTimeout(r, 100));
+
+test("Oportunidades: al abrir 'ya los tenés' aparecen las filas con su fecha y el botón '+ a Comprar'", () => {
+  const texto = dom2.window.document.body.textContent;
+  assert.match(texto, /Ya los tenés y bajaron · 1 ▴.*Por si querés aprovechar:/s);
+  assert.match(texto, /Girasol 250 g · 🌿/);
+  assert.match(texto, /hace 1d/);                                            // la baja de Girasol tiene fecha
+  assert.match(texto, /\+ a Comprar/);
 });
 
 test("Descuentos por día: la config del JSON pisa la embebida y calcula ambos precios", () => {
@@ -580,6 +593,38 @@ test("Listas: la píldora 'ver en DIA ↗' acompaña la nota de precio también 
   assert.ok(papa, "falta la píldora en Listas");
   assert.equal(papa.href, "https://diaonline.supermercadosdia.com.ar/papa-negra-x-kg-90170/p");
   assert.ok([...dom2.window.document.querySelectorAll("a")].find((a) => a.textContent === "ver en COTO ↗"), "el pick Fruta lleva la página de la opción más barata");
+});
+
+/* ---------- dom3: tope de filas en las tarjetas de precios (5 pendientes que bajaron, 4 que subieron) ---------- */
+const dom3 = new JSDOM('<!doctype html><html><body><div id="root"></div></body></html>', { url: "https://el-changuito.test/", pretendToBeVisual: true, runScripts: "outside-only" });
+const nombres3 = ["A1", "A2", "A3", "A4", "A5", "S1", "S2", "S3", "S4"];
+dom3.window.localStorage.setItem("el-changuito-v1", JSON.stringify({ stores: [{ id: "diet", name: "Dietética", emoji: "🌿", color: "#9A6A1F", note: "",
+  sections: [{ id: "s", name: "Perecederos", items: nombres3.map((n) => ({ id: n, name: n, note: "", spec: "", have: false })) }] }] }));
+dom3.window.fetch = () => Promise.resolve({ ok: true, json: () => Promise.resolve({ version: "11/08/2026", prices: Object.fromEntries(nombres3.map((n) => [n, { p: 1000, n: "x", d: n[0] === "A" ? -100 : 100 }])) }) });
+const RealDate3 = dom3.window.Date;
+dom3.window.Date = class extends RealDate3 { constructor(...a) { if (a.length) { super(...a); } else { super(2026, 7, 11, 12, 0, 0); } } static now() { return new RealDate3(2026, 7, 11, 12, 0, 0).getTime(); } };
+dom3.window.eval(fs.readFileSync("app.js", "utf8"));
+await esperarPintado(dom3.window);
+
+test("Oportunidades: a la vista hasta 3 filas por lista y una píldora 'ver las N' para el resto", () => {
+  const texto = dom3.window.document.body.textContent;
+  assert.match(texto, /▼ Bajaron de precio · 5 que necesitás/);
+  assert.match(texto, /⚠ Con sobreprecio · 4/);
+  assert.match(texto, /ver las 5 ▾/);
+  assert.match(texto, /ver las 4 ▾/);
+  const enResumen = (n) => (texto.match(new RegExp(n + " · 🌿", "g")) || []).length;
+  assert.equal(["A1", "A2", "A3"].every((n) => enResumen(n) === 1) && enResumen("A4") === 0 && enResumen("A5") === 0, true);
+  assert.equal(enResumen("S4"), 0);
+});
+
+[...dom3.window.document.querySelectorAll("button")].find((b) => b.textContent === "ver las 5 ▾").click();
+await new Promise((r) => setTimeout(r, 100));
+
+test("Oportunidades: 'ver las N' despliega todas las filas y pasa a 'ver menos'", () => {
+  const texto = dom3.window.document.body.textContent;
+  assert.match(texto, /A5 · 🌿/);
+  assert.match(texto, /ver menos ▴/);
+  assert.match(texto, /ver las 4 ▾/); // la otra lista sigue plegada
 });
 
 console.log(`\n${pasan} tests de app OK`);
