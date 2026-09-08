@@ -97,7 +97,9 @@ const ITEMS = [
   { name: "Papel higiénico", q: "papel higienico", unit: "m", qty: 120, must: [/higi[ée]nico/i], reject: [/h[úu]medo/i] },
   { name: "Pastilla inodoro", q: "pastilla inodoro", unit: "un", qty: 1, must: [/inodoro/i], reject: [] },
   { name: "Rollo de cocina", q: "rollo de cocina", unit: "un", qty: 1, must: [/cocina/i, /rollo|papel/i], reject: [] },
-  { name: "Suavizante", q: "suavizante para ropa", unit: "l", qty: 1, must: [/suavizante/i], reject: [] },
+  // UNA botella, la más barata POR LITRO del tamaño que sea (igual que el aceite; pedido 08/09/2026)
+  // (las dos búsquedas: con "para ropa" DIA no devuelve el doypack de 3 L, que es el más barato por litro)
+  { name: "Suavizante", q: ["suavizante para ropa", "suavizante"], unit: "un", qty: 1, comparaPor: "l", must: [/suavizante/i], reject: [] },
   { name: "Trapo de piso", q: "trapo de piso", unit: "un", qty: 1, must: [/trapo/i, /piso/i], reject: [] },
   // Debe ser un TRAPO: la "Rejilla Pastelera" (de metal, para enfriar tortas) no cuenta
   { name: "Trapo rejilla", q: "trapo rejilla", unit: "un", qty: 1, must: [/trapo/i, /rejilla/i], reject: [/pastelera|parrilla|horno/i] },

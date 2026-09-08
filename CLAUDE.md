@@ -323,6 +323,10 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   ni en aceite), al mejor precio POR LATA (`comparaPor:"un"`, los packs x3 cuentan) ·
   "Grasa bovina 1 kg" también viene rotulada "Grasa Vacuna" (q amplia "grasa", el
   must filtra) · "Agua mineral bidón": botellas y bidones compiten por litro cubierto.
+- **Suavizante** (08/09/2026): igual que el aceite, UNA botella de la más barata POR LITRO
+  del tamaño que sea (`unit:"un", qty:1, comparaPor:"l"`); antes `unit:"l", qty:1` hacía
+  comprar 2× 900 ml para "cubrir" el litro. `q` son dos búsquedas: con "para ropa" DIA no
+  devuelve el doypack de 3 L, que es el más barato por litro.
 - **Marcas preferidas** (campo `marca: { re, nombre }` en la config del ítem): el
   criterio sigue siendo el más barato, pero si la marca preferida no gana, la nota
   muestra su precio y diferencia para que el usuario decida. Hoy: Agua = Glaciar ·

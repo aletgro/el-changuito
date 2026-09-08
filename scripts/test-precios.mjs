@@ -331,6 +331,18 @@ test("Asado: entre vacío y tapa gana el más barato, más la tira, todo en $/kg
 import { ITEMS } from "./actualizar-precios.mjs";
 const itemDia = (name) => ITEMS.find((i) => i.name === name);
 
+test("Suavizante: UNA botella de la más barata POR LITRO (como el aceite), nunca 2× para 'cubrir' un litro", () => {
+  const el = elegir(itemDia("Suavizante"), [
+    { nombre: "Suavizante Para Ropa Héroe Premium 900 Ml.", precio: 2390, lista: 2390 }, // la más barata en $ ($2.656/L); antes ganaba 2× de esta
+    { nombre: "Suavizante Ropa Clásico Dia 900 Ml.", precio: 2590, lista: 2590 },
+    { nombre: "Suavizante Flores Frutales Doypack 3 Lt.", precio: 7490, lista: 7490 },  // $2.497/L ← gana
+    { nombre: "Suavizante Concentrado Comfort Brisa Elegante Doypack 1 Lt.", precio: 13920, lista: 13920 },
+  ]);
+  assert.equal(el.p, 7490);
+  assert.equal(el.n, "Suavizante Flores Frutales Doypack 3 Lt. · $2.497/L");
+  assert.doesNotMatch(el.n, /×/);
+});
+
 test("Aceite de girasol: UNA botella de la más barata POR LITRO (no la más barata en $); la promo llevando 2 cuenta", () => {
   const sin = elegir(itemDia("Aceite de girasol"), [
     { nombre: "Aceite de Girasol Dia 1,5 Lt.", precio: 5745, lista: 5745 },   // $3.830/L ← gana aunque la botella cueste más
