@@ -724,7 +724,8 @@ const ITEMS_FARMACITY = [
   { name: "Alcohol", q: "alcohol etilico", unit: "l", qty: 0.5, must: [/alcohol/i, /96/], reject: [/gel|spray|gatillo|clorhexidina|iodo|isoprop/i] },
   { name: "Alcohol en gel", q: "alcohol en gel", unit: "un", qty: 1, comparaPor: "l", must: [/alcohol/i, /gel/i], reject: [/kids|sand[íi]a|chicle/i] },
   { name: "Algodón", q: "algodon", unit: "kg", qty: 0.1, must: [/algod[óo]n/i], reject: [/discos|zig/i] },
-  { name: "Cepillo de dientes", q: "cepillo de dientes", unit: "un", qty: 1, comparaPor: "un", must: [/cepillo de dientes/i], reject: [/porta|dispensador|el[ée]ctrico|repuesto|ni[ñn][oa]|kids|infantil/i] },
+  // Farmacity llama "Cepillo Dental" a su marca propia (la más barata por unidad; pedido 08/09/2026): las dos búsquedas y los dos nombres valen
+  { name: "Cepillo de dientes", q: ["cepillo de dientes", "cepillo dental"], unit: "un", qty: 1, comparaPor: "un", must: [/cepillo (de dientes|dental)/i], reject: [/porta|dispensador|el[ée]ctrico|repuesto|ni[ñn][oa]|kids|infantil|baby|beb[eé]|interdental|port[aá]til|ortodon|orthod|\bkit\b|vaso|dedo|smiles|minions|paw patrol|trolls|princess|\bcars\b/i] },
   { name: "Curitas", q: "curitas", unit: "un", qty: 1, comparaPor: "un", must: [/curitas|ap[óo]sito/i], reject: [/kids|ni[ñn][oa]|marvel|frozen|xl|aqua ?protect/i] },
   { name: "Desodorante", q: "desodorante old spice", unit: "un", qty: 1, must: [/old spice/i, /desodorante|antitranspirante/i], reject: [/aerosol|spray|shampoo|gel|jab[óo]n|ml\b/i] }, // solo EN BARRA
   { name: "Enjuague bucal", q: "enjuague bucal", unit: "un", qty: 1, comparaPor: "l", must: [/enjuague/i], reject: [/ni[ñn][oa]|kids|infantil/i] },
@@ -746,7 +747,11 @@ async function preciosFarmacity() {
   const out = [];
   for (const item of ITEMS_FARMACITY) {
     let el = null;
-    try { el = elegir(item, await buscarVtex(FARMACITY, item.q)); } catch (e) { /* sin red: queda el precio anterior */ }
+    try {
+      const cand = [];
+      for (const q of [].concat(item.q)) cand.push(...await buscarVtex(FARMACITY, q)); // q puede ser una búsqueda o varias
+      el = elegir(item, cand);
+    } catch (e) { /* sin red: queda el precio anterior */ }
     out.push([item.name, el]);
     await dormir(ESPERA_MS);
   }

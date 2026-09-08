@@ -693,6 +693,22 @@ test("conDelta: fecha cada variación y la conserva mientras el precio no cambie
 /* ---------- Farmacity ---------- */
 const itemFarma = (name) => ITEMS_FARMACITY.find((i) => i.name === name);
 
+test("Cepillo de dientes: 'Cepillo Dental' de Farmacity cuenta y gana por unidad (pack x4); ni 2x1 de Colgate, ni infantiles, interdentales o portátiles", () => {
+  const el = elegir(itemFarma("Cepillo de dientes"), [
+    { nombre: "Cepillo de Dientes Colgate Max White Charcoal Cerdas Medianas Blanqueamiento x 2 un", precio: 7455, lista: 7455 },
+    { nombre: "Cepillo de Dientes Colgate Max White Charcoal Cerdas Medianas Blanqueamiento x 2 un · 2x1 llevando 2", precio: 3727.5, lista: 7455 }, // $1.864/un: ganaba antes
+    { nombre: "Cepillo Dental Farmacity con Capuchón x 4 un", precio: 4910, lista: 9820 },              // $1.228/un ← gana
+    { nombre: "Cepillo Dental Farmacity Cerdas Ultra Finas con Capuchón", precio: 1850, lista: 3700 }, // $1.850/un
+    { nombre: "Cepillo Dental Infantil Farmacity Suave x 2 un", precio: 1925, lista: 3850 },           // $962/un pero infantil
+    { nombre: "Cepillo Interdental Gum Proxabrush ultra fino x 4 Un", precio: 8567, lista: 8567 },
+    { nombre: "Cepillo Dental Farmacity Suave Portátil · 2x1 llevando 2", precio: 2050, lista: 4100 },
+    { nombre: "Cepillo Dental Colgate Smiles Minions x 2 un", precio: 4023, lista: 6190 },
+    { nombre: "Cepillo Dental de Dedo Farmacity Bebé Silicona", precio: 1995, lista: 3990 },
+  ]);
+  assert.equal(el.p, 4910);
+  assert.equal(el.n, "Cepillo Dental Farmacity con Capuchón x 4 un · oferta -50% · $1.228/un");
+});
+
 test("promoVtex: detecta 2x1, 3x2 y '2da unidad al X%' en los Teasers", () => {
   const teaser = (n) => ({ PromotionTeasers: [{ Name: n, Conditions: { MinimumQuantity: 2 } }] });
   assert.deepEqual(promoVtex(teaser("2x1 Tu Farmacity#01/08 - 24/08")), { factor: 0.5, txt: "2x1 llevando 2" });

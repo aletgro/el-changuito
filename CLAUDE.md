@@ -339,7 +339,10 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   migración v8, mejor precio por litro). Preferencias CONFIRMADAS del
   usuario: Desodorante = Old Spice EN BARRA solamente (rechazo aerosol/spray/ml) ·
   Máquina de afeitar = 3 filos, mejor precio POR UNIDAD (hoy gana un pack "Enjoy Mujer
-  x 5"; el usuario no pidió filtrar por género — validar si molesta) · Preservativos =
+  x 5"; el usuario no pidió filtrar por género — validar si molesta) · Cepillo de dientes
+  = mejor precio POR UNIDAD, packs cuentan, y la marca propia "Cepillo Dental Farmacity"
+  vale (08/09/2026: el must exigía "de dientes" y la dejaba afuera; `q` son dos
+  búsquedas); sin infantiles, interdentales, portátiles, ortodoncia, kits ni eléctricos · Preservativos =
   Prime Mega (en Farmacity: "Preservativo de Látex Mega") · Alcohol = 96° (decidido
   09/08/2026: tiene alcohol en gel para manos, el líquido es para limpieza; el 70 %
   ya diluido queda excluido por must /96/). Supuestos a validar: Crema humectante =
