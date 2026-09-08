@@ -966,7 +966,13 @@ test("Ajo: se mide POR UNIDAD (cabeza), como se compra en el minorista; la bande
     { nombre: "Ajo Gigante X Uni", precio: 999, lista: 999, cat: FV },
     { nombre: "Ajo en polvo La Parmesana 15g", precio: 900, lista: 900, cat: FV },        // sigue rechazado
   ]);
-  assert.deepEqual(el, { p: 416, n: "Ajo Malla X 3 Uni · $416/un", u: "un" });
+  // el precio del ítem es el PRODUCTO (la malla completa, lo que se paga); el $/unidad queda en la nota
+  assert.deepEqual(el, { p: 1249, n: "Ajo Malla X 3 Uni · $416/un", u: "un", v: 1249 / 3 });
+  // entre comercios se compara por unidad, no por paquete: DIA "x 2" a $1.245/un pierde contra la malla de 3 a $416/un
+  const m = mejorVerdura("Ajo", [{ nombre: "Ajo X 2 Ud.", precio: 2490, lista: 2490, cat: FV }], [{ nombre: "Ajo Malla X 3 Uni", precio: 1249, lista: 1249, cat: FV }]);
+  assert.deepEqual(m, { p: 1249, n: "Ajo Malla X 3 Uni · $416/un · COTO", s: "coto", u: "un" });
+  const m2 = mejorVerdura("Ajo", [{ nombre: "Ajo X 2 Ud.", precio: 700, lista: 700, cat: FV }], [{ nombre: "Ajo Malla X 3 Uni", precio: 1249, lista: 1249, cat: FV }]);
+  assert.equal(m2.p, 700); // $350/un en DIA: gana aunque… es el paquete más barato también; lo que se paga es $700
 });
 
 test("regexVerdu: límites de palabra con tildes (Ananá x Kg) y Calabaza = zapallo del súper, sin el anco ni el zapallito", () => {

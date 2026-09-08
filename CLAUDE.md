@@ -310,7 +310,10 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   segunda red (conservas, congelados, jugos, especias, elaborados, limpieza, "mixto").
   **Ajo se mide POR UNIDAD** (cabeza, como se compra en el minorista; pedido 08/09/2026):
   `VERDU_POR_UNIDAD` ignora los candidatos por kilo (la bandeja "Dientes de Ajo 120 g");
-  `parseQty` entiende "2u"/"3 un" sin la x. **Morrón = SOLO rojo** (08/09/2026, nunca
+  `parseQty` entiende "2u"/"3 un" sin la x. En lo vendido por unidad, `p` es el PRODUCTO
+  entero (la malla de 3 ajos: $1.249, lo que se paga y entra al total) y la nota muestra
+  el $/unidad ("· $416/un"); entre comercios `mejorVerdura()` compara `v` ($/kg o $/un),
+  nunca el paquete. **Morrón = SOLO rojo** (08/09/2026, nunca
   compra verde): `regexVerdu` exige "rojo" ("Morrón Rojo" en DIA, "Pimiento Rojo" en COTO) y
   en el Mercado Central `MC_VERDU` filtra por `grado` /^R/ (el color viaja ahí: "R/I" rojo,
   "V/I" verde; etiqueta fija `n`); sanidad: paquetes ≥ 80 g, $500–30.000 el kg, y

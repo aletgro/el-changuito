@@ -930,13 +930,16 @@ function elegirVerdura(nombre, candidatos) {
     else if (q.unit === "un") porUn.push({ c, v: c.precio / (q.amount || 1) });
   }
   const limpio = (n) => n.replace(/\s+/g, " ").replace(/\s+x\s*kg\.?$/i, "").trim().slice(0, 60);
+  // `v` = valor comparable ($/kg o $/unidad), para elegir entre comercios. `p` = lo que se paga:
+  // por kilo, el $/kg (se compra al peso); por unidad, el PRODUCTO entero (la malla de 3 ajos
+  // vale la malla, no un ajo; pedido 08/09/2026) y la nota muestra el $/unidad.
   if (porKg.length) {
     porKg.sort((a, b) => a.v - b.v);
-    return conUrl({ p: Math.round(porKg[0].v), n: `${limpio(porKg[0].c.nombre)} · $${Math.round(porKg[0].v).toLocaleString("es-AR")}/kg`, u: "kg" }, porKg[0].c.url);
+    return conUrl({ p: Math.round(porKg[0].v), n: `${limpio(porKg[0].c.nombre)} · $${Math.round(porKg[0].v).toLocaleString("es-AR")}/kg`, u: "kg", v: porKg[0].v }, porKg[0].c.url);
   }
   if (porUn.length) {
     porUn.sort((a, b) => a.v - b.v);
-    return conUrl({ p: Math.round(porUn[0].v), n: `${limpio(porUn[0].c.nombre)} · $${Math.round(porUn[0].v).toLocaleString("es-AR")}/un`, u: "un" }, porUn[0].c.url);
+    return conUrl({ p: Math.round(porUn[0].c.precio), n: `${limpio(porUn[0].c.nombre)} · $${Math.round(porUn[0].v).toLocaleString("es-AR")}/un`, u: "un", v: porUn[0].v }, porUn[0].c.url);
   }
   return null;
 }
@@ -948,10 +951,10 @@ function mejorVerdura(nombre, candDia, candCoto) {
   const c = elegirVerdura(nombre, candCoto);
   // COTO trae SKUs con precio placeholder ($299 la bolsa de cebolla): si está por debajo del
   // 40 % de lo que cobra DIA por lo mismo, no es un precio real
-  const cotoBasura = c && d && c.u === "kg" && d.u === "kg" && c.p < d.p * 0.4;
+  const cotoBasura = c && d && c.u === "kg" && d.u === "kg" && c.v < d.v * 0.4;
   if (c && !cotoBasura) opciones.push({ ...c, s: "coto", etiqueta: "COTO" });
   if (!opciones.length) return null;
-  opciones.sort((a, b) => ((b.u === "kg") - (a.u === "kg")) || (a.p - b.p));
+  opciones.sort((a, b) => ((b.u === "kg") - (a.u === "kg")) || (a.v - b.v)); // entre comercios compara el $/kg o $/unidad, no el paquete
   const g = opciones[0];
   return conUrl({ p: g.p, n: `${g.n} · ${g.etiqueta}`, s: g.s, u: g.u }, g.url);
 }
