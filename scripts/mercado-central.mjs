@@ -5,16 +5,19 @@
    (adentro hay un Excel 2.x por día hábil, formato binario BIFF2) y arma
    el precio POR KILO de cada especie, día por día, más el promedio del mes.
 
-   Uso:  node scripts/mercado-central.mjs               → mes actual (si todavía no
-                                                          está publicado, el último)
-         node scripts/mercado-central.mjs --mes 2026-09  → un mes puntual
+   Uso:  node scripts/mercado-central.mjs               → ÚLTIMO día publicado (por rubro)
+                                                          → precios-mayoristas/ultimo.json + .csv
+         node scripts/mercado-central.mjs --mes 2026-09  → un mes completo, día por día
          node scripts/mercado-central.mjs --todos        → todos los meses de la página
          node scripts/mercado-central.mjs --salida dir   → otra carpeta de salida
 
-   Escribe precios-mayoristas/AAAA-MM.json (resumen por especie: $/kg moda de
-   cada día, promedio del mes y cada línea variedad/procedencia/envase) y
-   precios-mayoristas/AAAA-MM.csv (todas las filas de todos los días, con
-   máximo/moda/mínimo por bulto y por kilo). Sin dependencias (Node 20).
+   El robot de precios (actualizar-precios.mjs) importa ultimoDiaMercadoCentral()
+   para poner la referencia mayorista en los ítems de Verdulería de precios.json.
+
+   ultimo.json: por rubro, la fecha y `especies[ESP] = { kilo, lineas }` ($/kg
+   moda de la fila Prom.Esp. y cada línea variedad/procedencia/envase con su
+   máximo/moda/mínimo). Los archivos por mes (AAAA-MM.json/.csv) traen además
+   el $/kg de cada día y el promedio del mes. Sin dependencias (Node 20).
 
    Formato de origen (columnas del XLS): ESP VAR PROC ENV KG CAL TAM GRADO ·
    MAddmmaa MOddmmaa MIddmmaa = máximo / moda / mínimo POR BULTO ·
@@ -220,6 +223,36 @@ export function armarMes(lecturas) {
   return out;
 }
 
+/* Último día de cada rubro: { frutas: { fecha, especies, filas }, hortalizas: {...} }.
+   especies[ESP] = { kilo: $/kg de la fila Prom.Esp. (si falta, promedio de las
+   líneas), lineas: [{ variedad, procedencia, envase, kg, calidad, tamano, grado,
+   bulto, kilo }] }. `filas` son las filas crudas de ese día (para el CSV). */
+export function ultimoDeLecturas(lecturas) {
+  const out = {};
+  for (const rubro of ["frutas", "hortalizas"]) {
+    const del = lecturas.filter((l) => l.rubro === rubro);
+    if (!del.length) continue;
+    const fecha = del.map((l) => l.fecha).sort().pop();
+    const filas = del.find((l) => l.fecha === fecha).filas;
+    const especies = {};
+    for (const f of filas) {
+      const e = especies[f.especie] ??= { kilo: null, lineas: [] };
+      if (f.promedio) { if (f.kilo.moda != null) e.kilo = r2(f.kilo.moda); continue; }
+      e.lineas.push({
+        variedad: f.variedad, procedencia: f.procedencia, envase: f.envase, kg: f.kg, calidad: f.calidad, tamano: f.tamano, grado: f.grado,
+        bulto: { ...f.bulto }, kilo: { max: r2(f.kilo.max), moda: r2(f.kilo.moda), min: r2(f.kilo.min) },
+      });
+    }
+    for (const e of Object.values(especies)) {
+      if (e.kilo != null) continue;
+      const v = e.lineas.map((l) => l.kilo.moda).filter((x) => x != null);
+      if (v.length) e.kilo = r2(v.reduce((a, b) => a + b, 0) / v.length);
+    }
+    out[rubro] = { fecha, especies: Object.fromEntries(Object.entries(especies).sort(([a], [b]) => a.localeCompare(b))), filas };
+  }
+  return out;
+}
+
 /* ---------- 6. CSV largo con todas las filas de todos los días ---------- */
 const COLUMNAS_CSV = ["fecha", "rubro", "especie", "variedad", "procedencia", "envase", "kg_bulto", "calidad", "tamano", "grado",
   "bulto_max", "bulto_moda", "bulto_min", "kilo_max", "kilo_moda", "kilo_min"];
@@ -263,6 +296,76 @@ export function lecturasDeZip(buf, rubroLink) {
 const fmt = (n) => (n == null ? "—" : Math.round(n).toLocaleString("es-AR"));
 const ddmm = (f) => `${f.slice(8, 10)}/${f.slice(5, 7)}`;
 
+/* Baja los ZIP de un mes y devuelve sus lecturas (una por rubro y día, sin repetidos) */
+async function lecturasDelMes(mes, links, log = console.log) {
+  const lecturas = [], vistos = new Set();
+  for (const l of links) {
+    try {
+      const buf = await bajar(l.url);
+      const { lecturas: nuevas, errores } = lecturasDeZip(buf, l.rubro);
+      errores.forEach((e) => log(`  ✘ ${e}`));
+      let sumadas = 0;
+      for (const n of nuevas) {
+        if (!n.rubro) { log(`  ✘ ${n.archivo}: no sé si es fruta u hortaliza (no empieza con RF/RH)`); continue; }
+        if (!n.fecha.startsWith(mes)) { log(`  · ${n.archivo}: es de ${n.fecha}, no de ${mes}; lo salteo`); continue; }
+        const clave = n.rubro + n.fecha;
+        if (vistos.has(clave)) continue; // día repetido (ZIP anidado): gana el primero
+        vistos.add(clave); lecturas.push(n); sumadas++;
+      }
+      log(`  ✔ ${l.nombre} (${l.rubro ?? "?"}): ${sumadas} día${sumadas === 1 ? "" : "s"}`);
+    } catch (err) {
+      log(`  ✘ ${l.nombre}: ${err.message}`);
+    }
+    await dormir(ESPERA_MS);
+  }
+  return lecturas;
+}
+
+async function linksDeLaPagina() {
+  const html = await (await fetch(PAGINA, CAB)).text();
+  const links = linksMayoristas(html);
+  if (!links.length) throw new Error("la página no tiene ningún ZIP: ¿cambió el sitio del Mercado Central?");
+  return links;
+}
+
+/* Último día publicado, POR RUBRO: recorre los meses de más nuevo a más viejo hasta
+   tener frutas y hortalizas (a principio de mes puede estar subido uno solo).
+   Devuelve { frutas: { fecha, zip, especies, filas } | null, hortalizas: ídem }. */
+export async function ultimoDiaMercadoCentral({ log = console.log } = {}) {
+  const links = (await linksDeLaPagina()).filter((l) => l.mes && l.rubro);
+  const meses = [...new Set(links.map((l) => l.mes))].sort().reverse();
+  const out = { frutas: null, hortalizas: null };
+  for (const mes of meses) {
+    const faltan = ["frutas", "hortalizas"].filter((r) => !out[r]);
+    if (!faltan.length) break;
+    const delMes = links.filter((l) => l.mes === mes && faltan.includes(l.rubro));
+    if (!delMes.length) continue;
+    log(`=== ${mes} ===`);
+    const u = ultimoDeLecturas(await lecturasDelMes(mes, delMes, log));
+    for (const r of faltan) if (u[r]) out[r] = { ...u[r], zip: delMes.find((l) => l.rubro === r)?.url };
+  }
+  if (!out.frutas && !out.hortalizas) throw new Error("no pude leer ninguna planilla del Mercado Central");
+  return out;
+}
+
+function escribirUltimo(u, salida) {
+  const sinFilas = (r) => (r ? { fecha: r.fecha, zip: r.zip, especies: r.especies } : null);
+  const json = {
+    fuente: PAGINA, generado: new Date().toISOString(),
+    unidad: "$/kg · moda del último día publicado de cada rubro; 'kilo' de la especie = fila Prom.Esp. (promedio de la especie)",
+    frutas: sinFilas(u.frutas), hortalizas: sinFilas(u.hortalizas),
+  };
+  fs.mkdirSync(salida, { recursive: true });
+  fs.writeFileSync(path.join(salida, "ultimo.json"), JSON.stringify(json, null, 1) + "\n");
+  fs.writeFileSync(path.join(salida, "ultimo.csv"), csvDelMes(["frutas", "hortalizas"].filter((r) => u[r]).map((r) => ({ rubro: r, fecha: u[r].fecha, filas: u[r].filas }))));
+  for (const rubro of ["frutas", "hortalizas"]) {
+    if (!u[rubro]) { console.log(`\n${rubro.toUpperCase()}: sin datos`); continue; }
+    console.log(`\n${rubro.toUpperCase()} · último día publicado: ${ddmm(u[rubro].fecha)}/${u[rubro].fecha.slice(0, 4)} · $/kg (moda)`);
+    for (const [nombre, e] of Object.entries(u[rubro].especies)) console.log(`  ${nombre.padEnd(14)} $${fmt(e.kilo).padStart(8)}/kg   (${e.lineas.length} línea${e.lineas.length === 1 ? "" : "s"})`);
+  }
+  console.log(`\n✔ ${path.join(salida, "ultimo.json")} y .csv`);
+}
+
 function resumenConsola(mes, resumen) {
   for (const rubro of ["frutas", "hortalizas"]) {
     const especies = Object.entries(resumen[rubro]);
@@ -278,26 +381,7 @@ function resumenConsola(mes, resumen) {
 
 export async function procesarMes(mes, links, salida) {
   console.log(`\n=== ${mes} ===`);
-  const lecturas = [], vistos = new Set();
-  for (const l of links) {
-    try {
-      const buf = await bajar(l.url);
-      const { lecturas: nuevas, errores } = lecturasDeZip(buf, l.rubro);
-      errores.forEach((e) => console.log(`  ✘ ${e}`));
-      let sumadas = 0;
-      for (const n of nuevas) {
-        if (!n.rubro) { console.log(`  ✘ ${n.archivo}: no sé si es fruta u hortaliza (no empieza con RF/RH)`); continue; }
-        if (!n.fecha.startsWith(mes)) { console.log(`  · ${n.archivo}: es de ${n.fecha}, no de ${mes}; lo salteo`); continue; }
-        const clave = n.rubro + n.fecha;
-        if (vistos.has(clave)) continue; // día repetido (ZIP anidado): gana el primero
-        vistos.add(clave); lecturas.push(n); sumadas++;
-      }
-      console.log(`  ✔ ${l.nombre} (${l.rubro ?? "?"}): ${sumadas} día${sumadas === 1 ? "" : "s"}`);
-    } catch (err) {
-      console.log(`  ✘ ${l.nombre}: ${err.message}`);
-    }
-    await dormir(ESPERA_MS);
-  }
+  const lecturas = await lecturasDelMes(mes, links);
   if (!lecturas.length) { console.log("  ✘ No se pudo leer ninguna planilla: no escribo nada."); return null; }
   for (const rubro of ["frutas", "hortalizas"]) {
     if (!lecturas.some((l) => l.rubro === rubro)) console.log(`  ⚠ ${mes}: no hay ZIP de ${rubro} en la página`);
@@ -325,26 +409,20 @@ async function main() {
   const salida = arg("--salida") ?? CARPETA;
   if (mesPedido && !/^\d{4}-\d{2}$/.test(mesPedido)) { console.error("✘ --mes espera AAAA-MM (ej. 2026-09)"); process.exit(2); }
 
-  let html;
-  try { html = await (await fetch(PAGINA, CAB)).text(); } catch (err) { console.error(`✘ No pude abrir ${PAGINA}: ${err.message}`); process.exit(1); }
-  const links = linksMayoristas(html);
-  if (!links.length) { console.error("✘ La página no tiene ningún ZIP: ¿cambió el sitio del Mercado Central?"); process.exit(1); }
+  if (!todos && !mesPedido) {
+    // Modo por defecto: solo la última actualización publicada
+    escribirUltimo(await ultimoDiaMercadoCentral(), salida);
+    return;
+  }
+
+  const links = await linksDeLaPagina();
   links.filter((l) => !l.mes || !l.rubro).forEach((l) => console.log(`⚠ No entiendo el nombre "${l.nombre}" (mes: ${l.mes ?? "?"}, rubro: ${l.rubro ?? "?"}); lo salteo`));
   const disponibles = [...new Set(links.map((l) => l.mes).filter(Boolean))].sort();
   console.log(`Meses publicados: ${disponibles.join(", ")}`);
-
   let meses;
   if (todos) meses = disponibles;
-  else {
-    const mes = mesPedido ?? mesActual();
-    if (disponibles.includes(mes)) meses = [mes];
-    else if (mesPedido) { console.error(`✘ ${mes} no está publicado. Disponibles: ${disponibles.join(", ")}`); process.exit(1); }
-    else {
-      const ultimo = disponibles[disponibles.length - 1];
-      console.log(`⚠ Todavía no publicaron ${mes}; uso el último disponible (${ultimo}). Volvé a correrlo en unos días.`);
-      meses = [ultimo];
-    }
-  }
+  else if (disponibles.includes(mesPedido)) meses = [mesPedido];
+  else { console.error(`✘ ${mesPedido} no está publicado. Disponibles: ${disponibles.join(", ")}`); process.exit(1); }
   let ok = 0;
   for (const mes of meses) if (await procesarMes(mes, links.filter((l) => l.mes === mes && l.rubro), salida)) ok++;
   if (!ok) process.exit(1);

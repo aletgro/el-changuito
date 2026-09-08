@@ -70,8 +70,18 @@ dom.window.localStorage.setItem("el-changuito-v1", JSON.stringify({
 // Sin red: el fetch de precios.json falla en silencio (la app tiene catch)
 dom.window.fetch = () => Promise.reject(new Error("sin red en el test"));
 
+/* Espera a que React pinte las listas: el render es asincrónico (recién después del eval el
+   body está vacío, luego "Cargando tus listas…"); tope 5 s. Una espera fija no alcanza en
+   máquinas lentas. */
+const esperarPintado = async (win) => {
+  const t0 = Date.now();
+  const cargando = () => { const t = win.document.body.textContent.trim(); return !t || /Cargando tus listas/.test(t); };
+  while (cargando() && Date.now() - t0 < 5000) await new Promise((r) => setTimeout(r, 50));
+  await new Promise((r) => setTimeout(r, 80));
+};
+
 dom.window.eval(fs.readFileSync("app.js", "utf8"));
-await new Promise((r) => setTimeout(r, 120)); // deja que React pinte
+await esperarPintado(dom.window);
 
 let pasan = 0;
 const test = (nombre, fn) => { fn(); pasan++; console.log("✔ " + nombre); };
@@ -334,7 +344,9 @@ dom2.window.localStorage.setItem("el-changuito-v1", JSON.stringify({
         id: "vd1", name: "Siempre en stock",
         items: [
           { id: "vp", name: "Papa", note: "", spec: "", have: false },
-          { id: "vf", name: "Fruta", type: "pick", options: ["Banana", "Pomelo"], picked: [], note: "", spec: "", have: false },
+          // precio viejo de un SKU fantasma de COTO: la foto nueva trae p: 0 y lo tiene que borrar
+          { id: "vc", name: "Cúrcuma", note: "", spec: "", have: true, price: 1799, priceNote: "Cúrcuma · $1.799/kg · COTO", priceSrc: "coto", priceV: "04/09/2026" },
+          { id: "vf", name: "Fruta", type: "pick", options: ["Banana", "Pomelo", "Papaya"], picked: [], note: "", spec: "", have: false },
         ],
       }],
     },
@@ -373,13 +385,16 @@ dom2.window.fetch = () => Promise.resolve({
       "Chía 500 g": { p: 5806, n: "precio de prueba", d: 277 },
       "Girasol 250 g": { p: 3000, n: "precio de prueba", d: -300, dv: "09/08/2026" },       // bajó hace 1 día
       "Porotos negros 1 kg": { p: 2000, n: "precio de prueba", d: -500, dv: "01/08/2026" }, // baja VIEJA (9 días)
-      "Corte X": { p: 1000, n: "precio de prueba" },
+      "Corte X": { p: 1000, n: "precio de prueba", urls: [{ n: "falda", url: "https://www.coto.com.ar/productos/_/R-00000011-00000011-200" }, { n: "osobuco", url: "https://www.coto.com.ar/productos/_/R-00000012-00000012-200" }] },
       "Harina T": { p: 2000, n: "precio de prueba" },
       "Queso para rayar": { p: 8730, n: "300 g de Sardo", op: { "Sardo": 8730, "Reggianito": 8820, "Romano": 8790, "Provolone": 8877 } },
       "Crema": { p: 7520, n: "2× Pote x 330 cc · $11.394/L" },
-      "Papa": { p: 2990, n: "Papa Negra · $2.990/kg · DIA", s: "dia", u: "kg" },
-      "Fruta": { p: 799, n: "la más barata hoy: Pomelo ($799/kg, COTO) · 2/2 con precio", s: "coto", u: "kg",
-        op: { "Banana": { p: 3990, s: "dia", u: "kg" }, "Pomelo": { p: 799, s: "coto", u: "kg" } } },
+      // mc = referencia MAYORISTA del Mercado Central (último día publicado); Papaya solo tiene mc (sin DIA/COTO)
+      // url = página del producto en el sitio de origen (píldora "ver en DIA ↗" en la app)
+      "Papa": { p: 2990, n: "Papa Negra · $2.990/kg · DIA", s: "dia", u: "kg", url: "https://diaonline.supermercadosdia.com.ar/papa-negra-x-kg-90170/p", mc: { p: 1134, f: "04/09/2026" } },
+      "Cúrcuma": { p: 0, n: "hoy ni DIA ni COTO la venden fresca", mc: { p: 4500, f: "04/09/2026" } },
+      "Fruta": { p: 799, n: "la más barata hoy: Pomelo ($799/kg, COTO) · 2/3 con precio", s: "coto", u: "kg", url: "https://www.coto.com.ar/productos/_/R-00000700-00000700-200",
+        op: { "Banana": { p: 3990, s: "dia", u: "kg", url: "https://diaonline.supermercadosdia.com.ar/banana-x-kg-1/p", mc: { p: 1458, f: "04/09/2026" } }, "Pomelo": { p: 799, s: "coto", u: "kg", url: "https://www.coto.com.ar/productos/_/R-00000700-00000700-200" }, "Papaya": { mc: { p: 3300, f: "04/09/2026", n: "Mamon" } } } },
     },
   }),
 });
@@ -391,7 +406,7 @@ dom2.window.Date = class extends RealDate {
 };
 
 dom2.window.eval(fs.readFileSync("app.js", "utf8"));
-await new Promise((r) => setTimeout(r, 150));
+await esperarPintado(dom2.window);
 
 // También acá arranca compactado (3 comercios con pendientes): expandimos para inspeccionar
 [...dom2.window.document.querySelectorAll("button")].find((b) => /Expandir todo/.test(b.textContent)).click();
@@ -495,6 +510,41 @@ test("Verdulería: cada referencia usa el dto por día de SU comercio de origen"
   assert.match(texto, /Pomelo.*COTO.*\$ 559\/kg/s);                            // 799 × 0,7
 });
 
+test("Mercado Central: la referencia mayorista acompaña al precio minorista sin reemplazarlo", () => {
+  const texto = dom2.window.document.body.textContent;
+  assert.match(texto, /Papa Negra · \$2\.990\/kg · DIA.*Mercado Central \(mayorista\): \$ 1\.134\/kg · 04\/09/s); // simple: línea aparte, con fecha
+  const fila = (n) => [...dom2.window.document.querySelectorAll(".fila-toque")].find((d) => new RegExp("^[^A-Za-z]*" + n).test(d.textContent.trim()));
+  assert.match(fila("Banana").textContent, /\$ 3\.192\/kg.*Central \$ 1\.458\/kg/s);  // opción: minorista con dto de hoy + mayorista
+  assert.doesNotMatch(fila("Pomelo").textContent, /Central/);                       // sin cotización mayorista: nada
+  assert.match(fila("Papaya").textContent, /Central \$ 3\.300\/kg/);               // solo mayorista (sin DIA/COTO) también se ve
+  assert.doesNotMatch(fila("Papaya").textContent, /\$ 3\.300\/kg\s*\$/);           // ...y no inventa un precio minorista
+});
+
+test("Link al producto: píldora 'ver en DIA ↗' que abre la página en otra pestaña; una por corte en los compuestos", () => {
+  const links = [...dom2.window.document.querySelectorAll("a")];
+  const papa = links.find((a) => a.textContent === "ver en DIA ↗");
+  assert.ok(papa, "falta la píldora de Papa");
+  assert.equal(papa.href, "https://diaonline.supermercadosdia.com.ar/papa-negra-x-kg-90170/p");
+  assert.equal(papa.target, "_blank");
+  assert.match(papa.rel, /noopener/);
+  const cortes = links.filter((a) => /^(falda|osobuco) ↗$/.test(a.textContent));
+  assert.deepEqual(cortes.map((a) => a.href), ["https://www.coto.com.ar/productos/_/R-00000011-00000011-200", "https://www.coto.com.ar/productos/_/R-00000012-00000012-200"]);
+  assert.equal(cortes[0].getAttribute("aria-label"), "ver falda en COTO");
+  // sin página (Nueces, Crema, quesos de El Puente): sin píldora
+  assert.equal(links.filter((a) => /ver en/.test(a.textContent)).length, 1);
+});
+
+test("Link al producto en las opciones de un pick: '↗' por opción con precio, nada en las que no tienen página", () => {
+  const fila = (n) => [...dom2.window.document.querySelectorAll(".fila-toque")].find((d) => new RegExp("^[^A-Za-z]*" + n).test(d.textContent.trim()));
+  const banana = fila("Banana").querySelector("a");
+  assert.equal(banana.textContent, "↗");
+  assert.equal(banana.getAttribute("aria-label"), "ver en DIA");
+  assert.equal(banana.href, "https://diaonline.supermercadosdia.com.ar/banana-x-kg-1/p");
+  assert.equal(fila("Pomelo").querySelector("a").getAttribute("aria-label"), "ver en COTO");
+  assert.equal(fila("Papaya").querySelector("a"), null); // solo mayorista: no hay página
+  assert.equal(fila("Sardo").querySelector("a"), null);  // El Puente publica un listado sin páginas por producto
+});
+
 // "+ a Comprar" desde la oportunidad: Girasol pasa a pendiente (al final, para no mover los totales de arriba)
 [...dom2.window.document.querySelectorAll("button")].find((b) => b.textContent === "+ a Comprar").click();
 await new Promise((r) => setTimeout(r, 600));
@@ -503,6 +553,33 @@ test("'+ a Comprar' pasa el ítem rebajado a la lista de pendientes", () => {
   const data = JSON.parse(dom2.window.localStorage.getItem("el-changuito-v1"));
   const girasol = data.stores.find((s) => s.id === "diet").sections[0].items.find((it) => it.name === "Girasol 250 g");
   assert.equal(girasol.have, false);
+});
+
+// En Listas (DisplayRow) la píldora también está, y no hace falta que el ítem esté pendiente
+const click2 = async (re) => {
+  [...dom2.window.document.querySelectorAll("button")].find((b) => re.test(b.textContent)).click();
+  await new Promise((r) => setTimeout(r, 80));
+};
+await click2(/^📋Listas$/);
+await click2(/Verdulería/);
+await click2(/^Siempre en stock/);
+
+test("p: 0 en la foto = sin referencia real: se borra el precio viejo (SKU fantasma) y queda solo el mayorista", () => {
+  const fila = [...dom2.window.document.querySelectorAll(".fila-toque")].find((d) => /Cúrcuma/.test(d.textContent));
+  assert.ok(fila, "no se ve Cúrcuma en Listas");
+  assert.doesNotMatch(fila.textContent, /1\.799|COTO/);
+  assert.match(fila.textContent, /Mercado Central \(mayorista\): \$ 4\.500\/kg/);
+  const data = JSON.parse(dom2.window.localStorage.getItem("el-changuito-v1"));
+  const curcuma = data.stores.find((s) => s.id === "verdu").sections[0].items.find((it) => it.name === "Cúrcuma");
+  assert.equal(curcuma.price, 0);
+  assert.equal(curcuma.priceV, "11/08/2026");
+});
+
+test("Listas: la píldora 'ver en DIA ↗' acompaña la nota de precio también en las listas", () => {
+  const papa = [...dom2.window.document.querySelectorAll("a")].find((a) => a.textContent === "ver en DIA ↗");
+  assert.ok(papa, "falta la píldora en Listas");
+  assert.equal(papa.href, "https://diaonline.supermercadosdia.com.ar/papa-negra-x-kg-90170/p");
+  assert.ok([...dom2.window.document.querySelectorAll("a")].find((a) => a.textContent === "ver en COTO ↗"), "el pick Fruta lleva la página de la opción más barata");
 });
 
 console.log(`\n${pasan} tests de app OK`);

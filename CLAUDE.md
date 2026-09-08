@@ -15,15 +15,22 @@ sw.js                           ← service worker · CACHE = "changuito-vN" (ve
 manifest.webmanifest / icon-*.png
 precios.json                    ← foto de precios que la app descarga al abrir (red-primero en el SW)
 scripts/actualizar-precios.mjs  ← robot de precios (Node 20, sin deps)
-scripts/mercado-central.mjs     ← precios MAYORISTAS del Mercado Central (Node 20, sin deps)
-precios-mayoristas/AAAA-MM.json ← salida de ese script (+ .csv con todas las filas); no lo usa la app
+scripts/mercado-central.mjs     ← precios MAYORISTAS del Mercado Central (Node 20, sin deps); el robot lo importa
+precios-mayoristas/ultimo.json  ← salida de ese script: último día publicado, todas las especies (+ .csv)
 .github/workflows/precios.yml   ← corre el robot todos los días 6:00 AR + botón Run workflow
 ```
 
 - **Persistencia**: `localStorage`, clave `el-changuito-v1`, forma `{ stores: [...] }`.
 - **Modelo**: `stores[] → sections[] → items[]`. Ítem: `{ id, name, note, have, spec, price,
   priceNote, priceD, priceV }` (`priceD` = variación en $ contra la foto anterior; la
-  pinta `DeltaBadge` como ▲/▼ con porcentaje, y se limpia al editar a mano) + opcionales
+  pinta `DeltaBadge` como ▲/▼ con porcentaje, y se limpia al editar a mano), `priceMC`
+  (solo Verdulería: `{ p: $/kg mayorista del Mercado Central, f: "dd/mm/aaaa", n?: etiqueta }`,
+  lo pinta `MCLine` como línea aparte del precio minorista; en los picks va por opción en
+  `priceOp[nombre].mc`), `priceLinks` (`[{ url, n? }]`: página del producto en el sitio de
+  origen, desde `url`/`urls` de `precios.json`; la pinta `LinkChips` como píldora
+  "ver en COTO ↗" bajo la nota de precio en Listas y Comprar, una por corte en Combo/Asado
+  ("falda ↗ · osobuco ↗") y solo "↗" en cada opción con precio de un pick; abre en otra
+  pestaña y frena el click de la fila) + opcionales
   `type:"pick"` (con `options[]`, `picked[]`),
   `askSpec`, `askPrice` (pide el precio pagado al marcarlo comprado y acumula
   `priceHist:[{p,t}]`, últimos 12 pagos — hoy solo Huevo), `dyn` ("combo"/"roast":
@@ -45,8 +52,8 @@ npm install        # una vez
 npm run build      # src/app.jsx → app.js (obligatorio tras tocar la fuente)
 npm run check      # sintaxis de la app y del robot
 npm run precios    # corre el robot localmente (escribe precios.json)
-npm run mayoristas # precios por kilo del Mercado Central del mes actual (o el último publicado);
-                   #   `-- --mes 2026-09` para un mes puntual, `-- --todos` para todos los de la página
+npm run mayoristas # último día publicado por el Mercado Central → precios-mayoristas/ultimo.json y .csv
+                   #   (`-- --mes 2026-09` o `-- --todos` para un mes entero, día por día)
 npm test           # tests del robot + smoke test de la app (jsdom sobre app.js compilado)
 npm run servir     # servidor local para probar la PWA
 ```
@@ -77,7 +84,7 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    `comparaPor:"l"`; la promo "llevando 2" cuenta).
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
-   viendo la versión vieja. Hoy va por **v14**. `precios.json` es red-primero: no requiere bump.
+   viendo la versión vieja. Hoy va por **v16**. `precios.json` es red-primero: no requiere bump.
 3. **Los nombres de ítems son claves**: `precios.json` y el robot matchean por el `name`
    exacto del ítem (tildes incluidas). Renombrar un ítem rompe su precio → actualizar
    también `ITEMS`/`ITEMS_ELPUENTE` en el robot, la `PRICES` embebida y agregar migración.
@@ -113,6 +120,15 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
 - El robot: DIA vía API pública de VTEX (`/api/catalog_system/pub/products/search/?ft=...`)
   con fallback a páginas de categoría HTML (`cat` en la config). Conserva el precio
   anterior si un ítem no matchea; nunca escribe si TODO falló.
+- Página del producto ("ver en el navegador", pedido 07/09/2026): cada candidato lleva
+  `url` (VTEX `link` · COTO `https://www.coto.com.ar/productos/<slug>/` + `data.url` (`urlCoto()`; la ruta en singular NO renderiza el producto, verificado 07/09/2026) · Frutos del
+  Are `permalink` (la variación trae el peso preseleccionado) · New Garden `url_key` +
+  `url_suffix` · TiendaNube `offers.url` · páginas fijas: la propia `url` del ítem) vía
+  `conUrl()` (solo agrega la clave si existe: los `deepEqual` de los tests no cambian);
+  `elegir()`, `elegirVerdura()`/`mejorVerdura()` y `notaPorKg()` la conservan en el
+  ganador y viaja en `precios.json` como `url` (ítems simples y `op[nombre].url` en los
+  picks; el pick lleva la de su opción más barata) o `urls: [{ n, url }]` en Combo/Asado
+  (una por corte). El Puente publica un listado sin páginas por producto: sin `url`.
 - Variaciones de precio: cada entrada de `precios.json` puede llevar `d` (diferencia
   en $) y `dv` (fecha del cambio, `conDelta()`). La variación se CONSERVA mientras el
   precio no vuelva a cambiar (correr el robot dos veces ya no la pisa); la app la
@@ -150,7 +166,11 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
 - COTO: el sitio nuevo (coto.com.ar) es una SPA; el catálogo se lee del buscador
   Constructor.io (`ac.cnstrc.com/search/...?key=` con la key pública del bundle).
   `listPrice` = precio del paquete POR SUCURSAL (en cortes "X KG" es $/kg); se toma la
-  moda entre sucursales (hay outliers de data mala). Las OFERTAS no tocan `listPrice`:
+  moda entre sucursales (hay outliers de data mala). **SKUs fantasma** (desde 07/09/2026):
+  el catálogo trae productos con precio en todas las sucursales pero `store_availability`
+  VACÍO (la "Cebolla Premium Xkg" a $999, las bolsas a $299, la Sémola COTO en 2x1, el
+  tomate cherry a $7.499): no se venden en ninguna y no aparecen en el sitio →
+  `paresDesdeCoto()` los descarta (si el campo falta, no filtra). Las OFERTAS no tocan `listPrice`:
   viajan en `data.discounts[]` (`discountText` "15%Dto"/"2x1", `discountPrice`,
   `takingText` "Llevando N" o null) — `promoCoto()` las lee: la directa REEMPLAZA el
   precio (nota "oferta -X%"), la de "llevando N" suma un candidato aparte con el
@@ -183,25 +203,40 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   lee el bloque de analytics (`"item_name":"...","price":N`); el `must` verifica que
   la página siga siendo el producto correcto, si no queda el precio anterior.
 
-- **Mercado Central (mayorista, desde 07/09/2026)**: `scripts/mercado-central.mjs`
-  es independiente del robot y de la app (no toca `precios.json`). Lee la página
-  https://mercadocentral.gob.ar/informaci%C3%B3n/precios-mayoristas, que publica UN
-  ZIP por mes y rubro (frutas / hortalizas) con nombres irregulares y con errores
-  de tipeo ("FRUTRAS_AGOSTO-26_0", "HORTALIZA_SEPTIENBRE_26_0", "FRUTAS  ENERO-26"):
-  `mesDeNombre()` los tolera (mes por patrón laxo, año 20AA o AA) y el rubro sale
-  de FRUT*/HORT*. Adentro hay un Excel 2.x (BIFF2, binario viejo) por día hábil,
-  `RFddmmaa.XLS` / `RHddmmaa.XLS`; puede venir otro ZIP anidado con un día repetido
-  (se deduplica por rubro+fecha). Lectores propios sin deps: `leerZip()` (directorio
-  central + `inflateRawSync`) y `leerBiff2()` (celdas LABEL/NUMBER/INTEGER; la Ñ
-  viene como 0xA5 de CP437 y a veces 0xF1 de Latin-1). Columnas: ESP VAR PROC ENV
-  KG CAL TAM GRADO · MA/MO/MI+fecha = máximo/moda/mínimo POR BULTO · MAPK/MOPK/MIPK
-  = lo mismo POR KILO; la fila "Prom.Esp." es el promedio de la especie. Salida:
-  `precios-mayoristas/AAAA-MM.json` (por especie: `porDia` = $/kg moda de la fila
-  Prom.Esp. de cada día, `mes` = promedio de esos días, `lineas` con cada
-  variedad/procedencia/envase y su $/kg por día) y `.csv` largo con todas las
-  filas. Sin `--mes`, usa el mes actual (hora AR) y si todavía no está publicado
-  cae al último con aviso. Si `leerBiff2()` tira "Excel moderno", el Mercado
-  cambió de formato y hay que reescribir el lector.
+- **Mercado Central (mayorista, desde 07/09/2026)**: referencia EXTRA en Verdulería, junto
+  al minorista más barato (DIA/COTO), que es donde el usuario puede ir a comprar. NUNCA
+  reemplaza el precio del ítem ni entra en totales/descuentos: viaja en `precios.json`
+  como `mc: { p, f, n? }` en cada ítem simple de Verdulería y en cada opción de los
+  picks (`op[nombre].mc`, incluso si la opción no tiene precio minorista). Se toma SOLO
+  el último día publicado (decisión del usuario, 07/09/2026), por rubro. Fuente:
+  https://mercadocentral.gob.ar/informaci%C3%B3n/precios-mayoristas, que publica UN ZIP
+  por mes y rubro (frutas / hortalizas) con nombres irregulares y con errores de tipeo
+  ("FRUTRAS_AGOSTO-26_0", "HORTALIZA_SEPTIENBRE_26_0", "FRUTAS  ENERO-26"):
+  `mesDeNombre()` los tolera (mes por patrón laxo, año 20AA o AA) y el rubro sale de
+  FRUT*/HORT*. Adentro hay un Excel 2.x (BIFF2, binario viejo) por día hábil,
+  `RFddmmaa.XLS` / `RHddmmaa.XLS`; puede venir otro ZIP anidado con un día repetido (se
+  deduplica por rubro+fecha). Lectores propios sin deps en `scripts/mercado-central.mjs`:
+  `leerZip()` (directorio central + `inflateRawSync`) y `leerBiff2()` (celdas
+  LABEL/NUMBER/INTEGER; la Ñ viene como 0xA5 de CP437 y a veces 0xF1 de Latin-1).
+  Columnas: ESP VAR PROC ENV KG CAL TAM GRADO · MA/MO/MI+fecha = máximo/moda/mínimo POR
+  BULTO · MAPK/MOPK/MIPK = lo mismo POR KILO; la fila "Prom.Esp." es el promedio de la
+  especie. `ultimoDiaMercadoCentral()` recorre los meses de más nuevo a más viejo hasta
+  tener los dos rubros y devuelve `{ frutas: { fecha, especies }, hortalizas }`. En el
+  robot, `MC_VERDU` mapea nombre de la app → especie del Mercado (mayúsculas sin tilde,
+  truncadas a 10 letras, grafías alternativas en array) y `mcParaVerdu()` arma el `mc`:
+  sin `var` = $/kg de Prom.Esp.; con `var` = promedio de las líneas de esa variedad.
+  Mapeos decididos (07/09/2026, supuestos a validar con el usuario): Tomate = REDONDO
+  (no cherry) · Morrón = PIMIENTO MORRON · Zapallito = ZAPALLITO REDONDO · Zucchini =
+  ZAPALLITO LARGO · Calabaza = ZAPALLO (todas las variedades) · Zapallo anco = ZAPALLO
+  ANC… · Papaya = MAMON · Hakusay = ACUSAY · Cilantro = CILANDRO (así lo escribe el
+  Mercado) · Verdeo = CEB.VERDEO. La etiqueta `n` ("Pimiento morron", "Mamon") solo va
+  cuando la especie no se llama como el ítem. `aplicarMC()`: si el Mercado se leyó,
+  manda lo de hoy y lo que no cotizó pierde el `mc` (fuera de temporada); si falló, se
+  conservan los `mc` previos. El log lista ✔ por ítem y "·" para lo sin cotización (no
+  es un fallo). El robot corre a las 6:00 AR y el Mercado sube la planilla del día
+  cerca de las 13:00: la referencia es siempre la del día hábil anterior. Si
+  `leerBiff2()` tira "Excel moderno", el Mercado cambió de formato y hay que reescribir
+  el lector.
 
 ## Estado actual y pendientes
 
@@ -267,6 +302,14 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   (kg/un); las opciones de los picks van como `{ p, s, u }`. En la app `priceSrc` hace
   que el ítem use los DESCUENTOS POR DÍA DE SU COMERCIO DE ORIGEN (líneas "mar $…",
   total con dtos de hoy, opción por opción en los picks) aunque viva en Verdulería.
+  Desde 07/09/2026 cada ítem/opción lleva además la referencia MAYORISTA del Mercado
+  Central (`mc`, ver Sistema de precios): la app la muestra como "Mercado Central
+  (mayorista): $…/kg · dd/mm" en Listas y Comprar, y "Central $…/kg" bajo el precio de
+  cada opción de los picks. Sin referencia REAL (`referenciaVerdu()`: DIA y COTO
+  respondieron y ninguno la vende fresca; hoy Cúrcuma, cuyo "Cúrcuma X Kg" a $1.799 era
+  un SKU fantasma): el robot escribe `p: 0` y `applyPrices` BORRA el precio que el
+  celular tuviera (sin flecha; el `mc` se conserva). Si una búsqueda falló, null y se
+  conserva el anterior como siempre.
 - **DIA, casos confirmados (09-12/08/2026)**: "Harina de maíz 1 kg" ES la Morixe para
   arepas (el nombre del producto no dice "maíz"; el must exige "arepas") · "Arvejas en
   lata" acepta cualquiera menos congeladas — en DIA las latas se llaman "Arvejas Secas

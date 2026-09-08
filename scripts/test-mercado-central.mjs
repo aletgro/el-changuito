@@ -10,7 +10,7 @@ import assert from "node:assert/strict";
 import zlib from "node:zlib";
 import {
   mesDeNombre, rubroDeNombre, linksMayoristas, leerZip, leerBiff2, fechaDeCodigo,
-  tablaDesdeGrilla, rubroDeArchivo, armarMes, csvDelMes, lecturasDeZip,
+  tablaDesdeGrilla, rubroDeArchivo, armarMes, csvDelMes, lecturasDeZip, ultimoDeLecturas,
 } from "./mercado-central.mjs";
 
 let pasan = 0;
@@ -193,6 +193,24 @@ test("armarMes: sin fila Prom.Esp. promedia las líneas del día", () => {
   const r = armarMes([dia("frutas", "2026-09-01", [linea("KUMQUAT", "", "E. RIOS", 2700), linea("KUMQUAT", "", "CTES.", 2300)])]);
   assert.equal(r.frutas.KUMQUAT.porDia["2026-09-01"], 2500);
   assert.equal(r.frutas.KUMQUAT.mes, 2500);
+});
+
+test("ultimoDeLecturas: el último día de CADA rubro, especies con $/kg de Prom.Esp. (o promedio de líneas) y sus líneas", () => {
+  const u = ultimoDeLecturas([
+    dia("frutas", "2026-09-01", [linea("BANANA", "CAVENDISH", "ECUADOR", 2200), linea("BANANA", "Prom.Esp.", "", 1700, true)]),
+    dia("frutas", "2026-09-04", [linea("BANANA", "CAVENDISH", "ECUADOR", 2000), linea("BANANA", "NANIKA", "SALTA", 800), linea("BANANA", "Prom.Esp.", "", 1500, true), linea("KUMQUAT", "", "E. RIOS", 2700), linea("KUMQUAT", "", "CTES.", 2300)]),
+    dia("hortalizas", "2026-09-03", [linea("PAPA", "SPUNTA", "BS. AS.", 950), linea("PAPA", "Prom.Esp.", "", 950, true)]),
+  ]);
+  assert.equal(u.frutas.fecha, "2026-09-04");
+  assert.equal(u.hortalizas.fecha, "2026-09-03");
+  assert.deepEqual(Object.keys(u.frutas.especies), ["BANANA", "KUMQUAT"]);
+  assert.equal(u.frutas.especies.BANANA.kilo, 1500);            // Prom.Esp. del 04, no del 01
+  assert.equal(u.frutas.especies.BANANA.lineas.length, 2);
+  assert.deepEqual(u.frutas.especies.BANANA.lineas[1].kilo, { max: 900, moda: 800, min: 700 });
+  assert.equal(u.frutas.especies.KUMQUAT.kilo, 2500);           // sin Prom.Esp.: promedio de las líneas
+  assert.equal(u.hortalizas.especies.PAPA.lineas[0].variedad, "SPUNTA");
+  assert.equal(u.frutas.filas.length, 5);
+  assert.deepEqual(ultimoDeLecturas([]), {});
 });
 
 /* ---------- CSV ---------- */

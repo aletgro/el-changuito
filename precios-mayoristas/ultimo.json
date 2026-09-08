@@ -1,0 +1,5876 @@
+{
+ "fuente": "https://mercadocentral.gob.ar/informaci%C3%B3n/precios-mayoristas",
+ "generado": "2026-09-07T16:04:43.676Z",
+ "unidad": "$/kg · moda del último día publicado de cada rubro; 'kilo' de la especie = fila Prom.Esp. (promedio de la especie)",
+ "frutas": {
+  "fecha": "2026-09-04",
+  "zip": "https://mercadocentral.gob.ar/sites/default/files/precios_mayoristas/FRUTAS_SEPTIEMBRE_26.zip",
+  "especies": {
+   "ANANA": {
+    "kilo": 1876.27,
+    "lineas": [
+     {
+      "variedad": "PIÑA",
+      "procedencia": "BRASIL",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "010/012",
+      "grado": "",
+      "bulto": {
+       "max": 35000,
+       "moda": 34000,
+       "min": 33000
+      },
+      "kilo": {
+       "max": 1944.44,
+       "moda": 1888.89,
+       "min": 1833.33
+      }
+     },
+     {
+      "variedad": "PIÑA",
+      "procedencia": "ECUADOR",
+      "envase": "CA",
+      "kg": 22,
+      "calidad": "EL",
+      "tamano": "012/014",
+      "grado": "",
+      "bulto": {
+       "max": 42000,
+       "moda": 41000,
+       "min": 40000
+      },
+      "kilo": {
+       "max": 1909.09,
+       "moda": 1863.64,
+       "min": 1818.18
+      }
+     }
+    ]
+   },
+   "ARANDANO": {
+    "kilo": 18666.7,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "E. RIOS",
+      "envase": "CA",
+      "kg": 1.5,
+      "calidad": "EL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 28000,
+       "moda": 26000,
+       "min": 25000
+      },
+      "kilo": {
+       "max": 18666.7,
+       "moda": 17333.3,
+       "min": 16666.7
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "TUCUMAN",
+      "envase": "CA",
+      "kg": 1.5,
+      "calidad": "EL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 32000,
+       "moda": 30000,
+       "min": 27000
+      },
+      "kilo": {
+       "max": 21333.3,
+       "moda": 20000,
+       "min": 18000
+      }
+     }
+    ]
+   },
+   "BANANA": {
+    "kilo": 1457.66,
+    "lineas": [
+     {
+      "variedad": "CAVENDISH",
+      "procedencia": "BOLIVIA",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 34000,
+       "moda": 32000,
+       "min": 28000
+      },
+      "kilo": {
+       "max": 1888.89,
+       "moda": 1777.78,
+       "min": 1555.56
+      }
+     },
+     {
+      "variedad": "CAVENDISH",
+      "procedencia": "ECUADOR",
+      "envase": "CA",
+      "kg": 20,
+      "calidad": "EL",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 44000,
+       "moda": 42000,
+       "min": 40000
+      },
+      "kilo": {
+       "max": 2200,
+       "moda": 2100,
+       "min": 2000
+      }
+     },
+     {
+      "variedad": "CAVENDISH",
+      "procedencia": "ECUADOR",
+      "envase": "CA",
+      "kg": 20,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 39000,
+       "moda": 36000,
+       "min": 35000
+      },
+      "kilo": {
+       "max": 1950,
+       "moda": 1800,
+       "min": 1750
+      }
+     },
+     {
+      "variedad": "NANIKA",
+      "procedencia": "BRASIL",
+      "envase": "PE",
+      "kg": 20,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 26000,
+       "moda": 25000,
+       "min": 24000
+      },
+      "kilo": {
+       "max": 1300,
+       "moda": 1250,
+       "min": 1200
+      }
+     },
+     {
+      "variedad": "NANIKA",
+      "procedencia": "PARAGUAY",
+      "envase": "PE",
+      "kg": 22,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 24000,
+       "moda": 22000,
+       "min": 19000
+      },
+      "kilo": {
+       "max": 1090.91,
+       "moda": 1000,
+       "min": 863.64
+      }
+     },
+     {
+      "variedad": "NANIKA",
+      "procedencia": "SALTA",
+      "envase": "PE",
+      "kg": 22,
+      "calidad": "CL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 19000,
+       "moda": 18000,
+       "min": 16000
+      },
+      "kilo": {
+       "max": 863.64,
+       "moda": 818.18,
+       "min": 727.27
+      }
+     }
+    ]
+   },
+   "CIRUELA": {
+    "kilo": 6166.67,
+    "lineas": [
+     {
+      "variedad": "FORTUNE",
+      "procedencia": "ESPAÑA",
+      "envase": "CA",
+      "kg": 9,
+      "calidad": "EL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 56000,
+       "moda": 54000,
+       "min": 52000
+      },
+      "kilo": {
+       "max": 6222.22,
+       "moda": 6000,
+       "min": 5777.78
+      }
+     },
+     {
+      "variedad": "SUNGOLD",
+      "procedencia": "ESPAÑA",
+      "envase": "CA",
+      "kg": 9,
+      "calidad": "EL",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 58000,
+       "moda": 57000,
+       "min": 55000
+      },
+      "kilo": {
+       "max": 6444.44,
+       "moda": 6333.33,
+       "min": 6111.11
+      }
+     }
+    ]
+   },
+   "COCO": {
+    "kilo": 2400,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BRASIL",
+      "envase": "BO",
+      "kg": 10,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 25000,
+       "moda": 24000,
+       "min": 22000
+      },
+      "kilo": {
+       "max": 2500,
+       "moda": 2400,
+       "min": 2200
+      }
+     }
+    ]
+   },
+   "FRUTILLA": {
+    "kilo": 4183.33,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "BA",
+      "kg": 5,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 20000,
+       "moda": 18000,
+       "min": 16000
+      },
+      "kilo": {
+       "max": 4000,
+       "moda": 3600,
+       "min": 3200
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "CTES.",
+      "envase": "BA",
+      "kg": 2,
+      "calidad": "EL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 11000,
+       "moda": 10000,
+       "min": 9000
+      },
+      "kilo": {
+       "max": 5500,
+       "moda": 5000,
+       "min": 4500
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "SANTA FE",
+      "envase": "CA",
+      "kg": 2,
+      "calidad": "EL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 10000,
+       "moda": 9000,
+       "min": 8000
+      },
+      "kilo": {
+       "max": 5000,
+       "moda": 4500,
+       "min": 4000
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "SANTA FE",
+      "envase": "CA",
+      "kg": 5,
+      "calidad": "EL",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 20000,
+       "moda": 16000,
+       "min": 15000
+      },
+      "kilo": {
+       "max": 4000,
+       "moda": 3200,
+       "min": 3000
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "TUCUMAN",
+      "envase": "CA",
+      "kg": 2,
+      "calidad": "EL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 12000,
+       "moda": 10000,
+       "min": 9000
+      },
+      "kilo": {
+       "max": 6000,
+       "moda": 5000,
+       "min": 4500
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "TUCUMAN",
+      "envase": "CA",
+      "kg": 5,
+      "calidad": "EL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 220000,
+       "moda": 19000,
+       "min": 17000
+      },
+      "kilo": {
+       "max": 44000,
+       "moda": 3800,
+       "min": 3400
+      }
+     }
+    ]
+   },
+   "KIWI": {
+    "kilo": 4275,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "CA",
+      "kg": 10,
+      "calidad": "EL",
+      "tamano": "CHICO",
+      "grado": "",
+      "bulto": {
+       "max": 22000,
+       "moda": 21000,
+       "min": 20000
+      },
+      "kilo": {
+       "max": 2200,
+       "moda": 2100,
+       "min": 2000
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "CA",
+      "kg": 10,
+      "calidad": "EL",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 64000,
+       "moda": 60000,
+       "min": 55000
+      },
+      "kilo": {
+       "max": 6400,
+       "moda": 6000,
+       "min": 5500
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "CA",
+      "kg": 10,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 44000,
+       "moda": 42000,
+       "min": 38000
+      },
+      "kilo": {
+       "max": 4400,
+       "moda": 4200,
+       "min": 3800
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "CHILE",
+      "envase": "CA",
+      "kg": 10,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 50000,
+       "moda": 48000,
+       "min": 45000
+      },
+      "kilo": {
+       "max": 5000,
+       "moda": 4800,
+       "min": 4500
+      }
+     }
+    ]
+   },
+   "KUMQUAT": {
+    "kilo": 2700,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "E. RIOS",
+      "envase": "BO",
+      "kg": 1,
+      "calidad": "EL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 3000,
+       "moda": 2700,
+       "min": 2500
+      },
+      "kilo": {
+       "max": 3000,
+       "moda": 2700,
+       "min": 2500
+      }
+     }
+    ]
+   },
+   "LIMA": {
+    "kilo": 1967.65,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "E. RIOS",
+      "envase": "PE",
+      "kg": 17,
+      "calidad": "EL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 22000,
+       "moda": 21000,
+       "min": 20000
+      },
+      "kilo": {
+       "max": 1294.12,
+       "moda": 1235.29,
+       "min": 1176.47
+      }
+     },
+     {
+      "variedad": "TAHITI",
+      "procedencia": "BRASIL",
+      "envase": "BA",
+      "kg": 10,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 28000,
+       "moda": 27000,
+       "min": 25000
+      },
+      "kilo": {
+       "max": 2800,
+       "moda": 2700,
+       "min": 2500
+      }
+     }
+    ]
+   },
+   "LIMON": {
+    "kilo": 673.6,
+    "lineas": [
+     {
+      "variedad": "EUREKA",
+      "procedencia": "CTES.",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "125/138",
+      "grado": "",
+      "bulto": {
+       "max": 14000,
+       "moda": 13000,
+       "min": 12000
+      },
+      "kilo": {
+       "max": 777.78,
+       "moda": 722.22,
+       "min": 666.67
+      }
+     },
+     {
+      "variedad": "EUREKA",
+      "procedencia": "JUJUY",
+      "envase": "CA",
+      "kg": 17,
+      "calidad": "EL",
+      "tamano": "090/120",
+      "grado": "",
+      "bulto": {
+       "max": 15000,
+       "moda": 14000,
+       "min": 12000
+      },
+      "kilo": {
+       "max": 882.35,
+       "moda": 823.53,
+       "min": 705.88
+      }
+     },
+     {
+      "variedad": "EUREKA",
+      "procedencia": "SALTA",
+      "envase": "CA",
+      "kg": 17,
+      "calidad": "EL",
+      "tamano": "090/120",
+      "grado": "",
+      "bulto": {
+       "max": 14000,
+       "moda": 13000,
+       "min": 12000
+      },
+      "kilo": {
+       "max": 823.53,
+       "moda": 764.71,
+       "min": 705.88
+      }
+     },
+     {
+      "variedad": "EUREKA",
+      "procedencia": "TUCUMAN",
+      "envase": "BO",
+      "kg": 14,
+      "calidad": "CL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 10000,
+       "moda": 8000,
+       "min": 7000
+      },
+      "kilo": {
+       "max": 714.29,
+       "moda": 571.43,
+       "min": 500
+      }
+     },
+     {
+      "variedad": "EUREKA",
+      "procedencia": "TUCUMAN",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "090/100",
+      "grado": "",
+      "bulto": {
+       "max": 13000,
+       "moda": 12000,
+       "min": 11000
+      },
+      "kilo": {
+       "max": 722.22,
+       "moda": 666.67,
+       "min": 611.11
+      }
+     },
+     {
+      "variedad": "EUREKA",
+      "procedencia": "TUCUMAN",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "125/138",
+      "grado": "",
+      "bulto": {
+       "max": 12000,
+       "moda": 11000,
+       "min": 10000
+      },
+      "kilo": {
+       "max": 666.67,
+       "moda": 611.11,
+       "min": 555.56
+      }
+     },
+     {
+      "variedad": "GENOVA",
+      "procedencia": "E. RIOS",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "100/140",
+      "grado": "",
+      "bulto": {
+       "max": 12000,
+       "moda": 10000,
+       "min": 9000
+      },
+      "kilo": {
+       "max": 666.67,
+       "moda": 555.56,
+       "min": 500
+      }
+     }
+    ]
+   },
+   "MAMON": {
+    "kilo": 3300,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BRASIL",
+      "envase": "CA",
+      "kg": 10,
+      "calidad": "EL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 35000,
+       "moda": 33000,
+       "min": 32000
+      },
+      "kilo": {
+       "max": 3500,
+       "moda": 3300,
+       "min": 3200
+      }
+     }
+    ]
+   },
+   "MANDARINA": {
+    "kilo": 660.49,
+    "lineas": [
+     {
+      "variedad": "ELLENDALE",
+      "procedencia": "E. RIOS",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 15000,
+       "moda": 13000,
+       "min": 12000
+      },
+      "kilo": {
+       "max": 833.33,
+       "moda": 722.22,
+       "min": 666.67
+      }
+     },
+     {
+      "variedad": "ELLENDALE",
+      "procedencia": "E. RIOS",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 12000,
+       "moda": 11000,
+       "min": 10000
+      },
+      "kilo": {
+       "max": 666.67,
+       "moda": 611.11,
+       "min": 555.56
+      }
+     },
+     {
+      "variedad": "ENCORE",
+      "procedencia": "E. RIOS",
+      "envase": "JA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 13000,
+       "moda": 11000,
+       "min": 10000
+      },
+      "kilo": {
+       "max": 722.22,
+       "moda": 611.11,
+       "min": 555.56
+      }
+     },
+     {
+      "variedad": "ENCORE",
+      "procedencia": "E. RIOS",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 17000,
+       "moda": 16000,
+       "min": 14000
+      },
+      "kilo": {
+       "max": 944.44,
+       "moda": 888.89,
+       "min": 777.78
+      }
+     },
+     {
+      "variedad": "MALVASIO",
+      "procedencia": "E. RIOS",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 13000,
+       "moda": 12000,
+       "min": 11000
+      },
+      "kilo": {
+       "max": 722.22,
+       "moda": 666.67,
+       "min": 611.11
+      }
+     },
+     {
+      "variedad": "MURCOT",
+      "procedencia": "E. RIOS",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 16000,
+       "moda": 15000,
+       "min": 14000
+      },
+      "kilo": {
+       "max": 888.89,
+       "moda": 833.33,
+       "min": 777.78
+      }
+     },
+     {
+      "variedad": "MURCOT",
+      "procedencia": "E. RIOS",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 13000,
+       "moda": 12000,
+       "min": 11000
+      },
+      "kilo": {
+       "max": 722.22,
+       "moda": 666.67,
+       "min": 611.11
+      }
+     },
+     {
+      "variedad": "NOVA",
+      "procedencia": "CTES.",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 9000,
+       "moda": 8000,
+       "min": 7000
+      },
+      "kilo": {
+       "max": 500,
+       "moda": 444.44,
+       "min": 388.89
+      }
+     },
+     {
+      "variedad": "NOVA",
+      "procedencia": "E. RIOS",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 10000,
+       "moda": 9000,
+       "min": 8000
+      },
+      "kilo": {
+       "max": 555.56,
+       "moda": 500,
+       "min": 444.44
+      }
+     }
+    ]
+   },
+   "MANGO": {
+    "kilo": 2805.56,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BRASIL",
+      "envase": "CA",
+      "kg": 4,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 15000,
+       "moda": 14000,
+       "min": 12000
+      },
+      "kilo": {
+       "max": 3750,
+       "moda": 3500,
+       "min": 3000
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "BRASIL",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 42000,
+       "moda": 38000,
+       "min": 36000
+      },
+      "kilo": {
+       "max": 2333.33,
+       "moda": 2111.11,
+       "min": 2000
+      }
+     }
+    ]
+   },
+   "MANI": {
+    "kilo": 3600,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "SALTA",
+      "envase": "BO",
+      "kg": 5,
+      "calidad": "EL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 20000,
+       "moda": 18000,
+       "min": 17000
+      },
+      "kilo": {
+       "max": 4000,
+       "moda": 3600,
+       "min": 3400
+      }
+     }
+    ]
+   },
+   "MANZANA": {
+    "kilo": 2306.06,
+    "lineas": [
+     {
+      "variedad": "CRIPPS PIN",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "100/125",
+      "grado": "",
+      "bulto": {
+       "max": 40000,
+       "moda": 37000,
+       "min": 35000
+      },
+      "kilo": {
+       "max": 2222.22,
+       "moda": 2055.56,
+       "min": 1944.44
+      }
+     },
+     {
+      "variedad": "CRIPPS PIN",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "125/138",
+      "grado": "",
+      "bulto": {
+       "max": 34000,
+       "moda": 33000,
+       "min": 32000
+      },
+      "kilo": {
+       "max": 1888.89,
+       "moda": 1833.33,
+       "min": 1777.78
+      }
+     },
+     {
+      "variedad": "GRANNY SMI",
+      "procedencia": "CHILE",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "070/080",
+      "grado": "",
+      "bulto": {
+       "max": 65000,
+       "moda": 64000,
+       "min": 62000
+      },
+      "kilo": {
+       "max": 3611.11,
+       "moda": 3555.56,
+       "min": 3444.44
+      }
+     },
+     {
+      "variedad": "GRANNY SMI",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 10,
+      "calidad": "EL",
+      "tamano": "036/044",
+      "grado": "",
+      "bulto": {
+       "max": 34000,
+       "moda": 32000,
+       "min": 30000
+      },
+      "kilo": {
+       "max": 3400,
+       "moda": 3200,
+       "min": 3000
+      }
+     },
+     {
+      "variedad": "GRANNY SMI",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "080/100",
+      "grado": "",
+      "bulto": {
+       "max": 55000,
+       "moda": 53000,
+       "min": 50000
+      },
+      "kilo": {
+       "max": 3055.56,
+       "moda": 2944.44,
+       "min": 2777.78
+      }
+     },
+     {
+      "variedad": "GRANNY SMI",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "110/130",
+      "grado": "",
+      "bulto": {
+       "max": 38000,
+       "moda": 37000,
+       "min": 36000
+      },
+      "kilo": {
+       "max": 2111.11,
+       "moda": 2055.56,
+       "min": 2000
+      }
+     },
+     {
+      "variedad": "GRANNY SMI",
+      "procedencia": "R. NEGRO",
+      "envase": "JA",
+      "kg": 18,
+      "calidad": "CL",
+      "tamano": "088/113",
+      "grado": "",
+      "bulto": {
+       "max": 33000,
+       "moda": 32000,
+       "min": 30000
+      },
+      "kilo": {
+       "max": 1833.33,
+       "moda": 1777.78,
+       "min": 1666.67
+      }
+     },
+     {
+      "variedad": "GRANNY SMI",
+      "procedencia": "R. NEGRO",
+      "envase": "JA",
+      "kg": 18,
+      "calidad": "CL",
+      "tamano": "125/138",
+      "grado": "",
+      "bulto": {
+       "max": 31000,
+       "moda": 29000,
+       "min": 28000
+      },
+      "kilo": {
+       "max": 1722.22,
+       "moda": 1611.11,
+       "min": 1555.56
+      }
+     },
+     {
+      "variedad": "GRANNY SMI",
+      "procedencia": "R. NEGRO",
+      "envase": "JA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "100/125",
+      "grado": "",
+      "bulto": {
+       "max": 37000,
+       "moda": 36000,
+       "min": 35000
+      },
+      "kilo": {
+       "max": 2055.56,
+       "moda": 2000,
+       "min": 1944.44
+      }
+     },
+     {
+      "variedad": "RED DELICI",
+      "procedencia": "CHILE",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "080/100",
+      "grado": "",
+      "bulto": {
+       "max": 68000,
+       "moda": 65000,
+       "min": 64000
+      },
+      "kilo": {
+       "max": 3777.78,
+       "moda": 3611.11,
+       "min": 3555.56
+      }
+     },
+     {
+      "variedad": "RED DELICI",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 10,
+      "calidad": "EL",
+      "tamano": "044/056",
+      "grado": "",
+      "bulto": {
+       "max": 33000,
+       "moda": 32000,
+       "min": 30000
+      },
+      "kilo": {
+       "max": 3300,
+       "moda": 3200,
+       "min": 3000
+      }
+     },
+     {
+      "variedad": "RED DELICI",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "CL",
+      "tamano": "080/100",
+      "grado": "",
+      "bulto": {
+       "max": 31000,
+       "moda": 29000,
+       "min": 27000
+      },
+      "kilo": {
+       "max": 1722.22,
+       "moda": 1611.11,
+       "min": 1500
+      }
+     },
+     {
+      "variedad": "RED DELICI",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "CL",
+      "tamano": "113/125",
+      "grado": "",
+      "bulto": {
+       "max": 35000,
+       "moda": 33000,
+       "min": 32000
+      },
+      "kilo": {
+       "max": 1944.44,
+       "moda": 1833.33,
+       "min": 1777.78
+      }
+     },
+     {
+      "variedad": "RED DELICI",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "080/100",
+      "grado": "",
+      "bulto": {
+       "max": 40000,
+       "moda": 37000,
+       "min": 35000
+      },
+      "kilo": {
+       "max": 2222.22,
+       "moda": 2055.56,
+       "min": 1944.44
+      }
+     },
+     {
+      "variedad": "RED DELICI",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "088/113",
+      "grado": "",
+      "bulto": {
+       "max": 54000,
+       "moda": 50000,
+       "min": 45000
+      },
+      "kilo": {
+       "max": 3000,
+       "moda": 2777.78,
+       "min": 2500
+      }
+     },
+     {
+      "variedad": "RED DELICI",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "113/125",
+      "grado": "",
+      "bulto": {
+       "max": 44000,
+       "moda": 40000,
+       "min": 38000
+      },
+      "kilo": {
+       "max": 2444.44,
+       "moda": 2222.22,
+       "min": 2111.11
+      }
+     },
+     {
+      "variedad": "RED DELICI",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "125/138",
+      "grado": "",
+      "bulto": {
+       "max": 40000,
+       "moda": 38000,
+       "min": 35000
+      },
+      "kilo": {
+       "max": 2222.22,
+       "moda": 2111.11,
+       "min": 1944.44
+      }
+     },
+     {
+      "variedad": "RED DELICI",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "SP",
+      "tamano": "088/113",
+      "grado": "",
+      "bulto": {
+       "max": 58000,
+       "moda": 55000,
+       "min": 52000
+      },
+      "kilo": {
+       "max": 3222.22,
+       "moda": 3055.56,
+       "min": 2888.89
+      }
+     },
+     {
+      "variedad": "RED DELICI",
+      "procedencia": "R. NEGRO",
+      "envase": "JA",
+      "kg": 18,
+      "calidad": "CL",
+      "tamano": "072/080",
+      "grado": "",
+      "bulto": {
+       "max": 32000,
+       "moda": 30000,
+       "min": 28000
+      },
+      "kilo": {
+       "max": 1777.78,
+       "moda": 1666.67,
+       "min": 1555.56
+      }
+     },
+     {
+      "variedad": "RED DELICI",
+      "procedencia": "R. NEGRO",
+      "envase": "JA",
+      "kg": 18,
+      "calidad": "CL",
+      "tamano": "100/125",
+      "grado": "",
+      "bulto": {
+       "max": 30000,
+       "moda": 28000,
+       "min": 26000
+      },
+      "kilo": {
+       "max": 1666.67,
+       "moda": 1555.56,
+       "min": 1444.44
+      }
+     },
+     {
+      "variedad": "RED DELICI",
+      "procedencia": "R. NEGRO",
+      "envase": "JA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "113/125",
+      "grado": "",
+      "bulto": {
+       "max": 35000,
+       "moda": 32000,
+       "min": 30000
+      },
+      "kilo": {
+       "max": 1944.44,
+       "moda": 1777.78,
+       "min": 1666.67
+      }
+     },
+     {
+      "variedad": "ROME BEAUT",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "072/080",
+      "grado": "",
+      "bulto": {
+       "max": 42000,
+       "moda": 40000,
+       "min": 37000
+      },
+      "kilo": {
+       "max": 2333.33,
+       "moda": 2222.22,
+       "min": 2055.56
+      }
+     }
+    ]
+   },
+   "MELON": {
+    "kilo": 3116.67,
+    "lineas": [
+     {
+      "variedad": "AMARILLO",
+      "procedencia": "BRASIL",
+      "envase": "CA",
+      "kg": 12,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 36000,
+       "moda": 34000,
+       "min": 32000
+      },
+      "kilo": {
+       "max": 3000,
+       "moda": 2833.33,
+       "min": 2666.67
+      }
+     },
+     {
+      "variedad": "ORANGE",
+      "procedencia": "BRASIL",
+      "envase": "CA",
+      "kg": 10,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 35000,
+       "moda": 34000,
+       "min": 33000
+      },
+      "kilo": {
+       "max": 3500,
+       "moda": 3400,
+       "min": 3300
+      }
+     }
+    ]
+   },
+   "MEMBRILLO": {
+    "kilo": 2500,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 10,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 27000,
+       "moda": 25000,
+       "min": 24000
+      },
+      "kilo": {
+       "max": 2700,
+       "moda": 2500,
+       "min": 2400
+      }
+     }
+    ]
+   },
+   "NARANJA": {
+    "kilo": 750,
+    "lineas": [
+     {
+      "variedad": "NEW HALL",
+      "procedencia": "E. RIOS",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "090/110",
+      "grado": "",
+      "bulto": {
+       "max": 17000,
+       "moda": 16000,
+       "min": 15000
+      },
+      "kilo": {
+       "max": 944.44,
+       "moda": 888.89,
+       "min": 833.33
+      }
+     },
+     {
+      "variedad": "SALUSTIANA",
+      "procedencia": "CTES.",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "110/130",
+      "grado": "",
+      "bulto": {
+       "max": 11000,
+       "moda": 10000,
+       "min": 9000
+      },
+      "kilo": {
+       "max": 611.11,
+       "moda": 555.56,
+       "min": 500
+      }
+     },
+     {
+      "variedad": "SALUSTIANA",
+      "procedencia": "E. RIOS",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "090/110",
+      "grado": "",
+      "bulto": {
+       "max": 15000,
+       "moda": 13000,
+       "min": 12000
+      },
+      "kilo": {
+       "max": 833.33,
+       "moda": 722.22,
+       "min": 666.67
+      }
+     },
+     {
+      "variedad": "SALUSTIANA",
+      "procedencia": "E. RIOS",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "110/130",
+      "grado": "",
+      "bulto": {
+       "max": 12000,
+       "moda": 11000,
+       "min": 10000
+      },
+      "kilo": {
+       "max": 666.67,
+       "moda": 611.11,
+       "min": 555.56
+      }
+     },
+     {
+      "variedad": "SALUSTIANA",
+      "procedencia": "SALTA",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "110/130",
+      "grado": "",
+      "bulto": {
+       "max": 15000,
+       "moda": 13000,
+       "min": 12000
+      },
+      "kilo": {
+       "max": 833.33,
+       "moda": 722.22,
+       "min": 666.67
+      }
+     },
+     {
+      "variedad": "W.NAVEL",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 17,
+      "calidad": "EL",
+      "tamano": "050/065",
+      "grado": "",
+      "bulto": {
+       "max": 18000,
+       "moda": 17000,
+       "min": 15000
+      },
+      "kilo": {
+       "max": 1058.82,
+       "moda": 1000,
+       "min": 882.35
+      }
+     }
+    ]
+   },
+   "NUEZ": {
+    "kilo": 7800,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "MENDOZA",
+      "envase": "BO",
+      "kg": 5,
+      "calidad": "EL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 40000,
+       "moda": 39000,
+       "min": 37000
+      },
+      "kilo": {
+       "max": 8000,
+       "moda": 7800,
+       "min": 7400
+      }
+     }
+    ]
+   },
+   "PALTA": {
+    "kilo": 4746.36,
+    "lineas": [
+     {
+      "variedad": "HASS",
+      "procedencia": "BRASIL",
+      "envase": "CA",
+      "kg": 11,
+      "calidad": "EL",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 55000,
+       "moda": 53000,
+       "min": 50000
+      },
+      "kilo": {
+       "max": 5000,
+       "moda": 4818.18,
+       "min": 4545.45
+      }
+     },
+     {
+      "variedad": "HASS",
+      "procedencia": "BRASIL",
+      "envase": "CA",
+      "kg": 11,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 50000,
+       "moda": 47000,
+       "min": 45000
+      },
+      "kilo": {
+       "max": 4545.45,
+       "moda": 4272.73,
+       "min": 4090.91
+      }
+     },
+     {
+      "variedad": "HASS",
+      "procedencia": "CHILE",
+      "envase": "CA",
+      "kg": 10,
+      "calidad": "EL",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 85000,
+       "moda": 82000,
+       "min": 80000
+      },
+      "kilo": {
+       "max": 8500,
+       "moda": 8200,
+       "min": 8000
+      }
+     },
+     {
+      "variedad": "HASS",
+      "procedencia": "CHILE",
+      "envase": "CA",
+      "kg": 11,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 70000,
+       "moda": 68000,
+       "min": 65000
+      },
+      "kilo": {
+       "max": 6363.64,
+       "moda": 6181.82,
+       "min": 5909.09
+      }
+     },
+     {
+      "variedad": "HASS",
+      "procedencia": "CTES.",
+      "envase": "CA",
+      "kg": 10,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 38000,
+       "moda": 36000,
+       "min": 35000
+      },
+      "kilo": {
+       "max": 3800,
+       "moda": 3600,
+       "min": 3500
+      }
+     },
+     {
+      "variedad": "HASS",
+      "procedencia": "JUJUY",
+      "envase": "CA",
+      "kg": 10,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 44000,
+       "moda": 42000,
+       "min": 40000
+      },
+      "kilo": {
+       "max": 4400,
+       "moda": 4200,
+       "min": 4000
+      }
+     },
+     {
+      "variedad": "HASS",
+      "procedencia": "PERU",
+      "envase": "BA",
+      "kg": 11,
+      "calidad": "EL",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 58000,
+       "moda": 54000,
+       "min": 50000
+      },
+      "kilo": {
+       "max": 5272.73,
+       "moda": 4909.09,
+       "min": 4545.45
+      }
+     },
+     {
+      "variedad": "HASS",
+      "procedencia": "PERU",
+      "envase": "BA",
+      "kg": 11,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 48000,
+       "moda": 46000,
+       "min": 45000
+      },
+      "kilo": {
+       "max": 4363.64,
+       "moda": 4181.82,
+       "min": 4090.91
+      }
+     },
+     {
+      "variedad": "HASS",
+      "procedencia": "TUCUMAN",
+      "envase": "BA",
+      "kg": 10,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 44000,
+       "moda": 42000,
+       "min": 40000
+      },
+      "kilo": {
+       "max": 4400,
+       "moda": 4200,
+       "min": 4000
+      }
+     },
+     {
+      "variedad": "TORRES",
+      "procedencia": "TUCUMAN",
+      "envase": "BA",
+      "kg": 10,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 30000,
+       "moda": 29000,
+       "min": 28000
+      },
+      "kilo": {
+       "max": 3000,
+       "moda": 2900,
+       "min": 2800
+      }
+     }
+    ]
+   },
+   "PELON": {
+    "kilo": 7000,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "ESPAÑA",
+      "envase": "CA",
+      "kg": 4,
+      "calidad": "EL",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 30000,
+       "moda": 28000,
+       "min": 25000
+      },
+      "kilo": {
+       "max": 7500,
+       "moda": 7000,
+       "min": 6250
+      }
+     }
+    ]
+   },
+   "PERA": {
+    "kilo": 2618.06,
+    "lineas": [
+     {
+      "variedad": "ASIATICA",
+      "procedencia": "CHINA",
+      "envase": "CA",
+      "kg": 5,
+      "calidad": "EL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 38000,
+       "moda": 36000,
+       "min": 35000
+      },
+      "kilo": {
+       "max": 7600,
+       "moda": 7200,
+       "min": 7000
+      }
+     },
+     {
+      "variedad": "ASIATICA",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 10,
+      "calidad": "EL",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 38000,
+       "moda": 36000,
+       "min": 34000
+      },
+      "kilo": {
+       "max": 3800,
+       "moda": 3600,
+       "min": 3400
+      }
+     },
+     {
+      "variedad": "BEUR.BOSC",
+      "procedencia": "R. NEGRO",
+      "envase": "JA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "090/100",
+      "grado": "",
+      "bulto": {
+       "max": 24000,
+       "moda": 22000,
+       "min": 19000
+      },
+      "kilo": {
+       "max": 1333.33,
+       "moda": 1222.22,
+       "min": 1055.56
+      }
+     },
+     {
+      "variedad": "PACKHAM'S",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 10,
+      "calidad": "EL",
+      "tamano": "030/040",
+      "grado": "",
+      "bulto": {
+       "max": 24000,
+       "moda": 22000,
+       "min": 20000
+      },
+      "kilo": {
+       "max": 2400,
+       "moda": 2200,
+       "min": 2000
+      }
+     },
+     {
+      "variedad": "PACKHAM'S",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "070/090",
+      "grado": "",
+      "bulto": {
+       "max": 42000,
+       "moda": 38000,
+       "min": 35000
+      },
+      "kilo": {
+       "max": 2333.33,
+       "moda": 2111.11,
+       "min": 1944.44
+      }
+     },
+     {
+      "variedad": "PACKHAM'S",
+      "procedencia": "R. NEGRO",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "100/120",
+      "grado": "",
+      "bulto": {
+       "max": 34000,
+       "moda": 32000,
+       "min": 28000
+      },
+      "kilo": {
+       "max": 1888.89,
+       "moda": 1777.78,
+       "min": 1555.56
+      }
+     },
+     {
+      "variedad": "PACKHAM'S",
+      "procedencia": "R. NEGRO",
+      "envase": "JA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "080/120",
+      "grado": "",
+      "bulto": {
+       "max": 30000,
+       "moda": 28000,
+       "min": 25000
+      },
+      "kilo": {
+       "max": 1666.67,
+       "moda": 1555.56,
+       "min": 1388.89
+      }
+     },
+     {
+      "variedad": "PACKHAM'S",
+      "procedencia": "R. NEGRO",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "CL",
+      "tamano": "100/120",
+      "grado": "",
+      "bulto": {
+       "max": 24000,
+       "moda": 23000,
+       "min": 22000
+      },
+      "kilo": {
+       "max": 1333.33,
+       "moda": 1277.78,
+       "min": 1222.22
+      }
+     }
+    ]
+   },
+   "PITAHAYA": {
+    "kilo": 24000,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "ECUADOR",
+      "envase": "CA",
+      "kg": 2.5,
+      "calidad": "EL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 65000,
+       "moda": 60000,
+       "min": 55000
+      },
+      "kilo": {
+       "max": 26000,
+       "moda": 24000,
+       "min": 22000
+      }
+     }
+    ]
+   },
+   "PLATANO": {
+    "kilo": 2500,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "ECUADOR",
+      "envase": "CA",
+      "kg": 22,
+      "calidad": "EL",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 62000,
+       "moda": 55000,
+       "min": 52000
+      },
+      "kilo": {
+       "max": 2818.18,
+       "moda": 2500,
+       "min": 2363.64
+      }
+     }
+    ]
+   },
+   "POMELO": {
+    "kilo": 777.78,
+    "lineas": [
+     {
+      "variedad": "BLANCO",
+      "procedencia": "E. RIOS",
+      "envase": "CA",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "050/070",
+      "grado": "",
+      "bulto": {
+       "max": 11000,
+       "moda": 10000,
+       "min": 9000
+      },
+      "kilo": {
+       "max": 611.11,
+       "moda": 555.56,
+       "min": 500
+      }
+     },
+     {
+      "variedad": "STAR RUBY",
+      "procedencia": "E. RIOS",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "050/070",
+      "grado": "",
+      "bulto": {
+       "max": 15000,
+       "moda": 14000,
+       "min": 12000
+      },
+      "kilo": {
+       "max": 833.33,
+       "moda": 777.78,
+       "min": 666.67
+      }
+     },
+     {
+      "variedad": "STAR RUBY",
+      "procedencia": "SALTA",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "EL",
+      "tamano": "070/090",
+      "grado": "",
+      "bulto": {
+       "max": 20000,
+       "moda": 18000,
+       "min": 16000
+      },
+      "kilo": {
+       "max": 1111.11,
+       "moda": 1000,
+       "min": 888.89
+      }
+     }
+    ]
+   },
+   "SANDIA": {
+    "kilo": 1606.25,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BRASIL",
+      "envase": "CA",
+      "kg": 16,
+      "calidad": "EL",
+      "tamano": "004/006",
+      "grado": "",
+      "bulto": {
+       "max": 32000,
+       "moda": 29000,
+       "min": 28000
+      },
+      "kilo": {
+       "max": 2000,
+       "moda": 1812.5,
+       "min": 1750
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "BRASIL",
+      "envase": "GR",
+      "kg": 0,
+      "calidad": "CL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 0,
+       "moda": 0,
+       "min": 0
+      },
+      "kilo": {
+       "max": 1500,
+       "moda": 1400,
+       "min": 1300
+      }
+     }
+    ]
+   },
+   "UVA": {
+    "kilo": 6550,
+    "lineas": [
+     {
+      "variedad": "ARRA 15",
+      "procedencia": "BRASIL",
+      "envase": "CA",
+      "kg": 8,
+      "calidad": "EL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 55000,
+       "moda": 54000,
+       "min": 50000
+      },
+      "kilo": {
+       "max": 6875,
+       "moda": 6750,
+       "min": 6250
+      }
+     },
+     {
+      "variedad": "AUTUMN CRI",
+      "procedencia": "BRASIL",
+      "envase": "CA",
+      "kg": 8,
+      "calidad": "EL",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 55000,
+       "moda": 52000,
+       "min": 48000
+      },
+      "kilo": {
+       "max": 6875,
+       "moda": 6500,
+       "min": 6000
+      }
+     },
+     {
+      "variedad": "NUBIA",
+      "procedencia": "BRASIL",
+      "envase": "CA",
+      "kg": 8,
+      "calidad": "EL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 54000,
+       "moda": 50000,
+       "min": 48000
+      },
+      "kilo": {
+       "max": 6750,
+       "moda": 6250,
+       "min": 6000
+      }
+     },
+     {
+      "variedad": "RED GLOBE",
+      "procedencia": "BRASIL",
+      "envase": "CA",
+      "kg": 8,
+      "calidad": "EL",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 58000,
+       "moda": 56000,
+       "min": 54000
+      },
+      "kilo": {
+       "max": 7250,
+       "moda": 7000,
+       "min": 6750
+      }
+     },
+     {
+      "variedad": "SUGAR CRIP",
+      "procedencia": "BRASIL",
+      "envase": "CA",
+      "kg": 8,
+      "calidad": "EL",
+      "tamano": "GRANEL",
+      "grado": "",
+      "bulto": {
+       "max": 52000,
+       "moda": 50000,
+       "min": 48000
+      },
+      "kilo": {
+       "max": 6500,
+       "moda": 6250,
+       "min": 6000
+      }
+     }
+    ]
+   }
+  }
+ },
+ "hortalizas": {
+  "fecha": "2026-09-04",
+  "zip": "https://mercadocentral.gob.ar/sites/default/files/precios_mayoristas/HORTALIZA_SEPTIENBRE_26_0.zip",
+  "especies": {
+   "ACELGA": {
+    "kilo": 440,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "INV",
+      "bulto": {
+       "max": 7000,
+       "moda": 6000,
+       "min": 5000
+      },
+      "kilo": {
+       "max": 700,
+       "moda": 600,
+       "min": 500
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "SIN TAM",
+      "grado": "",
+      "bulto": {
+       "max": 4800,
+       "moda": 4000,
+       "min": 3500
+      },
+      "kilo": {
+       "max": 480,
+       "moda": 400,
+       "min": 350
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 10,
+      "calidad": "2A",
+      "tamano": "SIN TAM",
+      "grado": "",
+      "bulto": {
+       "max": 3500,
+       "moda": 3200,
+       "min": 3000
+      },
+      "kilo": {
+       "max": 350,
+       "moda": 320,
+       "min": 300
+      }
+     }
+    ]
+   },
+   "ACHICORIA": {
+    "kilo": 900,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "",
+      "bulto": {
+       "max": 10000,
+       "moda": 9000,
+       "min": 8000
+      },
+      "kilo": {
+       "max": 1000,
+       "moda": 900,
+       "min": 800
+      }
+     }
+    ]
+   },
+   "ACUSAY": {
+    "kilo": 765,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 9000,
+       "moda": 8300,
+       "min": 7500
+      },
+      "kilo": {
+       "max": 900,
+       "moda": 830,
+       "min": 750
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 7500,
+       "moda": 7000,
+       "min": 6500
+      },
+      "kilo": {
+       "max": 750,
+       "moda": 700,
+       "min": 650
+      }
+     }
+    ]
+   },
+   "AJO": {
+    "kilo": 4906.21,
+    "lineas": [
+     {
+      "variedad": "COLORADO",
+      "procedencia": "BRASIL",
+      "envase": "CA",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "6",
+      "grado": "",
+      "bulto": {
+       "max": 58000,
+       "moda": 56000,
+       "min": 55000
+      },
+      "kilo": {
+       "max": 5800,
+       "moda": 5600,
+       "min": 5500
+      }
+     },
+     {
+      "variedad": "COLORADO",
+      "procedencia": "BRASIL",
+      "envase": "CA",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "7",
+      "grado": "",
+      "bulto": {
+       "max": 69000,
+       "moda": 68000,
+       "min": 65000
+      },
+      "kilo": {
+       "max": 6900,
+       "moda": 6800,
+       "min": 6500
+      }
+     },
+     {
+      "variedad": "COLORADO",
+      "procedencia": "MENDOZA",
+      "envase": "CA",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "6",
+      "grado": "",
+      "bulto": {
+       "max": 38000,
+       "moda": 36000,
+       "min": 34000
+      },
+      "kilo": {
+       "max": 7600,
+       "moda": 7200,
+       "min": 6800
+      }
+     },
+     {
+      "variedad": "COLORADO",
+      "procedencia": "MENDOZA",
+      "envase": "CA",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "8",
+      "grado": "",
+      "bulto": {
+       "max": 50000,
+       "moda": 47000,
+       "min": 45000
+      },
+      "kilo": {
+       "max": 10000,
+       "moda": 9400,
+       "min": 9000
+      }
+     },
+     {
+      "variedad": "COLORADO",
+      "procedencia": "MENDOZA",
+      "envase": "RT",
+      "kg": 4,
+      "calidad": "1A",
+      "tamano": "4",
+      "grado": "",
+      "bulto": {
+       "max": 7000,
+       "moda": 5000,
+       "min": 4000
+      },
+      "kilo": {
+       "max": 1750,
+       "moda": 1250,
+       "min": 1000
+      }
+     },
+     {
+      "variedad": "COLORADO",
+      "procedencia": "MENDOZA",
+      "envase": "RT",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "5",
+      "grado": "",
+      "bulto": {
+       "max": 11000,
+       "moda": 9000,
+       "min": 8000
+      },
+      "kilo": {
+       "max": 2200,
+       "moda": 1800,
+       "min": 1600
+      }
+     },
+     {
+      "variedad": "COLORADO",
+      "procedencia": "MENDOZA",
+      "envase": "RT",
+      "kg": 7,
+      "calidad": "1A",
+      "tamano": "7",
+      "grado": "",
+      "bulto": {
+       "max": 17000,
+       "moda": 15000,
+       "min": 13000
+      },
+      "kilo": {
+       "max": 2428.57,
+       "moda": 2142.86,
+       "min": 1857.14
+      }
+     },
+     {
+      "variedad": "COLORADO",
+      "procedencia": "MENDOZA",
+      "envase": "RT",
+      "kg": 8,
+      "calidad": "1A",
+      "tamano": "8",
+      "grado": "",
+      "bulto": {
+       "max": 26000,
+       "moda": 23000,
+       "min": 20000
+      },
+      "kilo": {
+       "max": 3250,
+       "moda": 2875,
+       "min": 2500
+      }
+     },
+     {
+      "variedad": "COLORADO",
+      "procedencia": "MENDOZA",
+      "envase": "RT",
+      "kg": 9,
+      "calidad": "1A",
+      "tamano": "9",
+      "grado": "",
+      "bulto": {
+       "max": 35000,
+       "moda": 32000,
+       "min": 25000
+      },
+      "kilo": {
+       "max": 3888.89,
+       "moda": 3555.56,
+       "min": 2777.78
+      }
+     },
+     {
+      "variedad": "COLORADO",
+      "procedencia": "MENDOZA",
+      "envase": "RT",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "10",
+      "grado": "",
+      "bulto": {
+       "max": 55000,
+       "moda": 50000,
+       "min": 48000
+      },
+      "kilo": {
+       "max": 5500,
+       "moda": 5000,
+       "min": 4800
+      }
+     },
+     {
+      "variedad": "COLORADO",
+      "procedencia": "MENDOZA",
+      "envase": "RT",
+      "kg": 11,
+      "calidad": "1A",
+      "tamano": "11",
+      "grado": "",
+      "bulto": {
+       "max": 74000,
+       "moda": 62000,
+       "min": 60000
+      },
+      "kilo": {
+       "max": 6727.27,
+       "moda": 5636.36,
+       "min": 5454.55
+      }
+     },
+     {
+      "variedad": "COLORADO",
+      "procedencia": "MENDOZA",
+      "envase": "RT",
+      "kg": 12,
+      "calidad": "1A",
+      "tamano": "12",
+      "grado": "",
+      "bulto": {
+       "max": 80000,
+       "moda": 76000,
+       "min": 75000
+      },
+      "kilo": {
+       "max": 6666.67,
+       "moda": 6333.33,
+       "min": 6250
+      }
+     },
+     {
+      "variedad": "MDO. CHINO",
+      "procedencia": "MENDOZA",
+      "envase": "CA",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "10",
+      "grado": "",
+      "bulto": {
+       "max": 30000,
+       "moda": 28000,
+       "min": 25000
+      },
+      "kilo": {
+       "max": 6000,
+       "moda": 5600,
+       "min": 5000
+      }
+     },
+     {
+      "variedad": "MDO. CHINO",
+      "procedencia": "MENDOZA",
+      "envase": "CA",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "12",
+      "grado": "",
+      "bulto": {
+       "max": 36000,
+       "moda": 34000,
+       "min": 32000
+      },
+      "kilo": {
+       "max": 7200,
+       "moda": 6800,
+       "min": 6400
+      }
+     },
+     {
+      "variedad": "MDO. CHINO",
+      "procedencia": "MENDOZA",
+      "envase": "CA",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "7",
+      "grado": "",
+      "bulto": {
+       "max": 20000,
+       "moda": 18000,
+       "min": 15000
+      },
+      "kilo": {
+       "max": 4000,
+       "moda": 3600,
+       "min": 3000
+      }
+     }
+    ]
+   },
+   "ALBAHACA": {
+    "kilo": 675,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "AT",
+      "kg": 0,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "INV",
+      "bulto": {
+       "max": 0,
+       "moda": 0,
+       "min": 0
+      },
+      "kilo": {
+       "max": 750,
+       "moda": 700,
+       "min": 600
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "CTES.",
+      "envase": "AT",
+      "kg": 0,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "INV",
+      "bulto": {
+       "max": 0,
+       "moda": 0,
+       "min": 0
+      },
+      "kilo": {
+       "max": 700,
+       "moda": 650,
+       "min": 600
+      }
+     }
+    ]
+   },
+   "ALCAUCIL": {
+    "kilo": 4333.34,
+    "lineas": [
+     {
+      "variedad": "VIOLETA",
+      "procedencia": "BS. AS.",
+      "envase": "TO",
+      "kg": 6,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 28000,
+       "moda": 27000,
+       "min": 25000
+      },
+      "kilo": {
+       "max": 4666.67,
+       "moda": 4500,
+       "min": 4166.67
+      }
+     },
+     {
+      "variedad": "Ñ. FRANCES",
+      "procedencia": "BS. AS.",
+      "envase": "TO",
+      "kg": 6,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 26000,
+       "moda": 25000,
+       "min": 23000
+      },
+      "kilo": {
+       "max": 4333.33,
+       "moda": 4166.67,
+       "min": 3833.33
+      }
+     }
+    ]
+   },
+   "APIO": {
+    "kilo": 1416.67,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "TO",
+      "kg": 6,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "INV",
+      "bulto": {
+       "max": 9000,
+       "moda": 8000,
+       "min": 7000
+      },
+      "kilo": {
+       "max": 1500,
+       "moda": 1333.33,
+       "min": 1166.67
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "TO",
+      "kg": 8,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "INV",
+      "bulto": {
+       "max": 13000,
+       "moda": 12000,
+       "min": 11000
+      },
+      "kilo": {
+       "max": 1625,
+       "moda": 1500,
+       "min": 1375
+      }
+     }
+    ]
+   },
+   "ARVEJA": {
+    "kilo": 2250,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "JUJUY",
+      "envase": "BO",
+      "kg": 8,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 20000,
+       "moda": 18000,
+       "min": 17000
+      },
+      "kilo": {
+       "max": 2500,
+       "moda": 2250,
+       "min": 2125
+      }
+     }
+    ]
+   },
+   "BATATA": {
+    "kilo": 1453.03,
+    "lineas": [
+     {
+      "variedad": "ARAPEY",
+      "procedencia": "BRASIL",
+      "envase": "BO",
+      "kg": 20,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 30000,
+       "moda": 29000,
+       "min": 26000
+      },
+      "kilo": {
+       "max": 1500,
+       "moda": 1450,
+       "min": 1300
+      }
+     },
+     {
+      "variedad": "ARAPEY",
+      "procedencia": "CORDOBA",
+      "envase": "BO",
+      "kg": 13,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 15000,
+       "moda": 13000,
+       "min": 12000
+      },
+      "kilo": {
+       "max": 1153.85,
+       "moda": 1000,
+       "min": 923.08
+      }
+     },
+     {
+      "variedad": "BEAUREGARD",
+      "procedencia": "S. PEDRO",
+      "envase": "BO",
+      "kg": 11,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 22000,
+       "moda": 21000,
+       "min": 19000
+      },
+      "kilo": {
+       "max": 2000,
+       "moda": 1909.09,
+       "min": 1727.27
+      }
+     }
+    ]
+   },
+   "BERENJENA": {
+    "kilo": 1208.33,
+    "lineas": [
+     {
+      "variedad": "VTA.MED.LA",
+      "procedencia": "SALTA",
+      "envase": "PE",
+      "kg": 12,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "INV",
+      "bulto": {
+       "max": 17000,
+       "moda": 16000,
+       "min": 14000
+      },
+      "kilo": {
+       "max": 1416.67,
+       "moda": 1333.33,
+       "min": 1166.67
+      }
+     },
+     {
+      "variedad": "VTA.MED.LA",
+      "procedencia": "SALTA",
+      "envase": "TO",
+      "kg": 12,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 14000,
+       "moda": 13000,
+       "min": 12000
+      },
+      "kilo": {
+       "max": 1166.67,
+       "moda": 1083.33,
+       "min": 1000
+      }
+     }
+    ]
+   },
+   "BERRO": {
+    "kilo": 2700,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "AT",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "SIN TAM",
+      "grado": "",
+      "bulto": {
+       "max": 3000,
+       "moda": 2700,
+       "min": 2000
+      },
+      "kilo": {
+       "max": 3000,
+       "moda": 2700,
+       "min": 2000
+      }
+     }
+    ]
+   },
+   "BROCOLI": {
+    "kilo": 1708.33,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 8,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 13000,
+       "moda": 12000,
+       "min": 11000
+      },
+      "kilo": {
+       "max": 1625,
+       "moda": 1500,
+       "min": 1375
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 8,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "INV",
+      "bulto": {
+       "max": 16000,
+       "moda": 14000,
+       "min": 13000
+      },
+      "kilo": {
+       "max": 2000,
+       "moda": 1750,
+       "min": 1625
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "MENDOZA",
+      "envase": "PE",
+      "kg": 8,
+      "calidad": "",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 17000,
+       "moda": 15000,
+       "min": 13000
+      },
+      "kilo": {
+       "max": 2125,
+       "moda": 1875,
+       "min": 1625
+      }
+     }
+    ]
+   },
+   "BROTE ALFA": {
+    "kilo": 9000,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "BO",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 11000,
+       "moda": 9000,
+       "min": 8000
+      },
+      "kilo": {
+       "max": 11000,
+       "moda": 9000,
+       "min": 8000
+      }
+     }
+    ]
+   },
+   "BROTE SOJA": {
+    "kilo": 7500,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "BO",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "",
+      "bulto": {
+       "max": 8000,
+       "moda": 7500,
+       "min": 6000
+      },
+      "kilo": {
+       "max": 8000,
+       "moda": 7500,
+       "min": 6000
+      }
+     }
+    ]
+   },
+   "CARDO": {
+    "kilo": 1450,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "AT",
+      "kg": 4,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 7000,
+       "moda": 5800,
+       "min": 5000
+      },
+      "kilo": {
+       "max": 1750,
+       "moda": 1450,
+       "min": 1250
+      }
+     }
+    ]
+   },
+   "CEB.VERDEO": {
+    "kilo": 1666.67,
+    "lineas": [
+     {
+      "variedad": "COLORADA",
+      "procedencia": "BS. AS.",
+      "envase": "AT",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 2000,
+       "moda": 1800,
+       "min": 1500
+      },
+      "kilo": {
+       "max": 2000,
+       "moda": 1800,
+       "min": 1500
+      }
+     },
+     {
+      "variedad": "COLORADA",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 17000,
+       "moda": 16000,
+       "min": 13000
+      },
+      "kilo": {
+       "max": 1700,
+       "moda": 1600,
+       "min": 1300
+      }
+     },
+     {
+      "variedad": "COLORADA",
+      "procedencia": "SGO.EST.",
+      "envase": "AT",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 1800,
+       "moda": 1600,
+       "min": 1500
+      },
+      "kilo": {
+       "max": 1800,
+       "moda": 1600,
+       "min": 1500
+      }
+     }
+    ]
+   },
+   "CEBOLLA": {
+    "kilo": 1328.57,
+    "lineas": [
+     {
+      "variedad": "COLORADA",
+      "procedencia": "BRASIL",
+      "envase": "BO",
+      "kg": 20,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 44000,
+       "moda": 42000,
+       "min": 39000
+      },
+      "kilo": {
+       "max": 2200,
+       "moda": 2100,
+       "min": 1950
+      }
+     },
+     {
+      "variedad": "COLORADA",
+      "procedencia": "S.BS.AS.",
+      "envase": "BO",
+      "kg": 20,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 36000,
+       "moda": 31000,
+       "min": 30000
+      },
+      "kilo": {
+       "max": 1800,
+       "moda": 1550,
+       "min": 1500
+      }
+     },
+     {
+      "variedad": "COLORADA",
+      "procedencia": "S.BS.AS.",
+      "envase": "BO",
+      "kg": 20,
+      "calidad": "2A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 26000,
+       "moda": 23000,
+       "min": 19000
+      },
+      "kilo": {
+       "max": 1300,
+       "moda": 1150,
+       "min": 950
+      }
+     },
+     {
+      "variedad": "OPTIMA",
+      "procedencia": "BRASIL",
+      "envase": "BO",
+      "kg": 20,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 36000,
+       "moda": 33000,
+       "min": 32000
+      },
+      "kilo": {
+       "max": 1800,
+       "moda": 1650,
+       "min": 1600
+      }
+     },
+     {
+      "variedad": "VALENCIANA",
+      "procedencia": "R. NEGRO",
+      "envase": "BO",
+      "kg": 20,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 24000,
+       "moda": 22000,
+       "min": 20000
+      },
+      "kilo": {
+       "max": 1200,
+       "moda": 1100,
+       "min": 1000
+      }
+     },
+     {
+      "variedad": "VALENCIANA",
+      "procedencia": "S.BS.AS.",
+      "envase": "BO",
+      "kg": 20,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 23000,
+       "moda": 21000,
+       "min": 19000
+      },
+      "kilo": {
+       "max": 1150,
+       "moda": 1050,
+       "min": 950
+      }
+     },
+     {
+      "variedad": "VALENCIANA",
+      "procedencia": "S.BS.AS.",
+      "envase": "BO",
+      "kg": 20,
+      "calidad": "2A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 16000,
+       "moda": 14000,
+       "min": 13000
+      },
+      "kilo": {
+       "max": 800,
+       "moda": 700,
+       "min": 650
+      }
+     }
+    ]
+   },
+   "CHAUCHA": {
+    "kilo": 1545.83,
+    "lineas": [
+     {
+      "variedad": "ESMERALDA",
+      "procedencia": "CTES.",
+      "envase": "TO",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "INV",
+      "bulto": {
+       "max": 18000,
+       "moda": 17000,
+       "min": 15000
+      },
+      "kilo": {
+       "max": 1800,
+       "moda": 1700,
+       "min": 1500
+      }
+     },
+     {
+      "variedad": "ESMERALDA",
+      "procedencia": "SALTA",
+      "envase": "PE",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "INV",
+      "bulto": {
+       "max": 21000,
+       "moda": 19000,
+       "min": 18000
+      },
+      "kilo": {
+       "max": 2100,
+       "moda": 1900,
+       "min": 1800
+      }
+     },
+     {
+      "variedad": "ROLLIZA",
+      "procedencia": "SALTA",
+      "envase": "PE",
+      "kg": 12,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "INV",
+      "bulto": {
+       "max": 21000,
+       "moda": 18000,
+       "min": 16000
+      },
+      "kilo": {
+       "max": 1750,
+       "moda": 1500,
+       "min": 1333.33
+      }
+     },
+     {
+      "variedad": "ROLLIZA",
+      "procedencia": "SALTA",
+      "envase": "TO",
+      "kg": 12,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 15000,
+       "moda": 13000,
+       "min": 12000
+      },
+      "kilo": {
+       "max": 1250,
+       "moda": 1083.33,
+       "min": 1000
+      }
+     }
+    ]
+   },
+   "CHOCLO": {
+    "kilo": 2300,
+    "lineas": [
+     {
+      "variedad": "AMARILLO",
+      "procedencia": "SALTA",
+      "envase": "PE",
+      "kg": 15,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "PRE",
+      "bulto": {
+       "max": 43000,
+       "moda": 40000,
+       "min": 37000
+      },
+      "kilo": {
+       "max": 2866.67,
+       "moda": 2666.67,
+       "min": 2466.67
+      }
+     },
+     {
+      "variedad": "AMARILLO",
+      "procedencia": "SALTA",
+      "envase": "PE",
+      "kg": 15,
+      "calidad": "2A",
+      "tamano": "MEDIANO",
+      "grado": "PRE",
+      "bulto": {
+       "max": 30000,
+       "moda": 29000,
+       "min": 27000
+      },
+      "kilo": {
+       "max": 2000,
+       "moda": 1933.33,
+       "min": 1800
+      }
+     }
+    ]
+   },
+   "CIBOULLE": {
+    "kilo": 10000,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "AT",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 11000,
+       "moda": 10000,
+       "min": 9000
+      },
+      "kilo": {
+       "max": 11000,
+       "moda": 10000,
+       "min": 9000
+      }
+     }
+    ]
+   },
+   "CILANDRO": {
+    "kilo": 11000,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "AT",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 12000,
+       "moda": 11000,
+       "min": 10000
+      },
+      "kilo": {
+       "max": 12000,
+       "moda": 11000,
+       "min": 10000
+      }
+     }
+    ]
+   },
+   "COLIFLOR": {
+    "kilo": 1233.33,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 15,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 18000,
+       "moda": 17000,
+       "min": 15000
+      },
+      "kilo": {
+       "max": 1200,
+       "moda": 1133.33,
+       "min": 1000
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "MENDOZA",
+      "envase": "PE",
+      "kg": 15,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 23000,
+       "moda": 20000,
+       "min": 19000
+      },
+      "kilo": {
+       "max": 1533.33,
+       "moda": 1333.33,
+       "min": 1266.67
+      }
+     }
+    ]
+   },
+   "CURCUMA": {
+    "kilo": 4000,
+    "lineas": [
+     {
+      "variedad": "SIN VARIED",
+      "procedencia": "BRASIL",
+      "envase": "CA",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 5000,
+       "moda": 4000,
+       "min": 3000
+      },
+      "kilo": {
+       "max": 5000,
+       "moda": 4000,
+       "min": 3000
+      }
+     }
+    ]
+   },
+   "ECHALOTE": {
+    "kilo": 10000,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "MENDOZA",
+      "envase": "CA",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "",
+      "bulto": {
+       "max": 11000,
+       "moda": 10000,
+       "min": 9000
+      },
+      "kilo": {
+       "max": 11000,
+       "moda": 10000,
+       "min": 9000
+      }
+     }
+    ]
+   },
+   "ENDIBIA": {
+    "kilo": 21000,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "BA",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 22000,
+       "moda": 21000,
+       "min": 19000
+      },
+      "kilo": {
+       "max": 22000,
+       "moda": 21000,
+       "min": 19000
+      }
+     }
+    ]
+   },
+   "ESCAROLA": {
+    "kilo": 1350,
+    "lineas": [
+     {
+      "variedad": "HOJA ANCHA",
+      "procedencia": "BS. AS.",
+      "envase": "TT",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "",
+      "bulto": {
+       "max": 7000,
+       "moda": 6500,
+       "min": 5000
+      },
+      "kilo": {
+       "max": 1400,
+       "moda": 1300,
+       "min": 1000
+      }
+     },
+     {
+      "variedad": "HOJA FINA",
+      "procedencia": "BS. AS.",
+      "envase": "TT",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "",
+      "bulto": {
+       "max": 8000,
+       "moda": 7000,
+       "min": 6000
+      },
+      "kilo": {
+       "max": 1600,
+       "moda": 1400,
+       "min": 1200
+      }
+     }
+    ]
+   },
+   "ESPARRAGO": {
+    "kilo": 5200,
+    "lineas": [
+     {
+      "variedad": "VERDE",
+      "procedencia": "SAN JUAN",
+      "envase": "AT",
+      "kg": 0.5,
+      "calidad": "1A",
+      "tamano": "CHICO",
+      "grado": "",
+      "bulto": {
+       "max": 2500,
+       "moda": 2200,
+       "min": 2000
+      },
+      "kilo": {
+       "max": 5000,
+       "moda": 4400,
+       "min": 4000
+      }
+     },
+     {
+      "variedad": "VERDE",
+      "procedencia": "SAN JUAN",
+      "envase": "AT",
+      "kg": 0.5,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 3500,
+       "moda": 3000,
+       "min": 2500
+      },
+      "kilo": {
+       "max": 7000,
+       "moda": 6000,
+       "min": 5000
+      }
+     }
+    ]
+   },
+   "ESPINACA": {
+    "kilo": 880,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "",
+      "bulto": {
+       "max": 4000,
+       "moda": 3300,
+       "min": 3000
+      },
+      "kilo": {
+       "max": 800,
+       "moda": 660,
+       "min": 600
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "INV",
+      "bulto": {
+       "max": 7000,
+       "moda": 5500,
+       "min": 5000
+      },
+      "kilo": {
+       "max": 1400,
+       "moda": 1100,
+       "min": 1000
+      }
+     }
+    ]
+   },
+   "HABA": {
+    "kilo": 1800,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "JUJUY",
+      "envase": "BO",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 21000,
+       "moda": 18000,
+       "min": 17000
+      },
+      "kilo": {
+       "max": 2100,
+       "moda": 1800,
+       "min": 1700
+      }
+     }
+    ]
+   },
+   "HINOJO": {
+    "kilo": 1133.33,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 15,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 18000,
+       "moda": 17000,
+       "min": 16000
+      },
+      "kilo": {
+       "max": 1200,
+       "moda": 1133.33,
+       "min": 1066.67
+      }
+     }
+    ]
+   },
+   "HONGOS": {
+    "kilo": 20875,
+    "lineas": [
+     {
+      "variedad": "AGARICUS",
+      "procedencia": "BS. AS.",
+      "envase": "BO",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "",
+      "bulto": {
+       "max": 20000,
+       "moda": 19500,
+       "min": 19000
+      },
+      "kilo": {
+       "max": 20000,
+       "moda": 19500,
+       "min": 19000
+      }
+     },
+     {
+      "variedad": "OYSTER",
+      "procedencia": "BS. AS.",
+      "envase": "BA",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "",
+      "bulto": {
+       "max": 22000,
+       "moda": 21000,
+       "min": 19000
+      },
+      "kilo": {
+       "max": 22000,
+       "moda": 21000,
+       "min": 19000
+      }
+     },
+     {
+      "variedad": "PORTOBELO",
+      "procedencia": "BS. AS.",
+      "envase": "BO",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "",
+      "bulto": {
+       "max": 23000,
+       "moda": 21000,
+       "min": 19000
+      },
+      "kilo": {
+       "max": 23000,
+       "moda": 21000,
+       "min": 19000
+      }
+     },
+     {
+      "variedad": "SHIITAKE",
+      "procedencia": "BS. AS.",
+      "envase": "BA",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "",
+      "bulto": {
+       "max": 24000,
+       "moda": 22000,
+       "min": 21000
+      },
+      "kilo": {
+       "max": 24000,
+       "moda": 22000,
+       "min": 21000
+      }
+     }
+    ]
+   },
+   "JENGIBRE": {
+    "kilo": 3700,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BRASIL",
+      "envase": "BO",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 4000,
+       "moda": 3800,
+       "min": 3000
+      },
+      "kilo": {
+       "max": 4000,
+       "moda": 3800,
+       "min": 3000
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "MISIONES",
+      "envase": "BO",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 4000,
+       "moda": 3600,
+       "min": 3000
+      },
+      "kilo": {
+       "max": 4000,
+       "moda": 3600,
+       "min": 3000
+      }
+     }
+    ]
+   },
+   "KALE": {
+    "kilo": 1250,
+    "lineas": [
+     {
+      "variedad": "CRESPO",
+      "procedencia": "BS. AS.",
+      "envase": "AT",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "SIN TAM",
+      "grado": "VER",
+      "bulto": {
+       "max": 1300,
+       "moda": 1200,
+       "min": 1000
+      },
+      "kilo": {
+       "max": 1300,
+       "moda": 1200,
+       "min": 1000
+      }
+     },
+     {
+      "variedad": "MORADO",
+      "procedencia": "BS. AS.",
+      "envase": "AT",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "SIN TAM",
+      "grado": "",
+      "bulto": {
+       "max": 1400,
+       "moda": 1300,
+       "min": 1100
+      },
+      "kilo": {
+       "max": 1400,
+       "moda": 1300,
+       "min": 1100
+      }
+     }
+    ]
+   },
+   "LECHUGA": {
+    "kilo": 980.56,
+    "lineas": [
+     {
+      "variedad": "CAPUCHINA",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 12,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 12000,
+       "moda": 11000,
+       "min": 9000
+      },
+      "kilo": {
+       "max": 1000,
+       "moda": 916.67,
+       "min": 750
+      }
+     },
+     {
+      "variedad": "CAPUCHINA",
+      "procedencia": "MENDOZA",
+      "envase": "PE",
+      "kg": 15,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 15000,
+       "moda": 14000,
+       "min": 12000
+      },
+      "kilo": {
+       "max": 1000,
+       "moda": 933.33,
+       "min": 800
+      }
+     },
+     {
+      "variedad": "CAPUCHINA",
+      "procedencia": "SANTA FE",
+      "envase": "JA",
+      "kg": 12,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 12000,
+       "moda": 10000,
+       "min": 9000
+      },
+      "kilo": {
+       "max": 1000,
+       "moda": 833.33,
+       "min": 750
+      }
+     },
+     {
+      "variedad": "CAPUCHINA",
+      "procedencia": "SGO.EST.",
+      "envase": "PE",
+      "kg": 15,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 14000,
+       "moda": 13000,
+       "min": 11000
+      },
+      "kilo": {
+       "max": 933.33,
+       "moda": 866.67,
+       "min": 733.33
+      }
+     },
+     {
+      "variedad": "CRIOLLA",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 8,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "INV",
+      "bulto": {
+       "max": 8000,
+       "moda": 7500,
+       "min": 6000
+      },
+      "kilo": {
+       "max": 1000,
+       "moda": 937.5,
+       "min": 750
+      }
+     },
+     {
+      "variedad": "CRIOLLA",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 8,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "INV",
+      "bulto": {
+       "max": 6000,
+       "moda": 5500,
+       "min": 4000
+      },
+      "kilo": {
+       "max": 750,
+       "moda": 687.5,
+       "min": 500
+      }
+     },
+     {
+      "variedad": "CRIOLLA",
+      "procedencia": "SANTA FE",
+      "envase": "JA",
+      "kg": 12,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 10000,
+       "moda": 9000,
+       "min": 8000
+      },
+      "kilo": {
+       "max": 833.33,
+       "moda": 750,
+       "min": 666.67
+      }
+     },
+     {
+      "variedad": "MANTECOSA",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "INV",
+      "bulto": {
+       "max": 9000,
+       "moda": 8000,
+       "min": 7000
+      },
+      "kilo": {
+       "max": 1800,
+       "moda": 1600,
+       "min": 1400
+      }
+     },
+     {
+      "variedad": "MANTECOSA",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "INV",
+      "bulto": {
+       "max": 7000,
+       "moda": 6500,
+       "min": 5000
+      },
+      "kilo": {
+       "max": 1400,
+       "moda": 1300,
+       "min": 1000
+      }
+     }
+    ]
+   },
+   "MANDIOCA": {
+    "kilo": 675,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "MISIONES",
+      "envase": "BO",
+      "kg": 40,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 28000,
+       "moda": 27000,
+       "min": 25000
+      },
+      "kilo": {
+       "max": 700,
+       "moda": 675,
+       "min": 625
+      }
+     }
+    ]
+   },
+   "MENTA": {
+    "kilo": 9000,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "AT",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 10000,
+       "moda": 9000,
+       "min": 8000
+      },
+      "kilo": {
+       "max": 10000,
+       "moda": 9000,
+       "min": 8000
+      }
+     }
+    ]
+   },
+   "NABO": {
+    "kilo": 1333.33,
+    "lineas": [
+     {
+      "variedad": "BLANCO",
+      "procedencia": "BS. AS.",
+      "envase": "AT",
+      "kg": 3,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 5000,
+       "moda": 4000,
+       "min": 3000
+      },
+      "kilo": {
+       "max": 1666.67,
+       "moda": 1333.33,
+       "min": 1000
+      }
+     }
+    ]
+   },
+   "OREGANO": {
+    "kilo": 9500,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "BO",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "",
+      "bulto": {
+       "max": 10000,
+       "moda": 9500,
+       "min": 9000
+      },
+      "kilo": {
+       "max": 10000,
+       "moda": 9500,
+       "min": 9000
+      }
+     }
+    ]
+   },
+   "PACK CHOY": {
+    "kilo": 2833.33,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "BA",
+      "kg": 3,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "",
+      "bulto": {
+       "max": 9000,
+       "moda": 8500,
+       "min": 7000
+      },
+      "kilo": {
+       "max": 3000,
+       "moda": 2833.33,
+       "min": 2333.33
+      }
+     }
+    ]
+   },
+   "PAPA": {
+    "kilo": 1134.22,
+    "lineas": [
+     {
+      "variedad": "AGATA",
+      "procedencia": "BRASIL",
+      "envase": "BO",
+      "kg": 25,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "LAV",
+      "bulto": {
+       "max": 40000,
+       "moda": 39000,
+       "min": 38000
+      },
+      "kilo": {
+       "max": 1600,
+       "moda": 1560,
+       "min": 1520
+      }
+     },
+     {
+      "variedad": "SPUNTA",
+      "procedencia": "CORDOBA",
+      "envase": "BO",
+      "kg": 18,
+      "calidad": "2A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 20000,
+       "moda": 19500,
+       "min": 19000
+      },
+      "kilo": {
+       "max": 1111.11,
+       "moda": 1083.33,
+       "min": 1055.56
+      }
+     },
+     {
+      "variedad": "SPUNTA",
+      "procedencia": "SE BS.AS",
+      "envase": "BO",
+      "kg": 18,
+      "calidad": "2A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 17000,
+       "moda": 16000,
+       "min": 15000
+      },
+      "kilo": {
+       "max": 944.44,
+       "moda": 888.89,
+       "min": 833.33
+      }
+     },
+     {
+      "variedad": "SPUNTA",
+      "procedencia": "SE BS.AS",
+      "envase": "BO",
+      "kg": 18,
+      "calidad": "2A",
+      "tamano": "MEDIANO",
+      "grado": "CEP",
+      "bulto": {
+       "max": 20000,
+       "moda": 19500,
+       "min": 18000
+      },
+      "kilo": {
+       "max": 1111.11,
+       "moda": 1083.33,
+       "min": 1000
+      }
+     },
+     {
+      "variedad": "SPUNTA",
+      "procedencia": "V.DOLOR.",
+      "envase": "BO",
+      "kg": 18,
+      "calidad": "2A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 19500,
+       "moda": 19000,
+       "min": 18000
+      },
+      "kilo": {
+       "max": 1083.33,
+       "moda": 1055.56,
+       "min": 1000
+      }
+     }
+    ]
+   },
+   "PEPINO": {
+    "kilo": 1277.78,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "CTES.",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "INV",
+      "bulto": {
+       "max": 25000,
+       "moda": 23000,
+       "min": 20000
+      },
+      "kilo": {
+       "max": 1388.89,
+       "moda": 1277.78,
+       "min": 1111.11
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "SALTA",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 23000,
+       "moda": 21000,
+       "min": 18000
+      },
+      "kilo": {
+       "max": 1277.78,
+       "moda": 1166.67,
+       "min": 1000
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "SALTA",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "INV",
+      "bulto": {
+       "max": 27000,
+       "moda": 25000,
+       "min": 24000
+      },
+      "kilo": {
+       "max": 1500,
+       "moda": 1388.89,
+       "min": 1333.33
+      }
+     }
+    ]
+   },
+   "PEREJIL": {
+    "kilo": 833.33,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 13000,
+       "moda": 10000,
+       "min": 9000
+      },
+      "kilo": {
+       "max": 1300,
+       "moda": 1000,
+       "min": 900
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 9000,
+       "moda": 8000,
+       "min": 7000
+      },
+      "kilo": {
+       "max": 900,
+       "moda": 800,
+       "min": 700
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "SGO.EST.",
+      "envase": "PE",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 8000,
+       "moda": 7000,
+       "min": 6000
+      },
+      "kilo": {
+       "max": 800,
+       "moda": 700,
+       "min": 600
+      }
+     }
+    ]
+   },
+   "PIMIENTO": {
+    "kilo": 2910.42,
+    "lineas": [
+     {
+      "variedad": "JALAPEÑO",
+      "procedencia": "CTES.",
+      "envase": "PE",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "ROJ",
+      "bulto": {
+       "max": 18000,
+       "moda": 16000,
+       "min": 15000
+      },
+      "kilo": {
+       "max": 3600,
+       "moda": 3200,
+       "min": 3000
+      }
+     },
+     {
+      "variedad": "JALAPEÑO",
+      "procedencia": "SALTA",
+      "envase": "BA",
+      "kg": 4,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "VER",
+      "bulto": {
+       "max": 14000,
+       "moda": 13000,
+       "min": 11000
+      },
+      "kilo": {
+       "max": 3500,
+       "moda": 3250,
+       "min": 2750
+      }
+     },
+     {
+      "variedad": "JALAPEÑO",
+      "procedencia": "SALTA",
+      "envase": "BA",
+      "kg": 4,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "ROJ",
+      "bulto": {
+       "max": 17000,
+       "moda": 15000,
+       "min": 14000
+      },
+      "kilo": {
+       "max": 4250,
+       "moda": 3750,
+       "min": 3500
+      }
+     },
+     {
+      "variedad": "MORRON",
+      "procedencia": "CTES.",
+      "envase": "TO",
+      "kg": 8,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "R/I",
+      "bulto": {
+       "max": 30000,
+       "moda": 28000,
+       "min": 27000
+      },
+      "kilo": {
+       "max": 3750,
+       "moda": 3500,
+       "min": 3375
+      }
+     },
+     {
+      "variedad": "MORRON",
+      "procedencia": "CTES.",
+      "envase": "TO",
+      "kg": 8,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "V/I",
+      "bulto": {
+       "max": 18000,
+       "moda": 17000,
+       "min": 15000
+      },
+      "kilo": {
+       "max": 2250,
+       "moda": 2125,
+       "min": 1875
+      }
+     },
+     {
+      "variedad": "MORRON",
+      "procedencia": "CTES.",
+      "envase": "TO",
+      "kg": 8,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "R/I",
+      "bulto": {
+       "max": 24000,
+       "moda": 23000,
+       "min": 18000
+      },
+      "kilo": {
+       "max": 3000,
+       "moda": 2875,
+       "min": 2250
+      }
+     },
+     {
+      "variedad": "MORRON",
+      "procedencia": "CTES.",
+      "envase": "TO",
+      "kg": 8,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "V/I",
+      "bulto": {
+       "max": 14000,
+       "moda": 13000,
+       "min": 11000
+      },
+      "kilo": {
+       "max": 1750,
+       "moda": 1625,
+       "min": 1375
+      }
+     },
+     {
+      "variedad": "MORRON",
+      "procedencia": "SALTA",
+      "envase": "PE",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "R/I",
+      "bulto": {
+       "max": 47000,
+       "moda": 45000,
+       "min": 43000
+      },
+      "kilo": {
+       "max": 4700,
+       "moda": 4500,
+       "min": 4300
+      }
+     },
+     {
+      "variedad": "MORRON",
+      "procedencia": "SALTA",
+      "envase": "PE",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "V/I",
+      "bulto": {
+       "max": 28000,
+       "moda": 25000,
+       "min": 23000
+      },
+      "kilo": {
+       "max": 2800,
+       "moda": 2500,
+       "min": 2300
+      }
+     },
+     {
+      "variedad": "MORRON",
+      "procedencia": "SALTA",
+      "envase": "PE",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "R/I",
+      "bulto": {
+       "max": 38000,
+       "moda": 36000,
+       "min": 34000
+      },
+      "kilo": {
+       "max": 3800,
+       "moda": 3600,
+       "min": 3400
+      }
+     },
+     {
+      "variedad": "MORRON",
+      "procedencia": "SALTA",
+      "envase": "PE",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "V/I",
+      "bulto": {
+       "max": 24000,
+       "moda": 22000,
+       "min": 19000
+      },
+      "kilo": {
+       "max": 2400,
+       "moda": 2200,
+       "min": 1900
+      }
+     },
+     {
+      "variedad": "VINAGRE",
+      "procedencia": "SALTA",
+      "envase": "PE",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "VER",
+      "bulto": {
+       "max": 20000,
+       "moda": 18000,
+       "min": 16000
+      },
+      "kilo": {
+       "max": 2000,
+       "moda": 1800,
+       "min": 1600
+      }
+     }
+    ]
+   },
+   "PUERRO": {
+    "kilo": 1550,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "AT",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 2000,
+       "moda": 1600,
+       "min": 1500
+      },
+      "kilo": {
+       "max": 2000,
+       "moda": 1600,
+       "min": 1500
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 18000,
+       "moda": 15000,
+       "min": 13000
+      },
+      "kilo": {
+       "max": 1800,
+       "moda": 1500,
+       "min": 1300
+      }
+     }
+    ]
+   },
+   "RABANITO": {
+    "kilo": 2400,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "TT",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "",
+      "bulto": {
+       "max": 14000,
+       "moda": 12000,
+       "min": 11000
+      },
+      "kilo": {
+       "max": 2800,
+       "moda": 2400,
+       "min": 2200
+      }
+     }
+    ]
+   },
+   "RADICCHIO": {
+    "kilo": 4400,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "MENDOZA",
+      "envase": "PE",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 24000,
+       "moda": 22000,
+       "min": 20000
+      },
+      "kilo": {
+       "max": 4800,
+       "moda": 4400,
+       "min": 4000
+      }
+     }
+    ]
+   },
+   "RADICHETA": {
+    "kilo": 1666.67,
+    "lineas": [
+     {
+      "variedad": "1ER.CORTE",
+      "procedencia": "BS. AS.",
+      "envase": "BA",
+      "kg": 3,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "",
+      "bulto": {
+       "max": 7000,
+       "moda": 6000,
+       "min": 5000
+      },
+      "kilo": {
+       "max": 2333.33,
+       "moda": 2000,
+       "min": 1666.67
+      }
+     },
+     {
+      "variedad": "2DO.CORTE",
+      "procedencia": "BS. AS.",
+      "envase": "BA",
+      "kg": 3,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "",
+      "bulto": {
+       "max": 5000,
+       "moda": 4000,
+       "min": 3500
+      },
+      "kilo": {
+       "max": 1666.67,
+       "moda": 1333.33,
+       "min": 1166.67
+      }
+     }
+    ]
+   },
+   "REMOLACHA": {
+    "kilo": 910,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "BO",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 11000,
+       "moda": 10000,
+       "min": 9500
+      },
+      "kilo": {
+       "max": 1100,
+       "moda": 1000,
+       "min": 950
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 15,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 15000,
+       "moda": 13000,
+       "min": 11000
+      },
+      "kilo": {
+       "max": 1000,
+       "moda": 866.67,
+       "min": 733.33
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "SANTA FE",
+      "envase": "BO",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 10000,
+       "moda": 9500,
+       "min": 8000
+      },
+      "kilo": {
+       "max": 1000,
+       "moda": 950,
+       "min": 800
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "SGO.EST.",
+      "envase": "BO",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 9000,
+       "moda": 8000,
+       "min": 7000
+      },
+      "kilo": {
+       "max": 900,
+       "moda": 800,
+       "min": 700
+      }
+     },
+     {
+      "variedad": "",
+      "procedencia": "SGO.EST.",
+      "envase": "PE",
+      "kg": 15,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 15000,
+       "moda": 14000,
+       "min": 12000
+      },
+      "kilo": {
+       "max": 1000,
+       "moda": 933.33,
+       "min": 800
+      }
+     }
+    ]
+   },
+   "REP.BRUSEL": {
+    "kilo": 2800,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "M.D.PLAT",
+      "envase": "",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 3500,
+       "moda": 2800,
+       "min": 2500
+      },
+      "kilo": {
+       "max": 3500,
+       "moda": 2800,
+       "min": 2500
+      }
+     }
+    ]
+   },
+   "REPOLLO": {
+    "kilo": 688.89,
+    "lineas": [
+     {
+      "variedad": "BLANCO",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 15,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 10000,
+       "moda": 9500,
+       "min": 8000
+      },
+      "kilo": {
+       "max": 666.67,
+       "moda": 633.33,
+       "min": 533.33
+      }
+     },
+     {
+      "variedad": "BLANCO",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 15,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 8000,
+       "moda": 7500,
+       "min": 7000
+      },
+      "kilo": {
+       "max": 533.33,
+       "moda": 500,
+       "min": 466.67
+      }
+     },
+     {
+      "variedad": "BLANCO",
+      "procedencia": "MENDOZA",
+      "envase": "BO",
+      "kg": 15,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 11000,
+       "moda": 9500,
+       "min": 9000
+      },
+      "kilo": {
+       "max": 733.33,
+       "moda": 633.33,
+       "min": 600
+      }
+     },
+     {
+      "variedad": "COLORADO",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 15,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "",
+      "bulto": {
+       "max": 14000,
+       "moda": 13000,
+       "min": 12000
+      },
+      "kilo": {
+       "max": 933.33,
+       "moda": 866.67,
+       "min": 800
+      }
+     },
+     {
+      "variedad": "COLORADO",
+      "procedencia": "BS. AS.",
+      "envase": "JA",
+      "kg": 15,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 11000,
+       "moda": 9500,
+       "min": 8000
+      },
+      "kilo": {
+       "max": 733.33,
+       "moda": 633.33,
+       "min": 533.33
+      }
+     },
+     {
+      "variedad": "COLORADO",
+      "procedencia": "MENDOZA",
+      "envase": "BO",
+      "kg": 15,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 14000,
+       "moda": 13000,
+       "min": 11000
+      },
+      "kilo": {
+       "max": 933.33,
+       "moda": 866.67,
+       "min": 733.33
+      }
+     }
+    ]
+   },
+   "ROMERO": {
+    "kilo": 9400,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "AT",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 10000,
+       "moda": 9400,
+       "min": 8500
+      },
+      "kilo": {
+       "max": 10000,
+       "moda": 9400,
+       "min": 8500
+      }
+     }
+    ]
+   },
+   "RUCULA": {
+    "kilo": 1833.33,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "BA",
+      "kg": 3,
+      "calidad": "1A",
+      "tamano": "SIN TAM",
+      "grado": "",
+      "bulto": {
+       "max": 7000,
+       "moda": 5500,
+       "min": 4500
+      },
+      "kilo": {
+       "max": 2333.33,
+       "moda": 1833.33,
+       "min": 1500
+      }
+     }
+    ]
+   },
+   "SALVIA": {
+    "kilo": 9000,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "BO",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "",
+      "bulto": {
+       "max": 10000,
+       "moda": 9000,
+       "min": 8500
+      },
+      "kilo": {
+       "max": 10000,
+       "moda": 9000,
+       "min": 8500
+      }
+     }
+    ]
+   },
+   "TOMATE": {
+    "kilo": 3008.89,
+    "lineas": [
+     {
+      "variedad": "CHERRY",
+      "procedencia": "CTES.",
+      "envase": "CA",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "P/I",
+      "bulto": {
+       "max": 31000,
+       "moda": 30000,
+       "min": 28000
+      },
+      "kilo": {
+       "max": 6200,
+       "moda": 6000,
+       "min": 5600
+      }
+     },
+     {
+      "variedad": "CHERRY",
+      "procedencia": "CTES.",
+      "envase": "CA",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "P/I",
+      "bulto": {
+       "max": 27000,
+       "moda": 26000,
+       "min": 23000
+      },
+      "kilo": {
+       "max": 5400,
+       "moda": 5200,
+       "min": 4600
+      }
+     },
+     {
+      "variedad": "CHERRY",
+      "procedencia": "CTES.",
+      "envase": "CA",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "R/I",
+      "bulto": {
+       "max": 29000,
+       "moda": 28000,
+       "min": 26000
+      },
+      "kilo": {
+       "max": 5800,
+       "moda": 5600,
+       "min": 5200
+      }
+     },
+     {
+      "variedad": "CHERRY",
+      "procedencia": "SALTA",
+      "envase": "CA",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "P/I",
+      "bulto": {
+       "max": 32000,
+       "moda": 31000,
+       "min": 29000
+      },
+      "kilo": {
+       "max": 6400,
+       "moda": 6200,
+       "min": 5800
+      }
+     },
+     {
+      "variedad": "CHERRY",
+      "procedencia": "SALTA",
+      "envase": "CA",
+      "kg": 5,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "P/I",
+      "bulto": {
+       "max": 28000,
+       "moda": 27000,
+       "min": 25000
+      },
+      "kilo": {
+       "max": 5600,
+       "moda": 5400,
+       "min": 5000
+      }
+     },
+     {
+      "variedad": "PERITA",
+      "procedencia": "SALTA",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "P/I",
+      "bulto": {
+       "max": 55000,
+       "moda": 52000,
+       "min": 50000
+      },
+      "kilo": {
+       "max": 3055.56,
+       "moda": 2888.89,
+       "min": 2777.78
+      }
+     },
+     {
+      "variedad": "PERITA",
+      "procedencia": "SALTA",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "P/I",
+      "bulto": {
+       "max": 48000,
+       "moda": 46000,
+       "min": 44000
+      },
+      "kilo": {
+       "max": 2666.67,
+       "moda": 2555.56,
+       "min": 2444.44
+      }
+     },
+     {
+      "variedad": "PERITA",
+      "procedencia": "SALTA",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "R/I",
+      "bulto": {
+       "max": 50000,
+       "moda": 47000,
+       "min": 46000
+      },
+      "kilo": {
+       "max": 2777.78,
+       "moda": 2611.11,
+       "min": 2555.56
+      }
+     },
+     {
+      "variedad": "PERITA",
+      "procedencia": "SALTA",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "PIN",
+      "bulto": {
+       "max": 45000,
+       "moda": 40000,
+       "min": 38000
+      },
+      "kilo": {
+       "max": 2500,
+       "moda": 2222.22,
+       "min": 2111.11
+      }
+     },
+     {
+      "variedad": "PERITA",
+      "procedencia": "SALTA",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "PIN",
+      "bulto": {
+       "max": 36000,
+       "moda": 34000,
+       "min": 30000
+      },
+      "kilo": {
+       "max": 2000,
+       "moda": 1888.89,
+       "min": 1666.67
+      }
+     },
+     {
+      "variedad": "REDONDO",
+      "procedencia": "CTES.",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "CHICO",
+      "grado": "P/I",
+      "bulto": {
+       "max": 18000,
+       "moda": 16000,
+       "min": 14000
+      },
+      "kilo": {
+       "max": 1000,
+       "moda": 888.89,
+       "min": 777.78
+      }
+     },
+     {
+      "variedad": "REDONDO",
+      "procedencia": "CTES.",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "P/I",
+      "bulto": {
+       "max": 40000,
+       "moda": 37000,
+       "min": 36000
+      },
+      "kilo": {
+       "max": 2222.22,
+       "moda": 2055.56,
+       "min": 2000
+      }
+     },
+     {
+      "variedad": "REDONDO",
+      "procedencia": "CTES.",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "P/I",
+      "bulto": {
+       "max": 35000,
+       "moda": 31000,
+       "min": 30000
+      },
+      "kilo": {
+       "max": 1944.44,
+       "moda": 1722.22,
+       "min": 1666.67
+      }
+     },
+     {
+      "variedad": "REDONDO",
+      "procedencia": "CTES.",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "R/I",
+      "bulto": {
+       "max": 36000,
+       "moda": 34000,
+       "min": 33000
+      },
+      "kilo": {
+       "max": 2000,
+       "moda": 1888.89,
+       "min": 1833.33
+      }
+     },
+     {
+      "variedad": "REDONDO",
+      "procedencia": "CTES.",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "2A",
+      "tamano": "MEDIANO",
+      "grado": "P/I",
+      "bulto": {
+       "max": 30000,
+       "moda": 27000,
+       "min": 24000
+      },
+      "kilo": {
+       "max": 1666.67,
+       "moda": 1500,
+       "min": 1333.33
+      }
+     },
+     {
+      "variedad": "REDONDO",
+      "procedencia": "SALTA",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "P/I",
+      "bulto": {
+       "max": 64000,
+       "moda": 61000,
+       "min": 58000
+      },
+      "kilo": {
+       "max": 3555.56,
+       "moda": 3388.89,
+       "min": 3222.22
+      }
+     },
+     {
+      "variedad": "REDONDO",
+      "procedencia": "SALTA",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "GRANDE",
+      "grado": "PIN",
+      "bulto": {
+       "max": 40000,
+       "moda": 37000,
+       "min": 36000
+      },
+      "kilo": {
+       "max": 2222.22,
+       "moda": 2055.56,
+       "min": 2000
+      }
+     },
+     {
+      "variedad": "REDONDO",
+      "procedencia": "SALTA",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "P/I",
+      "bulto": {
+       "max": 56000,
+       "moda": 53000,
+       "min": 50000
+      },
+      "kilo": {
+       "max": 3111.11,
+       "moda": 2944.44,
+       "min": 2777.78
+      }
+     },
+     {
+      "variedad": "REDONDO",
+      "procedencia": "SALTA",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "PIN",
+      "bulto": {
+       "max": 34000,
+       "moda": 32000,
+       "min": 28000
+      },
+      "kilo": {
+       "max": 1888.89,
+       "moda": 1777.78,
+       "min": 1555.56
+      }
+     },
+     {
+      "variedad": "REDONDO",
+      "procedencia": "SALTA",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "2A",
+      "tamano": "MEDIANO",
+      "grado": "PIN",
+      "bulto": {
+       "max": 27000,
+       "moda": 25000,
+       "min": 20000
+      },
+      "kilo": {
+       "max": 1500,
+       "moda": 1388.89,
+       "min": 1111.11
+      }
+     }
+    ]
+   },
+   "TOMILLO": {
+    "kilo": 12000,
+    "lineas": [
+     {
+      "variedad": "",
+      "procedencia": "BS. AS.",
+      "envase": "BO",
+      "kg": 1,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "",
+      "bulto": {
+       "max": 13000,
+       "moda": 12000,
+       "min": 10000
+      },
+      "kilo": {
+       "max": 13000,
+       "moda": 12000,
+       "min": 10000
+      }
+     }
+    ]
+   },
+   "ZANAHORIA": {
+    "kilo": 683.56,
+    "lineas": [
+     {
+      "variedad": "CHANTENAY",
+      "procedencia": "MENDOZA",
+      "envase": "BO",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 74000,
+       "moda": 6400,
+       "min": 6000
+      },
+      "kilo": {
+       "max": 7400,
+       "moda": 640,
+       "min": 600
+      }
+     },
+     {
+      "variedad": "CHANTENAY",
+      "procedencia": "MENDOZA",
+      "envase": "BO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 13000,
+       "moda": 12000,
+       "min": 11000
+      },
+      "kilo": {
+       "max": 722.22,
+       "moda": 666.67,
+       "min": 611.11
+      }
+     },
+     {
+      "variedad": "CHANTENAY",
+      "procedencia": "MENDOZA",
+      "envase": "CA",
+      "kg": 20,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 21000,
+       "moda": 19000,
+       "min": 18000
+      },
+      "kilo": {
+       "max": 1050,
+       "moda": 950,
+       "min": 900
+      }
+     },
+     {
+      "variedad": "CHANTENAY",
+      "procedencia": "SANTA FE",
+      "envase": "BO",
+      "kg": 10,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 6500,
+       "moda": 5500,
+       "min": 5000
+      },
+      "kilo": {
+       "max": 650,
+       "moda": 550,
+       "min": 500
+      }
+     },
+     {
+      "variedad": "CHANTENAY",
+      "procedencia": "SGO.EST.",
+      "envase": "BO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 12000,
+       "moda": 11000,
+       "min": 10000
+      },
+      "kilo": {
+       "max": 666.67,
+       "moda": 611.11,
+       "min": 555.56
+      }
+     }
+    ]
+   },
+   "ZAPALLITO": {
+    "kilo": 1648.15,
+    "lineas": [
+     {
+      "variedad": "LARGO",
+      "procedencia": "SALTA",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 28000,
+       "moda": 26000,
+       "min": 23000
+      },
+      "kilo": {
+       "max": 1555.56,
+       "moda": 1444.44,
+       "min": 1277.78
+      }
+     },
+     {
+      "variedad": "LARGO",
+      "procedencia": "SALTA",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "INV",
+      "bulto": {
+       "max": 36000,
+       "moda": 33000,
+       "min": 30000
+      },
+      "kilo": {
+       "max": 2000,
+       "moda": 1833.33,
+       "min": 1666.67
+      }
+     },
+     {
+      "variedad": "REDONDO",
+      "procedencia": "CTES.",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "INV",
+      "bulto": {
+       "max": 36000,
+       "moda": 34000,
+       "min": 30000
+      },
+      "kilo": {
+       "max": 2000,
+       "moda": 1888.89,
+       "min": 1666.67
+      }
+     },
+     {
+      "variedad": "REDONDO",
+      "procedencia": "SALTA",
+      "envase": "PE",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "INV",
+      "bulto": {
+       "max": 40000,
+       "moda": 36000,
+       "min": 33000
+      },
+      "kilo": {
+       "max": 2222.22,
+       "moda": 2000,
+       "min": 1833.33
+      }
+     },
+     {
+      "variedad": "REDONDO",
+      "procedencia": "SALTA",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 33000,
+       "moda": 28000,
+       "min": 26000
+      },
+      "kilo": {
+       "max": 1833.33,
+       "moda": 1555.56,
+       "min": 1444.44
+      }
+     },
+     {
+      "variedad": "REDONDO",
+      "procedencia": "SALTA",
+      "envase": "TO",
+      "kg": 18,
+      "calidad": "2A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 25000,
+       "moda": 21000,
+       "min": 18000
+      },
+      "kilo": {
+       "max": 1388.89,
+       "moda": 1166.67,
+       "min": 1000
+      }
+     }
+    ]
+   },
+   "ZAPALLO": {
+    "kilo": 1085.95,
+    "lineas": [
+     {
+      "variedad": "ANC.COKENA",
+      "procedencia": "MENDOZA",
+      "envase": "BO",
+      "kg": 15,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 25000,
+       "moda": 23000,
+       "min": 21000
+      },
+      "kilo": {
+       "max": 1666.67,
+       "moda": 1533.33,
+       "min": 1400
+      }
+     },
+     {
+      "variedad": "ANC.COKENA",
+      "procedencia": "S.BS.AS.",
+      "envase": "BO",
+      "kg": 15,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 23000,
+       "moda": 22000,
+       "min": 20000
+      },
+      "kilo": {
+       "max": 1533.33,
+       "moda": 1466.67,
+       "min": 1333.33
+      }
+     },
+     {
+      "variedad": "ANC.COKENA",
+      "procedencia": "SALTA",
+      "envase": "PE",
+      "kg": 17,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 30000,
+       "moda": 28500,
+       "min": 27000
+      },
+      "kilo": {
+       "max": 1764.71,
+       "moda": 1676.47,
+       "min": 1588.24
+      }
+     },
+     {
+      "variedad": "ANGOLA",
+      "procedencia": "R. NEGRO",
+      "envase": "GR",
+      "kg": 0,
+      "calidad": "1A",
+      "tamano": "",
+      "grado": "",
+      "bulto": {
+       "max": 0,
+       "moda": 0,
+       "min": 0
+      },
+      "kilo": {
+       "max": 1000,
+       "moda": 900,
+       "min": 800
+      }
+     },
+     {
+      "variedad": "TETSUKAB.",
+      "procedencia": "MENDOZA",
+      "envase": "BO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 14000,
+       "moda": 13000,
+       "min": 11000
+      },
+      "kilo": {
+       "max": 777.78,
+       "moda": 722.22,
+       "min": 611.11
+      }
+     },
+     {
+      "variedad": "TETSUKAB.",
+      "procedencia": "R. NEGRO",
+      "envase": "BO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 16000,
+       "moda": 14000,
+       "min": 12000
+      },
+      "kilo": {
+       "max": 888.89,
+       "moda": 777.78,
+       "min": 666.67
+      }
+     },
+     {
+      "variedad": "TETSUKAB.",
+      "procedencia": "S.BS.AS.",
+      "envase": "BO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 15000,
+       "moda": 12000,
+       "min": 11000
+      },
+      "kilo": {
+       "max": 833.33,
+       "moda": 666.67,
+       "min": 611.11
+      }
+     },
+     {
+      "variedad": "TETSUKAB.",
+      "procedencia": "SALTA",
+      "envase": "BO",
+      "kg": 18,
+      "calidad": "1A",
+      "tamano": "MEDIANO",
+      "grado": "",
+      "bulto": {
+       "max": 18000,
+       "moda": 17000,
+       "min": 15000
+      },
+      "kilo": {
+       "max": 1000,
+       "moda": 944.44,
+       "min": 833.33
+      }
+     }
+    ]
+   }
+  }
+ }
+}

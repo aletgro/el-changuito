@@ -11,6 +11,7 @@
    ============================================================ */
 
 import fs from "node:fs";
+import { ultimoDiaMercadoCentral } from "./mercado-central.mjs";
 
 const DIA = "https://diaonline.supermercadosdia.com.ar";
 const ESPERA_MS = 800; // pausa entre consultas para no castigar al sitio
@@ -153,6 +154,11 @@ function parseQty(nombre) {
   return { amount: mult, unit: "un" };
 }
 
+/* Página del producto en el sitio de origen: viaja con cada candidato y, si gana, en
+   precios.json (`url`), para poder abrirlo desde la app y verlo en el navegador.
+   Solo se agrega si existe (El Puente publica un listado sin páginas por producto). */
+const conUrl = (obj, url) => (url ? { ...obj, url } : obj);
+
 /* ---------- Fuente 1: API pública de VTEX (DIA y Farmacity la usan) ---------- */
 
 /* Promos "llevando N" que NO están aplicadas en Price (2x1, 3x2, 2da unidad al X%):
@@ -170,12 +176,8 @@ function promoVtex(offer) {
   return null;
 }
 
-async function buscarVtex(base, query) {
-  const url = `${base}/api/catalog_system/pub/products/search/?ft=${encodeURIComponent(query)}&_from=0&_to=49`;
-  const r = await fetch(url, { headers: { accept: "application/json", "user-agent": "Mozilla/5.0 (compatible; ElChanguito/1.0)" } });
-  if (!r.ok) throw new Error("HTTP " + r.status);
-  const data = await r.json();
-  if (!Array.isArray(data)) throw new Error("respuesta inesperada");
+/* Respuesta del buscador VTEX → pares nombre/precio (+ `link` = página del producto) */
+function paresDesdeVtex(data) {
   const out = [];
   for (const p of data) {
     const nombre = p.productName || "";
@@ -183,15 +185,24 @@ async function buscarVtex(base, query) {
       for (const sel of it.sellers || []) {
         const of = sel.commertialOffer || {};
         if (of.Price > 0 && of.AvailableQuantity > 0) {
-          out.push({ nombre, precio: of.Price, lista: of.ListPrice || of.Price });
+          out.push(conUrl({ nombre, precio: of.Price, lista: of.ListPrice || of.Price }, p.link));
           // La promo compite como candidato aparte, con el precio efectivo por unidad y la condición a la vista
           const promo = promoVtex(of);
-          if (promo) out.push({ nombre: `${nombre} · ${promo.txt}`, precio: of.Price * promo.factor, lista: of.ListPrice || of.Price });
+          if (promo) out.push(conUrl({ nombre: `${nombre} · ${promo.txt}`, precio: of.Price * promo.factor, lista: of.ListPrice || of.Price }, p.link));
         }
       }
     }
   }
   return out;
+}
+
+async function buscarVtex(base, query) {
+  const url = `${base}/api/catalog_system/pub/products/search/?ft=${encodeURIComponent(query)}&_from=0&_to=49`;
+  const r = await fetch(url, { headers: { accept: "application/json", "user-agent": "Mozilla/5.0 (compatible; ElChanguito/1.0)" } });
+  if (!r.ok) throw new Error("HTTP " + r.status);
+  const data = await r.json();
+  if (!Array.isArray(data)) throw new Error("respuesta inesperada");
+  return paresDesdeVtex(data);
 }
 
 /* ---------- Fuente 2 (plan B): página de categoría en HTML ---------- */
@@ -327,6 +338,11 @@ async function candidatosElPuente() {
    de la sucursal de La Plata del usuario, filtrar price[] por store.
    Carnicería: cantidades asumidas ~1 kg por corte (Combo y Asado), a validar. */
 const COTO_KEY = "key_r6xzz4IAoTWcipni";
+/* Página del producto en coto.com.ar: /productos/<slug>/_/R-… (el slug es decorativo; el
+   sitio lo arma así a partir del nombre). data.url del buscador trae solo "_/R-00000602-00000602-200". */
+const COTO_PROD = "https://www.coto.com.ar/productos/";
+const slugCoto = (nombre) => String(nombre).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-/, "") + "-";
+const urlCoto = (nombre, tail) => (tail ? COTO_PROD + slugCoto(nombre) + "/" + String(tail).replace(/^\/+/, "") : "");
 
 const ITEMS_COTO = [
   // Harinas Chacabuco (identificadas por foto de góndola, 09/08/2026):
@@ -391,19 +407,25 @@ function promoCoto(dto, precioBase) {
   return { precio, txt: llevando ? `${etiqueta} llevando ${llevando}` : null };
 }
 
-/* Respuesta del buscador de Constructor → pares nombre/precio */
+/* Respuesta del buscador de Constructor → pares nombre/precio (+ url de la página del producto).
+   SKUs FANTASMA: el catálogo trae productos con precio en todas las sucursales pero
+   `store_availability` VACÍO (la "Cebolla Premium" a $999, las bolsas a $299, la Sémola COTO
+   en 2x1): no se venden en ninguna sucursal y no se encuentran en el sitio → se descartan. */
 function paresDesdeCoto(data) {
   const out = [];
   for (const res of data?.response?.results || []) {
     const nombre = String(res.value || "").replace(/\s+/g, " ").trim();
+    const sucursales = res.data?.store_availability;
+    if (Array.isArray(sucursales) && sucursales.length === 0) continue;
     const valores = (res.data?.price || []).map((p) => p.listPrice ?? p.formatPrice).filter((v) => v > 0);
     const precio = modaPrecios(valores);
     if (!nombre || !precio) continue;
+    const url = urlCoto(nombre, res.data?.url);
     const promo = promoCoto((res.data?.discounts || [])[0], precio);
-    if (promo && !promo.txt) out.push({ nombre, precio: promo.precio, lista: precio }); // oferta directa: ES el precio
+    if (promo && !promo.txt) out.push(conUrl({ nombre, precio: promo.precio, lista: precio }, url)); // oferta directa: ES el precio
     else {
-      out.push({ nombre, precio, lista: precio });
-      if (promo) out.push({ nombre: `${nombre} · ${promo.txt}`, precio: promo.precio, lista: precio }); // "llevando N": candidato aparte
+      out.push(conUrl({ nombre, precio, lista: precio }, url));
+      if (promo) out.push(conUrl({ nombre: `${nombre} · ${promo.txt}`, precio: promo.precio, lista: precio }, url)); // "llevando N": candidato aparte
     }
   }
   return out;
@@ -431,17 +453,23 @@ const limpiarCorte = (s) => s.replace(/\s+/g, " ").replace(/\s+x\s*kg\.?$/i, "")
 const pesos = (v) => "$" + Math.round(v).toLocaleString("es-AR");
 
 /* Corte suelto: el precio del ítem ES el precio por kilo */
-const notaPorKg = (c) => ({ p: Math.round(c.precio), n: `${limpiarCorte(c.nombre)} · ${pesos(c.precio)}/kg` });
+const notaPorKg = (c) => conUrl({ p: Math.round(c.precio), n: `${limpiarCorte(c.nombre)} · ${pesos(c.precio)}/kg` }, c.url);
+
+/* Compuestos (Combo, Asado): una página por corte → `urls: [{ n: etiqueta, url }]` */
+const urlsDeCortes = (obj, cortes) => {
+  const urls = cortes.filter((c) => c.url).map((c) => ({ n: c.et, url: c.url }));
+  return urls.length ? { ...obj, urls } : obj;
+};
 
 /* Combo de temporada: misma regla que la app (abr–sep = frío) */
 function comboCoto(porParte, invernal) {
   const [c1, c2] = invernal ? [porParte.falda, porParte.osobuco] : [porParte.marucha, porParte.aranita];
   if (!c1 || !c2) return null;
   const [et1, et2] = invernal ? ["falda", "osobuco"] : ["marucha", "arañita"];
-  return {
+  return urlsDeCortes({
     p: Math.round(c1.precio + c2.precio),
     n: `${et1} ${pesos(c1.precio)}/kg + ${et2} ${pesos(c2.precio)}/kg · estimo 1 kg de c/u`,
-  };
+  }, [{ et: et1, url: c1.url }, { et: et2, url: c2.url }]);
 }
 
 /* Asado: vacío o tapa de asado (el más barato) + tira de asado */
@@ -451,10 +479,10 @@ function asadoCoto(porParte) {
   opciones.sort((a, b) => a.precio - b.precio);
   const base = opciones[0];
   const tira = porParte.tira;
-  return {
+  return urlsDeCortes({
     p: Math.round(base.precio + tira.precio),
     n: `${base.et} ${pesos(base.precio)}/kg + tira ${pesos(tira.precio)}/kg · estimo 1 kg de c/u`,
-  };
+  }, [{ et: base.et, url: base.url }, { et: "tira", url: tira.url }]);
 }
 
 function mesAR() {
@@ -573,7 +601,7 @@ const precioFa = (prices) => Number(prices?.price) / 10 ** (Number(prices?.curre
 /* Producto simple → par nombre/precio (el tamaño viene en el nombre) */
 function paresProductoFa(p) {
   const precio = precioFa(p.prices);
-  return precio > 0 ? [{ nombre: nombreFa(p.name), precio, lista: precio }] : [];
+  return precio > 0 ? [conUrl({ nombre: nombreFa(p.name), precio, lista: precio }, p.permalink)] : [];
 }
 
 /* Producto variable: junta el PESO (en el padre) con el precio (en la variación) */
@@ -583,7 +611,7 @@ function paresVariacionesFa(padre, variaciones) {
   for (const v of variaciones) {
     const peso = pesoPorId.get(v.id);
     const precio = precioFa(v.prices);
-    if (peso && precio > 0) out.push({ nombre: `${nombreFa(padre.name)} ${normalizarPeso(peso)}`, precio, lista: precio });
+    if (peso && precio > 0) out.push(conUrl({ nombre: `${nombreFa(padre.name)} ${normalizarPeso(peso)}`, precio, lista: precio }, v.permalink || padre.permalink));
   }
   return out;
 }
@@ -619,13 +647,14 @@ function paresDesdeNewGarden(data) {
     const precio = Number(min.final_price?.value);
     const lista = Number(min.regular_price?.value) || precio;
     const nombre = String(it.name || "").replace(/\s+/g, " ").trim();
-    if (nombre && precio > 0) out.push({ nombre, precio, lista });
+    const url = it.url_key ? `https://newgarden.com.ar/${it.url_key}${it.url_suffix || ".html"}` : "";
+    if (nombre && precio > 0) out.push(conUrl({ nombre, precio, lista }, url));
   }
   return out;
 }
 
 async function buscarNewGarden(query) {
-  const gq = `{ products(search: ${JSON.stringify(query)}, pageSize: 20) { items { name stock_status price_range { minimum_price { final_price { value } regular_price { value } } } } } }`;
+  const gq = `{ products(search: ${JSON.stringify(query)}, pageSize: 20) { items { name stock_status url_key url_suffix price_range { minimum_price { final_price { value } regular_price { value } } } } } }`;
   const r = await fetch(NG, {
     method: "POST",
     headers: { "content-type": "application/json", accept: "application/json", "user-agent": "Mozilla/5.0 (compatible; ElChanguito/1.0)" },
@@ -737,7 +766,7 @@ function paresDesdeTiendaNube(html, incluirAgotados = false) {
         const precio = Number(of.price ?? of.lowPrice);
         const nombre = String(o.name || "").replace(/\s+/g, " ").trim();
         const agotado = /outofstock/i.test(String(of.availability || ""));
-        if (nombre && precio > 0 && (incluirAgotados || !agotado)) out.push({ nombre, precio, lista: precio });
+        if (nombre && precio > 0 && (incluirAgotados || !agotado)) out.push(conUrl({ nombre, precio, lista: precio }, o.url || of.url));
       }
     }
   }
@@ -760,7 +789,7 @@ async function preciosOtros() {
     try {
       if (item.url) {
         const p = productoDePagina(await (await fetch(item.url, CAB_HTML)).text());
-        if (p && item.must.every((re) => re.test(p.nombre))) el = { p: Math.round(p.precio), n: p.nombre };
+        if (p && item.must.every((re) => re.test(p.nombre))) el = { p: Math.round(p.precio), n: p.nombre, url: item.url };
       } else {
         const cand = [];
         for (const q of item.qs) {
@@ -858,11 +887,11 @@ function elegirVerdura(nombre, candidatos) {
   const limpio = (n) => n.replace(/\s+/g, " ").replace(/\s+x\s*kg\.?$/i, "").trim().slice(0, 60);
   if (porKg.length) {
     porKg.sort((a, b) => a.v - b.v);
-    return { p: Math.round(porKg[0].v), n: `${limpio(porKg[0].c.nombre)} · $${Math.round(porKg[0].v).toLocaleString("es-AR")}/kg`, u: "kg" };
+    return conUrl({ p: Math.round(porKg[0].v), n: `${limpio(porKg[0].c.nombre)} · $${Math.round(porKg[0].v).toLocaleString("es-AR")}/kg`, u: "kg" }, porKg[0].c.url);
   }
   if (porUn.length) {
     porUn.sort((a, b) => a.v - b.v);
-    return { p: Math.round(porUn[0].v), n: `${limpio(porUn[0].c.nombre)} · $${Math.round(porUn[0].v).toLocaleString("es-AR")}/un`, u: "un" };
+    return conUrl({ p: Math.round(porUn[0].v), n: `${limpio(porUn[0].c.nombre)} · $${Math.round(porUn[0].v).toLocaleString("es-AR")}/un`, u: "un" }, porUn[0].c.url);
   }
   return null;
 }
@@ -879,7 +908,16 @@ function mejorVerdura(nombre, candDia, candCoto) {
   if (!opciones.length) return null;
   opciones.sort((a, b) => ((b.u === "kg") - (a.u === "kg")) || (a.p - b.p));
   const g = opciones[0];
-  return { p: g.p, n: `${g.n} · ${g.etiqueta}`, s: g.s, u: g.u };
+  return conUrl({ p: g.p, n: `${g.n} · ${g.etiqueta}`, s: g.s, u: g.u }, g.url);
+}
+
+/* Verdulería sin referencia REAL: si DIA y COTO respondieron (listas, no null) y ninguno la
+   vende fresca, se publica `p: 0` para que la app BORRE el precio que tuviera (p. ej. un SKU
+   fantasma de COTO que ya no pasa el filtro, como "Cúrcuma X Kg" a $1.799). Si alguna
+   búsqueda falló (null), null: queda el precio anterior como siempre. */
+const SIN_REFERENCIA = { p: 0, n: "hoy ni DIA ni COTO la venden fresca" };
+function referenciaVerdu(nombre, candDia, candCoto) {
+  return mejorVerdura(nombre, candDia, candCoto) || (Array.isArray(candDia) && Array.isArray(candCoto) ? { ...SIN_REFERENCIA } : null);
 }
 
 async function preciosVerdu() {
@@ -893,22 +931,117 @@ async function preciosVerdu() {
   const out = [];
   for (const nombre of VERDU_SIMPLES) {
     const [cd, cc] = await buscarAmbos(nombre);
-    out.push([nombre, mejorVerdura(nombre, cd, cc)]);
+    out.push([nombre, referenciaVerdu(nombre, cd, cc)]);
   }
   for (const [pick, opciones] of Object.entries(VERDU_PICKS)) {
     const op = {};
     for (const o of opciones) {
       const [cd, cc] = await buscarAmbos(o);
       const m = mejorVerdura(o, cd, cc);
-      if (m) op[o] = { p: m.p, s: m.s, u: m.u };
+      if (m) op[o] = conUrl({ p: m.p, s: m.s, u: m.u }, m.url);
     }
     const nombres = Object.keys(op);
     if (!nombres.length) { out.push([pick, null]); continue; }
     const porKilo = nombres.filter((n) => op[n].u === "kg");
     const masBarata = (porKilo.length ? porKilo : nombres).sort((a, b) => op[a].p - op[b].p)[0];
-    out.push([pick, { p: op[masBarata].p, n: `la más barata hoy: ${masBarata} ($${op[masBarata].p.toLocaleString("es-AR")}/${op[masBarata].u}, ${op[masBarata].s === "dia" ? "DIA" : "COTO"}) · ${nombres.length}/${opciones.length} con precio`, s: op[masBarata].s, u: op[masBarata].u, op }]);
+    out.push([pick, conUrl({ p: op[masBarata].p, n: `la más barata hoy: ${masBarata} ($${op[masBarata].p.toLocaleString("es-AR")}/${op[masBarata].u}, ${op[masBarata].s === "dia" ? "DIA" : "COTO"}) · ${nombres.length}/${opciones.length} con precio`, s: op[masBarata].s, u: op[masBarata].u, op }, op[masBarata].url)]);
   }
   return out;
+}
+
+/* ---------- MERCADO CENTRAL: referencia MAYORISTA para Verdulería ----------
+   Además del más barato entre DIA y COTO (minorista: donde el usuario puede ir a
+   comprar), cada verdura/fruta lleva en `mc` el $/kg del ÚLTIMO día publicado por
+   el Mercado Central de Buenos Aires (mayorista, solo para tener de referencia).
+   Mapeo nombre de la app → especie del Mercado (mayúsculas sin tilde, truncadas a
+   10 letras; se aceptan varias grafías). Con `var`, promedio de las líneas de esa
+   variedad (Tomate = REDONDO, no cherry; Morrón = PIMIENTO MORRON; Zapallito =
+   REDONDO y Zucchini = LARGO; Zapallo anco = ZAPALLO ANC…); sin `var`, el
+   promedio de la especie (fila Prom.Esp.). Lo que no cotiza ese día queda sin
+   referencia (fuera de temporada en el mayorista). */
+const MC_VERDU = {
+  "Ajo": "AJO", "Cebolla": "CEBOLLA", "Cúrcuma": "CURCUMA", "Jengibre": "JENGIBRE", "Limón": "LIMON",
+  "Morrón": { esp: "PIMIENTO", var: /MORRON/ }, "Papa": "PAPA", "Palta": "PALTA", "Tomate": { esp: "TOMATE", var: /REDONDO/ }, "Zanahoria": "ZANAHORIA",
+  // Fruta
+  "Ananá": "ANANA", "Arándanos": "ARANDANO", "Banana": "BANANA", "Caqui": "CAQUI", "Cereza": "CEREZA", "Ciruela": "CIRUELA",
+  "Durazno": "DURAZNO", "Frambuesa": "FRAMBUESA", "Frutilla": "FRUTILLA", "Granada": "GRANADA", "Higo": "HIGO", "Kiwi": "KIWI",
+  "Mandarina": "MANDARINA", "Mango": "MANGO", "Manzana": "MANZANA", "Maracuya (fruta de la pasión)": "MARACUYA", "Melón": "MELON",
+  "Membrillo": "MEMBRILLO", "Mora": "MORA", "Naranja": "NARANJA", "Papaya": ["MAMON", "PAPAYA"], "Pera": "PERA",
+  "Pitahaya (fruta del dragón)": "PITAHAYA", "Pomelo": "POMELO", "Sandía": "SANDIA", "Uva": "UVA",
+  // Solo ensalada
+  "Apio": "APIO", "Berro": "BERRO", "Lechuga": "LECHUGA", "Rabanitos": "RABANITO", "Radicheta": "RADICHETA", "Rúcula": "RUCULA",
+  // Estructurales
+  "Alcaucil": "ALCAUCIL", "Berenjena": "BERENJENA", "Brócoli": "BROCOLI", "Espárragos": "ESPARRAGO", "Hakusay": ["ACUSAY", "HAKUSAY"],
+  "Hinojo": "HINOJO", "Repollo": "REPOLLO", "Zapallito": { esp: "ZAPALLITO", var: /REDONDO/ }, "Zucchini": { esp: "ZAPALLITO", var: /LARGO/ },
+  // Apoyo
+  "Acelga": "ACELGA", "Chaucha": "CHAUCHA", "Espinaca": "ESPINACA", "Kale": "KALE",
+  // Contundentes
+  "Batata": "BATATA", "Calabaza": "ZAPALLO", "Choclo": "CHOCLO", "Coliflor": "COLIFLOR", "Mandioca": "MANDIOCA", "Remolacha": "REMOLACHA",
+  "Zapallo anco": { esp: "ZAPALLO", var: /ANC/ },
+  // Hierbas y aromáticos
+  "Albahaca": "ALBAHACA", "Cilantro": ["CILANTRO", "CILANDRO"], "Perejil": "PEREJIL", "Puerro (frío)": "PUERRO", "Verdeo (calor)": ["CEB.VERDEO", "VERDEO"],
+};
+
+const sinTilde = (t) => String(t).toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+const fechaDdMmAaaa = (iso) => (/^\d{4}-\d{2}-\d{2}$/.test(iso || "") ? `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}` : iso || "");
+
+/* Salida de ultimoDiaMercadoCentral() → { nombreApp: { p: $/kg, f: "dd/mm/aaaa", n?: etiqueta del Mercado } }.
+   `n` solo cuando la especie del Mercado no se llama como el ítem (Mamon, Pimiento morron…). */
+function mcParaVerdu(ultimo) {
+  const out = {};
+  const rubros = ["frutas", "hortalizas"].filter((r) => ultimo && ultimo[r] && ultimo[r].especies);
+  const raiz = (t) => sinTilde(t).replace(/\s*\(.*\)$/, "").replace(/[^A-ZÑ]/g, "").replace(/S$/, "");
+  for (const [nombre, cfg] of Object.entries(MC_VERDU)) {
+    const esps = [].concat(cfg && cfg.esp ? cfg.esp : cfg).map((e) => sinTilde(e).slice(0, 10));
+    const re = cfg && cfg.var;
+    for (const r of rubros) {
+      const { fecha, especies } = ultimo[r];
+      const clave = Object.keys(especies).find((k) => esps.includes(sinTilde(k)));
+      if (!clave) continue;
+      const e = especies[clave];
+      let p = e.kilo, etiqueta = clave;
+      if (re) {
+        const lineas = (e.lineas || []).filter((l) => re.test(sinTilde(l.variedad)) && l.kilo && l.kilo.moda > 0);
+        if (!lineas.length) continue;
+        p = lineas.reduce((a, l) => a + l.kilo.moda, 0) / lineas.length;
+        etiqueta = `${clave} ${lineas[0].variedad}`;
+      }
+      if (!(p > 0)) continue;
+      const mc = { p: Math.round(p), f: fechaDdMmAaaa(fecha) };
+      if (raiz(etiqueta) !== raiz(nombre)) mc.n = etiqueta.charAt(0) + etiqueta.slice(1).toLowerCase();
+      out[nombre] = mc;
+      break;
+    }
+  }
+  return out;
+}
+
+/* Pone `mc` en cada ítem simple de Verdulería y en cada opción de los picks
+   (aunque la opción no tenga precio minorista). Si el Mercado se leyó, manda lo
+   de HOY: lo que no cotizó queda sin `mc`. Si falló la lectura (mapa null), se
+   conservan los `mc` previos. Devuelve cuántas referencias quedaron. */
+function aplicarMC(precios, mapa, previo = {}) {
+  let n = 0;
+  const mcDe = (nombre, prevMc) => (mapa ? mapa[nombre] || null : prevMc || null);
+  const sinMc = (o) => { const { mc, ...resto } = o; return resto; };
+  for (const nombre of VERDU_SIMPLES) {
+    if (!precios[nombre]) continue;
+    const mc = mcDe(nombre, (previo[nombre] || {}).mc);
+    precios[nombre] = mc ? { ...precios[nombre], mc } : sinMc(precios[nombre]);
+    if (mc) n++;
+  }
+  for (const [pick, opciones] of Object.entries(VERDU_PICKS)) {
+    if (!precios[pick]) continue;
+    const op = { ...(precios[pick].op || {}) };
+    const prevOp = (previo[pick] || {}).op || {};
+    for (const o of opciones) {
+      const mc = mcDe(o, (prevOp[o] || {}).mc);
+      if (mc) { op[o] = { ...(op[o] || {}), mc }; n++; }
+      else if (op[o]) { const resto = sinMc(op[o]); if (Object.keys(resto).length) op[o] = resto; else delete op[o]; }
+    }
+    precios[pick] = { ...precios[pick], op };
+  }
+  return n;
 }
 
 /* ---------- Selección según el criterio ---------- */
@@ -976,7 +1109,7 @@ function elegir(item, candidatos) {
       nota += ` · ${item.marca.nombre} $${Math.round(m.estimado).toLocaleString("es-AR")}${dif !== 0 ? ` (${dif > 0 ? "+" : ""}${dif}%)` : ""}`;
     }
   }
-  return { p: Math.round(g.estimado), n: nota };
+  return conUrl({ p: Math.round(g.estimado), n: nota }, g.url);
 }
 
 /* Variación de precio: d = diferencia en $ y dv = fecha en que cambió. Si el precio
@@ -1146,7 +1279,11 @@ async function main() {
   try { resVerdu = await preciosVerdu(); } catch (e) { console.log("VERDU: error → " + e.message); }
   if (resVerdu.length === 0) resVerdu = NOMBRES_VERDU.map((n) => [n, null]);
   for (const [name, el] of resVerdu) {
-    if (el) {
+    if (el && el.p === 0) {
+      precios[name] = { ...el }; // sin referencia real: la app borra el precio viejo (sin flecha: no es un movimiento)
+      ok++;
+      console.log(`· ${name} → ${el.n} (se borra el precio anterior${previoPrices[name] && previoPrices[name].p > 0 ? ` $${previoPrices[name].p}` : ""})`);
+    } else if (el) {
       const elD = conDelta(el, previoPrices[name], hoy);
       precios[name] = elD;
       ok++;
@@ -1156,6 +1293,20 @@ async function main() {
       console.log(`✘ ${name} → sin match en DIA ni COTO (queda el precio anterior si había)`);
     }
   }
+
+  // --- Mercado Central (referencia mayorista para Verdulería) ---
+  console.log("\n— Mercado Central (mayorista, último día publicado) —");
+  let mapaMC = null;
+  try {
+    const ultimo = await ultimoDiaMercadoCentral({ log: () => {} });
+    mapaMC = mcParaVerdu(ultimo);
+    console.log("(" + ["frutas", "hortalizas"].map((r) => (ultimo[r] ? `${r}: ${fechaDdMmAaaa(ultimo[r].fecha)}` : `${r}: sin datos`)).join(" · ") + ")");
+    for (const nombre of [...VERDU_SIMPLES, ...Object.values(VERDU_PICKS).flat()]) {
+      const mc = mapaMC[nombre];
+      console.log(mc ? `✔ ${nombre} → $${mc.p}/kg${mc.n ? ` (${mc.n})` : ""} · ${mc.f}` : `· ${nombre} → sin cotización ese día en el Central`);
+    }
+  } catch (e) { console.log("MERCADO CENTRAL: error → " + e.message + " (quedan las referencias anteriores)"); }
+  console.log(`(${aplicarMC(precios, mapaMC, previoPrices)} referencias mayoristas en precios.json)`);
 
   if (ok === 0) {
     console.error("\nNingún ítem se pudo actualizar: no escribo el archivo para no romper nada.");
@@ -1168,14 +1319,15 @@ async function main() {
 }
 
 export {
-  parseQty, elegir, buscarVtex, promoVtex, conDelta, DESCUENTOS, opcionesElPuente,
+  parseQty, elegir, buscarVtex, paresDesdeVtex, promoVtex, conDelta, DESCUENTOS, opcionesElPuente,
   ITEMS, ITEMS_ELPUENTE, parsearListadoElPuente, candidatosElPuente,
   ITEMS_COTO, PARTES_CARNE, NOMBRES_COTO, modaPrecios, promoCoto, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto, buscarCoto, preciosCoto,
   ITEMS_DIETETICA, NOMBRES_DIETETICA, RECHAZO_DIET, normalizarPeso, paresProductoFa, paresVariacionesFa, buscarFrutosAre,
   paresDesdeNewGarden, buscarNewGarden, preciosDietetica,
   ITEMS_OTROS, NOMBRES_OTROS, paresDesdeTiendaNube, productoDePagina, preciosOtros,
   ITEMS_PESCE, NOMBRES_PESCE, preciosPesce,
-  VERDU_SIMPLES, VERDU_PICKS, NOMBRES_VERDU, regexVerdu, elegirVerdura, mejorVerdura, preciosVerdu,
+  VERDU_SIMPLES, VERDU_PICKS, NOMBRES_VERDU, regexVerdu, elegirVerdura, mejorVerdura, referenciaVerdu, preciosVerdu,
+  MC_VERDU, mcParaVerdu, aplicarMC,
   ITEMS_FARMACITY, NOMBRES_FARMACITY, preciosFarmacity,
 };
 

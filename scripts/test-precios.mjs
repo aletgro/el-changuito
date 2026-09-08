@@ -5,11 +5,11 @@
 
 import assert from "node:assert/strict";
 import {
-  parseQty, elegir, ITEMS_ELPUENTE, parsearListadoElPuente,
+  parseQty, elegir, paresDesdeVtex, ITEMS_ELPUENTE, parsearListadoElPuente,
   ITEMS_COTO, PARTES_CARNE, modaPrecios, promoCoto, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto,
   ITEMS_DIETETICA, normalizarPeso, paresProductoFa, paresVariacionesFa, paresDesdeNewGarden,
   ITEMS_OTROS, paresDesdeTiendaNube, productoDePagina, ITEMS_FARMACITY, ITEMS_PESCE, promoVtex, conDelta, DESCUENTOS, opcionesElPuente,
-  regexVerdu, elegirVerdura, mejorVerdura,
+  regexVerdu, elegirVerdura, mejorVerdura, referenciaVerdu, VERDU_SIMPLES, VERDU_PICKS, MC_VERDU, mcParaVerdu, aplicarMC,
 } from "./actualizar-precios.mjs";
 
 const item = (name) => ITEMS_ELPUENTE.find((i) => i.name === name);
@@ -186,6 +186,49 @@ test("paresDesdeCoto: listPrice por sucursal con respaldo formatPrice; sin preci
     { nombre: "Falda X KG", precio: 7699, lista: 7699 },
     { nombre: "Marucha X KG", precio: 10999, lista: 10999 },
   ]);
+});
+
+test("paresDesdeCoto: arma la URL de la página del producto y descarta los SKUs fantasma (sin sucursales)", () => {
+  const pares = paresDesdeCoto({ response: { results: [
+    { value: "Cebolla A Granel X Kg", data: { url: "_/R-00000602-00000602-200", store_availability: ["090", "200"], price: [{ store: "090", listPrice: 2499 }, { store: "200", listPrice: 2499 }] } },
+    // con precio en todas las sucursales pero disponible en NINGUNA: no está en el sitio ni en la góndola
+    { value: "Cebolla Premium Xkg 1 Kgm", data: { url: "_/R-00012711-00012711-200", store_availability: [], price: [{ store: "090", listPrice: 999 }] } },
+    { value: "Cebolla Roja Bolsa X 1 Kgm", data: { url: "_/R-00010991-00010991-200", store_availability: [], price: [{ store: "090", listPrice: 299 }] } },
+    // la oferta "llevando N" hereda la misma página; sin campo store_availability no se filtra
+    { value: "Sémola Bonalma 500 Grm", data: { url: "_/R-00512345-00512345-200", price: [{ store: "090", listPrice: 3580 }], discounts: [{ discountText: "2x1", discountPrice: "$1790.00", takingText: "Llevando 2" }] } },
+  ] } });
+  assert.deepEqual(pares, [
+    // formato del sitio: /productos/<slug del nombre>/_/R-… (sin tilde, con guion final como lo arma COTO)
+    { nombre: "Cebolla A Granel X Kg", precio: 2499, lista: 2499, url: "https://www.coto.com.ar/productos/cebolla-a-granel-x-kg-/_/R-00000602-00000602-200" },
+    { nombre: "Sémola Bonalma 500 Grm", precio: 3580, lista: 3580, url: "https://www.coto.com.ar/productos/semola-bonalma-500-grm-/_/R-00512345-00512345-200" },
+    { nombre: "Sémola Bonalma 500 Grm · 2x1 llevando 2", precio: 1790, lista: 3580, url: "https://www.coto.com.ar/productos/semola-bonalma-500-grm-/_/R-00512345-00512345-200" },
+  ]);
+});
+
+test("elegir(): el ganador conserva la url de su página (y no inventa una si el candidato no la trae)", () => {
+  const con = elegir(itemCoto("Sémola"), [
+    { nombre: "Sémola De Trigo Pureza 500g", precio: 2030, lista: 2030, url: "https://www.coto.com.ar/productos/_/R-00000001-00000001-200" },
+    { nombre: "Semola Bonalma 500 Grm", precio: 3580, lista: 3580, url: "https://www.coto.com.ar/productos/_/R-00000002-00000002-200" },
+  ]);
+  assert.equal(con.url, "https://www.coto.com.ar/productos/_/R-00000001-00000001-200");
+  const sin = elegir(itemCoto("Sémola"), [{ nombre: "Sémola De Trigo Pureza 500g", precio: 2030, lista: 2030 }]);
+  assert.equal("url" in sin, false);
+});
+
+test("Carnicería: el corte suelto lleva su url; Combo y Asado, una página por corte", () => {
+  const U = (n) => `https://www.coto.com.ar/productos/_/R-${n}-${n}-200`;
+  const roast = notaPorKg({ nombre: "Roast Beef Estancias Coto X KG", precio: 13299, url: U("00000010") });
+  assert.equal(roast.url, U("00000010"));
+  const combo = comboCoto({ falda: { nombre: "Falda X KG", precio: 7699, url: U("00000011") }, osobuco: { nombre: "Osobuco X KG", precio: 7899, url: U("00000012") } }, true);
+  assert.deepEqual(combo.urls, [{ n: "falda", url: U("00000011") }, { n: "osobuco", url: U("00000012") }]);
+  assert.equal("url" in combo, false);
+  const asado = asadoCoto({
+    vacio: { nombre: "Vacío X KG", precio: 17499, url: U("00000013") },
+    tapa: { nombre: "Tapa De Asado X KG", precio: 13299, url: U("00000014") },
+    tira: { nombre: "Asado Del Medio X KG", precio: 12499, url: U("00000015") },
+  });
+  assert.deepEqual(asado.urls, [{ n: "tapa de asado", url: U("00000014") }, { n: "tira", url: U("00000015") }]);
+  assert.equal("urls" in comboCoto({ falda: { nombre: "Falda X KG", precio: 7699 }, osobuco: { nombre: "Osobuco X KG", precio: 7899 } }, true), false); // sin urls, sin campo
 });
 
 const HARINAS = [
@@ -652,6 +695,20 @@ test("promoVtex: los descuentos ya aplicados al precio (DiscountHighLight) no se
   assert.equal(promoVtex({}), null);
 });
 
+test("paresDesdeVtex: cada candidato lleva el link de su página en DIA/Farmacity (la promo también)", () => {
+  const pares = paresDesdeVtex([
+    { productName: "Cebolla Elegida Premium x kg", link: "https://diaonline.supermercadosdia.com.ar/cebolla-elegida-premium-x-kg-90141/p",
+      items: [{ sellers: [{ commertialOffer: { Price: 2199, ListPrice: 2199, AvailableQuantity: 1, Teasers: [{ "<Name>k__BackingField": "2x1 Solo Web" }] } }] }] },
+    { productName: "Sin stock", link: "https://diaonline.supermercadosdia.com.ar/x/p", items: [{ sellers: [{ commertialOffer: { Price: 100, AvailableQuantity: 0 } }] }] },
+    { productName: "Sin link", items: [{ sellers: [{ commertialOffer: { Price: 100, AvailableQuantity: 5 } }] }] },
+  ]);
+  assert.deepEqual(pares, [
+    { nombre: "Cebolla Elegida Premium x kg", precio: 2199, lista: 2199, url: "https://diaonline.supermercadosdia.com.ar/cebolla-elegida-premium-x-kg-90141/p" },
+    { nombre: "Cebolla Elegida Premium x kg · 2x1 llevando 2", precio: 1099.5, lista: 2199, url: "https://diaonline.supermercadosdia.com.ar/cebolla-elegida-premium-x-kg-90141/p" },
+    { nombre: "Sin link", precio: 100, lista: 100 },
+  ]);
+});
+
 test("mejor precio con 2x1: el candidato promo gana si el efectivo por unidad es menor", () => {
   const el = elegir(itemFarma("Enjuague bucal"), [
     { nombre: "Enjuague Bucal Colgate Plax Menta Fresca x 500 ml", precio: 4566, lista: 7610 },              // $9.132/L
@@ -830,6 +887,38 @@ test("paresDesdeTiendaNube: productos desde JSON-LD (ItemList y Product sueltos)
   assert.deepEqual(paresDesdeTiendaNube(html), [{ nombre: "MIX DE HONGOS IQF (500G) - BIOMAC", precio: 7702.39, lista: 7702.39 }]);
 });
 
+test("Frutos del Are, New Garden y TiendaNube: la página del producto viaja con el candidato", () => {
+  assert.equal(paresProductoFa({ name: "Comino en grano x 50 gr", permalink: "https://frutosare.com.ar/producto/comino-en-grano/", prices: { price: "1200", currency_minor_unit: 0 } })[0].url,
+    "https://frutosare.com.ar/producto/comino-en-grano/");
+  const padre = { name: "Nueces mariposa", permalink: "https://frutosare.com.ar/producto/nueces-mariposa/", variations: [{ id: 7, attributes: [{ value: "500GS" }] }] };
+  const [v] = paresVariacionesFa(padre, [{ id: 7, permalink: "https://frutosare.com.ar/producto/nueces-mariposa/?attribute_peso=500GS", prices: { price: "9000", currency_minor_unit: 0 } }]);
+  assert.equal(v.url, "https://frutosare.com.ar/producto/nueces-mariposa/?attribute_peso=500GS");
+  const [sinPermalinkPropio] = paresVariacionesFa(padre, [{ id: 7, prices: { price: "9000", currency_minor_unit: 0 } }]);
+  assert.equal(sinPermalinkPropio.url, "https://frutosare.com.ar/producto/nueces-mariposa/"); // respaldo: la del padre
+  const [ng] = paresDesdeNewGarden({ data: { products: { items: [{ name: "Piñones 50g", url_key: "pi-ones-x-50-g", url_suffix: ".html", price_range: { minimum_price: { final_price: { value: 5000 } } } }] } } });
+  assert.equal(ng.url, "https://newgarden.com.ar/pi-ones-x-50-g.html");
+  const html = '<script type="application/ld+json">' + JSON.stringify({ "@type": "Product", name: "MEJILLÓN PELADO x kilo", offers: { price: 12000, availability: "https://schema.org/InStock", url: "https://www.tiendapesce.com.ar/productos/mejillon-pelado-x-kilo/" } }) + "</script>";
+  assert.equal(paresDesdeTiendaNube(html)[0].url, "https://www.tiendapesce.com.ar/productos/mejillon-pelado-x-kilo/");
+});
+
+test("referenciaVerdu: si DIA y COTO respondieron y ninguno la vende, p: 0 (se borra el precio viejo); si una búsqueda falló, null (se conserva)", () => {
+  const soloFantasma = paresDesdeCoto({ response: { results: [{ value: "Cúrcuma X Kg", data: { url: "_/R-1-1-200", store_availability: [], price: [{ store: "090", listPrice: 1799 }] } }] } });
+  assert.deepEqual(soloFantasma, []); // el único candidato era un SKU fantasma
+  assert.deepEqual(referenciaVerdu("Cúrcuma", [{ nombre: "Cúrcuma Molida 50 g", precio: 1499, lista: 1499 }], soloFantasma), { p: 0, n: "hoy ni DIA ni COTO la venden fresca" }); // la molida es especia (< 80 g)
+  assert.equal(referenciaVerdu("Cúrcuma", null, soloFantasma), null);      // DIA no respondió: no se borra nada
+  assert.equal(referenciaVerdu("Cúrcuma", [], null), null);                // COTO no respondió
+  assert.equal(referenciaVerdu("Cebolla", [{ nombre: "Cebolla x kg", precio: 1990, lista: 1990 }], []).p, 1990); // con match, lo de siempre
+  assert.equal("d" in conDelta({ p: 2499, n: "Cebolla" }, { p: 0, n: "sin referencia" }, "08/09/2026"), false); // volver a tener precio no es una "suba"
+});
+
+test("Verdulería: la referencia y cada opción del pick recuerdan la página del ganador", () => {
+  const dia = [{ nombre: "Cebolla Comercial en bolsa malla 1 kg", precio: 1990, lista: 1990, url: "https://diaonline.supermercadosdia.com.ar/cebolla-1/p" }];
+  const coto = [{ nombre: "Cebolla A Granel X Kg", precio: 1499, lista: 1499, url: "https://www.coto.com.ar/productos/_/R-00000602-00000602-200" }];
+  assert.equal(elegirVerdura("Cebolla", dia).url, "https://diaonline.supermercadosdia.com.ar/cebolla-1/p");
+  assert.deepEqual(mejorVerdura("Cebolla", dia, coto), { p: 1499, n: "Cebolla A Granel · $1.499/kg · COTO", s: "coto", u: "kg", url: "https://www.coto.com.ar/productos/_/R-00000602-00000602-200" });
+  assert.deepEqual(mejorVerdura("Cebolla", dia, null), { p: 1990, n: "Cebolla Comercial en bolsa malla 1 kg · $1.990/kg · DIA", s: "dia", u: "kg", url: "https://diaonline.supermercadosdia.com.ar/cebolla-1/p" });
+});
+
 test("productoDePagina: el producto principal sale del bloque de analytics", () => {
   const p = productoDePagina('x{"item_id":"1","item_name":"Aceto Balsamico Millan","price":6240,"item_category2":"x"}');
   assert.deepEqual(p, { nombre: "Aceto Balsamico Millan", precio: 6240, lista: 6240 });
@@ -844,6 +933,72 @@ test("Hongos para cocinar: el mix de 500 g le gana al champignon de 1 kg; medall
   ]);
   assert.equal(el.p, 7702);
   assert.match(el.n, /MIX DE HONGOS/);
+});
+
+/* ---------- Mercado Central: referencia mayorista para Verdulería ---------- */
+const L = (variedad, moda) => ({ variedad, procedencia: "BS. AS.", envase: "CA", kg: 10, calidad: "1A", tamano: "", grado: "", bulto: {}, kilo: { max: moda + 100, moda, min: moda - 100 } });
+const ULTIMO = {
+  frutas: { fecha: "2026-09-04", especies: {
+    "PALTA": { kilo: 4746.36, lineas: [L("HASS", 5000), L("TORRES", 4492.72)] },
+    "MAMON": { kilo: 3300, lineas: [L("", 3300)] },
+    "ARANDANO": { kilo: 18666.7, lineas: [L("", 18666.7)] },
+  } },
+  hortalizas: { fecha: "2026-09-03", especies: {
+    "PAPA": { kilo: 1134.22, lineas: [L("AGATA", 1100), L("SPUNTA", 1168.44)] },
+    "TOMATE": { kilo: 3008.89, lineas: [L("CHERRY", 6000), L("PERITA", 2100), L("REDONDO", 2000), L("REDONDO", 2400)] },
+    "PIMIENTO": { kilo: 2910.42, lineas: [L("JALAPEÑO", 4000), L("MORRON", 2500), L("VINAGRE", 3000)] },
+    "ZAPALLITO": { kilo: 1648.15, lineas: [L("REDONDO", 1648.15)] },   // sin LARGO ese día
+    "CILANDRO": { kilo: 11000, lineas: [L("", 11000)] },
+    "ACUSAY": { kilo: 765, lineas: [L("", 765)] },
+  } },
+};
+
+test("MC_VERDU: todos los ítems simples y todas las opciones de los picks de Verdulería tienen especie del Mercado", () => {
+  for (const n of [...VERDU_SIMPLES, ...Object.values(VERDU_PICKS).flat()]) assert.ok(MC_VERDU[n], `falta ${n}`);
+});
+test("mcParaVerdu: especie → $/kg de Prom.Esp. con fecha dd/mm/aaaa del rubro; sin etiqueta si se llama igual", () => {
+  const m = mcParaVerdu(ULTIMO);
+  assert.deepEqual(m["Papa"], { p: 1134, f: "03/09/2026" });
+  assert.deepEqual(m["Palta"], { p: 4746, f: "04/09/2026" });
+  assert.deepEqual(m["Arándanos"], { p: 18667, f: "04/09/2026" });        // plural de la app = ARANDANO
+});
+test("mcParaVerdu: con `var` promedia SOLO esa variedad (Tomate redondo, no cherry) y etiqueta la diferencia", () => {
+  const m = mcParaVerdu(ULTIMO);
+  assert.deepEqual(m["Tomate"], { p: 2200, f: "03/09/2026", n: "Tomate redondo" });
+  assert.deepEqual(m["Morrón"], { p: 2500, f: "03/09/2026", n: "Pimiento morron" });
+  assert.deepEqual(m["Zapallito"], { p: 1648, f: "03/09/2026", n: "Zapallito redondo" });
+  assert.equal(m["Zucchini"], undefined);                                  // no hubo ZAPALLITO LARGO ese día
+});
+test("mcParaVerdu: grafías alternativas del Mercado (MAMON = papaya, ACUSAY = hakusay, CILANDRO) y lo ausente queda afuera", () => {
+  const m = mcParaVerdu(ULTIMO);
+  assert.deepEqual(m["Papaya"], { p: 3300, f: "04/09/2026", n: "Mamon" });
+  assert.deepEqual(m["Hakusay"], { p: 765, f: "03/09/2026", n: "Acusay" });
+  assert.deepEqual(m["Cilantro"], { p: 11000, f: "03/09/2026", n: "Cilandro" });
+  assert.equal(m["Caqui"], undefined);
+  assert.equal(m["Banana"], undefined);
+  assert.deepEqual(mcParaVerdu(null), {});
+});
+test("aplicarMC: pone mc en simples y en cada opción del pick (también sin precio minorista); lo que no cotizó hoy pierde el mc viejo", () => {
+  const precios = {
+    "Papa": { p: 2390, n: "Papa Negra · DIA", s: "dia", u: "kg" },
+    "Tomate": { p: 1990, n: "Tomate · DIA", s: "dia", u: "kg", mc: { p: 9999, f: "01/01/2026" } },
+    "Fruta": { p: 799, n: "la más barata hoy: Pomelo", s: "coto", u: "kg", op: { "Pomelo": { p: 799, s: "coto", u: "kg" }, "Banana": { p: 3990, s: "dia", u: "kg", mc: { p: 1, f: "01/01/2026" } } } },
+  };
+  const n = aplicarMC(precios, { "Papa": { p: 1134, f: "03/09/2026" }, "Papaya": { p: 3300, f: "04/09/2026", n: "Mamon" } }, {});
+  assert.equal(n, 2);
+  assert.deepEqual(precios["Papa"].mc, { p: 1134, f: "03/09/2026" });
+  assert.equal(precios["Tomate"].mc, undefined);                           // mc viejo fuera: hoy no cotizó
+  assert.equal(precios["Tomate"].p, 1990);                                 // el minorista no se toca
+  assert.deepEqual(precios["Fruta"].op["Papaya"], { mc: { p: 3300, f: "04/09/2026", n: "Mamon" } });
+  assert.deepEqual(precios["Fruta"].op["Pomelo"], { p: 799, s: "coto", u: "kg" });
+  assert.deepEqual(precios["Fruta"].op["Banana"], { p: 3990, s: "dia", u: "kg" });
+});
+test("aplicarMC: si el Mercado falló (mapa null) se conservan los mc anteriores", () => {
+  const previo = { "Papa": { p: 2000, mc: { p: 1100, f: "02/09/2026" } }, "Fruta": { p: 700, op: { "Banana": { p: 3990, s: "dia", u: "kg", mc: { p: 1458, f: "02/09/2026" } } } } };
+  const precios = { "Papa": { p: 2390, n: "Papa Negra · DIA", s: "dia", u: "kg" }, "Fruta": { p: 799, op: { "Banana": { p: 3990, s: "dia", u: "kg" } } } };
+  assert.equal(aplicarMC(precios, null, previo), 2);
+  assert.deepEqual(precios["Papa"].mc, { p: 1100, f: "02/09/2026" });
+  assert.deepEqual(precios["Fruta"].op["Banana"].mc, { p: 1458, f: "02/09/2026" });
 });
 
 console.log(`\n${pasan} tests OK`);

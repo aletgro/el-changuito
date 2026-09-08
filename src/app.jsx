@@ -289,6 +289,20 @@ const opPrecio = (v) => (v && typeof v === "object" ? v.p : v);
 const opSrc = (v) => (v && typeof v === "object" ? v.s || "" : "");
 const opUnidad = (v) => (v && typeof v === "object" ? v.u || "" : "");
 const ETIQUETA_SRC = { dia: "DIA", coto: "COTO" };
+/* Página del producto en el sitio de origen (precios.json: `url`, o `urls: [{ n, url }]` en los
+   compuestos de carnicería). En el ítem queda `priceLinks: [{ url, n? }]`; la pinta LinkChips. */
+const TIENDA_URL = [["supermercadosdia", "DIA"], ["coto.com", "COTO"], ["frutosare", "Frutos del Are"], ["newgarden", "New Garden"], ["farmacity", "Farmacity"], ["carmin", "Carmín"], ["bonvino", "BonVino"], ["tiendanova", "Tienda Nova"], ["tiendapesce", "Pesce"]];
+const tiendaDeUrl = (url) => {
+  let host = "";
+  try { host = new URL(url).hostname; } catch (e) { return ""; }
+  const t = TIENDA_URL.find(([k]) => host.includes(k));
+  return t ? t[1] : host.replace(/^www\./, "");
+};
+const linksDe = (snap) => {
+  if (!snap || typeof snap !== "object") return null;
+  if (Array.isArray(snap.urls) && snap.urls.length) return snap.urls;
+  return snap.url ? [{ url: snap.url }] : null;
+};
 /* Mejor % vigente HOY de una config de descuentos (sin tope: es para un ítem suelto) */
 const pctHoyDe = (cfg) => promosDe(cfg).filter(esHoyDto).reduce((a, d) => Math.max(a, d.pct), 0);
 const PRICES = {
@@ -368,6 +382,41 @@ function compraConPrecio(it, precio, priceDate) {
   };
 }
 
+/* Referencia MAYORISTA del Mercado Central (solo Verdulería): $/kg del último día
+   publicado. Va aparte del precio minorista (DIA/COTO), que es donde se puede comprar. */
+function MCLine({ mc }) {
+  if (!mc || !(mc.p > 0)) return null;
+  return (
+    <div className="text-xs mt-1" style={{ color: "#8A8170" }}>
+      Mercado Central (mayorista): {fmt(mc.p)}/kg{mc.n ? ` · ${mc.n}` : ""}{mc.f ? ` · ${mc.f.slice(0, 5)}` : ""}
+    </div>
+  );
+}
+
+/* Píldora "ver en COTO ↗" que abre la página del producto en el navegador (otra pestaña).
+   Compuestos: una por corte ("falda ↗ · osobuco ↗"). `corto`: solo "↗" (filas de opciones).
+   Blanco de toque de 32 px y frena el click para no cambiar el estado de la fila. */
+function LinkChips({ links, corto = false }) {
+  if (!links || !links.length) return null;
+  return (
+    <span style={{ display: "inline-flex", flexWrap: "wrap", gap: 6 }}>
+      {links.map((l, i) => {
+        const tienda = tiendaDeUrl(l.url);
+        const etiqueta = l.n ? `${l.n}` : `ver en ${tienda}`;
+        return (
+          <a key={i} href={l.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}
+            aria-label={l.n ? `ver ${l.n} en ${tienda}` : etiqueta}
+            className="text-xs font-semibold rounded-full presionable"
+            style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 4, padding: corto ? "6px 9px" : "6px 12px", minHeight: 32, minWidth: corto ? 32 : 0,
+              color: "#8A8170", background: "#FAF7F0", border: "1px dashed #C9C2B2", textDecoration: "none", whiteSpace: "nowrap" }}>
+            {corto ? "↗" : `${etiqueta} ↗`}
+          </a>
+        );
+      })}
+    </span>
+  );
+}
+
 /* Aplica un set de precios sobre las listas, respetando ediciones manuales de la misma versión */
 function applyPrices(stores, prices, version) {
   return stores.map((s) => ({
@@ -378,8 +427,13 @@ function applyPrices(stores, prices, version) {
         const snap = prices[it.name];
         // Re-aplicar la misma versión es inocuo y trae campos nuevos (op, d/dv);
         // solo una edición manual de ESTA versión se respeta hasta la foto siguiente.
+        // p: 0 = "sin referencia real" (Verdulería: ni DIA ni COTO la venden): se BORRA el precio que
+        // hubiera (típico: un SKU fantasma de COTO ya filtrado), conservando la referencia mayorista
+        if (snap && snap.p === 0 && it.priceV !== "manual@" + version) {
+          return { ...it, price: 0, priceNote: "", priceD: 0, priceDV: "", priceOp: null, priceSrc: "", priceMC: snap.mc || null, priceLinks: null, priceV: version };
+        }
         if (snap && snap.p > 0 && it.priceV !== "manual@" + version) {
-          return { ...it, price: snap.p, priceNote: snap.n || "", priceD: snap.d || 0, priceDV: snap.dv || (snap.d ? version : ""), priceOp: snap.op || null, priceSrc: snap.s || "", priceV: version };
+          return { ...it, price: snap.p, priceNote: snap.n || "", priceD: snap.d || 0, priceDV: snap.dv || (snap.d ? version : ""), priceOp: snap.op || null, priceSrc: snap.s || "", priceMC: snap.mc || null, priceLinks: linksDe(snap), priceV: version };
         }
         return it;
       }),
@@ -759,6 +813,8 @@ function PendingRow({ it, color, month, onBuy, onSpec, priceDate, descuentos = [
         {it.price > 0 && it.priceNote && !(it.askPrice && hist.length > 0) ? (
           <div className="text-xs mt-1 font-medium" style={{ color: "#4E6B35" }}>→ {it.priceNote}</div>
         ) : null}
+        {it.price > 0 && it.priceLinks ? <div className="mt-1"><LinkChips links={it.priceLinks} /></div> : null}
+        <MCLine mc={it.priceMC} />
         {it.askPrice && hist.length > 0 ? (
           <div className="text-xs mt-1 italic" style={{ color: "#A39B89" }}>
             Pagado antes: {hist.slice(-3).reverse().map((h) => `${fmt(h.p)} (${h.t.slice(0, 5)})`).join(" · ")}
@@ -866,7 +922,7 @@ function PickPending({ it, color, month, onConfirm, dtoHoyDe = () => 0, dtoLocal
       {conPrecios ? (
         <div className="mt-2" style={{ borderTop: "1px dashed #EDE8DC" }}>
           <div className="text-xs mt-1" style={{ color: "#A39B89" }}>
-            {dtoLocal ? 'Si alguno tiene promo en el local, tocá "dto" (10/15/20/25%) para comparar.' : "Referencia del más barato entre DIA y COTO para cada una."}
+            {dtoLocal ? 'Si alguno tiene promo en el local, tocá "dto" (10/15/20/25%) para comparar.' : "Referencia del más barato entre DIA y COTO para cada una; \"Central\" es el mayorista del Mercado Central (solo para comparar)."}
             {avisoHoy ? <span style={{ color: "#2F5E14", fontWeight: 600 }}>{avisoHoy}</span> : null}
           </div>
           {shown.map((name) => {
@@ -877,6 +933,7 @@ function PickPending({ it, color, month, onConfirm, dtoHoyDe = () => 0, dtoLocal
             const unidad = base ? opUnidad(it.priceOp[name]) : "";
             const dto = DTOS_LOCAL[dtoIdx[name] || 0];
             const efectivo = base ? efectivoDe(name) : null;
+            const mc = it.priceOp && it.priceOp[name] && typeof it.priceOp[name] === "object" ? it.priceOp[name].mc : null;
             return (
               <div key={name} onClick={() => toggle(name)} className="flex items-center gap-2 py-2 fila-toque"
                 style={{ borderLeft: `3px solid ${selected ? color : "transparent"}` }}>
@@ -888,17 +945,25 @@ function PickPending({ it, color, month, onConfirm, dtoHoyDe = () => 0, dtoLocal
                   {s === "peak" ? "🔥 " : ""}{name}
                   {src ? <span className="text-xs" style={{ color: "#A39B89" }}> · {ETIQUETA_SRC[src] || src}</span> : null}
                 </span>
-                {base ? (
+                {base ? <LinkChips links={linksDe(it.priceOp[name])} corto /> : null}
+                {base || (mc && mc.p > 0) ? (
                   <>
-                    {dtoLocal ? <button
+                    {base && dtoLocal ? <button
                       onClick={(e) => { e.stopPropagation(); setDtoIdx((p) => ({ ...p, [name]: ((p[name] || 0) + 1) % DTOS_LOCAL.length })); }}
                       className="text-xs font-semibold rounded-full presionable flex-shrink-0"
                       style={{ border: dto ? `1px solid ${color}` : "1px dashed #C9C2B2", padding: "6px 12px", minHeight: 32, color: dto ? color : "#8A8170" }}
                     >
                       {dto ? `-${dto}%` : "dto"}
                     </button> : null}
-                    <span className="text-sm flex-shrink-0" style={{ fontWeight: efectivo === minimo ? 700 : 400, color: efectivo === minimo ? "#2F5E14" : "#2B2620" }}>
-                      {fmt(efectivo)}{unidad ? <span className="text-xs" style={{ fontWeight: 400, color: "#8A8170" }}>/{unidad}</span> : null}
+                    <span className="flex-shrink-0" style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+                      {base ? (
+                        <span className="text-sm" style={{ fontWeight: efectivo === minimo ? 700 : 400, color: efectivo === minimo ? "#2F5E14" : "#2B2620" }}>
+                          {fmt(efectivo)}{unidad ? <span className="text-xs" style={{ fontWeight: 400, color: "#8A8170" }}>/{unidad}</span> : null}
+                        </span>
+                      ) : null}
+                      {mc && mc.p > 0 ? (
+                        <span className="text-xs" style={{ color: "#8A8170", whiteSpace: "nowrap" }}>Central {fmt(mc.p)}/kg</span>
+                      ) : null}
                     </span>
                   </>
                 ) : null}
@@ -1300,6 +1365,8 @@ function DisplayRow({ it, color, month, onToggle }) {
         </div>
         {it.dyn ? <div className="text-xs mt-1" style={{ color: "#8A8170" }}>{dynNote(it.dyn, month)}</div> : it.note ? <div className="text-xs mt-1" style={{ color: "#8A8170" }}>{it.note}</div> : null}
         {it.price > 0 && it.priceNote ? <div className="text-xs mt-1" style={{ color: "#A39B89" }}>{it.priceNote}</div> : null}
+        {it.price > 0 && it.priceLinks ? <div className="mt-1"><LinkChips links={it.priceLinks} /></div> : null}
+        <MCLine mc={it.priceMC} />
         {it.type === "pick" && it.picked && it.picked.length > 0 ? (
           <div className="text-xs mt-1 italic" style={{ color: "#A39B89" }}>Última compra: {it.picked.join(", ")}</div>
         ) : null}
