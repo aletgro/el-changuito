@@ -173,7 +173,10 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   el catálogo trae productos con precio en todas las sucursales pero `store_availability`
   VACÍO (la "Cebolla Premium Xkg" a $999, las bolsas a $299, la Sémola COTO en 2x1, el
   tomate cherry a $7.499): no se venden en ninguna y no aparecen en el sitio →
-  `paresDesdeCoto()` los descarta (si el campo falta, no filtra). Las OFERTAS no tocan `listPrice`:
+  `paresDesdeCoto()` los descarta (si el campo falta, no filtra). **Pesables**
+  (`product_weighable: 1`, se cobran por KGS): el candidato lleva `pesable: true` y
+  `elegir()`/`elegirVerdura()` toman `listPrice` como precio POR KILO aunque el nombre
+  diga "Bolsa Entre 1,5 Kg A 2 Kg" (la papa, 08/09/2026: antes se dividía por 1,5). Las OFERTAS no tocan `listPrice`:
   viajan en `data.discounts[]` (`discountText` "15%Dto"/"2x1", `discountPrice`,
   `takingText` "Llevando N" o null) — `promoCoto()` las lee: la directa REEMPLAZA el
   precio (nota "oferta -X%"), la de "llevando N" suma un candidato aparte con el
@@ -229,7 +232,7 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   truncadas a 10 letras, grafías alternativas en array) y `mcParaVerdu()` arma el `mc`:
   sin `var` = $/kg de Prom.Esp.; con `var` = promedio de las líneas de esa variedad.
   Mapeos decididos (07/09/2026, supuestos a validar con el usuario): Tomate = REDONDO
-  (no cherry) · Morrón = PIMIENTO MORRON · Zapallito = ZAPALLITO REDONDO · Zucchini =
+  (no cherry) · Morrón = PIMIENTO MORRON, solo grado rojo (`grado: /^R/`, 08/09/2026) · Zapallito = ZAPALLITO REDONDO · Zucchini =
   ZAPALLITO LARGO · Calabaza = ZAPALLO (todas las variedades) · Zapallo anco = ZAPALLO
   ANC… · Papaya = MAMON · Hakusay = ACUSAY · Cilantro = CILANDRO (así lo escribe el
   Mercado) · Verdeo = CEB.VERDEO. La etiqueta `n` ("Pimiento morron", "Mamon") solo va
@@ -307,7 +310,10 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   segunda red (conservas, congelados, jugos, especias, elaborados, limpieza, "mixto").
   **Ajo se mide POR UNIDAD** (cabeza, como se compra en el minorista; pedido 08/09/2026):
   `VERDU_POR_UNIDAD` ignora los candidatos por kilo (la bandeja "Dientes de Ajo 120 g");
-  `parseQty` entiende "2u"/"3 un" sin la x; sanidad: paquetes ≥ 80 g, $500–30.000 el kg, y
+  `parseQty` entiende "2u"/"3 un" sin la x. **Morrón = SOLO rojo** (08/09/2026, nunca
+  compra verde): `regexVerdu` exige "rojo" ("Morrón Rojo" en DIA, "Pimiento Rojo" en COTO) y
+  en el Mercado Central `MC_VERDU` filtra por `grado` /^R/ (el color viaja ahí: "R/I" rojo,
+  "V/I" verde; etiqueta fija `n`); sanidad: paquetes ≥ 80 g, $500–30.000 el kg, y
   un COTO por debajo del 40 % de DIA se descarta (COTO tiene SKUs con precio placeholder,
   ej. "Cebolla Roja Bolsa $299"). Cada entrada lleva `s` (comercio de origen) y `u`
   (kg/un); las opciones de los picks van como `{ p, s, u }`. En la app `priceSrc` hace

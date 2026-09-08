@@ -921,6 +921,39 @@ test("Verdulería: solo lo que el súper vende en Frutas y Verduras; el nombre n
   assert.equal(esDeVerduleria({}), false);
 });
 
+test("COTO pesable: el precio es por kilo aunque el nombre diga 'Bolsa Entre 1,5 Kg A 2 Kg' (la papa, 08/09/2026)", () => {
+  const H = "Categorias / Frescos / Frutas y Verduras / Hortalizas";
+  const groups = [{ group_id: "x", display_name: "Hortalizas", path_list: [{ id: "c", display_name: "Categorias" }, { id: "f", display_name: "Frescos" }, { id: "v", display_name: "Frutas y Verduras" }] }];
+  const pares = paresDesdeCoto({ response: { results: [
+    { value: "Papa Blanca (Bolsa Entre 1,5 Kg A 2 Kg)", data: { url: "_/R-1-1-200", groups, store_availability: ["090"], product_weighable: 1, product_unit_of_measure: "KGS", price: [{ store: "090", listPrice: 2899 }] } },
+    { value: "Papa Asterix X Kg", data: { url: "_/R-2-2-200", groups, store_availability: ["090"], product_weighable: 1, product_unit_of_measure: "KGS", price: [{ store: "090", listPrice: 1999 }] } },
+    { value: "Papas Baby HUERTOS DEL RANCO 500g", data: { url: "_/R-3-3-200", groups, store_availability: ["090"], product_weighable: 0, product_unit_of_measure: "UNI", price: [{ store: "090", listPrice: 3999 }] } },
+  ] } });
+  assert.equal(pares[0].pesable, true);
+  assert.equal("pesable" in pares[2], false);
+  const el = elegirVerdura("Papa", pares.map((c) => ({ ...c, cat: H })));
+  assert.equal(el.p, 1999);                                   // Asterix $1.999/kg; la bolsa NO es $2.899 ÷ 1,5 = $1.933
+  assert.equal(elegirVerdura("Papa", [{ ...pares[0], cat: H }]).p, 2899);
+  // en elegir() también: un pesable de COTO vale como 1 kg
+  assert.equal(elegir({ name: "x", unit: "kg", qty: 1, must: [/papa/i], reject: [] }, [pares[0]]).p, 2899);
+});
+
+test("Morrón: SOLO rojo (nunca verde ni amarillo); 'Especial' no es 'especia'", () => {
+  const H = "Categorias / Frescos / Frutas y Verduras / Hortalizas";
+  const el = elegirVerdura("Morrón", [
+    { nombre: "Pimiento Verde Xkg", precio: 4999, lista: 4999, cat: H },     // el más barato, pero verde
+    { nombre: "Morrón Verde x Kg.", precio: 8490, lista: 8490, cat: H },
+    { nombre: "Pimiento Rojo Xkg", precio: 8499, lista: 8499, cat: H },      // ← gana
+    { nombre: "Pimiento Rojo Especial Xkg", precio: 9499, lista: 9499, cat: H },
+    { nombre: "Morrón Rojo x Kg.", precio: 9900, lista: 9900, cat: H },
+    { nombre: "Pimiento Amarillo Xkg", precio: 8999, lista: 8999, cat: H },
+  ]);
+  assert.equal(el.p, 8499);
+  assert.match(el.n, /^Pimiento Rojo · \$8\.499\/kg/);
+  assert.equal(elegirVerdura("Morrón", [{ nombre: "Pimiento Rojo Especial Xkg", precio: 9499, lista: 9499, cat: H }]).p, 9499);
+  assert.equal(elegirVerdura("Morrón", [{ nombre: "Pimiento Verde Xkg", precio: 4999, lista: 4999, cat: H }]), null);
+});
+
 test("Ajo: se mide POR UNIDAD (cabeza), como se compra en el minorista; la bandeja de dientes por kg no es referencia", () => {
   assert.deepEqual(parseQty("Ajo en malla 2u"), { amount: 2, unit: "un" });
   assert.deepEqual(parseQty("Ajo Malla X 3 Uni"), { amount: 3, unit: "un" });
@@ -1044,7 +1077,7 @@ const ULTIMO = {
   hortalizas: { fecha: "2026-09-03", especies: {
     "PAPA": { kilo: 1134.22, lineas: [L("AGATA", 1100), L("SPUNTA", 1168.44)] },
     "TOMATE": { kilo: 3008.89, lineas: [L("CHERRY", 6000), L("PERITA", 2100), L("REDONDO", 2000), L("REDONDO", 2400)] },
-    "PIMIENTO": { kilo: 2910.42, lineas: [L("JALAPEÑO", 4000), L("MORRON", 2500), L("VINAGRE", 3000)] },
+    "PIMIENTO": { kilo: 2910.42, lineas: [L("JALAPEÑO", 4000), { ...L("MORRON", 3500), grado: "R/I" }, { ...L("MORRON", 2125), grado: "V/I" }, { ...L("MORRON", 2875), grado: "R/I" }, L("VINAGRE", 3000)] }, // el color va en el grado
     "ZAPALLITO": { kilo: 1648.15, lineas: [L("REDONDO", 1648.15)] },   // sin LARGO ese día
     "CILANDRO": { kilo: 11000, lineas: [L("", 11000)] },
     "ACUSAY": { kilo: 765, lineas: [L("", 765)] },
@@ -1063,7 +1096,7 @@ test("mcParaVerdu: especie → $/kg de Prom.Esp. con fecha dd/mm/aaaa del rubro;
 test("mcParaVerdu: con `var` promedia SOLO esa variedad (Tomate redondo, no cherry) y etiqueta la diferencia", () => {
   const m = mcParaVerdu(ULTIMO);
   assert.deepEqual(m["Tomate"], { p: 2200, f: "03/09/2026", n: "Tomate redondo" });
-  assert.deepEqual(m["Morrón"], { p: 2500, f: "03/09/2026", n: "Pimiento morron" });
+  assert.deepEqual(m["Morrón"], { p: 3188, f: "03/09/2026", n: "Pimiento morron rojo" }); // solo las filas rojas (R/I): (3500 + 2875) / 2
   assert.deepEqual(m["Zapallito"], { p: 1648, f: "03/09/2026", n: "Zapallito redondo" });
   assert.equal(m["Zucchini"], undefined);                                  // no hubo ZAPALLITO LARGO ese día
 });

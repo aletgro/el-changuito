@@ -445,11 +445,15 @@ function paresDesdeCoto(data) {
     if (!nombre || !precio) continue;
     const url = urlCoto(nombre, res.data?.url);
     const cat = catCoto(res.data?.groups);
+    // Pesables (product_weighable = 1, se cobra por KGS): listPrice es POR KILO aunque el nombre
+    // diga "Bolsa Entre 1,5 Kg A 2 Kg" (la papa de COTO, 08/09/2026)
+    const pesable = Number(res.data?.product_weighable) === 1 || /^KGS?$/i.test(String(res.data?.product_unit_of_measure || ""));
+    const conPesable = (o) => (pesable ? { ...o, pesable: true } : o);
     const promo = promoCoto((res.data?.discounts || [])[0], precio);
-    if (promo && !promo.txt) out.push(conCat(conUrl({ nombre, precio: promo.precio, lista: precio }, url), cat)); // oferta directa: ES el precio
+    if (promo && !promo.txt) out.push(conPesable(conCat(conUrl({ nombre, precio: promo.precio, lista: precio }, url), cat))); // oferta directa: ES el precio
     else {
-      out.push(conCat(conUrl({ nombre, precio, lista: precio }, url), cat));
-      if (promo) out.push(conCat(conUrl({ nombre: `${nombre} · ${promo.txt}`, precio: promo.precio, lista: precio }, url), cat)); // "llevando N": candidato aparte
+      out.push(conPesable(conCat(conUrl({ nombre, precio, lista: precio }, url), cat)));
+      if (promo) out.push(conPesable(conCat(conUrl({ nombre: `${nombre} · ${promo.txt}`, precio: promo.precio, lista: precio }, url), cat))); // "llevando N": candidato aparte
     }
   }
   return out;
@@ -889,12 +893,12 @@ const VERDU_PICKS = {
 const NOMBRES_VERDU = [...VERDU_SIMPLES, ...Object.keys(VERDU_PICKS)];
 
 /* Productos elaborados/no frescos que NO son la verdura (conservas, congelados, jugos, especias, limpieza…) */
-const RECHAZO_VERDU = /\bmixto\b|papines|cocid[oa]s?\b|al vac[ií]o|almohadita|chis buby|nikitos|\bpaq\b|marquesa|vigente|hummus|cubetead|\balco\b|pelados?\b|jardinera|dicomere|\blat\b|\bgranos?\b|crem\b|crem\/|dueto|raviol|lucchetti|granja del sol|mccain|rallado|\bpan\b|aderezo|mayonesa|confitura|\bfid\b|fid\.|spaghetti|tallar[ií]n|hair|pouch|mascarilla|acondicionador|shock|ba[ñn]ad|\bgio\b|fra-nui|quillen|papilla|\bsabor\b|oblea|galleta|postre|gelatina|flan\b|\bleche\b|en cubos?|\bcubos?\b|en granos?|\bgranos\b|inalpa|nestl[eé]|marolio|arcor|knorr|maggi|congelad|\blatas?\b|conserva|jugo|mermelada|\bdulce\b|pur[eé]|deshidratad|\bsec[oa]s?\b|polvo|molid|pasta|snack|chips|frit[oa]s|yogur|helado|alm[ií]bar|salsa|triturad|extracto|f[eé]cula|almid[oó]n|harina|ravioles|tarta|empanada|barrita|galletita|semillas?\b|\bt[eé]\b|aceite|vinagre|jab[oó]n|shampoo|crema|esencia|aroma|detergente|limpia|lavandina|desodorante|caramelo|gomita|gaseosa|\bagua\b|cerveza|vino|licor|bebida|cereal|granola|\bmix\b|ensalada|sopa|caldo|condimento|especia|saborizad|pulpa|compota|pasas|pickles|encurtid|escabeche|al natural|relleno|pizza|milanesa|hamburguesa|medall[oó]n|nugget|torta|bud[ií]n|bizcocho|alfajor|chocolate|bomb[oó]n|pa[ñn]al|toallita|\bperro|\bgato|alimento|planta|maceta|vela|sahumerio|perfume|jarabe|c[aá]psula|comprimido|infusi[oó]n|saquito|hebras|\bmate\b|yerba|az[uú]car|edulcorante|licuado|smoothie|baby\b|premezcla|rebozad|nuggets|fideo|arroz|sal\b|cebollita|ajo en (aceite|polvo|escama|pasta|conserva)|en aceite/i;
+const RECHAZO_VERDU = /\bmixto\b|papines|cocid[oa]s?\b|al vac[ií]o|almohadita|chis buby|nikitos|\bpaq\b|marquesa|vigente|hummus|cubetead|\balco\b|pelados?\b|jardinera|dicomere|\blat\b|\bgranos?\b|crem\b|crem\/|dueto|raviol|lucchetti|granja del sol|mccain|rallado|\bpan\b|aderezo|mayonesa|confitura|\bfid\b|fid\.|spaghetti|tallar[ií]n|hair|pouch|mascarilla|acondicionador|shock|ba[ñn]ad|\bgio\b|fra-nui|quillen|papilla|\bsabor\b|oblea|galleta|postre|gelatina|flan\b|\bleche\b|en cubos?|\bcubos?\b|en granos?|\bgranos\b|inalpa|nestl[eé]|marolio|arcor|knorr|maggi|congelad|\blatas?\b|conserva|jugo|mermelada|\bdulce\b|pur[eé]|deshidratad|\bsec[oa]s?\b|polvo|molid|pasta|snack|chips|frit[oa]s|yogur|helado|alm[ií]bar|salsa|triturad|extracto|f[eé]cula|almid[oó]n|harina|ravioles|tarta|empanada|barrita|galletita|semillas?\b|\bt[eé]\b|aceite|vinagre|jab[oó]n|shampoo|crema|esencia|aroma|detergente|limpia|lavandina|desodorante|caramelo|gomita|gaseosa|\bagua\b|cerveza|vino|licor|bebida|cereal|granola|\bmix\b|ensalada|sopa|caldo|condimento|\bespecias?\b|saborizad|pulpa|compota|pasas|pickles|encurtid|escabeche|al natural|relleno|pizza|milanesa|hamburguesa|medall[oó]n|nugget|torta|bud[ií]n|bizcocho|alfajor|chocolate|bomb[oó]n|pa[ñn]al|toallita|\bperro|\bgato|alimento|planta|maceta|vela|sahumerio|perfume|jarabe|c[aá]psula|comprimido|infusi[oó]n|saquito|hebras|\bmate\b|yerba|az[uú]car|edulcorante|licuado|smoothie|baby\b|premezcla|rebozad|nuggets|fideo|arroz|sal\b|cebollita|ajo en (aceite|polvo|escama|pasta|conserva)|en aceite/i;
 
 /* Nombre de la app → regex tolerante a tildes/plurales, sobre la palabra base */
 function regexVerdu(nombre) {
   // Calabaza: en el súper es "Zapallo x Kg" (el Mercado Central también la llama ZAPALLO); el anco es la otra opción
-  const especiales = { "Calabaza": /calabaza|zapallo(?!\s*anco)(?![a-z])/i, "Zapallo anco": /zapallo\s*anco|\banco\b/i, "Hakusay": /hakusa[yi]/i, "Verdeo (calor)": /\bverdeo\b|cebolla de verdeo/i, "Puerro (frío)": /\bpuerro/i, "Maracuya (fruta de la pasión)": /maracuy[aá]/i, "Pitahaya (fruta del dragón)": /pitahaya|pitaya/i, "Zapallito": /zapallito/i, "Rabanitos": /rabanito/i, "Arándanos": /ar[aá]ndano/i, "Espárragos": /esp[aá]rrago/i, "Morrón": /morr[oó]n|pim(?:ie|e)nt[oó]n?e?s?\s*(rojo|verde|amarillo)/i };
+  const especiales = { "Calabaza": /calabaza|zapallo(?!\s*anco)(?![a-z])/i, "Zapallo anco": /zapallo\s*anco|\banco\b/i, "Hakusay": /hakusa[yi]/i, "Verdeo (calor)": /\bverdeo\b|cebolla de verdeo/i, "Puerro (frío)": /\bpuerro/i, "Maracuya (fruta de la pasión)": /maracuy[aá]/i, "Pitahaya (fruta del dragón)": /pitahaya|pitaya/i, "Zapallito": /zapallito/i, "Rabanitos": /rabanito/i, "Arándanos": /ar[aá]ndano/i, "Espárragos": /esp[aá]rrago/i, "Morrón": /(?:morr[oó]n(?:es)?|pim(?:ie|e)nt[oó]n?e?s?)\s+rojos?\b/i }; // Morrón: SOLO rojo (el usuario nunca compra verde, 08/09/2026)
   if (especiales[nombre]) return especiales[nombre];
   const base = nombre.replace(/\s*\(.*\)$/, "").toLowerCase();
   const pat = base.replace(/[aá]/g, "[aá]").replace(/[eé]/g, "[eé]").replace(/[ií]/g, "[ií]").replace(/[oó]/g, "[oó]").replace(/[uú]/g, "[uú]").replace(/[ñn]/g, "[ñn]");
@@ -920,7 +924,7 @@ function elegirVerdura(nombre, candidatos) {
   const porUn = [];
   const soloUnidad = VERDU_POR_UNIDAD.has(nombre);
   for (const c of validos) {
-    const q = parseQty(c.nombre);
+    const q = c.pesable ? { amount: 1, unit: "kg" } : parseQty(c.nombre); // pesable de COTO: el precio es por kilo, diga lo que diga el nombre
     // Fresco por kilo: paquetes de 80 g o más (menos = sobrecito de especia), entre $500 y $30.000 el kg
     if (q.unit === "kg" && q.amount >= 0.08 && !soloUnidad) { const v = c.precio / q.amount; if (v >= 500 && v <= 30000) porKg.push({ c, v }); }
     else if (q.unit === "un") porUn.push({ c, v: c.precio / (q.amount || 1) });
@@ -1002,7 +1006,7 @@ async function preciosVerdu() {
    referencia (fuera de temporada en el mayorista). */
 const MC_VERDU = {
   "Ajo": "AJO", "Cebolla": "CEBOLLA", "Cúrcuma": "CURCUMA", "Jengibre": "JENGIBRE", "Limón": "LIMON",
-  "Morrón": { esp: "PIMIENTO", var: /MORRON/ }, "Papa": "PAPA", "Palta": "PALTA", "Tomate": { esp: "TOMATE", var: /REDONDO/ }, "Zanahoria": "ZANAHORIA",
+  "Morrón": { esp: "PIMIENTO", var: /MORRON/, grado: /^R/, n: "Pimiento morron rojo" }, "Papa": "PAPA", "Palta": "PALTA", "Tomate": { esp: "TOMATE", var: /REDONDO/ }, "Zanahoria": "ZANAHORIA",
   // Fruta
   "Ananá": "ANANA", "Arándanos": "ARANDANO", "Banana": "BANANA", "Caqui": "CAQUI", "Cereza": "CEREZA", "Ciruela": "CIRUELA",
   "Durazno": "DURAZNO", "Frambuesa": "FRAMBUESA", "Frutilla": "FRUTILLA", "Granada": "GRANADA", "Higo": "HIGO", "Kiwi": "KIWI",
@@ -1035,6 +1039,7 @@ function mcParaVerdu(ultimo) {
   for (const [nombre, cfg] of Object.entries(MC_VERDU)) {
     const esps = [].concat(cfg && cfg.esp ? cfg.esp : cfg).map((e) => sinTilde(e).slice(0, 10));
     const re = cfg && cfg.var;
+    const grado = cfg && cfg.grado; // el color viaja en el grado ("R/I" rojo, "V/I" verde): Morrón = solo rojo
     for (const r of rubros) {
       const { fecha, especies } = ultimo[r];
       const clave = Object.keys(especies).find((k) => esps.includes(sinTilde(k)));
@@ -1042,10 +1047,10 @@ function mcParaVerdu(ultimo) {
       const e = especies[clave];
       let p = e.kilo, etiqueta = clave;
       if (re) {
-        const lineas = (e.lineas || []).filter((l) => re.test(sinTilde(l.variedad)) && l.kilo && l.kilo.moda > 0);
+        const lineas = (e.lineas || []).filter((l) => re.test(sinTilde(l.variedad)) && (!grado || grado.test(String(l.grado || ""))) && l.kilo && l.kilo.moda > 0);
         if (!lineas.length) continue;
         p = lineas.reduce((a, l) => a + l.kilo.moda, 0) / lineas.length;
-        etiqueta = `${clave} ${lineas[0].variedad}`;
+        etiqueta = cfg.n || `${clave} ${lineas[0].variedad}`;
       }
       if (!(p > 0)) continue;
       const mc = { p: Math.round(p), f: fechaDdMmAaaa(fecha) };
@@ -1091,7 +1096,7 @@ function elegir(item, candidatos) {
   for (const c of candidatos) {
     if (!item.must.every((re) => re.test(c.nombre))) continue;
     if (item.reject.some((re) => re.test(c.nombre))) continue;
-    let q = parseQty(c.nombre);
+    let q = c.pesable ? { amount: 1, unit: "kg" } : parseQty(c.nombre); // pesable de COTO: precio por kilo
     if (item.fraccionado) {
       // Venta por peso (quesos al mostrador): estimamos la fracción que compra el usuario
       // "Valor por kg / x kg" = precio POR KG aunque el nombre traiga el peso de la horma ("aprox. 4 kg")

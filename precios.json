@@ -871,25 +871,23 @@
       }
     },
     "Morrón": {
-      "p": 4999,
-      "n": "Pimiento Verde · $4.999/kg · COTO",
+      "p": 8499,
+      "n": "Pimiento Rojo · $8.499/kg · COTO",
       "s": "coto",
       "u": "kg",
-      "url": "https://www.coto.com.ar/productos/pimiento-verde-xkg-/_/R-00000672-00000672-200",
+      "url": "https://www.coto.com.ar/productos/pimiento-rojo-xkg-/_/R-00000671-00000671-200",
       "mc": {
-        "p": 3753,
+        "p": 4588,
         "f": "07/09/2026",
-        "n": "Pimiento morron"
+        "n": "Pimiento morron rojo"
       }
     },
     "Papa": {
-      "p": 1933,
-      "n": "Papa Blanca (Bolsa Entre 1,5 Kg A 2 Kg) · $1.933/kg · COTO",
+      "p": 1999,
+      "n": "Papa Asterix · $1.999/kg · COTO",
       "s": "coto",
       "u": "kg",
-      "url": "https://www.coto.com.ar/productos/papa-blanca-bolsa-entre-1-5-kg-a-2-kg--/_/R-00012705-00012705-200",
-      "d": -1057,
-      "dv": "08/09/2026",
+      "url": "https://www.coto.com.ar/productos/papa-asterix-x-kg-/_/R-00093545-00093545-200",
       "mc": {
         "p": 1184,
         "f": "07/09/2026"
