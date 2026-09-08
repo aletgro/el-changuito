@@ -295,8 +295,13 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   de barrio; la referencia es el más barato entre DIA y COTO para cada verdura/fruta
   (`preciosVerdu()`: 10 ítems fijos + las 57 opciones de los picks, `VERDU_SIMPLES` /
   `VERDU_PICKS` = nombres exactos de la app). Criterio: $/kg del fresco más barato (por
-  unidad solo si nadie lo vende por kg); `RECHAZO_VERDU` saca conservas, congelados,
-  jugos, especias, elaborados y limpieza; sanidad: paquetes ≥ 80 g, $500–30.000 el kg, y
+  unidad solo si nadie lo vende por kg). **Sección obligatoria** (pedido 08/09/2026, tras
+  ver "Fetuccini Morrón" como referencia de Morrón): el candidato tiene que venir de la
+  sección "Frutas y Verduras" del súper — cada candidato lleva `cat` (DIA: `categories`
+  unidas, "/Frescos/Frutas y Verduras/Verduras/"; COTO: `catCoto()` une `groups[]` con su
+  `path_list`, "Categorias / Frescos / Frutas y Verduras / Hortalizas") y `esDeVerduleria()`
+  exige `CAT_VERDU` (/frutas y verduras/); sin `cat`, afuera. `RECHAZO_VERDU` sigue como
+  segunda red (conservas, congelados, jugos, especias, elaborados, limpieza, "mixto"); sanidad: paquetes ≥ 80 g, $500–30.000 el kg, y
   un COTO por debajo del 40 % de DIA se descarta (COTO tiene SKUs con precio placeholder,
   ej. "Cebolla Roja Bolsa $299"). Cada entrada lleva `s` (comercio de origen) y `u`
   (kg/un); las opciones de los picks van como `{ p, s, u }`. En la app `priceSrc` hace

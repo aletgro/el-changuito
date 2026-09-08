@@ -9,7 +9,7 @@ import {
   ITEMS_COTO, PARTES_CARNE, modaPrecios, promoCoto, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto,
   ITEMS_DIETETICA, normalizarPeso, paresProductoFa, paresVariacionesFa, paresDesdeNewGarden,
   ITEMS_OTROS, paresDesdeTiendaNube, productoDePagina, ITEMS_FARMACITY, ITEMS_PESCE, promoVtex, conDelta, DESCUENTOS, opcionesElPuente,
-  regexVerdu, elegirVerdura, mejorVerdura, referenciaVerdu, VERDU_SIMPLES, VERDU_PICKS, MC_VERDU, mcParaVerdu, aplicarMC,
+  regexVerdu, elegirVerdura, mejorVerdura, referenciaVerdu, catCoto, esDeVerduleria, VERDU_SIMPLES, VERDU_PICKS, MC_VERDU, mcParaVerdu, aplicarMC,
 } from "./actualizar-precios.mjs";
 
 const item = (name) => ITEMS_ELPUENTE.find((i) => i.name === name);
@@ -856,23 +856,78 @@ test("regexVerdu: tolera tildes y plurales, respeta palabras (papa ≠ papaya)",
   assert.ok(regexVerdu("Zapallo anco").test("Zapallo Anco X Kg"));
 });
 
+const V = "/Frescos/Frutas y Verduras/Verduras/"; // sección de verdulería de DIA
 test("elegirVerdura: $/kg del fresco más barato; conservas, sobrecitos y precios basura afuera", () => {
   const el = elegirVerdura("Tomate", [
-    { nombre: "Puré de Tomate Dia 520 Gr.", precio: 690, lista: 690 },                 // conserva
-    { nombre: "Tomate Cubeteado alco 400 Gr.", precio: 1535, lista: 1535 },            // conserva
-    { nombre: "Tomate Comercial en bolsa malla x 1 Kg.", precio: 1990, lista: 1990 },  // ← gana
-    { nombre: "Tomate Redondo x Kg.", precio: 6490, lista: 6490 },
-    { nombre: "Tomate Deshidratado Sobre 30 Gr.", precio: 900, lista: 900 },           // sobrecito
+    { nombre: "Puré de Tomate Dia 520 Gr.", precio: 690, lista: 690, cat: V },                 // conserva
+    { nombre: "Tomate Cubeteado alco 400 Gr.", precio: 1535, lista: 1535, cat: V },            // conserva
+    { nombre: "Tomate Comercial en bolsa malla x 1 Kg.", precio: 1990, lista: 1990, cat: V },  // ← gana
+    { nombre: "Tomate Redondo x Kg.", precio: 6490, lista: 6490, cat: V },
+    { nombre: "Tomate Deshidratado Sobre 30 Gr.", precio: 900, lista: 900, cat: V },           // sobrecito
   ]);
   assert.equal(el.p, 1990);
   assert.equal(el.u, "kg");
   assert.match(el.n, /bolsa malla x 1 Kg\. · \$1\.990\/kg/);
 });
 
+test("Verdulería: solo lo que el súper vende en Frutas y Verduras; el nombre no alcanza y sin categoría no entra", () => {
+  const H = "Categorias / Frescos / Frutas y Verduras / Hortalizas / Pimientos Morrones";
+  const el = elegirVerdura("Morrón", [
+    { nombre: "Fetuccini Morrón Don Vicente 500g", precio: 3080, lista: 3080, cat: "Categorias / Almacén / Pasta Seca, Lista y Rellenas" }, // el más barato por kg, pero es Almacén
+    { nombre: "Pimientos Morrones Comunes Ciudad Del Lago 210g", precio: 1200, lista: 1200, cat: "Categorias / Almacén / Conservas Vegetal / Pimientos" },
+    { nombre: "Morrón Seleccionado SOLIMENO 500g", precio: 2500, lista: 2500, cat: "Categorias / Congelados / Vegetales Congelados" },
+    { nombre: "Pimiento Rojo Xkg", precio: 6999, lista: 6999, cat: H },   // ← el fresco
+    { nombre: "Pimiento Verde Xkg", precio: 7499, lista: 7499, cat: H },
+    { nombre: "Pimiento Amarillo Xkg", precio: 5999, lista: 5999 },       // sin categoría: no se puede asegurar de dónde sale
+  ]);
+  assert.equal(el.p, 6999);
+  assert.match(el.n, /^Pimiento Rojo · \$6\.999\/kg/);
+  // COTO mete en Frutas y Verduras elaborados de "cuarta gama" y hasta cereales: ahí sigue actuando RECHAZO_VERDU
+  const FV = "Categorias / Frescos / Frutas y Verduras / Verduras";
+  assert.equal(elegirVerdura("Ajo", [{ nombre: "Papines Con Ajo Y Romero Cocidos Al Vacío Sueño Verde 400g", precio: 8299, lista: 8299, cat: FV }]), null);
+  assert.equal(elegirVerdura("Calabaza", [{ nombre: "Calabaza Cocida Al Vacío Sueño Verde 400g", precio: 7299, lista: 7299, cat: FV }]), null);
+  assert.equal(elegirVerdura("Frutilla", [{ nombre: "Almohaditas Frutilla Nutrifoods Xkg 1 Kgm", precio: 10999, lista: 10999, cat: FV }]), null);
+  assert.equal(elegirVerdura("Ajo", [{ nombre: "Ajo Gigante X Uni", precio: 1299, lista: 1299, cat: FV }]).u, "un"); // el fresco por unidad sí
+  assert.equal(elegirVerdura("Espinaca", [{ nombre: "Ñoquis DIA Espinaca 500 Gr.", precio: 2200, lista: 2200, cat: "/Frescos/Pastas Frescas/Ñoquis/ /Frescos/" }]), null); // "Frescos" a secas no es verdulería
+  assert.equal(esDeVerduleria({ cat: "/Frescos/Frutas y Verduras/Frutas/" }), true);
+  assert.equal(esDeVerduleria({}), false);
+});
+
+test("regexVerdu: límites de palabra con tildes (Ananá x Kg) y Calabaza = zapallo del súper, sin el anco ni el zapallito", () => {
+  assert.ok(regexVerdu("Ananá").test("Ananá x Kg."));
+  assert.ok(regexVerdu("Ananá").test("Anana Xkg"));
+  assert.ok(!regexVerdu("Banana").test("Bananita Dolca"));
+  assert.ok(regexVerdu("Calabaza").test("Zapallo x Kg."));
+  assert.ok(!regexVerdu("Calabaza").test("Zapallo Anco X Kg"));
+  assert.ok(!regexVerdu("Calabaza").test("Zapallito Redondo X Kg"));
+  const FV = "/Frescos/Frutas y Verduras/Frutas/";
+  const el = elegirVerdura("Frutilla", [
+    { nombre: "Chis Buby Frutilla Nikitos Paq 80 Grm", precio: 959, lista: 959, cat: FV }, // cereal mal categorizado, más barato por kg
+    { nombre: "Frutillas x 250g", precio: 3199, lista: 3199, cat: FV },
+    { nombre: "Frutilla en Cubeta 250 Gr.", precio: 4590, lista: 4590, cat: FV },
+  ]);
+  assert.equal(el.p, 12796);
+});
+
+test("Categorías por fuente: DIA junta `categories`, COTO junta groups + path_list; la promo hereda la categoría", () => {
+  const [d] = paresDesdeVtex([{ productName: "Cebolla Elegida Premium x Kg.", categories: ["/Frescos/Frutas y Verduras/Verduras/", "/Frescos/Frutas y Verduras/", "/Frescos/"],
+    items: [{ sellers: [{ commertialOffer: { Price: 2199, ListPrice: 2199, AvailableQuantity: 1 } }] }] }]);
+  assert.equal(d.cat, "/Frescos/Frutas y Verduras/Verduras/ /Frescos/Frutas y Verduras/ /Frescos/");
+  const groups = [
+    { group_id: "catv00003312", display_name: "Hortalizas", path_list: [{ id: "categoria", display_name: "Categorias" }, { id: "catv00001255", display_name: "Frescos" }, { id: "catv00003285", display_name: "Frutas y Verduras" }] },
+    { group_id: "catv00003372", display_name: "Pimientos Morrones", path_list: [{ id: "categoria", display_name: "Categorias" }, { id: "catv00001255", display_name: "Frescos" }, { id: "catv00003285", display_name: "Frutas y Verduras" }, { id: "catv00003312", display_name: "Hortalizas" }] },
+  ];
+  assert.equal(catCoto(groups), "Categorias / Frescos / Frutas y Verduras / Hortalizas / Pimientos Morrones");
+  assert.equal(catCoto(undefined), "");
+  const pares = paresDesdeCoto({ response: { results: [{ value: "Pimiento Rojo Xkg", data: { url: "_/R-1-1-200", groups, store_availability: ["090"], price: [{ store: "090", listPrice: 6999 }], discounts: [{ discountText: "2x1", discountPrice: "$3499.50", takingText: "Llevando 2" }] } }] } });
+  assert.equal(pares.length, 2);
+  assert.ok(pares.every((c) => /Frutas y Verduras/.test(c.cat)));
+});
+
 test("mejorVerdura: gana el más barato entre DIA y COTO, y un COTO absurdo (<40 % de DIA) se descarta", () => {
-  const dia = [{ nombre: "Cebolla Comercial en bolsa malla x Kg.", precio: 1990, lista: 1990 }];
-  const cotoBasura = [{ nombre: "Cebolla Roja Bolsa X 1 Kgm", precio: 299, lista: 299 }];
-  const cotoReal = [{ nombre: "Cebolla A Granel X Kg", precio: 1499, lista: 1499 }];
+  const dia = [{ nombre: "Cebolla Comercial en bolsa malla x Kg.", precio: 1990, lista: 1990, cat: V }];
+  const cotoBasura = [{ nombre: "Cebolla Roja Bolsa X 1 Kgm", precio: 299, lista: 299, cat: "Categorias / Frescos / Frutas y Verduras / Hortalizas" }];
+  const cotoReal = [{ nombre: "Cebolla A Granel X Kg", precio: 1499, lista: 1499, cat: "Categorias / Frescos / Frutas y Verduras / Hortalizas" }];
   assert.deepEqual(mejorVerdura("Cebolla", dia, cotoBasura), { p: 1990, n: "Cebolla Comercial en bolsa malla · $1.990/kg · DIA", s: "dia", u: "kg" });
   assert.deepEqual(mejorVerdura("Cebolla", dia, cotoReal), { p: 1499, n: "Cebolla A Granel · $1.499/kg · COTO", s: "coto", u: "kg" });
   assert.equal(mejorVerdura("Cebolla", null, null), null);
@@ -904,16 +959,16 @@ test("Frutos del Are, New Garden y TiendaNube: la página del producto viaja con
 test("referenciaVerdu: si DIA y COTO respondieron y ninguno la vende, p: 0 (se borra el precio viejo); si una búsqueda falló, null (se conserva)", () => {
   const soloFantasma = paresDesdeCoto({ response: { results: [{ value: "Cúrcuma X Kg", data: { url: "_/R-1-1-200", store_availability: [], price: [{ store: "090", listPrice: 1799 }] } }] } });
   assert.deepEqual(soloFantasma, []); // el único candidato era un SKU fantasma
-  assert.deepEqual(referenciaVerdu("Cúrcuma", [{ nombre: "Cúrcuma Molida 50 g", precio: 1499, lista: 1499 }], soloFantasma), { p: 0, n: "hoy ni DIA ni COTO la venden fresca" }); // la molida es especia (< 80 g)
+  assert.deepEqual(referenciaVerdu("Cúrcuma", [{ nombre: "Cúrcuma Molida 50 g", precio: 1499, lista: 1499, cat: "/Almacén/Especias/" }], soloFantasma), { p: 0, n: "hoy ni DIA ni COTO la venden fresca" }); // la molida es especia de Almacén
   assert.equal(referenciaVerdu("Cúrcuma", null, soloFantasma), null);      // DIA no respondió: no se borra nada
   assert.equal(referenciaVerdu("Cúrcuma", [], null), null);                // COTO no respondió
-  assert.equal(referenciaVerdu("Cebolla", [{ nombre: "Cebolla x kg", precio: 1990, lista: 1990 }], []).p, 1990); // con match, lo de siempre
+  assert.equal(referenciaVerdu("Cebolla", [{ nombre: "Cebolla x kg", precio: 1990, lista: 1990, cat: V }], []).p, 1990); // con match, lo de siempre
   assert.equal("d" in conDelta({ p: 2499, n: "Cebolla" }, { p: 0, n: "sin referencia" }, "08/09/2026"), false); // volver a tener precio no es una "suba"
 });
 
 test("Verdulería: la referencia y cada opción del pick recuerdan la página del ganador", () => {
-  const dia = [{ nombre: "Cebolla Comercial en bolsa malla 1 kg", precio: 1990, lista: 1990, url: "https://diaonline.supermercadosdia.com.ar/cebolla-1/p" }];
-  const coto = [{ nombre: "Cebolla A Granel X Kg", precio: 1499, lista: 1499, url: "https://www.coto.com.ar/productos/_/R-00000602-00000602-200" }];
+  const dia = [{ nombre: "Cebolla Comercial en bolsa malla 1 kg", precio: 1990, lista: 1990, url: "https://diaonline.supermercadosdia.com.ar/cebolla-1/p", cat: V }];
+  const coto = [{ nombre: "Cebolla A Granel X Kg", precio: 1499, lista: 1499, url: "https://www.coto.com.ar/productos/_/R-00000602-00000602-200", cat: "Frescos / Frutas y Verduras / Hortalizas" }];
   assert.equal(elegirVerdura("Cebolla", dia).url, "https://diaonline.supermercadosdia.com.ar/cebolla-1/p");
   assert.deepEqual(mejorVerdura("Cebolla", dia, coto), { p: 1499, n: "Cebolla A Granel · $1.499/kg · COTO", s: "coto", u: "kg", url: "https://www.coto.com.ar/productos/_/R-00000602-00000602-200" });
   assert.deepEqual(mejorVerdura("Cebolla", dia, null), { p: 1990, n: "Cebolla Comercial en bolsa malla 1 kg · $1.990/kg · DIA", s: "dia", u: "kg", url: "https://diaonline.supermercadosdia.com.ar/cebolla-1/p" });

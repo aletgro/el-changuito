@@ -158,6 +158,10 @@ function parseQty(nombre) {
    precios.json (`url`), para poder abrirlo desde la app y verlo en el navegador.
    Solo se agrega si existe (El Puente publica un listado sin páginas por producto). */
 const conUrl = (obj, url) => (url ? { ...obj, url } : obj);
+/* Sección del sitio a la que pertenece el producto (`cat`, texto con la ruta de categorías):
+   Verdulería exige que el candidato venga de "Frutas y Verduras" del súper (DIA `categories`,
+   COTO `groups`), no alcanza con que el nombre diga "morrón" (fideos, dulces, congelados…). */
+const conCat = (obj, cat) => (cat ? { ...obj, cat } : obj);
 
 /* ---------- Fuente 1: API pública de VTEX (DIA y Farmacity la usan) ---------- */
 
@@ -185,10 +189,11 @@ function paresDesdeVtex(data) {
       for (const sel of it.sellers || []) {
         const of = sel.commertialOffer || {};
         if (of.Price > 0 && of.AvailableQuantity > 0) {
-          out.push(conUrl({ nombre, precio: of.Price, lista: of.ListPrice || of.Price }, p.link));
+          const cat = (p.categories || []).join(" ");
+          out.push(conCat(conUrl({ nombre, precio: of.Price, lista: of.ListPrice || of.Price }, p.link), cat));
           // La promo compite como candidato aparte, con el precio efectivo por unidad y la condición a la vista
           const promo = promoVtex(of);
-          if (promo) out.push(conUrl({ nombre: `${nombre} · ${promo.txt}`, precio: of.Price * promo.factor, lista: of.ListPrice || of.Price }, p.link));
+          if (promo) out.push(conCat(conUrl({ nombre: `${nombre} · ${promo.txt}`, precio: of.Price * promo.factor, lista: of.ListPrice || of.Price }, p.link), cat));
         }
       }
     }
@@ -407,6 +412,17 @@ function promoCoto(dto, precioBase) {
   return { precio, txt: llevando ? `${etiqueta} llevando ${llevando}` : null };
 }
 
+/* Categorías de COTO: data.groups[] trae grupos con display_name y path_list (la ruta completa,
+   "Categorias › Frescos › Frutas y Verduras › Hortalizas"); las juntamos en un texto. */
+function catCoto(groups) {
+  const nombres = [];
+  for (const g of groups || []) {
+    for (const p of g.path_list || []) if (p.display_name) nombres.push(p.display_name);
+    if (g.display_name) nombres.push(g.display_name);
+  }
+  return [...new Set(nombres)].join(" / ");
+}
+
 /* Respuesta del buscador de Constructor → pares nombre/precio (+ url de la página del producto).
    SKUs FANTASMA: el catálogo trae productos con precio en todas las sucursales pero
    `store_availability` VACÍO (la "Cebolla Premium" a $999, las bolsas a $299, la Sémola COTO
@@ -421,11 +437,12 @@ function paresDesdeCoto(data) {
     const precio = modaPrecios(valores);
     if (!nombre || !precio) continue;
     const url = urlCoto(nombre, res.data?.url);
+    const cat = catCoto(res.data?.groups);
     const promo = promoCoto((res.data?.discounts || [])[0], precio);
-    if (promo && !promo.txt) out.push(conUrl({ nombre, precio: promo.precio, lista: precio }, url)); // oferta directa: ES el precio
+    if (promo && !promo.txt) out.push(conCat(conUrl({ nombre, precio: promo.precio, lista: precio }, url), cat)); // oferta directa: ES el precio
     else {
-      out.push(conUrl({ nombre, precio, lista: precio }, url));
-      if (promo) out.push(conUrl({ nombre: `${nombre} · ${promo.txt}`, precio: promo.precio, lista: precio }, url)); // "llevando N": candidato aparte
+      out.push(conCat(conUrl({ nombre, precio, lista: precio }, url), cat));
+      if (promo) out.push(conCat(conUrl({ nombre: `${nombre} · ${promo.txt}`, precio: promo.precio, lista: precio }, url), cat)); // "llevando N": candidato aparte
     }
   }
   return out;
@@ -860,22 +877,30 @@ const VERDU_PICKS = {
 const NOMBRES_VERDU = [...VERDU_SIMPLES, ...Object.keys(VERDU_PICKS)];
 
 /* Productos elaborados/no frescos que NO son la verdura (conservas, congelados, jugos, especias, limpieza…) */
-const RECHAZO_VERDU = /vigente|hummus|cubetead|\balco\b|pelados?\b|jardinera|dicomere|\blat\b|\bgranos?\b|crem\b|crem\/|dueto|raviol|lucchetti|granja del sol|mccain|rallado|\bpan\b|aderezo|mayonesa|confitura|\bfid\b|fid\.|spaghetti|tallar[ií]n|hair|pouch|mascarilla|acondicionador|shock|ba[ñn]ad|\bgio\b|fra-nui|quillen|papilla|\bsabor\b|oblea|galleta|postre|gelatina|flan\b|\bleche\b|en cubos?|\bcubos?\b|en granos?|\bgranos\b|inalpa|nestl[eé]|marolio|arcor|knorr|maggi|congelad|\blatas?\b|conserva|jugo|mermelada|\bdulce\b|pur[eé]|deshidratad|\bsec[oa]s?\b|polvo|molid|pasta|snack|chips|frit[oa]s|yogur|helado|alm[ií]bar|salsa|triturad|extracto|f[eé]cula|almid[oó]n|harina|ravioles|tarta|empanada|barrita|galletita|semillas?\b|\bt[eé]\b|aceite|vinagre|jab[oó]n|shampoo|crema|esencia|aroma|detergente|limpia|lavandina|desodorante|caramelo|gomita|gaseosa|\bagua\b|cerveza|vino|licor|bebida|cereal|granola|\bmix\b|ensalada|sopa|caldo|condimento|especia|saborizad|pulpa|compota|pasas|pickles|encurtid|escabeche|al natural|relleno|pizza|milanesa|hamburguesa|medall[oó]n|nugget|torta|bud[ií]n|bizcocho|alfajor|chocolate|bomb[oó]n|pa[ñn]al|toallita|\bperro|\bgato|alimento|planta|maceta|vela|sahumerio|perfume|jarabe|c[aá]psula|comprimido|infusi[oó]n|saquito|hebras|\bmate\b|yerba|az[uú]car|edulcorante|licuado|smoothie|baby\b|premezcla|rebozad|nuggets|fideo|arroz|sal\b|cebollita|ajo en|en aceite/i;
+const RECHAZO_VERDU = /\bmixto\b|papines|cocid[oa]s?\b|al vac[ií]o|almohadita|chis buby|nikitos|\bpaq\b|marquesa|vigente|hummus|cubetead|\balco\b|pelados?\b|jardinera|dicomere|\blat\b|\bgranos?\b|crem\b|crem\/|dueto|raviol|lucchetti|granja del sol|mccain|rallado|\bpan\b|aderezo|mayonesa|confitura|\bfid\b|fid\.|spaghetti|tallar[ií]n|hair|pouch|mascarilla|acondicionador|shock|ba[ñn]ad|\bgio\b|fra-nui|quillen|papilla|\bsabor\b|oblea|galleta|postre|gelatina|flan\b|\bleche\b|en cubos?|\bcubos?\b|en granos?|\bgranos\b|inalpa|nestl[eé]|marolio|arcor|knorr|maggi|congelad|\blatas?\b|conserva|jugo|mermelada|\bdulce\b|pur[eé]|deshidratad|\bsec[oa]s?\b|polvo|molid|pasta|snack|chips|frit[oa]s|yogur|helado|alm[ií]bar|salsa|triturad|extracto|f[eé]cula|almid[oó]n|harina|ravioles|tarta|empanada|barrita|galletita|semillas?\b|\bt[eé]\b|aceite|vinagre|jab[oó]n|shampoo|crema|esencia|aroma|detergente|limpia|lavandina|desodorante|caramelo|gomita|gaseosa|\bagua\b|cerveza|vino|licor|bebida|cereal|granola|\bmix\b|ensalada|sopa|caldo|condimento|especia|saborizad|pulpa|compota|pasas|pickles|encurtid|escabeche|al natural|relleno|pizza|milanesa|hamburguesa|medall[oó]n|nugget|torta|bud[ií]n|bizcocho|alfajor|chocolate|bomb[oó]n|pa[ñn]al|toallita|\bperro|\bgato|alimento|planta|maceta|vela|sahumerio|perfume|jarabe|c[aá]psula|comprimido|infusi[oó]n|saquito|hebras|\bmate\b|yerba|az[uú]car|edulcorante|licuado|smoothie|baby\b|premezcla|rebozad|nuggets|fideo|arroz|sal\b|cebollita|ajo en|en aceite/i;
 
 /* Nombre de la app → regex tolerante a tildes/plurales, sobre la palabra base */
 function regexVerdu(nombre) {
-  const especiales = { "Zapallo anco": /zapallo\s*anco|\banco\b/i, "Hakusay": /hakusa[yi]/i, "Verdeo (calor)": /\bverdeo\b|cebolla de verdeo/i, "Puerro (frío)": /\bpuerro/i, "Maracuya (fruta de la pasión)": /maracuy[aá]/i, "Pitahaya (fruta del dragón)": /pitahaya|pitaya/i, "Zapallito": /zapallito/i, "Rabanitos": /rabanito/i, "Arándanos": /ar[aá]ndano/i, "Espárragos": /esp[aá]rrago/i, "Morrón": /morr[oó]n|piment[oó]n\s*(rojo|verde|amarillo)/i };
+  // Calabaza: en el súper es "Zapallo x Kg" (el Mercado Central también la llama ZAPALLO); el anco es la otra opción
+  const especiales = { "Calabaza": /calabaza|zapallo(?!\s*anco)(?![a-z])/i, "Zapallo anco": /zapallo\s*anco|\banco\b/i, "Hakusay": /hakusa[yi]/i, "Verdeo (calor)": /\bverdeo\b|cebolla de verdeo/i, "Puerro (frío)": /\bpuerro/i, "Maracuya (fruta de la pasión)": /maracuy[aá]/i, "Pitahaya (fruta del dragón)": /pitahaya|pitaya/i, "Zapallito": /zapallito/i, "Rabanitos": /rabanito/i, "Arándanos": /ar[aá]ndano/i, "Espárragos": /esp[aá]rrago/i, "Morrón": /morr[oó]n|pim(?:ie|e)nt[oó]n?e?s?\s*(rojo|verde|amarillo)/i };
   if (especiales[nombre]) return especiales[nombre];
   const base = nombre.replace(/\s*\(.*\)$/, "").toLowerCase();
   const pat = base.replace(/[aá]/g, "[aá]").replace(/[eé]/g, "[eé]").replace(/[ií]/g, "[ií]").replace(/[oó]/g, "[oó]").replace(/[uú]/g, "[uú]").replace(/[ñn]/g, "[ñn]");
-  return new RegExp("\\b" + pat + "s?\\b", "i");
+  // Límites de palabra a mano: \b no funciona junto a tildes ("Ananá x Kg" no matcheaba con \b después de la á)
+  return new RegExp("(?<![a-záéíóúñ])" + pat + "s?(?![a-záéíóúñ])", "i");
 }
+
+/* Solo lo que el súper vende en su sección de verdulería (DIA "/Frescos/Frutas y Verduras/…",
+   COTO "Frescos / Frutas y Verduras / Hortalizas|Frutas"). Sin categoría, afuera: antes el
+   nombre solo dejaba pasar "Fetuccini Morrón", "Papines con ajo", "Chupetín cereza"… */
+const CAT_VERDU = /frutas y verduras/i;
+const esDeVerduleria = (c) => CAT_VERDU.test(c.cat || "");
 
 /* Mejor referencia de UN comercio: $/kg si se vende por kg; si no, por unidad.
    Umbral de sanidad: en COTO hay listados con precios basura ($250-450 el kg). */
 function elegirVerdura(nombre, candidatos) {
   const must = regexVerdu(nombre);
-  const validos = (candidatos || []).filter((c) => c.precio >= 250 && must.test(c.nombre) && !RECHAZO_VERDU.test(c.nombre));
+  const validos = (candidatos || []).filter((c) => c.precio >= 250 && esDeVerduleria(c) && must.test(c.nombre) && !RECHAZO_VERDU.test(c.nombre));
   let porKg = [];
   const porUn = [];
   for (const c of validos) {
@@ -1326,7 +1351,7 @@ export {
   paresDesdeNewGarden, buscarNewGarden, preciosDietetica,
   ITEMS_OTROS, NOMBRES_OTROS, paresDesdeTiendaNube, productoDePagina, preciosOtros,
   ITEMS_PESCE, NOMBRES_PESCE, preciosPesce,
-  VERDU_SIMPLES, VERDU_PICKS, NOMBRES_VERDU, regexVerdu, elegirVerdura, mejorVerdura, referenciaVerdu, preciosVerdu,
+  VERDU_SIMPLES, VERDU_PICKS, NOMBRES_VERDU, regexVerdu, elegirVerdura, mejorVerdura, referenciaVerdu, preciosVerdu, catCoto, esDeVerduleria,
   MC_VERDU, mcParaVerdu, aplicarMC,
   ITEMS_FARMACITY, NOMBRES_FARMACITY, preciosFarmacity,
 };
