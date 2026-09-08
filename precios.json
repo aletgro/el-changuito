@@ -821,13 +821,11 @@
       "url": "https://www.tiendapesce.com.ar/productos/mejillon-pelado-x-kilo/"
     },
     "Ajo": {
-      "p": 20748,
-      "n": "Papines Con Ajo Y Romero Cocidos Al Vacío Sueño Verde 400g · $20.748/kg · COTO",
-      "s": "coto",
+      "p": 22417,
+      "n": "Dientes de Ajo Seleccionados 120 Gr. · $22.417/kg · DIA",
+      "s": "dia",
       "u": "kg",
-      "url": "https://www.coto.com.ar/productos/papines-con-ajo-y-romero-cocidos-al-vacio-sueno-verde-400g-/_/R-00590399-00590399-200",
-      "d": 1665,
-      "dv": "08/09/2026",
+      "url": "https://diaonline.supermercadosdia.com.ar/dientes-de-ajo-seleccionados-120-gr-267311/p",
       "mc": {
         "p": 4926,
         "f": "07/09/2026"
@@ -839,8 +837,6 @@
       "s": "dia",
       "u": "kg",
       "url": "https://diaonline.supermercadosdia.com.ar/cebolla-comercial-en-bolsa-malla-x-kg-90063/p",
-      "d": 991,
-      "dv": "08/09/2026",
       "mc": {
         "p": 1386,
         "f": "07/09/2026"
@@ -877,13 +873,11 @@
       }
     },
     "Morrón": {
-      "p": 6160,
-      "n": "Fetuccini Morrón Don Vicente 500g · $6.160/kg · COTO",
+      "p": 4999,
+      "n": "Pimiento Verde · $4.999/kg · COTO",
       "s": "coto",
       "u": "kg",
-      "url": "https://www.coto.com.ar/productos/fetuccini-morron-don-vicente-500g-/_/R-00608714-00608714-200",
-      "d": -130,
-      "dv": "05/09/2026",
+      "url": "https://www.coto.com.ar/productos/pimiento-verde-xkg-/_/R-00000672-00000672-200",
       "mc": {
         "p": 3753,
         "f": "07/09/2026",
@@ -904,13 +898,11 @@
       }
     },
     "Palta": {
-      "p": 4499,
-      "n": "Mixto Palta/Limon · $4.499/kg · COTO",
+      "p": 6999,
+      "n": "Palta Hass · $6.999/kg · COTO",
       "s": "coto",
       "u": "kg",
-      "url": "https://www.coto.com.ar/productos/mixto-palta-limon-xkg-/_/R-00040344-00040344-200",
-      "d": -2500,
-      "dv": "08/09/2026",
+      "url": "https://www.coto.com.ar/productos/palta-hass-xkg-/_/R-00000541-00000541-200",
       "mc": {
         "p": 4688,
         "f": "07/09/2026"
@@ -943,25 +935,25 @@
     },
     "Fruta": {
       "p": 999,
-      "n": "la más barata hoy: Mandarina ($999/kg, COTO) · 24/26 con precio",
+      "n": "la más barata hoy: Mandarina ($999/kg, COTO) · 18/26 con precio",
       "s": "coto",
       "u": "kg",
       "op": {
         "Ananá": {
-          "p": 7649,
-          "s": "coto",
+          "p": 4690,
+          "s": "dia",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/marquesa-de-anana-coto-x-kg-/_/R-00044112-00044112-200",
+          "url": "https://diaonline.supermercadosdia.com.ar/anana-x-kg-90137/p",
           "mc": {
             "p": 1876,
             "f": "07/09/2026"
           }
         },
         "Arándanos": {
-          "p": 26663,
+          "p": 27992,
           "s": "coto",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/frutas-arandanos-karinat-doy-300-grm-/_/R-00502889-00502889-200",
+          "url": "https://www.coto.com.ar/productos/arandano-bja-125-gr-/_/R-00030401-00030401-200",
           "mc": {
             "p": 18667,
             "f": "07/09/2026"
@@ -977,12 +969,6 @@
             "f": "07/09/2026"
           }
         },
-        "Cereza": {
-          "p": 19676,
-          "s": "coto",
-          "u": "kg",
-          "url": "https://www.coto.com.ar/productos/chupetin-cereza-mr-pop-s-bsa-432-grm-/_/R-00205468-00205468-200"
-        },
         "Ciruela": {
           "p": 8990,
           "s": "dia",
@@ -993,33 +979,15 @@
             "f": "07/09/2026"
           }
         },
-        "Durazno": {
-          "p": 3890,
-          "s": "dia",
-          "u": "kg",
-          "url": "https://diaonline.supermercadosdia.com.ar/durazno-en-mitades-dia-820-gr-34544/p"
-        },
-        "Frambuesa": {
-          "p": 14194,
-          "s": "coto",
-          "u": "kg",
-          "url": "https://www.coto.com.ar/productos/gall-rellena-sab-frambuesa-sonrisas-paq-108-grm-/_/R-00511504-00511504-200"
-        },
         "Frutilla": {
-          "p": 10294,
+          "p": 12796,
           "s": "coto",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/yog-ent-firme-sab-frutilla-tregar-pot-170-grm-/_/R-00618463-00618463-200",
+          "url": "https://www.coto.com.ar/productos/frutillas-x-250g-/_/R-00072205-00072205-200",
           "mc": {
             "p": 6480,
             "f": "07/09/2026"
           }
-        },
-        "Granada": {
-          "p": 17990,
-          "s": "dia",
-          "u": "un",
-          "url": "https://diaonline.supermercadosdia.com.ar/tintura-permanente-46-granada-nutri-1-ud-22190/p"
         },
         "Higo": {
           "p": 14999,
@@ -1083,22 +1051,6 @@
             "f": "07/09/2026"
           }
         },
-        "Membrillo": {
-          "p": 4399,
-          "s": "coto",
-          "u": "kg",
-          "url": "https://www.coto.com.ar/productos/dce-membrillo-1-kgm-/_/R-00040333-00040333-200",
-          "mc": {
-            "p": 2500,
-            "f": "07/09/2026"
-          }
-        },
-        "Mora": {
-          "p": 27718,
-          "s": "coto",
-          "u": "kg",
-          "url": "https://www.coto.com.ar/productos/frutas-moras-green-life-paq-550-grm-/_/R-00518014-00518014-200"
-        },
         "Naranja": {
           "p": 1199,
           "s": "coto",
@@ -1157,6 +1109,12 @@
           "url": "https://www.coto.com.ar/productos/p-uva-sultan-morena-x-kg-/_/R-00064947-00064947-200",
           "mc": {
             "p": 6313,
+            "f": "07/09/2026"
+          }
+        },
+        "Membrillo": {
+          "mc": {
+            "p": 2500,
             "f": "07/09/2026"
           }
         },
@@ -1363,10 +1321,10 @@
           }
         },
         "Espinaca": {
-          "p": 4400,
-          "s": "dia",
+          "p": 14995,
+          "s": "coto",
           "u": "kg",
-          "url": "https://diaonline.supermercadosdia.com.ar/ñoquis-dia-espinaca-500-gr-63133/p",
+          "url": "https://www.coto.com.ar/productos/espinaca-ximabe-220g-/_/R-00618216-00618216-200",
           "mc": {
             "p": 850,
             "f": "07/09/2026"
@@ -1388,26 +1346,26 @@
       "dv": "08/09/2026"
     },
     "Contundentes": {
-      "p": 1999,
-      "n": "la más barata hoy: Zapallo anco ($1.999/kg, COTO) · 7/7 con precio",
-      "s": "coto",
+      "p": 1790,
+      "n": "la más barata hoy: Calabaza ($1.790/kg, DIA) · 7/7 con precio",
+      "s": "dia",
       "u": "kg",
       "op": {
         "Batata": {
-          "p": 2599,
+          "p": 2699,
           "s": "coto",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/dce-batata-emeth-xkg-/_/R-00046905-00046905-200",
+          "url": "https://www.coto.com.ar/productos/batata-x-kg-/_/R-00072041-00072041-200",
           "mc": {
             "p": 1483,
             "f": "07/09/2026"
           }
         },
         "Calabaza": {
-          "p": 7631,
-          "s": "coto",
+          "p": 1790,
+          "s": "dia",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/sorrentinos-de-calabaza-640g-/_/R-00046991-00046991-200",
+          "url": "https://diaonline.supermercadosdia.com.ar/zapallo-x-kg-94087/p",
           "mc": {
             "p": 1119,
             "f": "07/09/2026",
@@ -1415,10 +1373,10 @@
           }
         },
         "Choclo": {
-          "p": 7693,
-          "s": "dia",
+          "p": 6499,
+          "s": "coto",
           "u": "kg",
-          "url": "https://diaonline.supermercadosdia.com.ar/choclo-cremoso-la-campagnola-300-gr-274875/p",
+          "url": "https://www.coto.com.ar/productos/choclo-amarillo-xkg-/_/R-00000614-00000614-200",
           "mc": {
             "p": 2233,
             "f": "07/09/2026"
@@ -1466,21 +1424,21 @@
           }
         }
       },
-      "url": "https://www.coto.com.ar/productos/zapallo-anco-x-kg-/_/R-00000688-00000688-200",
-      "d": 300,
+      "url": "https://diaonline.supermercadosdia.com.ar/zapallo-x-kg-94087/p",
+      "d": -209,
       "dv": "08/09/2026"
     },
     "Hierbas de terminación": {
-      "p": 7544,
-      "n": "la más barata hoy: Albahaca ($7.544/kg, COTO) · 2/3 con precio",
+      "p": 11327,
+      "n": "la más barata hoy: Perejil ($11.327/kg, COTO) · 2/3 con precio",
       "s": "coto",
       "u": "kg",
       "op": {
         "Albahaca": {
-          "p": 7544,
+          "p": 2899,
           "s": "coto",
-          "u": "kg",
-          "url": "https://www.coto.com.ar/productos/sorrentinos-nuez-albahaca-ricota-coto-320g-/_/R-00011730-00011730-200",
+          "u": "un",
+          "url": "https://www.coto.com.ar/productos/albahaca-x-uni-/_/R-00037201-00037201-200",
           "mc": {
             "p": 725,
             "f": "07/09/2026"
@@ -1504,13 +1462,11 @@
           }
         }
       },
-      "url": "https://www.coto.com.ar/productos/sorrentinos-nuez-albahaca-ricota-coto-320g-/_/R-00011730-00011730-200",
-      "d": -3783,
-      "dv": "08/09/2026"
+      "url": "https://www.coto.com.ar/productos/perejil-crespo-organico-uni-150-grm-/_/R-00092927-00092927-200"
     },
     "Aromáticos de cocción": {
-      "p": 7789,
-      "n": "la más barata hoy: Verdeo (calor) ($7.789/kg, COTO) · 2/2 con precio",
+      "p": 17327,
+      "n": "la más barata hoy: Puerro (frío) ($17.327/kg, COTO) · 2/2 con precio",
       "s": "coto",
       "u": "kg",
       "op": {
@@ -1525,10 +1481,10 @@
           }
         },
         "Verdeo (calor)": {
-          "p": 7789,
+          "p": 1999,
           "s": "coto",
-          "u": "kg",
-          "url": "https://www.coto.com.ar/productos/leberwurst-cebolla-verdeo-friolim-1-kgm-/_/R-00046281-00046281-200",
+          "u": "un",
+          "url": "https://www.coto.com.ar/productos/cebolla-de-verdeo-x-uni-/_/R-00046634-00046634-200",
           "mc": {
             "p": 1550,
             "f": "07/09/2026",
@@ -1536,9 +1492,7 @@
           }
         }
       },
-      "url": "https://www.coto.com.ar/productos/leberwurst-cebolla-verdeo-friolim-1-kgm-/_/R-00046281-00046281-200",
-      "d": 3792,
-      "dv": "07/09/2026"
+      "url": "https://www.coto.com.ar/productos/puerro-rocky-fresco-seleccionado-150g-/_/R-00632441-00632441-200"
     }
   }
 }
