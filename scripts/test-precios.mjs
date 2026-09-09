@@ -5,7 +5,7 @@
 
 import assert from "node:assert/strict";
 import {
-  parseQty, elegir, paresDesdeVtex, ITEMS_ELPUENTE, parsearListadoElPuente,
+  parseQty, elegir, buscarVtex, paresDesdeVtex, ITEMS_ELPUENTE, parsearListadoElPuente,
   ITEMS_COTO, PARTES_CARNE, modaPrecios, promoCoto, paresDesdeCoto, porKgCoto, notaPorKg, comboCoto, asadoCoto,
   ITEMS_DIETETICA, normalizarPeso, paresProductoFa, paresVariacionesFa, paresDesdeNewGarden,
   ITEMS_OTROS, paresDesdeTiendaNube, productoDePagina, ITEMS_FARMACITY, ITEMS_PESCE, promoVtex, conDelta, DESCUENTOS, opcionesElPuente,
@@ -16,7 +16,11 @@ const item = (name) => ITEMS_ELPUENTE.find((i) => i.name === name);
 const itemCoto = (name) => ITEMS_COTO.find((i) => i.name === name);
 const itemDiet = (name) => ITEMS_DIETETICA.find((i) => i.name === name);
 let pasan = 0;
-const test = (nombre, fn) => { fn(); pasan++; console.log("✔ " + nombre); };
+const test = (nombre, fn) => { // soporta tests async (llamarlos con await)
+  const ok = () => { pasan++; console.log("✔ " + nombre); };
+  const r = fn();
+  return r && typeof r.then === "function" ? r.then(ok) : ok();
+};
 
 /* ---------- parseQty ---------- */
 test("parseQty: 'x 190 g' es tamaño, no multiplicador", () => {
@@ -24,6 +28,13 @@ test("parseQty: 'x 190 g' es tamaño, no multiplicador", () => {
 });
 test("parseQty: 'x 220 cc' es tamaño en litros", () => {
   assert.deepEqual(parseQty("Crema de leche El Puente. Pote x 220 cc"), { amount: 0.22, unit: "l" });
+});
+test("parseQty: 'Fps 50 x 50 ml' es el factor de protección, no un pack de 50", () => {
+  assert.deepEqual(parseQty("Protector Solar Dermaglós Emulsión Fps 50 x 50 ml"), { amount: 0.05, unit: "l" });
+  assert.deepEqual(parseQty("Protector Solar VN Efecto Seco Fps 30 x 190 ml"), { amount: 0.19, unit: "l" });
+  assert.deepEqual(parseQty("Protector Solar SPF 30 x 200 ml"), { amount: 0.2, unit: "l" });
+  assert.deepEqual(parseQty("Protector Solar Zono en Crema Fps 15 x 200 ml"), { amount: 0.2, unit: "l" }); // ni "5 x 200 ml" desde el segundo dígito
+  assert.deepEqual(parseQty("Protector Solar Rayito de Sol Fps 65 x 90 g"), { amount: 0.09, unit: "kg" });
 });
 test("parseQty: pack 'N x tamaño' multiplica", () => {
   assert.deepEqual(parseQty("Papel Higiénico 4 x 30 Mts"), { amount: 120, unit: "m" });
@@ -727,6 +738,26 @@ test("conDelta: fecha cada variación y la conserva mientras el precio no cambie
 
 /* ---------- Farmacity ---------- */
 const itemFarma = (name) => ITEMS_FARMACITY.find((i) => i.name === name);
+test("Gel de limpieza: es facial; el limpiador de inodoro que aparece al paginar queda afuera", () => {
+  const el = elegir(itemFarma("Gel de limpieza"), [
+    { nombre: "Limpiador Inodoro Gel Removedor Sarro Pato Marina x 500 ml", precio: 4955, lista: 7623 },
+    { nombre: "Gel de Limpieza Get The Look x 130 ml", precio: 5495, lista: 10990 },
+    { nombre: "Gel de Limpieza Facial Neutrogena Deep Clean Grapefruit x 150 g", precio: 8236, lista: 8236 },
+  ]);
+  assert.equal(el.p, 5495);
+  assert.match(el.n, /^Gel de Limpieza Get The Look/);
+});
+test("Protector solar corporal: un envase, el más barato POR LITRO (el tubo de 50 ml pierde), sin líneas infantiles", () => {
+  const el = elegir(itemFarma("Protector solar corporal"), [
+    { nombre: "Protector Solar Dermaglós Emulsión Fps 50 x 50 ml", precio: 7461, lista: 9948 },            // $149.220/L: el más barato en $
+    { nombre: "Protector Solar VN Efecto Seco Fps 30 x 190 ml", precio: 8824, lista: 17648 },              // $46.442/L
+    { nombre: "Protector Solar VN Aerosol Fps 30 x 250 ml", precio: 11206, lista: 11206 },                 // $44.824/L ← gana
+    { nombre: "Protector Solar en Spray Nivea Kids Protect & Play 5 en 1 Fps 60 x 270 ml", precio: 15369, lista: 15369 }, // kids
+    { nombre: "Protector Solar Rayito de Sol Pediatric Fps 65 x 90 g", precio: 16966, lista: 16966 },       // pediátrico
+  ]);
+  assert.equal(el.p, 11206);
+  assert.equal(el.n, "Protector Solar VN Aerosol Fps 30 x 250 ml · $44.824/L");
+});
 
 test("Cepillo de dientes: 'Cepillo Dental' de Farmacity cuenta y gana por unidad (pack x4); ni 2x1 de Colgate, ni infantiles, interdentales o portátiles", () => {
   const el = elegir(itemFarma("Cepillo de dientes"), [
@@ -756,6 +787,28 @@ test("promoVtex: detecta 2x1, 3x2 y '2da unidad al X%' en los Teasers", () => {
 test("promoVtex: los descuentos ya aplicados al precio (DiscountHighLight) no se duplican", () => {
   assert.equal(promoVtex({ DiscountHighLight: [{ "<Name>k__BackingField": "-50% Solo Web" }] }), null);
   assert.equal(promoVtex({}), null);
+});
+
+await test("buscarVtex: recorre todas las páginas de 50 (header resources) y para en la última", async () => {
+  const producto = (i) => ({ productName: `Pasta Dental ${i} x 90 g`, link: `https://www.farmacity.com/p${i}/p`, items: [{ sellers: [{ commertialOffer: { Price: 1000 + i, AvailableQuantity: 1 } }] }] });
+  const pedidas = [];
+  const fetchReal = globalThis.fetch;
+  globalThis.fetch = async (url) => {
+    const desde = Number(url.match(/_from=(\d+)/)[1]);
+    pedidas.push(desde);
+    const total = 147;
+    const data = Array.from({ length: Math.min(50, total - desde) }, (_, i) => producto(desde + i));
+    return { ok: true, status: 206, headers: new Headers({ resources: `${desde}-${desde + data.length - 1}/${total}` }), json: async () => data };
+  };
+  try {
+    const pares = await buscarVtex("https://www.farmacity.com", "pasta dental");
+    assert.equal(pares.length, 147);
+    assert.deepEqual(pedidas, [0, 50, 100]);           // tres páginas, ni una más
+    assert.equal(pares[146].nombre, "Pasta Dental 146 x 90 g");
+    pedidas.length = 0;
+    await buscarVtex("https://www.farmacity.com", "x", 100); // tope: como mucho 2 páginas
+    assert.deepEqual(pedidas, [0, 50]);
+  } finally { globalThis.fetch = fetchReal; }
 });
 
 test("paresDesdeVtex: cada candidato lleva el link de su página en DIA/Farmacity (la promo también)", () => {

@@ -122,7 +122,10 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
 - La app aplica al abrir: `PRICES` embebida (fallback) → `precios.json` del sitio
   (versión más nueva gana). Función central: `applyPrices(stores, prices, version)`.
 - El robot: DIA vía API pública de VTEX (`/api/catalog_system/pub/products/search/?ft=...`)
-  con fallback a páginas de categoría HTML (`cat` en la config). Conserva el precio
+  con fallback a páginas de categoría HTML (`cat` en la config). `buscarVtex()` PAGINA de
+  a 50 leyendo el total del header `resources` (tope 500): hasta el 09/09/2026 solo leía
+  la primera página y en Farmacity "pasta dental" (147 resultados) la Oral B 4 en 1 de
+  180 g a $3.351 quedaba en la segunda; "desodorante" tiene 450. Conserva el precio
   anterior si un ítem no matchea; nunca escribe si TODO falló.
 - Página del producto ("ver en el navegador", pedido 07/09/2026): cada candidato lleva
   `url` (VTEX `link` · COTO `https://www.coto.com.ar/productos/<slug>/` + `data.url` (`urlCoto()`; la ruta en singular NO renderiza el producto, verificado 07/09/2026) · Frutos del
@@ -364,8 +367,13 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   búsquedas); sin infantiles, interdentales, portátiles, ortodoncia, kits ni eléctricos · Preservativos =
   Prime Mega (en Farmacity: "Preservativo de Látex Mega") · Alcohol = 96° (decidido
   09/08/2026: tiene alcohol en gel para manos, el líquido es para limpieza; el 70 %
-  ya diluido queda excluido por must /96/). Supuestos a validar: Crema humectante =
-  facial (Pond's) · Gel de limpieza = facial. No quedan comercios pendientes.
+  ya diluido queda excluido por must /96/) · Pasta dental = mejor precio por kg
+  (09/09/2026: la Oral B 4 en 1 de 180 g a $3.351 estaba en la página 2 del buscador, ver
+  paginación) · Protector solar corporal = UN envase, el más barato POR LITRO
+  (`comparaPor:"l"`, 09/09/2026: por precio suelto ganaba un tubo de 50 ml; sin kids/
+  pediátrico). OJO `parseQty`: "Fps 50 x 50 ml" no es un pack de 50 (lookbehind fps/spf).
+  Supuestos a validar: Crema humectante = facial (Pond's) · Gel de limpieza = facial (con
+  la paginación aparecen limpiadores del hogar — inodoro, sarro, Pato…: rechazados). No quedan comercios pendientes.
 - **Fase 2 posible**: botón "Actualizar precios" en la app vía Cloudflare Worker (proxy CORS).
 - **Versión artefacto de Claude.ai**: existe una variante del fuente que usa
   `window.storage` (API de artefactos) en vez de `localStorage`. Ya no es la fuente de

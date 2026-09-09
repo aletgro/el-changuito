@@ -139,7 +139,9 @@ function parseQty(nombre) {
   let mult = 1;
   let base = s;
   // Pack "N x tamaño" (ej. "4 x 30 Mts", "3 x 500 Gr"): multiplicador + tamaño individual
-  const pack = s.match(/(\d+)\s*x\s*(\d+(?:\.\d+)?)\s*(kgm?|grs?|grm|gs|gr\.|g|ml|cc|lts?|lt\.|l|m(?:ts?)?)\b/);
+  // (el factor de protección "Fps 50 x 50 ml" / "SPF 30 x 190 ml" NO es un pack de 50: se excluye)
+  // (y el número tiene que empezar ahí: si no, "fps 15 x 200 ml" matchea desde el "5" como pack de 5)
+  const pack = s.match(/(?<!\b(?:fps|spf)\s*)(?<![\d.,])(\d+)\s*x\s*(\d+(?:\.\d+)?)\s*(kgm?|grs?|grm|gs|gr\.|g|ml|cc|lts?|lt\.|l|m(?:ts?)?)\b/);
   if (pack) {
     mult = parseInt(pack[1], 10) || 1;
     base = pack[2] + " " + pack[3];
@@ -210,13 +212,25 @@ function paresDesdeVtex(data) {
   return out;
 }
 
-async function buscarVtex(base, query) {
-  const url = `${base}/api/catalog_system/pub/products/search/?ft=${encodeURIComponent(query)}&_from=0&_to=49`;
-  const r = await fetch(url, { headers: { accept: "application/json", "user-agent": "Mozilla/5.0 (compatible; ElChanguito/1.0)" } });
-  if (!r.ok) throw new Error("HTTP " + r.status);
-  const data = await r.json();
-  if (!Array.isArray(data)) throw new Error("respuesta inesperada");
-  return paresDesdeVtex(data);
+/* VTEX devuelve de a 50 como máximo (`_from`/`_to`) y avisa el total en el header
+   `resources: 0-49/147`. Se recorren TODAS las páginas (tope `maximo`): en Farmacity
+   "pasta dental" tiene 147 resultados y la Oral B de 180 g a $3.351 estaba en la
+   página 2 (09/09/2026); "desodorante" tiene 450. */
+const VTEX_PAGINA = 50;
+async function buscarVtex(base, query, maximo = 500) {
+  const out = [];
+  for (let desde = 0; desde < maximo; desde += VTEX_PAGINA) {
+    const url = `${base}/api/catalog_system/pub/products/search/?ft=${encodeURIComponent(query)}&_from=${desde}&_to=${desde + VTEX_PAGINA - 1}`;
+    const r = await fetch(url, { headers: { accept: "application/json", "user-agent": "Mozilla/5.0 (compatible; ElChanguito/1.0)" } });
+    if (!r.ok) { if (desde === 0) throw new Error("HTTP " + r.status); break; } // una página tardía caída: nos quedamos con lo leído
+    const data = await r.json();
+    if (!Array.isArray(data)) { if (desde === 0) throw new Error("respuesta inesperada"); break; }
+    out.push(...paresDesdeVtex(data));
+    const total = Number((String(r.headers?.get?.("resources") || "").match(/\/(\d+)\s*$/) || [])[1]) || 0;
+    if (data.length < VTEX_PAGINA || (total && desde + VTEX_PAGINA >= total)) break;
+    await dormir(300);
+  }
+  return out;
 }
 
 /* ---------- Fuente 2 (plan B): página de categoría en HTML ---------- */
@@ -747,8 +761,10 @@ const ITEMS_FARMACITY = [
   { name: "Repelente", q: "repelente", unit: "un", qty: 1, must: [/repelente/i], reject: [/ni[ñn][oa]|kids|beb[ée]|crema|pulsera|ambiente|hidratante|natural/i] },
   // Belleza
   { name: "Crema humectante", q: "crema humectante", unit: "un", qty: 1, must: [/crema/i, /humectante|hidratante/i], reject: [/manos|pies|alcohol|limpieza|corporal|beb[ée]|ni[ñn]/i] },
-  { name: "Gel de limpieza", q: "gel de limpieza facial", unit: "un", qty: 1, must: [/gel/i, /limpieza|limpiador/i], reject: [/ni[ñn][oa]|beb[ée]/i] },
-  { name: "Protector solar corporal", q: "protector solar corporal", unit: "un", qty: 1, must: [/protector solar/i, /fps/i], reject: [/facial|combo|kit|infantil|ni[ñn][oa]|beb[ée]|after ?sun|autobronce|capilar|labial/i] },
+  // Facial (supuesto documentado). Con la paginación aparecieron limpiadores del hogar ("Limpiador Inodoro Gel Pato"): afuera
+  { name: "Gel de limpieza", q: "gel de limpieza facial", unit: "un", qty: 1, must: [/gel/i, /limpieza|limpiador/i], reject: [/ni[ñn][oa]|beb[ée]|inodoro|sarro|ba[ñn]o|\bpato\b|cocina|piso|hogar|ropa|desinfect|multiuso|vidrio|horno|antigrasa|\bcif\b|lysoform|ayud[ií]n/i] },
+  // Corporal: UN envase, el más barato POR LITRO (09/09/2026: por precio suelto ganaba un tubo de 50 ml, tamaño de cara); sin líneas infantiles
+  { name: "Protector solar corporal", q: "protector solar corporal", unit: "un", qty: 1, comparaPor: "l", must: [/protector solar/i, /fps/i], reject: [/facial|rostro|combo|kit|infantil|ni[ñn][oa]|beb[ée]|kids|pediatric|baby|after ?sun|autobronce|capilar|labial/i] },
   { name: "Protector solar facial", q: "protector solar facial", unit: "un", qty: 1, must: [/protector solar/i, /facial/i], reject: [/combo|kit|infantil|ni[ñn][oa]|beb[ée]|after ?sun|autobronce/i] },
 ];
 
