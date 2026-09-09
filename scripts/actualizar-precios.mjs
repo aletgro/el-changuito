@@ -173,6 +173,13 @@ const conUrl = (obj, url) => (url ? { ...obj, url } : obj);
    Verdulería exige que el candidato venga de "Frutas y Verduras" del súper (DIA `categories`,
    COTO `groups`), no alcanza con que el nombre diga "morrón" (fideos, dulces, congelados…). */
 const conCat = (obj, cat) => (cat ? { ...obj, cat } : obj);
+/* Descuento/promo SOLO ONLINE (pedido 09/09/2026): el candidato lleva `online: true`, la nota
+   termina en "· solo online" y en precios.json viaja `online` para que la app lo marque.
+   DIA/Farmacity lo dicen en el nombre del teaser o del highlight ("2x1 Solo Web", "-50% Solo
+   Web"); COTO en sale_type "Exclusivas" y las imágenes OfertaDigital/ExclusivoDigital. */
+const ONLINE_RE = /solo web|s[oó]lo online|exclusiv[oa]s? (?:web|online|digital)|exclusivo digital/i;
+const conOnline = (obj, online) => (online ? { ...obj, online: true } : obj);
+const SOLO_ONLINE = " · solo online";
 
 /* ---------- Fuente 1: API pública de VTEX (DIA y Farmacity la usan) ---------- */
 
@@ -201,10 +208,14 @@ function paresDesdeVtex(data) {
         const of = sel.commertialOffer || {};
         if (of.Price > 0 && of.AvailableQuantity > 0) {
           const cat = (p.categories || []).join(" ");
-          out.push(conCat(conUrl({ nombre, precio: of.Price, lista: of.ListPrice || of.Price }, p.link), cat));
+          const textos = (arr) => (arr || []).map((t) => t["<Name>k__BackingField"] || t.Name || t.name || "").join(" | ");
+          // el descuento ya aplicado al precio se anuncia en DiscountHighLight/clusterHighlights; la promo "llevando N" en los Teasers
+          const onlineBase = of.ListPrice > of.Price && ONLINE_RE.test(textos(of.DiscountHighLight) + " " + Object.values(p.clusterHighlights || {}).join(" "));
+          const onlinePromo = ONLINE_RE.test(textos(of.Teasers) + " " + textos(of.PromotionTeasers));
+          out.push(conOnline(conCat(conUrl({ nombre, precio: of.Price, lista: of.ListPrice || of.Price }, p.link), cat), onlineBase));
           // La promo compite como candidato aparte, con el precio efectivo por unidad y la condición a la vista
           const promo = promoVtex(of);
-          if (promo) out.push(conCat(conUrl({ nombre: `${nombre} · ${promo.txt}`, precio: of.Price * promo.factor, lista: of.ListPrice || of.Price }, p.link), cat));
+          if (promo) out.push(conOnline(conCat(conUrl({ nombre: `${nombre} · ${promo.txt}`, precio: of.Price * promo.factor, lista: of.ListPrice || of.Price }, p.link), cat), onlineBase || onlinePromo));
         }
       }
     }
@@ -464,7 +475,9 @@ function paresDesdeCoto(data) {
     // Pesables (product_weighable = 1, se cobra por KGS): listPrice es POR KILO aunque el nombre
     // diga "Bolsa Entre 1,5 Kg A 2 Kg" (la papa de COTO, 08/09/2026)
     const pesable = Number(res.data?.product_weighable) === 1 || /^KGS?$/i.test(String(res.data?.product_unit_of_measure || ""));
-    const conPesable = (o) => (pesable ? { ...o, pesable: true } : o);
+    // oferta solo digital: sale_type "Exclusivas" o imágenes OfertaDigital/ExclusivoDigital en alguna sucursal
+    const online = (res.data?.sale_type || []).some((t) => /exclusiv/i.test(String(t))) || (res.data?.price || []).some((p) => /digital/i.test([p.saleImage1, p.saleImage2, p.saleImage3].join(" ")));
+    const conPesable = (o) => conOnline(pesable ? { ...o, pesable: true } : o, online);
     const promo = promoCoto((res.data?.discounts || [])[0], precio);
     if (promo && !promo.txt) out.push(conPesable(conCat(conUrl({ nombre, precio: promo.precio, lista: precio }, url), cat))); // oferta directa: ES el precio
     else {
@@ -497,7 +510,8 @@ const limpiarCorte = (s) => s.replace(/\s+/g, " ").replace(/\s+x\s*kg\.?$/i, "")
 const pesos = (v) => "$" + Math.round(v).toLocaleString("es-AR");
 
 /* Corte suelto: el precio del ítem ES el precio por kilo */
-const notaPorKg = (c) => conUrl({ p: Math.round(c.precio), n: `${limpiarCorte(c.nombre)} · ${pesos(c.precio)}/kg` }, c.url);
+const notaPorKg = (c) => conOnline(conUrl({ p: Math.round(c.precio), n: `${limpiarCorte(c.nombre)} · ${pesos(c.precio)}/kg${c.online ? SOLO_ONLINE : ""}` }, c.url), c.online);
+const soloOnline = (c) => (c.online ? " (solo online)" : "");
 
 /* Compuestos (Combo, Asado): una página por corte → `urls: [{ n: etiqueta, url }]` */
 const urlsDeCortes = (obj, cortes) => {
@@ -510,10 +524,10 @@ function comboCoto(porParte, invernal) {
   const [c1, c2] = invernal ? [porParte.falda, porParte.osobuco] : [porParte.marucha, porParte.aranita];
   if (!c1 || !c2) return null;
   const [et1, et2] = invernal ? ["falda", "osobuco"] : ["marucha", "arañita"];
-  return urlsDeCortes({
+  return conOnline(urlsDeCortes({
     p: Math.round(c1.precio + c2.precio),
-    n: `${et1} ${pesos(c1.precio)}/kg + ${et2} ${pesos(c2.precio)}/kg · estimo 1 kg de c/u`,
-  }, [{ et: et1, url: c1.url }, { et: et2, url: c2.url }]);
+    n: `${et1} ${pesos(c1.precio)}/kg${soloOnline(c1)} + ${et2} ${pesos(c2.precio)}/kg${soloOnline(c2)} · estimo 1 kg de c/u`,
+  }, [{ et: et1, url: c1.url }, { et: et2, url: c2.url }]), c1.online || c2.online);
 }
 
 /* Asado: vacío o tapa de asado (el más barato) + tira de asado */
@@ -523,10 +537,10 @@ function asadoCoto(porParte) {
   opciones.sort((a, b) => a.precio - b.precio);
   const base = opciones[0];
   const tira = porParte.tira;
-  return urlsDeCortes({
+  return conOnline(urlsDeCortes({
     p: Math.round(base.precio + tira.precio),
-    n: `${base.et} ${pesos(base.precio)}/kg + tira ${pesos(tira.precio)}/kg · estimo 1 kg de c/u`,
-  }, [{ et: base.et, url: base.url }, { et: "tira", url: tira.url }]);
+    n: `${base.et} ${pesos(base.precio)}/kg${soloOnline(base)} + tira ${pesos(tira.precio)}/kg${soloOnline(tira)} · estimo 1 kg de c/u`,
+  }, [{ et: base.et, url: base.url }, { et: "tira", url: tira.url }]), base.online || tira.online);
 }
 
 function mesAR() {
@@ -953,11 +967,11 @@ function elegirVerdura(nombre, candidatos) {
   // vale la malla, no un ajo; pedido 08/09/2026) y la nota muestra el $/unidad.
   if (porKg.length) {
     porKg.sort((a, b) => a.v - b.v);
-    return conUrl({ p: Math.round(porKg[0].v), n: `${limpio(porKg[0].c.nombre)} · $${Math.round(porKg[0].v).toLocaleString("es-AR")}/kg`, u: "kg", v: porKg[0].v }, porKg[0].c.url);
+    return conOnline(conUrl({ p: Math.round(porKg[0].v), n: `${limpio(porKg[0].c.nombre)} · $${Math.round(porKg[0].v).toLocaleString("es-AR")}/kg${porKg[0].c.online ? SOLO_ONLINE : ""}`, u: "kg", v: porKg[0].v }, porKg[0].c.url), porKg[0].c.online);
   }
   if (porUn.length) {
     porUn.sort((a, b) => a.v - b.v);
-    return conUrl({ p: Math.round(porUn[0].c.precio), n: `${limpio(porUn[0].c.nombre)} · $${Math.round(porUn[0].v).toLocaleString("es-AR")}/un`, u: "un", v: porUn[0].v }, porUn[0].c.url);
+    return conOnline(conUrl({ p: Math.round(porUn[0].c.precio), n: `${limpio(porUn[0].c.nombre)} · $${Math.round(porUn[0].v).toLocaleString("es-AR")}/un${porUn[0].c.online ? SOLO_ONLINE : ""}`, u: "un", v: porUn[0].v }, porUn[0].c.url), porUn[0].c.online);
   }
   return null;
 }
@@ -974,7 +988,7 @@ function mejorVerdura(nombre, candDia, candCoto) {
   if (!opciones.length) return null;
   opciones.sort((a, b) => ((b.u === "kg") - (a.u === "kg")) || (a.v - b.v)); // entre comercios compara el $/kg o $/unidad, no el paquete
   const g = opciones[0];
-  return conUrl({ p: g.p, n: `${g.n} · ${g.etiqueta}`, s: g.s, u: g.u }, g.url);
+  return conOnline(conUrl({ p: g.p, n: `${g.n} · ${g.etiqueta}`, s: g.s, u: g.u }, g.url), g.online);
 }
 
 /* Verdulería sin referencia REAL: si DIA y COTO respondieron (listas, no null) y ninguno la
@@ -1004,13 +1018,13 @@ async function preciosVerdu() {
     for (const o of opciones) {
       const [cd, cc] = await buscarAmbos(o);
       const m = mejorVerdura(o, cd, cc);
-      if (m) op[o] = conUrl({ p: m.p, s: m.s, u: m.u }, m.url);
+      if (m) op[o] = conOnline(conUrl({ p: m.p, s: m.s, u: m.u }, m.url), m.online);
     }
     const nombres = Object.keys(op);
     if (!nombres.length) { out.push([pick, null]); continue; }
     const porKilo = nombres.filter((n) => op[n].u === "kg");
     const masBarata = (porKilo.length ? porKilo : nombres).sort((a, b) => op[a].p - op[b].p)[0];
-    out.push([pick, conUrl({ p: op[masBarata].p, n: `la más barata hoy: ${masBarata} ($${op[masBarata].p.toLocaleString("es-AR")}/${op[masBarata].u}, ${op[masBarata].s === "dia" ? "DIA" : "COTO"}) · ${nombres.length}/${opciones.length} con precio`, s: op[masBarata].s, u: op[masBarata].u, op }, op[masBarata].url)]);
+    out.push([pick, conOnline(conUrl({ p: op[masBarata].p, n: `la más barata hoy: ${masBarata} ($${op[masBarata].p.toLocaleString("es-AR")}/${op[masBarata].u}, ${op[masBarata].s === "dia" ? "DIA" : "COTO"}${op[masBarata].online ? ", solo online" : ""}) · ${nombres.length}/${opciones.length} con precio`, s: op[masBarata].s, u: op[masBarata].u, op }, op[masBarata].url), op[masBarata].online)]);
   }
   return out;
 }
@@ -1176,7 +1190,8 @@ function elegir(item, candidatos) {
       nota += ` · ${item.marca.nombre} $${Math.round(m.estimado).toLocaleString("es-AR")}${dif !== 0 ? ` (${dif > 0 ? "+" : ""}${dif}%)` : ""}`;
     }
   }
-  return conUrl({ p: Math.round(g.estimado), n: nota }, g.url);
+  if (g.online) nota += SOLO_ONLINE;
+  return conOnline(conUrl({ p: Math.round(g.estimado), n: nota }, g.url), g.online);
 }
 
 /* Variación de precio: d = diferencia en $ y dv = fecha en que cambió. Si el precio

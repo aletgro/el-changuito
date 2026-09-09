@@ -811,10 +811,45 @@ await test("buscarVtex: recorre todas las páginas de 50 (header resources) y pa
   } finally { globalThis.fetch = fetchReal; }
 });
 
+test("Solo online (VTEX): el highlight 'Solo Web' marca el descuento aplicado; el teaser 'Solo Web' marca solo la promo", () => {
+  const T = (n) => ({ "<Name>k__BackingField": n });
+  const pares = paresDesdeVtex([
+    { productName: "Enjuague Bucal Colgate Total Antisarro x 500 ml", items: [{ sellers: [{ commertialOffer: { Price: 4685, ListPrice: 9370, AvailableQuantity: 1, DiscountHighLight: [T("-50% Solo Web#01/09 - 30/09")] } }] }] },
+    { productName: "Enjuague Bucal Colgate Plax Odor Control x 500 ml", items: [{ sellers: [{ commertialOffer: { Price: 7840, ListPrice: 7840, AvailableQuantity: 1, Teasers: [T("2x1 Solo Web#01/09 - 30/09")], PromotionTeasers: [T("2x1 Solo Web#01/09 - 30/09")] } }] }] },
+    { productName: "Enjuague Bucal Farmacity Menthol x 250 ml", items: [{ sellers: [{ commertialOffer: { Price: 5150, ListPrice: 5150, AvailableQuantity: 1, Teasers: [T("2x1 Tu Farmacity#01/09 - 21/09")] } }] }] },
+    { productName: "Pasta Dental Fluorogel Protect x 60 g", items: [{ sellers: [{ commertialOffer: { Price: 6649, ListPrice: 9499, AvailableQuantity: 1, DiscountHighLight: [T("-30%#01/09 - 30/09")] } }] }] },
+  ]);
+  assert.equal(pares[0].online, true);                       // -50% Solo Web ya aplicado al precio
+  assert.equal("online" in pares[1], false);                 // el precio regular no es online…
+  assert.equal(pares[2].online, true);                       // …pero su 2x1 Solo Web sí
+  assert.equal("online" in pares[3], false);                 // 2x1 "Tu Farmacity": vale en el local
+  assert.equal("online" in pares[4], false);                 // -30% a secas
+  const el = elegir({ name: "x", unit: "un", qty: 1, comparaPor: "l", must: [/enjuague/i], reject: [] }, pares.slice(0, 2));
+  assert.equal(el.online, true);
+  assert.match(el.n, /· solo online$/);
+});
+
+test("Solo online (COTO): sale_type 'Exclusivas' o imagen ExclusivoDigital/OfertaDigital marcan la oferta; NoAcumulable no", () => {
+  const pares = paresDesdeCoto({ response: { results: [
+    { value: "Bocaditos De Pollo Congelados Coto Uni 400 Grm", data: { url: "_/R-1-1-200", store_availability: ["090"], sale_type: ["Exclusivas", "Todas las Ofertas"], price: [{ store: "090", listPrice: 7999, saleImage1: "OfertaDigital.png", saleImage2: "ExclusivoDigital.png" }], discounts: [{ discountText: "2x1", discountPrice: "$3999.50", takingText: "Llevando 2" }] } },
+    { value: "Harina De Trigo CHACABUCO Leudante Paquete 1 Kg", data: { url: "_/R-2-2-200", store_availability: ["090"], sale_type: ["Hasta 30% DTO!!", "Todas las Ofertas"], price: [{ store: "090", listPrice: 1579, saleImage1: "NoAcumulable.png" }], discounts: [{ discountText: "25%Dto", discountPrice: "$1183.78", takingText: null }] } },
+  ] } });
+  assert.deepEqual(pares.map((c) => [c.nombre, !!c.online]), [["Bocaditos De Pollo Congelados Coto Uni 400 Grm", true], ["Bocaditos De Pollo Congelados Coto Uni 400 Grm · 2x1 llevando 2", true], ["Harina De Trigo CHACABUCO Leudante Paquete 1 Kg", false]]);
+  const corte = notaPorKg({ nombre: "Falda X KG", precio: 6999, online: true });
+  assert.equal(corte.n, "Falda · $6.999/kg · solo online");
+  assert.equal(corte.online, true);
+  const combo = comboCoto({ falda: { nombre: "Falda X KG", precio: 6999, online: true }, osobuco: { nombre: "Osobuco X KG", precio: 9899 } }, true);
+  assert.equal(combo.n, "falda $6.999/kg (solo online) + osobuco $9.899/kg · estimo 1 kg de c/u");
+  assert.equal(combo.online, true);
+  const FV = "Frescos / Frutas y Verduras / Hortalizas";
+  const v = mejorVerdura("Cebolla", null, [{ nombre: "Cebolla A Granel X Kg", precio: 2499, lista: 2499, cat: FV, online: true }]);
+  assert.deepEqual(v, { p: 2499, n: "Cebolla A Granel · $2.499/kg · solo online · COTO", s: "coto", u: "kg", online: true });
+});
+
 test("paresDesdeVtex: cada candidato lleva el link de su página en DIA/Farmacity (la promo también)", () => {
   const pares = paresDesdeVtex([
     { productName: "Cebolla Elegida Premium x kg", link: "https://diaonline.supermercadosdia.com.ar/cebolla-elegida-premium-x-kg-90141/p",
-      items: [{ sellers: [{ commertialOffer: { Price: 2199, ListPrice: 2199, AvailableQuantity: 1, Teasers: [{ "<Name>k__BackingField": "2x1 Solo Web" }] } }] }] },
+      items: [{ sellers: [{ commertialOffer: { Price: 2199, ListPrice: 2199, AvailableQuantity: 1, Teasers: [{ "<Name>k__BackingField": "2x1#01/09 - 24/09" }] } }] }] },
     { productName: "Sin stock", link: "https://diaonline.supermercadosdia.com.ar/x/p", items: [{ sellers: [{ commertialOffer: { Price: 100, AvailableQuantity: 0 } }] }] },
     { productName: "Sin link", items: [{ sellers: [{ commertialOffer: { Price: 100, AvailableQuantity: 5 } }] }] },
   ]);

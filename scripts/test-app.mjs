@@ -402,7 +402,7 @@ dom2.window.fetch = () => Promise.resolve({
     },
     prices: {
       "Nueces 500 g": { p: 9000, n: "precio de prueba", d: -1000 },
-      "Chía 500 g": { p: 5806, n: "precio de prueba", d: 277 },
+      "Chía 500 g": { p: 5806, n: "precio de prueba · solo online", d: 277, online: true }, // dto que solo vale por internet
       "Girasol 250 g": { p: 3000, n: "precio de prueba", d: -300, dv: "09/08/2026" },       // bajó hace 1 día
       "Porotos negros 1 kg": { p: 2000, n: "precio de prueba", d: -500, dv: "01/08/2026" }, // baja VIEJA (9 días)
       "Corte X": { p: 1000, n: "precio de prueba", urls: [{ n: "falda", url: "https://www.coto.com.ar/productos/_/R-00000011-00000011-200" }, { n: "osobuco", url: "https://www.coto.com.ar/productos/_/R-00000012-00000012-200" }] },
@@ -414,7 +414,7 @@ dom2.window.fetch = () => Promise.resolve({
       "Papa": { p: 2990, n: "Papa Negra · $2.990/kg · DIA", s: "dia", u: "kg", url: "https://diaonline.supermercadosdia.com.ar/papa-negra-x-kg-90170/p", mc: { p: 1134, f: "04/09/2026" } },
       "Cúrcuma": { p: 0, n: "hoy ni DIA ni COTO la venden fresca", mc: { p: 4500, f: "04/09/2026" } },
       "Fruta": { p: 799, n: "la más barata hoy: Pomelo ($799/kg, COTO) · 2/3 con precio", s: "coto", u: "kg", url: "https://www.coto.com.ar/productos/_/R-00000700-00000700-200",
-        op: { "Banana": { p: 3990, s: "dia", u: "kg", url: "https://diaonline.supermercadosdia.com.ar/banana-x-kg-1/p", mc: { p: 1458, f: "04/09/2026" } }, "Pomelo": { p: 799, s: "coto", u: "kg", url: "https://www.coto.com.ar/productos/_/R-00000700-00000700-200" }, "Papaya": { mc: { p: 3300, f: "04/09/2026", n: "Mamon" } } } },
+        op: { "Banana": { p: 3990, s: "dia", u: "kg", url: "https://diaonline.supermercadosdia.com.ar/banana-x-kg-1/p", mc: { p: 1458, f: "04/09/2026" } }, "Pomelo": { p: 799, s: "coto", u: "kg", url: "https://www.coto.com.ar/productos/_/R-00000700-00000700-200", online: true }, "Papaya": { mc: { p: 3300, f: "04/09/2026", n: "Mamon" } } } },
     },
   }),
 });
@@ -565,6 +565,14 @@ test("Link al producto: píldora 'ver en DIA ↗' que abre la página en otra pe
   assert.equal(cortes[0].getAttribute("aria-label"), "ver falda en COTO");
   // sin página (Nueces, Crema, quesos de El Puente): sin píldora
   assert.equal(links.filter((a) => /ver en/.test(a.textContent)).length, 1);
+});
+
+test("Solo online: chip junto al precio del ítem (fila y resumen) y aviso en la opción del pick; nada en los demás", () => {
+  const chips = [...dom2.window.document.querySelectorAll("span")].filter((s) => s.textContent === "solo online");
+  assert.equal(chips.length, 2, "Chía: uno en su fila y otro en '⚠ Con sobreprecio'"); // Nueces y el resto, sin chip
+  const fila = (n) => [...dom2.window.document.querySelectorAll(".fila-toque")].find((d) => new RegExp("^[^A-Za-z]*" + n).test(d.textContent.trim()));
+  assert.match(fila("Pomelo").textContent, /Pomelo · COTO · solo online/);
+  assert.doesNotMatch(fila("Banana").textContent, /solo online/);
 });
 
 test("Link al producto en las opciones de un pick: '↗' por opción con precio, nada en las que no tienen página", () => {

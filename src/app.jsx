@@ -288,6 +288,12 @@ const ahorroDe = (base, d) => Math.min((base * d.pct) / 100, d.tope > 0 ? d.tope
 const opPrecio = (v) => (v && typeof v === "object" ? v.p : v);
 const opSrc = (v) => (v && typeof v === "object" ? v.s || "" : "");
 const opUnidad = (v) => (v && typeof v === "object" ? v.u || "" : "");
+const opOnline = (v) => !!(v && typeof v === "object" && v.online);
+/* Descuento o promo que solo vale comprando por internet (campo `online` de precios.json →
+   `priceOnline`; pedido 09/09/2026): chip junto al precio, además del "· solo online" de la nota */
+const OnlineChip = () => (
+  <span className="text-xs font-semibold rounded-full" style={{ background: "#E3EDF7", color: "#1F4E79", padding: "2px 7px", whiteSpace: "nowrap" }}>solo online</span>
+);
 const ETIQUETA_SRC = { dia: "DIA", coto: "COTO" };
 /* Página del producto en el sitio de origen (precios.json: `url`, o `urls: [{ n, url }]` en los
    compuestos de carnicería). En el ítem queda `priceLinks: [{ url, n? }]`; la pinta LinkChips. */
@@ -433,7 +439,7 @@ function applyPrices(stores, prices, version) {
           return { ...it, price: 0, priceNote: "", priceD: 0, priceDV: "", priceOp: null, priceSrc: "", priceMC: snap.mc || null, priceLinks: null, priceV: version };
         }
         if (snap && snap.p > 0 && it.priceV !== "manual@" + version) {
-          return { ...it, price: snap.p, priceNote: snap.n || "", priceD: snap.d || 0, priceDV: snap.dv || (snap.d ? version : ""), priceOp: snap.op || null, priceSrc: snap.s || "", priceMC: snap.mc || null, priceLinks: linksDe(snap), priceV: version };
+          return { ...it, price: snap.p, priceNote: snap.n || "", priceD: snap.d || 0, priceDV: snap.dv || (snap.d ? version : ""), priceOp: snap.op || null, priceSrc: snap.s || "", priceMC: snap.mc || null, priceLinks: linksDe(snap), priceOnline: !!snap.online, priceV: version };
         }
         return it;
       }),
@@ -880,6 +886,7 @@ function PendingRow({ it, color, month, onBuy, onSpec, priceDate, descuentos = [
         <span className="flex-shrink-0" style={{ marginTop: 3, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2 }}>
           <span className="text-sm font-semibold" style={{ color: "#2B2620" }}>{fmt(it.price)}</span>
           <DeltaBadge it={it} />
+          {it.priceOnline ? <OnlineChip /> : null}
           {descuentos.map((d, i) => (
             <span key={i} className="text-xs" style={{ whiteSpace: "nowrap", color: esHoyDto(d) ? "#2F5E14" : "#A39B89", fontWeight: esHoyDto(d) ? 600 : 400 }}>
               {abrevDto(d)} {fmt(conDto(it.price, d.pct))}
@@ -946,6 +953,7 @@ function PickPending({ it, color, month, onConfirm, dtoHoyDe = () => 0, dtoLocal
         {it.price > 0 ? (
           <span style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 6 }}>
             <DeltaBadge it={it} />
+            {it.priceOnline ? <OnlineChip /> : null}
             <span className="text-sm font-semibold" style={{ color: "#2B2620" }}>{fmt(it.price)}</span>
           </span>
         ) : null}
@@ -982,6 +990,7 @@ function PickPending({ it, color, month, onConfirm, dtoHoyDe = () => 0, dtoLocal
                 <span className="flex-1 text-sm" style={{ color: s === "out" ? "#B3AB9A" : "#2B2620", fontWeight: selected ? 600 : 400 }}>
                   {s === "peak" ? "🔥 " : ""}{name}
                   {src ? <span className="text-xs" style={{ color: "#A39B89" }}> · {ETIQUETA_SRC[src] || src}</span> : null}
+                  {opOnline(it.priceOp && it.priceOp[name]) ? <span className="text-xs font-semibold" style={{ color: "#1F4E79" }}> · solo online</span> : null}
                 </span>
                 {base ? <LinkChips links={linksDe(it.priceOp[name])} corto /> : null}
                 {base || (mc && mc.p > 0) ? (
@@ -1075,6 +1084,7 @@ function OportunidadesCard({ stores, patchItem }) {
         <span className="text-xs" style={{ color: "#8A8170" }}> · {f.store.emoji} {f.store.name}</span>
       </span>
       <DeltaBadge it={f.it} />
+      {f.it.priceOnline ? <OnlineChip /> : null}
       <span className="text-sm font-semibold" style={{ color: "#2B2620" }}>{fmt(f.it.price)}</span>
       {accion || null}
     </div>
@@ -1472,6 +1482,7 @@ function DisplayRow({ it, color, month, onToggle }) {
         <span className="flex-shrink-0" style={{ marginTop: 2, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2 }}>
           <span className="text-sm font-semibold" style={{ color: it.have ? "#A39B89" : "#2B2620" }}>{fmt(it.price)}</span>
           <DeltaBadge it={it} />
+          {it.priceOnline ? <OnlineChip /> : null}
         </span>
       ) : null}
     </div>

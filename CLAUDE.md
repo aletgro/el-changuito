@@ -30,7 +30,10 @@ precios-mayoristas/ultimo.json  ← salida de ese script: último día publicado
   origen, desde `url`/`urls` de `precios.json`; la pinta `LinkChips` como píldora
   "ver en COTO ↗" bajo la nota de precio en Listas y Comprar, una por corte en Combo/Asado
   ("falda ↗ · osobuco ↗") y solo "↗" en cada opción con precio de un pick; abre en otra
-  pestaña y frena el click de la fila) + opcionales
+  pestaña y frena el click de la fila), `priceOnline` (desde `online` de `precios.json`:
+  el descuento o la promo solo vale comprando por internet; chip "solo online" junto al
+  precio en Listas, Comprar y el resumen de precios, y "· solo online" en la opción de un
+  pick) + opcionales
   `type:"pick"` (con `options[]`, `picked[]`),
   `askSpec`, `askPrice` (pide el precio pagado al marcarlo comprado y acumula
   `priceHist:[{p,t}]`, últimos 12 pagos — hoy solo Huevo), `dyn` ("combo"/"roast":
@@ -88,7 +91,7 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    barato; crea la sección después de Almacén si falta).
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
-   viendo la versión vieja. Hoy va por **v19**. `precios.json` es red-primero: no requiere bump.
+   viendo la versión vieja. Hoy va por **v20**. `precios.json` es red-primero: no requiere bump.
 3. **Los nombres de ítems son claves**: `precios.json` y el robot matchean por el `name`
    exacto del ítem (tildes incluidas). Renombrar un ítem rompe su precio → actualizar
    también `ITEMS`/`ITEMS_ELPUENTE` en el robot, la `PRICES` embebida y agregar migración.
@@ -164,6 +167,14 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   dtos de hoy (la mejor promo vigente hoy por comercio, tope incluido) y el ahorro.
   `DESCUENTOS_SNAPSHOT` en `src/app.jsx` es solo el respaldo sin red: mantener a
   mano con el robot cuando cambie la promo.
+- **Solo online** (pedido 09/09/2026): DIA/Farmacity lo anuncian en el NOMBRE del teaser o
+  del highlight ("2x1 Solo Web#…", "-50% Solo Web#…"; `ONLINE_RE` en el robot, mirando
+  `DiscountHighLight`+`clusterHighlights` para el descuento ya aplicado y
+  `Teasers`+`PromotionTeasers` para la promo "llevando N"); COTO en `sale_type`
+  "Exclusivas" y las imágenes `saleImageN` OfertaDigital/ExclusivoDigital. El candidato
+  lleva `online: true` (`conOnline()`), `elegir()`/`notaPorKg()`/`elegirVerdura()` lo
+  conservan, la nota termina en "· solo online" (en Combo/Asado "(solo online)" por corte)
+  y viaja en `precios.json` como `online` (también en `op[nombre].online`).
 - Promos VTEX "llevando N" (2x1, 3x2, 2da unidad al X%): NO vienen aplicadas en `Price`,
   viajan en `Teasers`/`PromotionTeasers`; `promoVtex()` las detecta y suma un candidato
   extra con el precio EFECTIVO por unidad y la condición a la vista en la nota
