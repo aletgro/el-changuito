@@ -1,5 +1,5 @@
 {
-  "version": "09/09/2026",
+  "version": "10/09/2026",
   "descuentos": {
     "dia": [
       {
@@ -838,11 +838,14 @@
       "url": "https://www.tiendapesce.com.ar/productos/mejillon-pelado-x-kilo/"
     },
     "Ajo": {
-      "p": 1249,
-      "n": "Ajo Malla X 3 Uni · $416/un · COTO",
+      "p": 1062,
+      "n": "Ajo Malla X 3 Uni · $354/un · solo online · COTO",
       "s": "coto",
       "u": "un",
       "url": "https://www.coto.com.ar/productos/ajo-malla-x-3-uni-/_/R-00036666-00036666-200",
+      "online": true,
+      "d": -187,
+      "dv": "10/09/2026",
       "mc": {
         "p": 4901,
         "f": "09/09/2026"
@@ -890,11 +893,13 @@
       }
     },
     "Morrón": {
-      "p": 8499,
-      "n": "Pimiento Rojo · $8.499/kg · COTO",
+      "p": 7999,
+      "n": "Pimiento Rojo Especial · $7.999/kg · COTO",
       "s": "coto",
       "u": "kg",
-      "url": "https://www.coto.com.ar/productos/pimiento-rojo-xkg-/_/R-00000671-00000671-200",
+      "url": "https://www.coto.com.ar/productos/pimiento-rojo-especial-xkg-/_/R-00035070-00035070-200",
+      "d": -500,
+      "dv": "10/09/2026",
       "mc": {
         "p": 5644,
         "f": "09/09/2026",
@@ -902,11 +907,14 @@
       }
     },
     "Papa": {
-      "p": 1999,
-      "n": "Papa Asterix · $1.999/kg · COTO",
+      "p": 2294,
+      "n": "Papa Blanca . · $2.294/kg · solo online · COTO",
       "s": "coto",
       "u": "kg",
-      "url": "https://www.coto.com.ar/productos/papa-asterix-x-kg-/_/R-00093545-00093545-200",
+      "url": "https://www.coto.com.ar/productos/papa-blanca-xkg-/_/R-00000695-00000695-200",
+      "online": true,
+      "d": 295,
+      "dv": "10/09/2026",
       "mc": {
         "p": 1021,
         "f": "09/09/2026"
@@ -977,10 +985,11 @@
           }
         },
         "Banana": {
-          "p": 2499,
+          "p": 1954,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/banana-cavendish-x-kg-/_/R-00000446-00000446-200",
+          "online": true,
           "mc": {
             "p": 1471,
             "f": "09/09/2026"
@@ -1090,10 +1099,11 @@
           }
         },
         "Pera": {
-          "p": 2299,
+          "p": 1954,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/pera-packams-x-kg-/_/R-00000544-00000544-200",
+          "online": true,
           "mc": {
             "p": 2017,
             "f": "09/09/2026"
@@ -1120,10 +1130,11 @@
           }
         },
         "Uva": {
-          "p": 8999,
+          "p": 8499,
           "s": "coto",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/p-uva-sultan-morena-x-kg-/_/R-00064947-00064947-200",
+          "url": "https://www.coto.com.ar/productos/uva-blanca-importada-x-kg-/_/R-00017577-00017577-200",
+          "online": true,
           "mc": {
             "p": 6271,
             "f": "09/09/2026"
@@ -1147,16 +1158,16 @@
       "dv": "08/09/2026"
     },
     "Solo ensalada": {
-      "p": 2499,
-      "n": "la más barata hoy: Apio ($2.499/kg, COTO) · 6/6 con precio",
+      "p": 2549,
+      "n": "la más barata hoy: Lechuga ($2.549/kg, COTO, solo online) · 6/6 con precio",
       "s": "coto",
       "u": "kg",
       "op": {
         "Apio": {
-          "p": 2499,
-          "s": "coto",
+          "p": 5790,
+          "s": "dia",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/apio-x-kg-/_/R-00000588-00000588-200",
+          "url": "https://diaonline.supermercadosdia.com.ar/apio-x-kg-90130/p",
           "mc": {
             "p": 1394,
             "f": "09/09/2026"
@@ -1173,10 +1184,11 @@
           }
         },
         "Lechuga": {
-          "p": 2999,
+          "p": 2549,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/lechuga-capuchina-x-kg-/_/R-00000648-00000648-200",
+          "online": true,
           "mc": {
             "p": 974,
             "f": "09/09/2026"
@@ -1213,9 +1225,10 @@
           }
         }
       },
-      "url": "https://www.coto.com.ar/productos/apio-x-kg-/_/R-00000588-00000588-200",
-      "d": -200,
-      "dv": "09/09/2026"
+      "url": "https://www.coto.com.ar/productos/lechuga-capuchina-x-kg-/_/R-00000648-00000648-200",
+      "online": true,
+      "d": 50,
+      "dv": "10/09/2026"
     },
     "Estructurales": {
       "p": 1699,
@@ -1224,7 +1237,7 @@
       "u": "kg",
       "op": {
         "Alcaucil": {
-          "p": 13999,
+          "p": 12999,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/alcaucil-argent-xkg-/_/R-00017614-00017614-200",
@@ -1285,10 +1298,11 @@
           }
         },
         "Zapallito": {
-          "p": 4299,
+          "p": 3399,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/zapallito-redondo-xkg-/_/R-00000691-00000691-200",
+          "online": true,
           "mc": {
             "p": 1167,
             "f": "09/09/2026",
@@ -1328,10 +1342,11 @@
           }
         },
         "Chaucha": {
-          "p": 4499,
+          "p": 5949,
           "s": "coto",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/chaucha-balina-xkg-/_/R-00000613-00000613-200",
+          "url": "https://www.coto.com.ar/productos/chaucha-rolliza-x-kg-/_/R-00000862-00000862-200",
+          "online": true,
           "mc": {
             "p": 1675,
             "f": "09/09/2026"
@@ -1369,10 +1384,11 @@
       "u": "kg",
       "op": {
         "Batata": {
-          "p": 2699,
+          "p": 2294,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/batata-x-kg-/_/R-00072041-00072041-200",
+          "online": true,
           "mc": {
             "p": 1509,
             "f": "09/09/2026"
@@ -1400,7 +1416,7 @@
           }
         },
         "Coliflor": {
-          "p": 4999,
+          "p": 5499,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/coliflor-violeta-x-kg-/_/R-00047724-00047724-200",
@@ -1420,10 +1436,11 @@
           }
         },
         "Remolacha": {
-          "p": 2999,
+          "p": 2549,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/remolacha-x-kg-/_/R-00000677-00000677-200",
+          "online": true,
           "mc": {
             "p": 903,
             "f": "09/09/2026"
@@ -1482,13 +1499,13 @@
       "url": "https://www.coto.com.ar/productos/perejil-crespo-organico-uni-150-grm-/_/R-00092927-00092927-200"
     },
     "Aromáticos de cocción": {
-      "p": 17327,
-      "n": "la más barata hoy: Puerro (frío) ($17.327/kg, COTO) · 2/2 con precio",
+      "p": 18660,
+      "n": "la más barata hoy: Puerro (frío) ($18.660/kg, COTO) · 2/2 con precio",
       "s": "coto",
       "u": "kg",
       "op": {
         "Puerro (frío)": {
-          "p": 17327,
+          "p": 18660,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/puerro-rocky-fresco-seleccionado-150g-/_/R-00632441-00632441-200",
@@ -1509,7 +1526,9 @@
           }
         }
       },
-      "url": "https://www.coto.com.ar/productos/puerro-rocky-fresco-seleccionado-150g-/_/R-00632441-00632441-200"
+      "url": "https://www.coto.com.ar/productos/puerro-rocky-fresco-seleccionado-150g-/_/R-00632441-00632441-200",
+      "d": 1333,
+      "dv": "10/09/2026"
     },
     "Guantes grandes": {
       "p": 2690,
