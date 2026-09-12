@@ -66,6 +66,7 @@ const SEASON = {
   "Choclo": { k: "v", m: [11, 12, 1, 2, 3, 4], p: [12, 1, 2] },
   "Coliflor": { k: "v", m: [4, 5, 6, 7, 8, 9, 10], p: [6, 7, 8] },
   "Mandioca": { k: "v", m: [3, 4, 5, 6, 7, 8, 9], p: [4, 5, 6] },
+  "Nabo": { k: "v", m: [4, 5, 6, 7, 8, 9, 10], p: [6, 7, 8] },
   "Remolacha": { k: "v", m: ALLM, p: [10, 11, 12] },
   "Zapallo anco": { k: "v", m: ALLM, p: [4, 5, 6, 7] },
   "Albahaca": { k: "v", m: [11, 12, 1, 2, 3, 4], p: [12, 1, 2] },
@@ -189,7 +190,7 @@ function seedStores() {
             P("Solo ensalada", ["Apio", "Berro", "Lechuga", "Rabanitos", "Radicheta", "Rúcula"]),
             P("Estructurales", ["Alcaucil", "Berenjena", "Brócoli", "Espárragos", "Hakusay", "Hinojo", "Repollo", "Zapallito", "Zucchini"], "Flexibles"),
             P("Apoyo", ["Acelga", "Chaucha", "Espinaca", "Kale"], "Flexibles"),
-            P("Contundentes", ["Batata", "Calabaza", "Choclo", "Coliflor", "Mandioca", "Remolacha", "Zapallo anco"]),
+            P("Contundentes", ["Batata", "Calabaza", "Choclo", "Coliflor", "Mandioca", "Nabo", "Remolacha", "Zapallo anco"]),
             P("Hierbas de terminación", ["Albahaca", "Cilantro", "Perejil"]),
             P("Aromáticos de cocción", ["Puerro (frío)", "Verdeo (calor)"]),
           ]
@@ -739,6 +740,21 @@ function migrate(stores) {
     };
   });
 
+  // v19 · Verdulería/Contundentes: suma la opción Nabo (orden alfabético; conserva picked y estado)
+  out = out.map((s) => s.id !== "verdu" ? s : {
+    ...s,
+    sections: s.sections.map((sec) => ({
+      ...sec,
+      items: sec.items.map((it) => {
+        if (it.type !== "pick" || it.name !== "Contundentes" || (it.options || []).includes("Nabo")) return it;
+        const options = [...(it.options || [])];
+        const i = options.findIndex((o) => o.localeCompare("Nabo", "es") > 0);
+        options.splice(i < 0 ? options.length : i, 0, "Nabo");
+        return { ...it, options };
+      }),
+    })),
+  });
+
   // v5 · asegurar campos de precio y aplicar la foto embebida como base
   out = out.map((s) => ({
     ...s,
@@ -932,8 +948,18 @@ function PickPending({ it, color, month, onConfirm, dtoHoyDe = () => 0, dtoLocal
     if (order[sa] !== order[sb]) return order[sa] - order[sb];
     return a.localeCompare(b);
   });
-  const shown = showAll || opts.length <= 10 ? opts : opts.slice(0, 8);
+  // Más de 10 opciones: compacto por default (las primeras 8, que por el orden son las de
+  // temporada) y la lista completa se despliega a pedido. Lo que ya elegiste queda a la vista.
+  const compacto = opts.length > 10;
+  const shown = showAll || !compacto ? opts : opts.filter((n, i) => i < 8 || sel.includes(n));
   const toggle = (name) => setSel((p) => (p.includes(name) ? p.filter((x) => x !== name) : [...p, name]));
+  const verTodas = compacto ? (
+    <button onClick={() => setShowAll((v) => !v)} className="text-xs font-semibold rounded-full presionable"
+      style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "6px 12px", minHeight: 32, marginTop: 6,
+        color: showAll ? "#2B2620" : "#8A8170", background: showAll ? "#F1EDE3" : "#FAF7F0", border: `1px ${showAll ? "solid" : "dashed"} #C9C2B2` }}>
+      {showAll ? "ver menos ▴" : `ver las ${opts.length} ▾`}
+    </button>
+  ) : null;
   // Con precios por opción (quesos de El Puente): filas comparables con dto de mostrador
   // (el precio efectivo incluye además el dto del día si hoy rige)
   const conPrecios = !!(it.priceOp && Object.values(it.priceOp).some((v) => opPrecio(v) > 0));
@@ -1017,6 +1043,7 @@ function PickPending({ it, color, month, onConfirm, dtoHoyDe = () => 0, dtoLocal
               </div>
             );
           })}
+          {verTodas}
         </div>
       ) : (
         <div className="flex flex-wrap gap-2 mt-2">
@@ -1039,11 +1066,7 @@ function PickPending({ it, color, month, onConfirm, dtoHoyDe = () => 0, dtoLocal
               </button>
             );
           })}
-          {!showAll && opts.length > 10 ? (
-            <button onClick={() => setShowAll(true)} className="rounded-full text-sm presionable" style={{ padding: "9px 14px", color, background: "transparent" }}>
-              ver todas ({opts.length})
-            </button>
-          ) : null}
+          {verTodas}
         </div>
       )}
       <button

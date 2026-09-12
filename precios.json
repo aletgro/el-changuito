@@ -1392,7 +1392,7 @@
     },
     "Contundentes": {
       "p": 1790,
-      "n": "la más barata hoy: Calabaza ($1.790/kg, DIA) · 7/7 con precio",
+      "n": "la más barata hoy: Calabaza ($1.790/kg, DIA) · 7/8 con precio",
       "s": "dia",
       "u": "kg",
       "op": {
@@ -1468,6 +1468,12 @@
             "p": 1578,
             "f": "11/09/2026",
             "n": "Zapallo anc.cokena"
+          }
+        },
+        "Nabo": {
+          "mc": {
+            "p": 1333,
+            "f": "11/09/2026"
           }
         }
       },

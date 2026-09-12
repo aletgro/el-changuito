@@ -52,6 +52,11 @@ precios-mayoristas/ultimo.json  ← salida de ese script: último día publicado
   mayúsculas, por nombre o por opción de un pick. Mientras se busca, las tarjetas se
   esconden y los resultados van agrupados por comercio con la misma `DisplayRow` (prop
   `contexto` = "sección · opción X"): tocar la fila cambia `have` igual que en las listas.
+- **Picks largos en Comprar** (12/09/2026): con más de 10 opciones, `PickPending` arranca
+  compacto con las primeras 8 (el orden es plena temporada → temporada → sin dato → fuera,
+  así que son las de estación) y la píldora "ver las N ▾" / "ver menos ▴" despliega la lista
+  completa a pedido, con o sin precios por opción; lo ya elegido queda a la vista al
+  compactar. Hoy solo Fruta (26) lo usa.
 
 ## Comandos
 
@@ -93,10 +98,12 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    sanitarias para gatos a Otros lugares/Tercero (sin precio: Tercero no tiene página;
    crea la sección primera si el celular no la tiene) · v18 suma Guantes grandes a
    DIA/Limpieza e higiene, antes de Jabón Dove (talle grande solamente; el paquete más
-   barato; crea la sección después de Almacén si falta).
+   barato; crea la sección después de Almacén si falta) · v19 suma la opción Nabo al pick
+   Verdulería/Contundentes, en orden alfabético (ni DIA ni COTO lo venden: solo lleva la
+   referencia del Mercado Central, especie NABO).
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
-   viendo la versión vieja. Hoy va por **v21**. `precios.json` es red-primero: no requiere bump.
+   viendo la versión vieja. Hoy va por **v22**. `precios.json` es red-primero: no requiere bump.
 3. **Los nombres de ítems son claves**: `precios.json` y el robot matchean por el `name`
    exacto del ítem (tildes incluidas). Renombrar un ítem rompe su precio → actualizar
    también `ITEMS`/`ITEMS_ELPUENTE` en el robot, la `PRICES` embebida y agregar migración.

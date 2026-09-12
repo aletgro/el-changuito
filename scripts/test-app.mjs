@@ -408,7 +408,10 @@ dom2.window.localStorage.setItem("el-changuito-v1", JSON.stringify({
     },
     { // Verdulería: referencia con comercio de origen (DIA/COTO) → dtos por día del comercio de origen
       id: "verdu", name: "Verdulería", emoji: "🥬", color: "#3E8914", note: "",
-      sections: [{
+      sections: [{ // migración v19: Contundentes sin Nabo (en stock, no afecta Comprar)
+        id: "vd2", name: "Algo de cada categoría",
+        items: [{ id: "vco", name: "Contundentes", type: "pick", options: ["Batata", "Calabaza", "Mandioca", "Remolacha"], picked: ["Batata"], note: "", spec: "", have: true }],
+      }, {
         id: "vd1", name: "Siempre en stock",
         items: [
           { id: "vp", name: "Papa", note: "", spec: "", have: false },
@@ -638,6 +641,14 @@ test("Link al producto en las opciones de un pick: '↗' por opción con precio,
 [...dom2.window.document.querySelectorAll("button")].find((b) => b.textContent === "+ a Comprar").click();
 await new Promise((r) => setTimeout(r, 600));
 
+test("migración v19: Contundentes suma Nabo en orden alfabético, conservando lo elegido y el estado", () => {
+  const data = JSON.parse(dom2.window.localStorage.getItem("el-changuito-v1"));
+  const cont = data.stores.find((s) => s.id === "verdu").sections.flatMap((sec) => sec.items).find((it) => it.name === "Contundentes");
+  assert.deepEqual(cont.options, ["Batata", "Calabaza", "Mandioca", "Nabo", "Remolacha"]);
+  assert.deepEqual(cont.picked, ["Batata"]);
+  assert.equal(cont.have, true);
+});
+
 test("'+ a Comprar' pasa el ítem rebajado a la lista de pendientes", () => {
   const data = JSON.parse(dom2.window.localStorage.getItem("el-changuito-v1"));
   const girasol = data.stores.find((s) => s.id === "diet").sections[0].items.find((it) => it.name === "Girasol 250 g");
@@ -659,7 +670,7 @@ test("p: 0 en la foto = sin referencia real: se borra el precio viejo (SKU fanta
   assert.doesNotMatch(fila.textContent, /1\.799|COTO/);
   assert.match(fila.textContent, /Mercado Central \(mayorista\): \$ 4\.500\/kg/);
   const data = JSON.parse(dom2.window.localStorage.getItem("el-changuito-v1"));
-  const curcuma = data.stores.find((s) => s.id === "verdu").sections[0].items.find((it) => it.name === "Cúrcuma");
+  const curcuma = data.stores.find((s) => s.id === "verdu").sections.flatMap((sec) => sec.items).find((it) => it.name === "Cúrcuma");
   assert.equal(curcuma.price, 0);
   assert.equal(curcuma.priceV, "11/08/2026");
 });
@@ -701,6 +712,38 @@ test("Oportunidades: 'ver las N' despliega todas las filas y pasa a 'ver menos'"
   assert.match(texto, /A5 · 🌿/);
   assert.match(texto, /ver menos ▴/);
   assert.match(texto, /ver las 4 ▾/); // la otra lista sigue plegada
+});
+
+/* ---------- dom4: pick con muchas opciones con precio (Fruta): compacto y desplegable a pedido ---------- */
+const dom4 = new JSDOM('<!doctype html><html><body><div id="root"></div></body></html>', { url: "https://el-changuito.test/", pretendToBeVisual: true, runScripts: "outside-only" });
+const frutas4 = ["Ananá", "Banana", "Cereza", "Durazno", "Frutilla", "Kiwi", "Mandarina", "Manzana", "Naranja", "Pera", "Pomelo", "Uva"];
+dom4.window.localStorage.setItem("el-changuito-v1", JSON.stringify({ stores: [{ id: "verdu", name: "Verdulería", emoji: "🥬", color: "#3E8914", note: "",
+  sections: [{ id: "vd", name: "Algo de cada categoría", items: [{ id: "vf4", name: "Fruta", type: "pick", options: frutas4, picked: [], note: "", spec: "", have: false }] }] }] }));
+dom4.window.fetch = () => Promise.resolve({ ok: true, json: () => Promise.resolve({ version: "11/08/2026",
+  prices: { "Fruta": { p: 999, n: "la más barata hoy", s: "coto", u: "kg", op: Object.fromEntries(frutas4.map((f, i) => [f, { p: 1000 + i * 100, s: "coto", u: "kg" }])) } } }) });
+dom4.window.eval(fs.readFileSync("app.js", "utf8"));
+await esperarPintado(dom4.window);
+const filas4 = () => dom4.window.document.querySelectorAll(".fila-toque").length;
+const boton4 = (re) => [...dom4.window.document.querySelectorAll("button")].find((b) => re.test(b.textContent));
+
+test("Pick con más de 10 opciones con precio: arranca compacto (8) con la píldora 'ver las 12'", () => {
+  assert.equal(filas4(), 8);
+  assert.ok(boton4(/^ver las 12 ▾$/), "falta la píldora para desplegar");
+});
+boton4(/^ver las 12 ▾$/).click();
+await new Promise((r) => setTimeout(r, 100));
+test("Pick: 'ver las 12' despliega todas las opciones y pasa a 'ver menos'", () => {
+  assert.equal(filas4(), 12);
+  assert.ok(boton4(/^ver menos ▴$/));
+});
+[...dom4.window.document.querySelectorAll(".fila-toque")].pop().click(); // elige una de las que estaban ocultas
+await new Promise((r) => setTimeout(r, 80));
+boton4(/^ver menos ▴$/).click();
+await new Promise((r) => setTimeout(r, 100));
+test("Pick: al compactar de nuevo, lo que elegiste sigue a la vista aunque esté fuera de las 8", () => {
+  assert.equal(filas4(), 9);
+  assert.ok(boton4(/^ver las 12 ▾$/));
+  assert.match(boton4(/^Comprado/).textContent, /\(1\)/);
 });
 
 console.log(`\n${pasan} tests de app OK`);

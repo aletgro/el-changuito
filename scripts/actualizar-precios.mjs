@@ -918,7 +918,7 @@ const VERDU_PICKS = {
   "Solo ensalada": ["Apio", "Berro", "Lechuga", "Rabanitos", "Radicheta", "Rúcula"],
   "Estructurales": ["Alcaucil", "Berenjena", "Brócoli", "Espárragos", "Hakusay", "Hinojo", "Repollo", "Zapallito", "Zucchini"],
   "Apoyo": ["Acelga", "Chaucha", "Espinaca", "Kale"],
-  "Contundentes": ["Batata", "Calabaza", "Choclo", "Coliflor", "Mandioca", "Remolacha", "Zapallo anco"],
+  "Contundentes": ["Batata", "Calabaza", "Choclo", "Coliflor", "Mandioca", "Nabo", "Remolacha", "Zapallo anco"],
   "Hierbas de terminación": ["Albahaca", "Cilantro", "Perejil"],
   "Aromáticos de cocción": ["Puerro (frío)", "Verdeo (calor)"],
 };
@@ -1056,7 +1056,7 @@ const MC_VERDU = {
   // Apoyo
   "Acelga": "ACELGA", "Chaucha": "CHAUCHA", "Espinaca": "ESPINACA", "Kale": "KALE",
   // Contundentes
-  "Batata": "BATATA", "Calabaza": "ZAPALLO", "Choclo": "CHOCLO", "Coliflor": "COLIFLOR", "Mandioca": "MANDIOCA", "Remolacha": "REMOLACHA",
+  "Batata": "BATATA", "Calabaza": "ZAPALLO", "Choclo": "CHOCLO", "Coliflor": "COLIFLOR", "Mandioca": "MANDIOCA", "Nabo": "NABO", "Remolacha": "REMOLACHA",
   "Zapallo anco": { esp: "ZAPALLO", var: /ANC/ },
   // Hierbas y aromáticos
   "Albahaca": "ALBAHACA", "Cilantro": ["CILANTRO", "CILANDRO"], "Perejil": "PEREJIL", "Puerro (frío)": "PUERRO", "Verdeo (calor)": ["CEB.VERDEO", "VERDEO"],

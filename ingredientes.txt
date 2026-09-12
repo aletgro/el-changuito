@@ -1,0 +1,157 @@
+INGREDIENTES — EL CHANGUITO
+===========================
+Resumen de todos los comestibles de la app (185 en total), agrupados por tipo.
+Entre corchetes, el comercio donde se compra cada uno. "Elegir de:" = ítem tipo
+pick de la app: es una categoría y se elige entre sus opciones.
+Fuente: listas de la app al 12/09/2026. Quedan afuera limpieza, higiene,
+farmacia, papelera, pilas y cosas de los gatos (no son ingredientes).
+
+
+VERDURAS Y FRUTAS (67) [Verdulería]
+-----------------------------------
+Siempre en stock:
+  Ajo · Cebolla · Cúrcuma · Jengibre · Limón · Morrón · Papa · Palta ·
+  Tomate · Zanahoria
+
+Fruta (elegir de:):
+  Ananá · Arándanos · Banana · Caqui · Cereza · Ciruela · Durazno ·
+  Frambuesa · Frutilla · Granada · Higo · Kiwi · Mandarina · Mango ·
+  Manzana · Maracuyá (fruta de la pasión) · Melón · Membrillo · Mora ·
+  Naranja · Papaya · Pera · Pitahaya (fruta del dragón) · Pomelo ·
+  Sandía · Uva
+
+Solo ensalada (elegir de:):
+  Apio · Berro · Lechuga · Rabanitos · Radicheta · Rúcula
+
+Estructurales (elegir de:):
+  Alcaucil · Berenjena · Brócoli · Espárragos · Hakusay · Hinojo ·
+  Repollo · Zapallito · Zucchini
+
+Apoyo (elegir de:):
+  Acelga · Chaucha · Espinaca · Kale
+
+Contundentes (elegir de:):
+  Batata · Calabaza · Choclo · Coliflor · Mandioca · Remolacha ·
+  Zapallo anco
+
+Hierbas de terminación (elegir de:):
+  Albahaca · Cilantro · Perejil
+
+Aromáticos de cocción (elegir de:):
+  Puerro (frío) · Verdeo (calor)
+
+
+CARNES Y PESCADOS (14)
+----------------------
+[COTO · Carnicería]
+  Achura (elegir de: Molleja · Chinchulín · Riñón · Chorizo · Lengua ·
+    Morcilla)
+  Asado (vacío o tapa de asado + tira de asado)
+  Combo de temporada (frío abr–sep: falda + osobuco · calor: marucha +
+    arañita)
+  Pollo entero (refrigerado, no congelado)
+  Roast beef
+[Frigorífico Pesce · congelados]
+  Salmón · Langostinos · Mejillones
+[Gustitos]
+  Fiambre (a definir en el momento)
+
+
+LÁCTEOS, QUESOS Y HUEVOS (17)
+-----------------------------
+[El Puente]
+  Fundente (cremoso o Por Salud)
+  Queso para picada (elegir de: Fontina · Gouda · Gruyere ·
+    Mar del Plata · Queso duro)
+  Pizza (mozzarella o cremoso hilado)
+  Provoletta
+  Queso para rayar (elegir de: Sardo · Reggianito · Romano · Provolone)
+  Crema
+  Leche
+[DIA]
+  Leche larga vida
+[Dietética]
+  Huevo
+[Gustitos]
+  Queso premium (a definir en el momento)
+
+
+HARINAS Y CEREALES (14)
+-----------------------
+[COTO · Harinas Chacabuco]
+  Harina 000 · Harina 000 de fuerza (W300) · Harina 0000 ·
+  Harina 0000 de fuerza (Napolitana W330) · Harina integral ·
+  Sémola · Semolín
+[DIA]
+  Arroz integral · Polenta · Harina de maíz · Maicena
+[Dietética]
+  Avena · Copos de maíz · Quínoa
+
+
+LEGUMBRES Y SEMILLAS (9) [Dietética]
+------------------------------------
+  Arvejas partidas · Garbanzos · Lentejas · Porotos negros ·
+  Porotos de soja · Chía · Lino · Girasol · Sésamo integral
+
+
+FRUTOS SECOS Y CACAO (6) [Dietética]
+------------------------------------
+  Almendras · Castañas de cajú · Maní · Nueces · Piñones · Cacao amargo
+
+
+ESPECIAS Y CONDIMENTOS (26)
+---------------------------
+[Dietética · stock permanente]
+  Ají molido / pimentón picante · Amapola · Canela en rama ·
+  Clavos de olor · Comino en grano · Coriandro · Hinojo en semillas ·
+  Laurel · Mostaza rubia · Nuez moscada · Orégano · Pimentón ·
+  Pimienta blanca · Pimienta negra en grano · Romero · Tomillo
+[Dietética · compra puntual, solo cuando se necesita]
+  Achiote · Anís · Cardamomo · Eneldo · Estragón · Fenogreco ·
+  Vainilla (chaucha)
+[DIA]
+  Sal fina · Sal entrefina · Sal gruesa
+
+
+ACEITES, VINAGRES, SALSAS Y ENDULZANTES (13)
+--------------------------------------------
+[DIA]
+  Aceite de girasol · Grasa bovina · Vinagre de alcohol ·
+  Vinagre de manzana · Azúcar · Puré de tomate (sachet)
+[COTO]
+  Extracto de tomate
+[Dietética]
+  Salsa de pescado
+[BonVino]
+  Aceto balsámico Millán
+[Tienda Nova]
+  Salsa de soja Lee Kum Kee premium
+[Otros lugares]
+  Aceite de oliva · Miel · Aceitunas (Esquina de las Aceitunas)
+
+
+CONSERVAS Y ALMACÉN (11)
+------------------------
+[DIA]
+  Atún (lomitos al natural) · Arvejas en lata · Choclo en lata ·
+  Jardinera en lata · Caldo en cubos · Pan rallado · Levadura ·
+  Papas fritas (tubo)
+[Dietética]
+  Bicarbonato de sodio · Polvo para hornear
+[Carmín · congelados]
+  Hongos para cocinar (mix de hongos)
+
+
+BEBIDAS E INFUSIONES (7)
+------------------------
+[DIA]
+  Agua mineral (bidón) · Yerba
+[Dietética]
+  Té negro · Té verde · Té de boldo · Té a elección (a definir)
+[Otros lugares]
+  Café (a definir en el momento)
+
+
+SUPLEMENTOS (1)
+---------------
+  Proteína (a definir, lugar a buscar)
