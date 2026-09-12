@@ -270,6 +270,37 @@ test("Harina integral: rechaza la de semillas y elige la integral fina", () => {
   assert.match(el.n, /Integral Fina/);
 });
 
+test("Champiñones en lata: UNA lata, la más barata POR KILO, y la nota compara siempre con la mejor de enteros (también por kilo)", () => {
+  const CONS = "Categorias / Almacén / Conservas / Conservas Vegetal / Champignon";
+  const U = (n) => `https://www.coto.com.ar/productos/x-/_/R-${n}-${n}-200`;
+  const cand = [
+    { nombre: "Champignon En Trozos CIUDAD DEL LAGO Lata 400 Gr", precio: 2277, lista: 2277, cat: CONS, url: U(1) }, // $5.693/kg ← gana
+    { nombre: "Champignon Enteros Bahia 184 Grm", precio: 2450, lista: 2450, cat: CONS, url: U(2) },                // más barata que la de 400 por lata, pero $13.315/kg
+    { nombre: "Champignon Enteros CIUDAD DEL LAGO Lata 400 Gr", precio: 2999, lista: 2999, cat: CONS, url: U(3) },   // $7.498/kg ← la referencia de enteros
+    { nombre: "Champignon En Trozos Inca 350g", precio: 3435, lista: 3435, cat: CONS, url: U(4) },
+    { nombre: "Champignon Blanco Laminado PORTO X 200 Gr", precio: 999, lista: 999, cat: "Categorias / Frescos / Frutas y Verduras / Champignones" }, // fresco: otra sección
+    { nombre: "Salsa De Champignones Alicante Sob 35 Grm", precio: 2127, lista: 2127, cat: "Categorias / Almacén / Especias / Salsas en Polvo" },
+  ];
+  const el = elegir(itemCoto("Champiñones en lata"), cand);
+  assert.equal(el.p, 2277);
+  assert.equal(el.n, "Champignon En Trozos CIUDAD DEL LAGO Lata 400 Gr · $5.693/kg · enteros $2.999 ($7.498/kg, +32%)");
+  assert.deepEqual(el.urls, [{ url: U(1) }, { n: "enteros", url: U(3) }]); // dos links: la elegida y la de enteros
+  // si la de enteros es la más barata por kilo, gana ella y no hace falta comparar
+  const soloEnteros = elegir(itemCoto("Champiñones en lata"), [cand[2], { ...cand[0], precio: 3500 }]);
+  assert.equal(soloEnteros.n, "Champignon Enteros CIUDAD DEL LAGO Lata 400 Gr · $7.498/kg");
+  assert.equal("urls" in soloEnteros, false);
+  // sin categoría (otra fuente) no entra: la sección es obligatoria para este ítem
+  assert.equal(elegir(itemCoto("Champiñones en lata"), [{ ...cand[0], cat: undefined }]), null);
+});
+
+test("Marca preferida sin comparaPor: sigue comparando el paquete, como Agua Glaciar y Yerba Playadito", () => {
+  const el = elegir({ name: "x", unit: "kg", qty: 1, marca: { re: /playadito/i, nombre: "Playadito" }, must: [/yerba/i], reject: [] }, [
+    { nombre: "Yerba Mate Dia 1 Kg", precio: 3000, lista: 3000 },
+    { nombre: "Yerba Playadito 1 Kg", precio: 3600, lista: 3600 },
+  ]);
+  assert.equal(el.n, "Yerba Mate Dia 1 Kg · Playadito $3.600 (+20%)");
+});
+
 test("Sémola: solo Pureza o Bonalma; ni fideos de sémola ni la marca COTO aunque esté en 2x1", () => {
   const el = elegir(itemCoto("Sémola"), [
     { nombre: "Fid.Semola De Trig Spaghetti Arcor Paq 500 Grm", precio: 1485, lista: 1485 },
@@ -1184,16 +1215,6 @@ test("productoDePagina: el producto principal sale del bloque de analytics", () 
   assert.deepEqual(p, { nombre: "Aceto Balsamico Millan", precio: 6240, lista: 6240 });
 });
 
-test("Hongos para cocinar: el mix de 500 g le gana al champignon de 1 kg; medallones afuera", () => {
-  const item = ITEMS_OTROS.find((i) => i.name === "Hongos para cocinar");
-  const el = elegir(item, [
-    { nombre: "MIX DE HONGOS IQF (500G) - BIOMAC", precio: 7702.39, lista: 7702.39 },
-    { nombre: "CHAMPIGNON FILETEADO IQF (1kg) - CONOSUD", precio: 18562, lista: 18562 },
-    { nombre: "MEDALLON DE QUINOA Y MIX DE HONGOS - NUTREE", precio: 5923, lista: 5923 },
-  ]);
-  assert.equal(el.p, 7702);
-  assert.match(el.n, /MIX DE HONGOS/);
-});
 
 /* ---------- Mercado Central: referencia mayorista para Verdulería ---------- */
 const L = (variedad, moda) => ({ variedad, procedencia: "BS. AS.", envase: "CA", kg: 10, calidad: "1A", tamano: "", grado: "", bulto: {}, kilo: { max: moda + 100, moda, min: moda - 100 } });

@@ -145,7 +145,7 @@ function seedStores() {
       id: "coto", name: "COTO", emoji: "🥩", color: "#E4572E",
       note: "Harinas Chacabuco y carnicería.",
       sections: [
-        { id: nid(), name: "Almacén", items: [I("Extracto de tomate")] },
+        { id: nid(), name: "Almacén", items: [I("Champiñones en lata"), I("Extracto de tomate")] },
         { id: nid(), name: "Harinas Chacabuco", items: [I("Harina 000"), I("Harina 000 de fuerza", "Chacabuco W300 · 13 g proteína"), I("Harina 0000"), I("Harina 0000 de fuerza", "Chacabuco Napolitana W330"), I("Harina integral"), I("Sémola"), I("Semolín")] },
         {
           id: nid(), name: "Carnicería", banner: "carne", items: [
@@ -222,7 +222,6 @@ function seedStores() {
       note: "Cada producto tiene su lugar identificado.",
       sections: [
         { id: nid(), name: "Tercero", items: [G("Café"), I("Aceite de oliva"), I("Miel"), I("Comida para gatos"), I("Piedras sanitarias para gatos")] },
-        { id: nid(), name: "Carmín (congelados)", items: [I("Hongos para cocinar", "Si aparece más barato en otro lado, cambiar")] },
         { id: nid(), name: "BonVino", items: [I("Aceto balsámico Millán")] },
         { id: nid(), name: "Tienda Nova", items: [I("Salsa de soja Lee Kum Kee premium")] },
         { id: nid(), name: "Esquina de las Aceitunas", items: [I("Aceitunas")] },
@@ -754,6 +753,33 @@ function migrate(stores) {
       }),
     })),
   });
+
+  // v20 · Salen los hongos de Carmín: se borra "Hongos para cocinar" (y la sección si queda vacía) y nace
+  //       "Champiñones en lata" en COTO/Almacén, antes de Extracto de tomate. Si los hongos estaban por
+  //       comprar, la lata nace por comprar (reemplaza a ese pendiente).
+  {
+    const hongos = out.flatMap((s) => s.sections.flatMap((sec) => sec.items)).find((it) => it.name === "Hongos para cocinar");
+    out = out.map((s) => s.id !== "otros" ? s : {
+      ...s,
+      sections: s.sections
+        .map((sec) => ({ ...sec, items: sec.items.filter((it) => it.name !== "Hongos para cocinar") }))
+        .filter((sec) => sec.items.length > 0 || !/carm[ií]n/i.test(sec.name)),
+    });
+    out = out.map((s) => {
+      if (s.id !== "coto" || s.sections.some((sec) => sec.items.some((it) => it.name === "Champiñones en lata"))) return s;
+      const lata = { id: "mig-champinones-lata", name: "Champiñones en lata", note: "", spec: "", have: hongos ? hongos.have !== false : true };
+      const iAlm = s.sections.findIndex((sec) => sec.name === "Almacén");
+      if (iAlm < 0) return { ...s, sections: [{ id: "mig-coto-almacen", name: "Almacén", items: [lata] }, ...s.sections] };
+      return {
+        ...s,
+        sections: s.sections.map((sec, i) => {
+          if (i !== iAlm) return sec;
+          const iExt = sec.items.findIndex((it) => it.name === "Extracto de tomate");
+          return { ...sec, items: iExt >= 0 ? [...sec.items.slice(0, iExt), lata, ...sec.items.slice(iExt)] : [lata, ...sec.items] };
+        }),
+      };
+    });
+  }
 
   // v5 · asegurar campos de precio y aplicar la foto embebida como base
   out = out.map((s) => ({

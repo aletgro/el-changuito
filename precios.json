@@ -817,11 +817,6 @@
       "n": "Protector Solar Facial Villeneuve Sin Color Fps 50 x 50 ml · oferta -50%",
       "url": "https://www.farmacity.com/protector-solar-facial-villeneuve-sin-color-fps-50-x-50-ml/p"
     },
-    "Hongos para cocinar": {
-      "p": 7702,
-      "n": "MIX DE HONGOS IQF (500G) - BIOMAC",
-      "url": "https://www.carmin.com.ar/productos/mix-de-hongos-iqf-500g-biomac-1kx3z/"
-    },
     "Aceto balsámico Millán": {
       "p": 6240,
       "n": "Aceto Balsamico Millan",
@@ -1555,6 +1550,20 @@
       "p": 2690,
       "n": "Guantes Dia Grandes 2 Ud.",
       "url": "https://diaonline.supermercadosdia.com.ar/guantes-dia-grandes-2-ud-32899/p"
+    },
+    "Champiñones en lata": {
+      "p": 2277,
+      "n": "Champignon En Trozos CIUDAD DEL LAGO Lata 400 Gr · $5.693/kg · enteros $2.999 ($7.498/kg, +32%)",
+      "url": "https://www.coto.com.ar/productos/champignon-en-trozos-ciudad-del-lago-lata-400-gr-/_/R-00039644-00039644-200",
+      "urls": [
+        {
+          "url": "https://www.coto.com.ar/productos/champignon-en-trozos-ciudad-del-lago-lata-400-gr-/_/R-00039644-00039644-200"
+        },
+        {
+          "n": "enteros",
+          "url": "https://www.coto.com.ar/productos/champignon-enteros-ciudad-del-lago-lata-400-gr-/_/R-00039645-00039645-200"
+        }
+      ]
     }
   }
 }

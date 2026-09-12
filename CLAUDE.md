@@ -100,10 +100,13 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    DIA/Limpieza e higiene, antes de Jabón Dove (talle grande solamente; el paquete más
    barato; crea la sección después de Almacén si falta) · v19 suma la opción Nabo al pick
    Verdulería/Contundentes, en orden alfabético (ni DIA ni COTO lo venden: solo lleva la
-   referencia del Mercado Central, especie NABO).
+   referencia del Mercado Central, especie NABO) · v20 saca los hongos de Carmín (borra
+   "Hongos para cocinar" y la sección Carmín si queda vacía) y suma "Champiñones en lata" a
+   COTO/Almacén antes de Extracto de tomate; si los hongos estaban por comprar, la lata nace
+   por comprar.
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
-   viendo la versión vieja. Hoy va por **v22**. `precios.json` es red-primero: no requiere bump.
+   viendo la versión vieja. Hoy va por **v23**. `precios.json` es red-primero: no requiere bump.
 3. **Los nombres de ítems son claves**: `precios.json` y el robot matchean por el `name`
    exacto del ítem (tildes incluidas). Renombrar un ítem rompe su precio → actualizar
    también `ITEMS`/`ITEMS_ELPUENTE` en el robot, la `PRICES` embebida y agregar migración.
@@ -233,8 +236,9 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   rosado/porcionado (ni ahumado, ni pasta, ni blanco) · Langostinos sin preparados
   (wok, empanados, rabas) · Mejillones = SOLO pelados (mejor relación
   cáscara/mejillón, aunque el entero esté más barato).
-- Otros lugares (`ITEMS_OTROS`): Carmín (carmin.com.ar, TiendaNube → búsqueda
-  server-rendered con JSON-LD, `paresDesdeTiendaNube`) para Hongos para cocinar;
+- Otros lugares (`ITEMS_OTROS`): Carmín salió el 12/09/2026 (los hongos pasaron a
+  "Champiñones en lata" de COTO); la búsqueda TiendaNube con `base` + `qs`
+  (`paresDesdeTiendaNube`) sigue disponible en `preciosOtros()` para otro comercio.
   BonVino y Tienda Nova con página de producto FIJA (`url`) → `productoDePagina()`
   lee el bloque de analytics (`"item_name":"...","price":N`); el `must` verifica que
   la página siga siendo el producto correcto, si no queda el precio anterior.
@@ -308,7 +312,11 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   refrigerado (no congelado), el más barato por kg con precio publicado — se vende
   por unidad ("X Uni (4 Kg)", `comparaPor:"kg"`). "Achura" SIN precio por
   decisión del usuario ("por ahora"): es un pick de 6 opciones de valor muy dispar.
-  Sémola = SOLO Pureza o Bonalma (confirmado 04/09/2026), 500 g · precio = moda
+  Sémola = SOLO Pureza o Bonalma (confirmado 04/09/2026), 500 g · Champiñones en lata
+  (12/09/2026, reemplazan a los hongos de Carmín) = UNA lata, la más barata POR KILO
+  (`comparaPor:"kg"`: hay de 184 g y de 400 g), solo de la sección Conservas (`seccion`,
+  filtra por el `cat` del candidato), y la nota compara SIEMPRE con la mejor lata de
+  enteros por kilo (`marca: /enteros/`), con un link a cada una · precio = moda
   entre sucursales (si pasa el código de su sucursal de La Plata, filtrar `price[]`
   por `store`).
 - **Dietética (ANDANDO desde 09/08/2026)**: 44/45 ítems con referencia (Frutos del Are
@@ -323,9 +331,7 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   así que el precio pagado no se pisa. "Té a elección" excluido (askSpec
   variable). Piñones (ítem nuevo, migración v6) y Salsa de pescado (mudada a
   Dietética/Muy duraderos por migración v7) salen de New Garden.
-- **Otros lugares (ANDANDO desde 09/08/2026)**: Hongos para cocinar (ex Champiñones,
-  renombrado en v7) desde Carmín — ganó el MIX DE HONGOS IQF 500 g Biomac, supuesto:
-  compra de ~500 g · Aceto balsámico Millán desde BonVino · Salsa de soja Lee Kum Kee
+- **Otros lugares (ANDANDO desde 09/08/2026)**: Aceto balsámico Millán desde BonVino · Salsa de soja Lee Kum Kee
   premium desde Tienda Nova (páginas de producto fijas: si cambian la URL, avisar).
 - **Verdulería (referencia DIA/COTO desde 09/2026)**: el usuario compra en la verdulería
   de barrio; la referencia es el más barato entre DIA y COTO para cada verdura/fruta
@@ -378,7 +384,9 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
 - **Marcas preferidas** (campo `marca: { re, nombre }` en la config del ítem): el
   criterio sigue siendo el más barato, pero si la marca preferida no gana, la nota
   muestra su precio y diferencia para que el usuario decida. Hoy: Agua = Glaciar ·
-  Yerba = Playadito. `q` puede ser una búsqueda o un array (para que la marca
+  Yerba = Playadito · Champiñones en lata = enteros. Con `comparaPor`, la preferida se
+  elige y se compara por esa unidad ("· enteros $2.999 ($7.498/kg, +32%)") y, si las dos
+  tienen página, viajan como `urls` (chips "ver en COTO ↗" y "enteros ↗"). `q` puede ser una búsqueda o un array (para que la marca
   aparezca entre los candidatos).
 - **Farmacity (ANDANDO desde 09/08/2026)**: 16/16 ítems (incluye Alcohol en gel,
   migración v8, mejor precio por litro). Preferencias CONFIRMADAS del

@@ -395,6 +395,10 @@ const ITEMS_COTO = [
   // Solo Pureza o Bonalma (pedido del usuario, 04/09/2026): la marca COTO no cuenta aunque esté en 2x1
   { name: "Sémola", q: "semola", unit: "kg", qty: 0.5, must: [/s[ée]mola/i, /pureza|bonalma/i], reject: [/\bfid|fideo|spaghetti|tallar|ñoqui|vitina|premezcla/i] },
   // Almacén
+  // Latas de champiñones (pedido 12/09/2026; reemplazan a los hongos congelados de Carmín): UNA lata, la más barata
+  // POR KILO (hay de 184 g y de 400 g: por lata ganaría la chica) y la nota compara SIEMPRE con la mejor lata de
+  // enteros, también por kilo, para decidir si la diferencia es poca. `seccion`: solo Conservas (ni frescos ni salsas)
+  { name: "Champiñones en lata", q: ["champignon", "champignon enteros"], unit: "un", qty: 1, comparaPor: "kg", seccion: /conserva/i, marca: { re: /\benteros?\b/i, nombre: "enteros" }, must: [/champi[gñ]/i], reject: [/salsa|caldo|pat[eé]|risotto|quinoa|sabor/i] },
   { name: "Extracto de tomate", q: "extracto de tomate", unit: "kg", qty: 0.15, must: [/extracto/i, /tomate/i], reject: [] },
   // Carnicería: pollo entero SOLO refrigerado (no congelado), el más barato POR KILO
   // entre lo que tiene precio publicado (se vende por unidad, ej. "X Uni (4 Kg)")
@@ -556,7 +560,11 @@ async function preciosCoto() {
   const out = [];
   for (const item of ITEMS_COTO) {
     let el = null;
-    try { el = elegir(item, await buscar(item.q)); } catch (e) { /* sin red: queda sin match */ }
+    try {
+      const cand = [];
+      for (const q of [].concat(item.q)) cand.push(...await buscar(q)); // q puede ser una búsqueda o varias
+      el = elegir(item, cand);
+    } catch (e) { /* sin red: queda sin match */ }
     out.push([item.name, el]);
   }
   const invernal = mesAR() >= 4 && mesAR() <= 9;
@@ -806,8 +814,8 @@ async function preciosFarmacity() {
 const CAB_HTML = { headers: { "user-agent": "Mozilla/5.0 (compatible; ElChanguito/1.0)", accept: "text/html" } };
 
 const ITEMS_OTROS = [
-  // "Hongos para cocinar" (ex Champiñones congelados): el mix de hongos suele ser lo más conveniente
-  { name: "Hongos para cocinar", base: "https://www.carmin.com.ar", qs: ["hongos", "champignon"], unit: "kg", qty: 0.5, must: [/hongo|champi[gñ]n[oó]n/i], reject: [/medall[óo]n|quinoa|chop suey|salsa|empanad|tarta|rebozad/i] },
+  // (Carmín salió el 12/09/2026: los hongos pasaron a "Champiñones en lata" de COTO. Las búsquedas de TiendaNube
+  //  con `base` + `qs` quedan disponibles en preciosOtros() para otro comercio.)
   { name: "Aceto balsámico Millán", url: "https://www.bonvino.com.ar/productos/252002/", must: [/aceto/i] },
   { name: "Salsa de soja Lee Kum Kee premium", url: "https://www.tiendanova.com/productos/lee-kum-kee-salsa-de-soja-premium-500ml/", must: [/lee kum kee/i] },
 ];
@@ -1129,6 +1137,7 @@ function aplicarMC(precios, mapa, previo = {}) {
 function elegir(item, candidatos) {
   const validos = [];
   for (const c of candidatos) {
+    if (item.seccion && !item.seccion.test(c.cat || "")) continue; // solo esa sección del sitio (COTO/DIA traen `cat`)
     if (!item.must.every((re) => re.test(c.nombre))) continue;
     if (item.reject.some((re) => re.test(c.nombre))) continue;
     let q = c.pesable ? { amount: 1, unit: "kg" } : parseQty(c.nombre); // pesable de COTO: precio por kilo
@@ -1183,15 +1192,28 @@ function elegir(item, candidatos) {
     if (item.comparaPor) nota += " · $" + Math.round(g.porUnidad).toLocaleString("es-AR") + "/" + (item.comparaPor === "l" ? "L" : item.comparaPor);
   }
   // Marca preferida del usuario: si no ganó por precio, la nota muestra su diferencia para decidir
+  // Con `comparaPor`, la preferida se elige y se compara por esa unidad ($/kg, $/L): el paquete suelto engaña
+  // (champiñones enteros de 184 g vs trozos de 400 g). Si las dos tienen página, viajan los dos links.
+  let urls = null;
   if (item.marca && !item.marca.re.test(g.nombre)) {
-    const m = validos.filter((v) => item.marca.re.test(v.nombre)).sort((a, b) => a.estimado - b.estimado)[0];
+    const clave = item.comparaPor ? "porUnidad" : "estimado";
+    const m = validos.filter((v) => item.marca.re.test(v.nombre)).sort((a, b) => a[clave] - b[clave])[0];
     if (m) {
-      const dif = Math.round((m.estimado / g.estimado - 1) * 100);
-      nota += ` · ${item.marca.nombre} $${Math.round(m.estimado).toLocaleString("es-AR")}${dif !== 0 ? ` (${dif > 0 ? "+" : ""}${dif}%)` : ""}`;
+      const dif = Math.round((m[clave] / g[clave] - 1) * 100);
+      const difTxt = dif !== 0 ? `${dif > 0 ? "+" : ""}${dif}%` : "";
+      const precioM = `$${Math.round(m.estimado).toLocaleString("es-AR")}`;
+      if (item.comparaPor) {
+        const u = item.comparaPor === "l" ? "L" : item.comparaPor;
+        nota += ` · ${item.marca.nombre} ${precioM} ($${Math.round(m.porUnidad).toLocaleString("es-AR")}/${u}${difTxt ? ", " + difTxt : ""})`;
+      } else {
+        nota += ` · ${item.marca.nombre} ${precioM}${difTxt ? ` (${difTxt})` : ""}`;
+      }
+      if (g.url && m.url && m.url !== g.url) urls = [{ url: g.url }, { n: item.marca.nombre, url: m.url }];
     }
   }
   if (g.online) nota += SOLO_ONLINE;
-  return conOnline(conUrl({ p: Math.round(g.estimado), n: nota }, g.url), g.online);
+  const out = conOnline(conUrl({ p: Math.round(g.estimado), n: nota }, g.url), g.online);
+  return urls ? { ...out, urls } : out;
 }
 
 /* Variación de precio: d = diferencia en $ y dv = fecha en que cambió. Si el precio

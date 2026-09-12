@@ -107,11 +107,11 @@ test("Comprar: ya no existe el botón 'todo comprado' (se apretaba sin querer)",
   assert.doesNotMatch(dom.window.document.body.textContent, /todo comprado/);
 });
 
-test("migración v7: Champiñones pasa a llamarse Hongos para cocinar (misma nota y estado)", () => {
+test("v7 + v20: los hongos de Carmín (ex Champiñones congelados) salen y su pendiente pasa a Champiñones en lata de COTO", () => {
   const texto = dom.window.document.body.textContent;
-  assert.match(texto, /Hongos para cocinar/); // seguía por comprar → aparece en Comprar
-  assert.doesNotMatch(texto, /Champiñones/);
-  assert.match(texto, /vieja nota/);
+  assert.doesNotMatch(texto, /Hongos para cocinar|Champiñones congelados|Carmín/);
+  assert.doesNotMatch(texto, /vieja nota/);            // la nota era de otro producto: no se hereda
+  assert.match(texto, /COTO.*Champiñones en lata/s);   // seguía por comprar → la lata nace por comprar
 });
 
 /* ---------- Compra con precio (askPrice, migración v9) ---------- */
@@ -236,7 +236,7 @@ test("v15: COTO queda con Almacén (Extracto de tomate) separado de Harinas Chac
   const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
   const coto = data.stores.find((s) => s.id === "coto");
   assert.equal(coto.sections[0].name, "Almacén");
-  assert.deepEqual(coto.sections[0].items.map((i) => i.name), ["Extracto de tomate"]);
+  assert.ok(coto.sections[0].items.some((i) => i.name === "Extracto de tomate")); // (v20 le suma después Champiñones en lata)
   assert.ok(!coto.sections.some((sec) => sec.name === "Almacén · harinas Chacabuco"), "la sección mixta ya no existe");
 });
 
@@ -297,6 +297,16 @@ test("v8: Alcohol en gel entra a Farmacity/Higiene después de Alcohol, una sola
   assert.equal(higiene.items[iAlcohol + 1].name, "Alcohol en gel");
 });
 
+test("v20: Champiñones en lata queda en COTO/Almacén antes del Extracto, y Carmín ya no existe en Otros lugares", () => {
+  const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
+  const alm = data.stores.find((s) => s.id === "coto").sections.find((sec) => sec.name === "Almacén");
+  assert.deepEqual(alm.items.map((it) => it.name), ["Champiñones en lata", "Extracto de tomate"]);
+  assert.equal(alm.items[0].have, false);
+  const otros = data.stores.find((s) => s.id === "otros");
+  assert.ok(!otros.sections.some((sec) => /carm[ií]n/i.test(sec.name)));
+  assert.ok(!otros.sections.some((sec) => sec.items.some((it) => it.name === "Hongos para cocinar")));
+});
+
 test("v7: la salsa de pescado se mudó a Dietética/Muy duraderos y la sección New Garden desapareció", () => {
   const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
   const diet = data.stores.find((s) => s.id === "diet");
@@ -322,11 +332,11 @@ test("Buscador: con una sola letra no busca (siguen las tarjetas)", () => {
   assert.match(dom.window.document.body.textContent, /Restaurar listas originales/);
 });
 await escribir("pinon");
-test("Buscador: encuentra por nombre sin tildes y muestra comercio y sección; las tarjetas se esconden", () => {
+test("Buscador: encuentra por nombre sin tildes, dentro de otras palabras, y muestra comercio y sección; las tarjetas se esconden", () => {
   const texto = dom.window.document.body.textContent;
-  assert.match(texto, /1 resultado · tocá la fila para cambiar su estado/);
-  assert.match(texto, /Dietética.*Piñones/s);
-  assert.match(texto, /Perecederos/);
+  assert.match(texto, /2 resultados · tocá la fila para cambiar su estado/); // Piñones y Champiñones en lata
+  assert.match(texto, /Dietética.*Piñones.*Perecederos/s);
+  assert.match(texto, /COTO.*Champiñones en lata.*Almacén/s);
   assert.doesNotMatch(texto, /Restaurar listas originales/);
 });
 await escribir("kiwi");
