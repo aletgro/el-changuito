@@ -1329,13 +1329,84 @@ function ShoppingView({ stores, month, patchItem, priceDate, descuentos }) {
 }
 
 /* ---------- Vista: LISTAS ---------- */
+/* Buscador (pedido 12/09/2026): encuentra un ítem en cualquier comercio por nombre o por
+   opción de un pick, sin tildes ni mayúsculas, desde 2 letras. Los resultados usan la
+   misma fila que las listas: tocarla cambia el estado (en stock ↔ por comprar). */
+const normTxt = (s) => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+function buscarItems(stores, q) {
+  const nq = normTxt(q);
+  const out = [];
+  if (nq.length < 2) return out;
+  for (const store of stores) for (const sec of store.sections) for (const it of sec.items) {
+    const enNombre = normTxt(it.name).includes(nq);
+    const opcion = !enNombre && it.type === "pick" ? (it.options || []).find((o) => normTxt(o).includes(nq)) : null;
+    if (enNombre || opcion) out.push({ store, sec, it, opcion });
+  }
+  return out;
+}
+
+function Buscador({ q, setQ }) {
+  return (
+    <div style={{ position: "sticky", top: 0, zIndex: 5, background: "#F4F5F1", padding: "4px 0 8px" }}>
+      <div style={{ position: "relative" }}>
+        <span aria-hidden="true" style={{ position: "absolute", left: 14, top: 0, height: 44, display: "flex", alignItems: "center", fontSize: 16 }}>🔍</span>
+        <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar en todas las listas" aria-label="Buscar producto"
+          autoComplete="off" autoCorrect="off" autoCapitalize="none" spellCheck={false} enterKeyHint="search"
+          className="w-full rounded-xl"
+          style={{ height: 44, fontSize: 16, padding: "0 44px 0 42px", border: "1px solid #E0DACB", background: "#FFFFFF", color: "#2B2620", outline: "none", boxSizing: "border-box" }} />
+        {q ? (
+          <button onClick={() => setQ("")} aria-label="Borrar búsqueda" className="presionable"
+            style={{ position: "absolute", right: 2, top: 2, width: 40, height: 40, display: "flex", alignItems: "center", justifyContent: "center", color: "#8A8170", fontSize: 18 }}>✕</button>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 function ListsView({ stores, month, patchItem, resetAll }) {
   const [open, setOpen] = useState({});
   const [secClosed, setSecClosed] = useState({});
   const [confirmReset, setConfirmReset] = useState(false);
+  const [q, setQ] = useState("");
+  const buscando = normTxt(q).length >= 2;
+  const resultados = buscando ? buscarItems(stores, q) : [];
+
+  if (buscando) {
+    const porComercio = stores.map((store) => ({ store, hits: resultados.filter((r) => r.store.id === store.id) })).filter((g) => g.hits.length);
+    return (
+      <div className="space-y-4">
+        <Buscador q={q} setQ={setQ} />
+        <section className="rounded-xl px-4 py-3" style={{ background: "#FFFFFF", border: "1px solid #E8E2D6" }}>
+          {resultados.length === 0 ? (
+            <p className="text-sm" style={{ color: "#8A8170" }}>Nada que se llame «{q.trim()}».</p>
+          ) : (
+            <>
+              <div className="text-xs" style={{ color: "#A39B89" }}>
+                {resultados.length} {resultados.length === 1 ? "resultado" : "resultados"} · tocá la fila para cambiar su estado
+              </div>
+              {porComercio.map(({ store, hits }) => (
+                <div key={store.id} className="mt-2">
+                  <div className="flex items-center gap-2 py-1" style={{ borderBottom: `2px solid ${store.color}` }}>
+                    <span>{store.emoji}</span>
+                    <span className="text-xs font-semibold uppercase" style={{ color: store.color, letterSpacing: "0.08em" }}>{store.name}</span>
+                  </div>
+                  {hits.map(({ sec, it, opcion }) => (
+                    <DisplayRow key={it.id} it={it} color={store.color} month={month}
+                      contexto={sec.name + (opcion ? ` · opción ${opcion}` : "")}
+                      onToggle={() => patchItem(store.id, sec.id, it.id, (prev) => ({ have: !prev.have }))} />
+                  ))}
+                </div>
+              ))}
+            </>
+          )}
+        </section>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
+      <Buscador q={q} setQ={setQ} />
       <p className="text-sm" style={{ color: "#8A8170" }}>
         Tildado = en stock. <b>Destildá lo que se te terminó</b> y pasa a Comprar.
       </p>
@@ -1415,7 +1486,7 @@ function ListsView({ stores, month, patchItem, resetAll }) {
   );
 }
 
-function DisplayRow({ it, color, month, onToggle }) {
+function DisplayRow({ it, color, month, onToggle, contexto = "" }) {
   // Toda la fila cambia el estado (no solo el check): más fácil de tocar en el celular
   const [verOpc, setVerOpc] = useState(false); // picks: desplegar las opciones sin tocar el estado
   const ordenTemp = { peak: 0, in: 1, none: 2, out: 3 };
@@ -1440,6 +1511,7 @@ function DisplayRow({ it, color, month, onToggle }) {
           {!it.have ? <span className="text-xs font-semibold" style={{ color }}>· por comprar</span> : null}
           <SeasonBadge name={it.name} month={month} />
         </div>
+        {contexto ? <div className="text-xs" style={{ color: "#A39B89" }}>{contexto}</div> : null}
         {it.dyn ? <div className="text-xs mt-1" style={{ color: "#8A8170" }}>{dynNote(it.dyn, month)}</div> : it.note ? <div className="text-xs mt-1" style={{ color: "#8A8170" }}>{it.note}</div> : null}
         {it.price > 0 && it.priceNote ? <div className="text-xs mt-1" style={{ color: "#A39B89" }}>{it.priceNote}</div> : null}
         {it.price > 0 && it.priceLinks ? <div className="mt-1"><LinkChips links={it.priceLinks} /></div> : null}

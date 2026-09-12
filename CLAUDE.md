@@ -47,6 +47,11 @@ precios-mayoristas/ultimo.json  ← salida de ese script: último día publicado
   menos) y 40 px de alto; nav inferior y `main` con `env(safe-area-inset-bottom)`;
   feedback al presionar con la clase `presionable`; grises de texto interactivo
   `#8A8170` (el `#A39B89` es solo decorativo).
+- **Buscador de Listas** (12/09/2026): `Buscador` (input `type=search`, 44 px, sticky arriba
+  de las tarjetas, cruz propia) + `buscarItems()`: desde 2 letras, sin tildes ni
+  mayúsculas, por nombre o por opción de un pick. Mientras se busca, las tarjetas se
+  esconden y los resultados van agrupados por comercio con la misma `DisplayRow` (prop
+  `contexto` = "sección · opción X"): tocar la fila cambia `have` igual que en las listas.
 
 ## Comandos
 
@@ -91,7 +96,7 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    barato; crea la sección después de Almacén si falta).
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
-   viendo la versión vieja. Hoy va por **v20**. `precios.json` es red-primero: no requiere bump.
+   viendo la versión vieja. Hoy va por **v21**. `precios.json` es red-primero: no requiere bump.
 3. **Los nombres de ítems son claves**: `precios.json` y el robot matchean por el `name`
    exacto del ítem (tildes incluidas). Renombrar un ítem rompe su precio → actualizar
    también `ITEMS`/`ITEMS_ELPUENTE` en el robot, la `PRICES` embebida y agregar migración.

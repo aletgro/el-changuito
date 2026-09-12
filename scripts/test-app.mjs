@@ -309,6 +309,54 @@ test("v7: la salsa de pescado se mudó a Dietética/Muy duraderos y la sección 
   assert.ok(!otros.sections.some((sec) => sec.items.some((it) => it.name === "Salsa de pescado")), "no queda duplicada en Otros lugares");
 });
 
+/* ---------- Listas: buscador ---------- */
+await click(/^📋Listas$/);
+const escribir = async (valor) => {
+  const input = dom.window.document.querySelector('input[aria-label="Buscar producto"]');
+  Object.getOwnPropertyDescriptor(dom.window.HTMLInputElement.prototype, "value").set.call(input, valor);
+  input.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
+  await new Promise((r) => setTimeout(r, 120));
+};
+await escribir("p");
+test("Buscador: con una sola letra no busca (siguen las tarjetas)", () => {
+  assert.match(dom.window.document.body.textContent, /Restaurar listas originales/);
+});
+await escribir("pinon");
+test("Buscador: encuentra por nombre sin tildes y muestra comercio y sección; las tarjetas se esconden", () => {
+  const texto = dom.window.document.body.textContent;
+  assert.match(texto, /1 resultado · tocá la fila para cambiar su estado/);
+  assert.match(texto, /Dietética.*Piñones/s);
+  assert.match(texto, /Perecederos/);
+  assert.doesNotMatch(texto, /Restaurar listas originales/);
+});
+await escribir("kiwi");
+test("Buscador: también encuentra por opción de un pick", () => {
+  assert.match(dom.window.document.body.textContent, /Fruta.*opción Kiwi/s);
+});
+await escribir("xyzxyz");
+test("Buscador: sin coincidencias lo dice", () => {
+  assert.match(dom.window.document.body.textContent, /Nada que se llame «xyzxyz»/);
+});
+await escribir("alcohol");
+const filaAlcohol = [...dom.window.document.querySelectorAll(".fila-toque")].find((d) => /^[^A-Za-z]*Alcohol[^e]/.test(d.textContent.trim()));
+filaAlcohol.click();
+await new Promise((r) => setTimeout(r, 500));
+test("Buscador: tocar la fila cambia el estado (en stock → por comprar) sin salir de la búsqueda, y persiste", () => {
+  const texto = dom.window.document.body.textContent;
+  assert.match(texto, /resultados · tocá la fila/);         // Alcohol y Alcohol en gel
+  assert.match(texto, /Alcohol· por comprar/); // los spans se pegan en textContent
+  const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
+  const alcohol = data.stores.find((s) => s.id === "farma").sections.flatMap((sec) => sec.items).find((it) => it.name === "Alcohol");
+  assert.equal(alcohol.have, false);
+});
+dom.window.document.querySelector('button[aria-label="Borrar búsqueda"]').click();
+await new Promise((r) => setTimeout(r, 120));
+test("Buscador: la cruz borra la búsqueda y vuelven las tarjetas", () => {
+  const texto = dom.window.document.body.textContent;
+  assert.match(texto, /Restaurar listas originales/);
+  assert.match(texto, /Farmacity.*1 por comprar/s);
+});
+
 /* ---------- Temporada: hoy por default + tira de meses ---------- */
 await click(/^❄️Temporada$|Temporada$/);
 

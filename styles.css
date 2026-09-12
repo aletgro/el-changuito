@@ -74,3 +74,6 @@ button { touch-action: manipulation; }
 .fila-toque { cursor: pointer; border-radius: 10px; margin-left: -8px; margin-right: -8px; padding-left: 8px; padding-right: 8px; transition: background-color .12s ease; }
 .fila-toque:active { background: #F1EDE3; }
 @media (hover: hover) { .fila-toque:hover { background: #FAF7F0; } }
+/* Buscador de Listas: sin el estilo nativo de iOS ni la cruz del sistema (la app pone la suya) */
+input[type="search"] { -webkit-appearance: none; appearance: none; }
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; display: none; }
