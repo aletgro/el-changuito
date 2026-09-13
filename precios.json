@@ -1,5 +1,5 @@
 {
-  "version": "12/09/2026",
+  "version": "13/09/2026",
   "descuentos": {
     "dia": [
       {
@@ -69,7 +69,16 @@
     "Agua mineral bidón": {
       "p": 2670,
       "n": "3× Agua Mineral Sin Gas Valle Del Sol 2 Lt. · oferta -29% · Glaciar $6.052 (+127%)",
-      "url": "https://diaonline.supermercadosdia.com.ar/agua-mineral-sin-gas-valle-del-sol-2-lt-309278/p"
+      "url": "https://diaonline.supermercadosdia.com.ar/agua-mineral-sin-gas-valle-del-sol-2-lt-309278/p",
+      "urls": [
+        {
+          "url": "https://diaonline.supermercadosdia.com.ar/agua-mineral-sin-gas-valle-del-sol-2-lt-309278/p"
+        },
+        {
+          "n": "Glaciar",
+          "url": "https://diaonline.supermercadosdia.com.ar/bidon-agua-glaciar-63-lt-304977/p"
+        }
+      ]
     },
     "Arroz integral 1 kg": {
       "p": 1380,
@@ -112,8 +121,8 @@
     },
     "Papas fritas": {
       "p": 3200,
-      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr. · oferta -30%",
-      "url": "https://diaonline.supermercadosdia.com.ar/papas-fritas-tubo-dia-sabor-cheddar-150-gr-166507/p",
+      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr. · oferta -30%",
+      "url": "https://diaonline.supermercadosdia.com.ar/papas-fritas-tubo-dia-sabor-original-150-gr-134494/p",
       "d": -1600,
       "dv": "09/09/2026"
     },
@@ -153,6 +162,15 @@
       "p": 2425,
       "n": "Yerba Mate Suave Chamigo 1 Kg. · oferta -35% · Playadito $5.208 (+115%)",
       "url": "https://diaonline.supermercadosdia.com.ar/yerba-mate-suave-chamigo-1-kg-46234/p",
+      "urls": [
+        {
+          "url": "https://diaonline.supermercadosdia.com.ar/yerba-mate-suave-chamigo-1-kg-46234/p"
+        },
+        {
+          "n": "Playadito",
+          "url": "https://diaonline.supermercadosdia.com.ar/yerba-mate-playadito-suave-1-kg-269577/p"
+        }
+      ],
       "d": -1225,
       "dv": "09/09/2026"
     },
@@ -1083,10 +1101,10 @@
           }
         },
         "Naranja": {
-          "p": 1190,
-          "s": "dia",
+          "p": 1299,
+          "s": "coto",
           "u": "kg",
-          "url": "https://diaonline.supermercadosdia.com.ar/naranja-ombligo-x-kg-90118/p",
+          "url": "https://www.coto.com.ar/productos/naranja-ombl-xkg-/_/R-00000420-00000420-200",
           "mc": {
             "p": 778,
             "f": "11/09/2026"
