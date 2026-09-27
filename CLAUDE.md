@@ -20,7 +20,9 @@ precios-mayoristas/ultimo.json  ← salida de ese script: último día publicado
 .github/workflows/precios.yml   ← corre el robot todos los días 6:00 AR + botón Run workflow
 ```
 
-- **Persistencia**: `localStorage`, clave `el-changuito-v1`, forma `{ stores: [...] }`.
+- **Persistencia**: `localStorage`, clave `el-changuito-v1`, forma `{ stores: [...] }`. Los
+  descuentos por día que el usuario configura en la app van aparte, en
+  `el-changuito-dtos-v1`, con forma `{ [storeId]: [{ dia, pct, tope? }] }`.
 - **Modelo**: `stores[] → sections[] → items[]`. Ítem: `{ id, name, note, have, spec, price,
   priceNote, priceD, priceV }` (`priceD` = variación en $ contra la foto anterior; la
   pinta `DeltaBadge` como ▲/▼ con porcentaje, y se limpia al editar a mano), `priceMC`
@@ -106,7 +108,7 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    por comprar · v21 suma Caballa en lata a COTO/Almacén, primera de la sección.
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
-   viendo la versión vieja. Hoy va por **v24**. `precios.json` es red-primero: no requiere bump.
+   viendo la versión vieja. Hoy va por **v25**. `precios.json` es red-primero: no requiere bump.
 3. **Los nombres de ítems son claves**: `precios.json` y el robot matchean por el `name`
    exacto del ítem (tildes incluidas). Renombrar un ítem rompe su precio → actualizar
    también `ITEMS`/`ITEMS_ELPUENTE` en el robot, la `PRICES` embebida y agregar migración.
@@ -182,6 +184,15 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   dtos de hoy (la mejor promo vigente hoy por comercio, tope incluido) y el ahorro.
   `DESCUENTOS_SNAPSHOT` en `src/app.jsx` es solo el respaldo sin red: mantener a
   mano con el robot cuando cambie la promo.
+- **Configurables desde la app** (pedido 26/09/2026): en Listas, la tarjeta de cada comercio
+  abre `DtosEditor` con el resumen ("Dto. adicional: mar -20% · mié -10%") y la píldora
+  "editar dtos ▾": un % por cada día de la semana más un tope opcional en $, con el día de
+  hoy marcado. Se guarda en `el-changuito-dtos-v1` (un array de promos por comercio) y
+  `mezclarDtos()` lo superpone a lo que trae `precios.json`, COMERCIO POR COMERCIO, sin
+  tocar las exclusiones (`sin`), que siguen saliendo del JSON y se muestran como aviso.
+  El resumen marca "· tuyo" cuando hay config propia y "Volver al de la app" la borra.
+  Al abrir el editor, si dos promos del JSON pisan el mismo día (lunes -30% y lun-vie -20%)
+  se carga la mejor, como hace el resto de la app.
 - **Solo online** (pedido 09/09/2026): DIA/Farmacity lo anuncian en el NOMBRE del teaser o
   del highlight ("2x1 Solo Web#…", "-50% Solo Web#…"; `ONLINE_RE` en el robot, mirando
   `DiscountHighLight`+`clusterHighlights` para el descuento ya aplicado y

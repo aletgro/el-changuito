@@ -693,6 +693,74 @@ test("Listas: la píldora 'ver en DIA ↗' acompaña la nota de precio también 
   assert.ok([...dom2.window.document.querySelectorAll("a")].find((a) => a.textContent === "ver en COTO ↗"), "el pick Fruta lleva la página de la opción más barata");
 });
 
+/* ---------- Descuentos por día configurables desde la app (Listas) ---------- */
+const editor2 = () => [...dom2.window.document.querySelectorAll("button")].find((b) => /editar dtos ▾/.test(b.textContent));
+const tarjeta2 = (nombre) => [...dom2.window.document.querySelectorAll("section")].find((sec) => new RegExp(nombre).test(sec.textContent));
+await click2(/^Siempre en stock/); await click2(/Verdulería/); // cerramos Verdulería para quedarnos con un solo editor
+await click2(/Dietética/);
+
+test("Descuentos: cada comercio muestra en Listas el resumen de sus dtos por día y ofrece editarlos", () => {
+  const texto = tarjeta2("Dietética").textContent;
+  assert.match(texto, /Dto\. adicional: lun -30% · lun-vie -20% · tope \$ 1\.000/); // el de precios.json
+  assert.ok(editor2(), "falta la píldora para editar");
+});
+
+editor2().click();
+await new Promise((r) => setTimeout(r, 100));
+const campoDia = (dia) => dom2.window.document.querySelector(`input[aria-label="% de descuento los ${dia}"]`);
+const escribirCampo = async (input, valor) => {
+  Object.getOwnPropertyDescriptor(dom2.window.HTMLInputElement.prototype, "value").set.call(input, valor);
+  input.dispatchEvent(new dom2.window.Event("input", { bubbles: true }));
+  await new Promise((r) => setTimeout(r, 60));
+};
+
+test("Descuentos: el editor abre con los días de la semana cargados con lo vigente y marca el de hoy", () => {
+  assert.equal(campoDia("lunes").value, "30");      // gana el % más alto del lunes
+  assert.equal(campoDia("martes").value, "20");
+  assert.equal(campoDia("domingo").value, "");
+  assert.equal(dom2.window.document.querySelector('input[aria-label="Tope de descuento en pesos"]').value, "1000");
+  assert.match(tarjeta2("Dietética").textContent, /Lunes · hoy/);  // la fecha del test es lunes
+});
+
+await escribirCampo(campoDia("lunes"), "35");
+await escribirCampo(campoDia("martes"), "0");
+await escribirCampo(dom2.window.document.querySelector('input[aria-label="Tope de descuento en pesos"]'), "0");
+[...dom2.window.document.querySelectorAll("button")].find((b) => b.textContent === "Guardar").click();
+await new Promise((r) => setTimeout(r, 120));
+
+test("Descuentos: lo editado pisa a precios.json, se marca como tuyo y queda guardado aparte de las listas", () => {
+  const texto = tarjeta2("Dietética").textContent;
+  assert.match(texto, /Dto\. adicional: lun -35% · mié -20% · jue -20% · vie -20%/); // el lun-vie del JSON quedó día por día
+  assert.doesNotMatch(texto, /mar -20%|tope/);                       // el martes quedó en 0 y se sacó el tope
+  assert.match(texto, /· tuyo/);
+  assert.deepEqual(JSON.parse(dom2.window.localStorage.getItem("el-changuito-dtos-v1")),
+    { diet: [{ dia: "lunes", pct: 35 }, { dia: "miércoles", pct: 20 }, { dia: "jueves", pct: 20 }, { dia: "viernes", pct: 20 }] });
+});
+
+await click2(/^🧺Comprar$|^🧺.*Comprar$/);
+await click2(/Expandir todo/); // en Comprar las tarjetas arrancan compactadas
+
+test("Descuentos: Comprar usa el dto configurado a mano (precio del día y total con el dto de hoy)", () => {
+  const texto = dom2.window.document.body.textContent;
+  assert.match(texto, /Dto\. adicional: lunes -35% \(hoy\)/);
+  assert.doesNotMatch(texto, /lunes -30%/);
+  assert.match(texto, /lun \$ 5\.850/); // Nueces $9.000 con -35%
+});
+
+await click2(/^📋Listas$/);
+await click2(/Dietética/);
+editor2().click();
+await new Promise((r) => setTimeout(r, 100));
+[...dom2.window.document.querySelectorAll("button")].find((b) => b.textContent === "Volver al de la app").click();
+await new Promise((r) => setTimeout(r, 120));
+
+test("Descuentos: 'Volver al de la app' borra lo propio y vuelve el de precios.json", () => {
+  const texto = tarjeta2("Dietética").textContent;
+  assert.match(texto, /Dto\. adicional: lun -30% · lun-vie -20% · tope \$ 1\.000/);
+  assert.doesNotMatch(texto, /· tuyo/);
+  assert.deepEqual(JSON.parse(dom2.window.localStorage.getItem("el-changuito-dtos-v1")), {});
+});
+
 /* ---------- dom3: tope de filas en las tarjetas de precios (5 pendientes que bajaron, 4 que subieron) ---------- */
 const dom3 = new JSDOM('<!doctype html><html><body><div id="root"></div></body></html>', { url: "https://el-changuito.test/", pretendToBeVisual: true, runScripts: "outside-only" });
 const nombres3 = ["A1", "A2", "A3", "A4", "A5", "S1", "S2", "S3", "S4"];

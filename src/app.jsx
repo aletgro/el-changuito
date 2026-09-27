@@ -7,6 +7,7 @@ import { createRoot } from "react-dom/client";
    ============================================================ */
 
 const KEY = "el-changuito-v1";
+const KEY_DTOS = "el-changuito-dtos-v1"; // descuentos por día configurados a mano en la app
 
 const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
 const ALLM = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -267,6 +268,7 @@ const DESCUENTOS_SNAPSHOT = {
     promos: [{ dia: "martes", pct: 20 }, { dia: "miércoles", pct: 15 }, { dia: "jueves", pct: 30 }, { dia: "viernes", pct: 25 }],
   },
 };
+const DIAS_SEMANA = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"];
 const IDX_DIA_SEMANA = { domingo: 0, lunes: 1, martes: 2, miercoles: 3, "miércoles": 3, jueves: 4, viernes: 5, sabado: 6, "sábado": 6 };
 const esHoyDia = (nombre) => new Date().getDay() === IDX_DIA_SEMANA[String(nombre).toLowerCase()];
 const diasDe = (d) => d.dias || (d.dia ? [d.dia] : []);
@@ -309,6 +311,25 @@ const linksDe = (snap) => {
   if (Array.isArray(snap.urls) && snap.urls.length) return snap.urls;
   return snap.url ? [{ url: snap.url }] : null;
 };
+/* Config efectiva de descuentos (pedido 26/09/2026): la de precios.json, pisada COMERCIO POR
+   COMERCIO con lo que el usuario configuró en la app. Las exclusiones (`sin`, ej. COTO sin
+   carnicería) son estructurales y siguen saliendo del JSON. */
+function mezclarDtos(base, propios) {
+  const out = { ...(base || {}) };
+  for (const [id, promos] of Object.entries(propios || {})) {
+    const b = (base || {})[id];
+    const sin = b && !Array.isArray(b) ? b.sin : null;
+    out[id] = sin ? { sin, promos } : promos;
+  }
+  return out;
+}
+const resumenDtos = (cfg) => {
+  const promos = promosDe(cfg);
+  if (!promos.length) return "Sin descuentos por día";
+  const tope = promos.reduce((a, d) => Math.max(a, d.tope || 0), 0);
+  return "Dto. adicional: " + promos.map((d) => `${abrevDto(d)} -${d.pct}%`).join(" · ") + (tope > 0 ? ` · tope ${fmt(tope)}` : "");
+};
+
 /* Mejor % vigente HOY de una config de descuentos (sin tope: es para un ítem suelto) */
 const pctHoyDe = (cfg) => promosDe(cfg).filter(esHoyDto).reduce((a, d) => Math.max(a, d.pct), 0);
 const PRICES = {
@@ -1421,7 +1442,78 @@ function Buscador({ q, setQ }) {
   );
 }
 
-function ListsView({ stores, month, patchItem, resetAll }) {
+/* Descuentos por día de UN comercio: resumen + editor a pedido (un % por día y un tope opcional).
+   Lo que se guarda pisa a precios.json hasta que se toca "volver al de la app". */
+function DtosEditor({ store, cfg, propio, onGuardar, onReset }) {
+  const [abierto, setAbierto] = useState(false);
+  const [pcts, setPcts] = useState({});
+  const [tope, setTope] = useState("");
+  const sin = cfg && !Array.isArray(cfg) ? cfg.sin : null;
+  const abrir = () => {
+    const promos = promosDe(cfg);
+    const m = {};
+    // si dos promos pisan el mismo día (lunes -30% y lun-vie -20%), vale la mejor, como en el resto de la app
+    for (const d of promos) for (const dia of diasDe(d)) { const k = String(dia).toLowerCase(); m[k] = Math.max(m[k] || 0, d.pct); }
+    setPcts(m);
+    setTope(String(promos.reduce((a, d) => Math.max(a, d.tope || 0), 0) || ""));
+    setAbierto(true);
+  };
+  const guardar = () => {
+    const t = Math.max(0, Math.round(Number(tope) || 0));
+    const promos = DIAS_SEMANA
+      .filter((d) => Number(pcts[d]) > 0)
+      .map((d) => ({ dia: d, pct: Math.min(100, Math.round(Number(pcts[d]))), ...(t > 0 ? { tope: t } : {}) }));
+    onGuardar(promos);
+    setAbierto(false);
+  };
+  const campo = { height: 40, fontSize: 16, width: 78, textAlign: "right", padding: "0 10px", border: "1px solid #D8D2C4", borderRadius: 8, background: "#FFFFFF", color: "#2B2620", outline: "none" };
+  return (
+    <div className="py-2" style={{ borderBottom: "1px dashed #EDE8DC" }}>
+      <div className="flex items-center gap-2 flex-wrap">
+        <span className="text-xs flex-1" style={{ color: "#8A8170" }}>{resumenDtos(cfg)}{propio ? <span style={{ color: store.color, fontWeight: 600 }}> · tuyo</span> : null}</span>
+        <button onClick={() => (abierto ? setAbierto(false) : abrir())} className="text-xs font-semibold rounded-full presionable"
+          style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "6px 12px", minHeight: 32, color: abierto ? "#2B2620" : "#8A8170", background: abierto ? "#F1EDE3" : "#FAF7F0", border: `1px ${abierto ? "solid" : "dashed"} #C9C2B2` }}>
+          {abierto ? "cerrar ▴" : "editar dtos ▾"}
+        </button>
+      </div>
+      {abierto ? (
+        <div className="mt-2">
+          <div className="text-xs" style={{ color: "#A39B89" }}>Poné el % de cada día. Vacío o 0 = sin descuento.</div>
+          {DIAS_SEMANA.map((dia) => (
+            <div key={dia} className="flex items-center gap-2 py-1">
+              <span className="text-sm flex-1" style={{ color: "#2B2620", fontWeight: esHoyDia(dia) ? 600 : 400 }}>
+                {dia.charAt(0).toUpperCase() + dia.slice(1)}{esHoyDia(dia) ? <span className="text-xs" style={{ color: "#2F5E14" }}> · hoy</span> : null}
+              </span>
+              <input type="number" inputMode="numeric" min="0" max="100" value={pcts[dia] ?? ""} aria-label={`% de descuento los ${dia}`}
+                onChange={(e) => setPcts((p) => ({ ...p, [dia]: e.target.value }))} style={campo} />
+              <span className="text-sm" style={{ color: "#8A8170", width: 14 }}>%</span>
+            </div>
+          ))}
+          <div className="flex items-center gap-2 py-1" style={{ borderTop: "1px dashed #EDE8DC" }}>
+            <span className="text-sm flex-1" style={{ color: "#2B2620" }}>Tope de descuento</span>
+            <input type="number" inputMode="numeric" min="0" value={tope} aria-label="Tope de descuento en pesos"
+              onChange={(e) => setTope(e.target.value)} style={campo} />
+            <span className="text-sm" style={{ color: "#8A8170", width: 14 }}>$</span>
+          </div>
+          {sin ? (
+            <div className="text-xs mt-1" style={{ color: "#A39B89" }}>
+              No aplica a {[...(sin.secciones || []), ...(sin.items || [])].join(", ")}. Eso no se toca acá.
+            </div>
+          ) : null}
+          <div className="flex items-center gap-2 mt-2 flex-wrap">
+            <button onClick={guardar} className="rounded-lg font-semibold text-sm presionable" style={{ padding: "9px 18px", background: store.color, color: "#FFFFFF" }}>Guardar</button>
+            <button onClick={() => setAbierto(false)} className="text-sm presionable" style={{ padding: "9px 12px", color: "#8A8170" }}>Cancelar</button>
+            {propio ? (
+              <button onClick={() => { onReset(); setAbierto(false); }} className="text-xs presionable" style={{ padding: "9px 12px", color: "#8A8170" }}>Volver al de la app</button>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function ListsView({ stores, month, patchItem, resetAll, descuentos = {}, dtosPropios = {}, setDtoStore = () => {} }) {
   const [open, setOpen] = useState({});
   const [secClosed, setSecClosed] = useState({});
   const [confirmReset, setConfirmReset] = useState(false);
@@ -1490,6 +1582,8 @@ function ListsView({ stores, month, patchItem, resetAll }) {
             {isOpen ? (
               <div className="px-4 pb-3">
                 {store.note ? <p className="text-xs italic mb-2" style={{ color: "#A39B89" }}>{store.note}</p> : null}
+                <DtosEditor store={store} cfg={descuentos[store.id]} propio={!!dtosPropios[store.id]}
+                  onGuardar={(promos) => setDtoStore(store.id, promos)} onReset={() => setDtoStore(store.id, null)} />
                 {store.sections.map((sec) => {
                   const sk = store.id + ":" + sec.id;
                   // Secciones cerradas por default
@@ -1728,6 +1822,7 @@ function App() {
   const [saveErr, setSaveErr] = useState(false);
   const [priceDate, setPriceDate] = useState(PRICE_SNAPSHOT_V);
   const [descuentos, setDescuentos] = useState(DESCUENTOS_SNAPSHOT);
+  const [dtosPropios, setDtosPropios] = useState({});
   const first = useRef(true);
 
   const now = new Date();
@@ -1741,8 +1836,21 @@ function App() {
       if (raw) data = JSON.parse(raw);
     } catch (e) { /* primera vez o datos corruptos */ }
     setStores(migrate(data && data.stores ? data.stores : seedStores()));
+    try {
+      const raw = localStorage.getItem(KEY_DTOS);
+      if (raw) setDtosPropios(JSON.parse(raw) || {});
+    } catch (e) { /* sin config propia: mandan los de precios.json */ }
     setLoaded(true);
   }, []);
+
+  // Descuentos por día configurados a mano: pisan a los de precios.json, comercio por comercio
+  const setDtoStore = (id, promos) => setDtosPropios((prev) => {
+    const next = { ...prev };
+    if (promos === null) delete next[id]; else next[id] = promos;
+    try { localStorage.setItem(KEY_DTOS, JSON.stringify(next)); } catch (e) { setSaveErr(true); }
+    return next;
+  });
+  const descuentosEf = mezclarDtos(descuentos, dtosPropios);
 
   useEffect(() => {
     if (!loaded || !stores) return;
@@ -1818,8 +1926,9 @@ function App() {
       </header>
 
       <main className="max-w-2xl mx-auto px-4 pt-4" style={{ paddingBottom: "calc(96px + env(safe-area-inset-bottom))" }}>
-        {tab === "comprar" ? <ShoppingView stores={stores} month={month} patchItem={patchItem} priceDate={priceDate} descuentos={descuentos} /> : null}
-        {tab === "listas" ? <ListsView stores={stores} month={month} patchItem={patchItem} resetAll={resetAll} /> : null}
+        {tab === "comprar" ? <ShoppingView stores={stores} month={month} patchItem={patchItem} priceDate={priceDate} descuentos={descuentosEf} /> : null}
+        {tab === "listas" ? <ListsView stores={stores} month={month} patchItem={patchItem} resetAll={resetAll}
+          descuentos={descuentosEf} dtosPropios={dtosPropios} setDtoStore={setDtoStore} /> : null}
         {tab === "temporada" ? <SeasonView month={month} /> : null}
       </main>
 
