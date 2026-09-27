@@ -300,8 +300,9 @@ test("v8: Alcohol en gel entra a Farmacity/Higiene después de Alcohol, una sola
 test("v20: Champiñones en lata queda en COTO/Almacén antes del Extracto, y Carmín ya no existe en Otros lugares", () => {
   const data = JSON.parse(dom.window.localStorage.getItem("el-changuito-v1"));
   const alm = data.stores.find((s) => s.id === "coto").sections.find((sec) => sec.name === "Almacén");
-  assert.deepEqual(alm.items.map((it) => it.name), ["Champiñones en lata", "Extracto de tomate"]);
-  assert.equal(alm.items[0].have, false);
+  assert.deepEqual(alm.items.map((it) => it.name), ["Caballa en lata", "Champiñones en lata", "Extracto de tomate"]); // v21 suma la caballa primera
+  assert.equal(alm.items.find((it) => it.name === "Champiñones en lata").have, false);
+  assert.equal(alm.items[0].have, true); // la caballa nace en stock
   const otros = data.stores.find((s) => s.id === "otros");
   assert.ok(!otros.sections.some((sec) => /carm[ií]n/i.test(sec.name)));
   assert.ok(!otros.sections.some((sec) => sec.items.some((it) => it.name === "Hongos para cocinar")));

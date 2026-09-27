@@ -103,10 +103,10 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
    referencia del Mercado Central, especie NABO) · v20 saca los hongos de Carmín (borra
    "Hongos para cocinar" y la sección Carmín si queda vacía) y suma "Champiñones en lata" a
    COTO/Almacén antes de Extracto de tomate; si los hongos estaban por comprar, la lata nace
-   por comprar.
+   por comprar · v21 suma Caballa en lata a COTO/Almacén, primera de la sección.
 2. **Service worker**: tras cualquier cambio en archivos cacheados (app.js, styles,
    index, íconos), subir la versión `changuito-vN` en `sw.js` o los celulares siguen
-   viendo la versión vieja. Hoy va por **v23**. `precios.json` es red-primero: no requiere bump.
+   viendo la versión vieja. Hoy va por **v24**. `precios.json` es red-primero: no requiere bump.
 3. **Los nombres de ítems son claves**: `precios.json` y el robot matchean por el `name`
    exacto del ítem (tildes incluidas). Renombrar un ítem rompe su precio → actualizar
    también `ITEMS`/`ITEMS_ELPUENTE` en el robot, la `PRICES` embebida y agregar migración.
@@ -312,7 +312,12 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   refrigerado (no congelado), el más barato por kg con precio publicado — se vende
   por unidad ("X Uni (4 Kg)", `comparaPor:"kg"`). "Achura" SIN precio por
   decisión del usuario ("por ahora"): es un pick de 6 opciones de valor muy dispar.
-  Sémola = SOLO Pureza o Bonalma (confirmado 04/09/2026), 500 g · Champiñones en lata
+  Sémola = SOLO Pureza o Bonalma (confirmado 04/09/2026), 500 g · Caballa en lata
+  (26/09/2026) = MANDA la de Ciudad del Lago (`marca.manda`), hoy la más barata por kilo;
+  si no está en el catálogo, la que le sigue en precio, y la nota muestra siempre cuál es
+  esa segunda por si falta en la góndola. OJO: la lata de Ciudad del Lago se rotula "en
+  Agua y Aceite", no "al natural", por eso el `must` acepta "natural" o "agua" y el
+  `reject` saca "en aceite", escabeche, tomate y patés · Champiñones en lata
   (12/09/2026, reemplazan a los hongos de Carmín) = UNA lata, la más barata POR KILO
   (`comparaPor:"kg"`: hay de 184 g y de 400 g), solo de la sección Conservas (`seccion`,
   filtra por el `cat` del candidato), y la nota compara SIEMPRE con la mejor lata de
@@ -386,7 +391,10 @@ Deploy: push a `main` republica el sitio (GitHub Pages o Netlify conectado al re
   muestra su precio y diferencia para que el usuario decida. Hoy: Agua = Glaciar ·
   Yerba = Playadito · Champiñones en lata = enteros. Con `comparaPor`, la preferida se
   elige y se compara por esa unidad ("· enteros $2.999 ($7.498/kg, +32%)") y, si las dos
-  tienen página, viajan como `urls` (chips "ver en COTO ↗" y "enteros ↗"). `q` puede ser una búsqueda o un array (para que la marca
+  tienen página, viajan como `urls` (chips "ver en COTO ↗" y "enteros ↗"). Con
+  `manda: true` (Caballa = Ciudad del Lago) la preferida GANA si está en el catálogo y la
+  nota muestra la que le sigue en precio ("· si no hay: … $4.512 ($15.040/kg, +33%)",
+  chip "la que sigue ↗"); si no está, vale el criterio normal y no hay nota. `q` puede ser una búsqueda o un array (para que la marca
   aparezca entre los candidatos).
 - **Farmacity (ANDANDO desde 09/08/2026)**: 16/16 ítems (incluye Alcohol en gel,
   migración v8, mejor precio por litro). Preferencias CONFIRMADAS del

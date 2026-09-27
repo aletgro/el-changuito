@@ -1644,6 +1644,20 @@
           "url": "https://www.coto.com.ar/productos/champignon-enteros-ciudad-del-lago-lata-400-gr-/_/R-00039645-00039645-200"
         }
       ]
+    },
+    "Caballa en lata": {
+      "p": 4799,
+      "n": "Caballa Ciudad del Lago en Agua y Aceite 425g · $11.292/kg · si no hay: Caballa Al Natural La Campagnola Lat 300 Grm $4.512 ($15.040/kg, +33%)",
+      "url": "https://www.coto.com.ar/productos/caballa-ciudad-del-lago-en-agua-y-aceite-425g-/_/R-00490772-00490772-200",
+      "urls": [
+        {
+          "url": "https://www.coto.com.ar/productos/caballa-ciudad-del-lago-en-agua-y-aceite-425g-/_/R-00490772-00490772-200"
+        },
+        {
+          "n": "la que sigue",
+          "url": "https://www.coto.com.ar/productos/caballa-al-natural-la-campagnola-lat-300-grm-/_/R-00004456-00004456-200"
+        }
+      ]
     }
   }
 }

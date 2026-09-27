@@ -145,7 +145,7 @@ function seedStores() {
       id: "coto", name: "COTO", emoji: "🥩", color: "#E4572E",
       note: "Harinas Chacabuco y carnicería.",
       sections: [
-        { id: nid(), name: "Almacén", items: [I("Champiñones en lata"), I("Extracto de tomate")] },
+        { id: nid(), name: "Almacén", items: [I("Caballa en lata"), I("Champiñones en lata"), I("Extracto de tomate")] },
         { id: nid(), name: "Harinas Chacabuco", items: [I("Harina 000"), I("Harina 000 de fuerza", "Chacabuco W300 · 13 g proteína"), I("Harina 0000"), I("Harina 0000 de fuerza", "Chacabuco Napolitana W330"), I("Harina integral"), I("Sémola"), I("Semolín")] },
         {
           id: nid(), name: "Carnicería", banner: "carne", items: [
@@ -780,6 +780,15 @@ function migrate(stores) {
       };
     });
   }
+
+  // v21 · COTO/Almacén: suma Caballa en lata (primera del almacén; la sección ya existe desde v15/v20)
+  out = out.map((s) => {
+    if (s.id !== "coto" || s.sections.some((sec) => sec.items.some((it) => it.name === "Caballa en lata"))) return s;
+    const caballa = { id: "mig-caballa-lata", name: "Caballa en lata", note: "", spec: "", have: true };
+    const iAlm = s.sections.findIndex((sec) => sec.name === "Almacén");
+    if (iAlm < 0) return { ...s, sections: [{ id: "mig-coto-almacen", name: "Almacén", items: [caballa] }, ...s.sections] };
+    return { ...s, sections: s.sections.map((sec, i) => (i === iAlm ? { ...sec, items: [caballa, ...sec.items] } : sec)) };
+  });
 
   // v5 · asegurar campos de precio y aplicar la foto embebida como base
   out = out.map((s) => ({

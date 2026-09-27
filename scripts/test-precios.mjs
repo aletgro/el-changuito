@@ -270,6 +270,27 @@ test("Harina integral: rechaza la de semillas y elige la integral fina", () => {
   assert.match(el.n, /Integral Fina/);
 });
 
+test("Caballa en lata: manda Ciudad del Lago aunque otra lata sea más barata, y la nota avisa cuál sigue en precio", () => {
+  const CONS = "Categorias / Almacén / Conservas / Conservas de Pescado";
+  const U = (n) => `https://www.coto.com.ar/productos/x-/_/R-${n}-${n}-200`;
+  const cand = [
+    { nombre: "Caballa Al Natural La Campagnola Lat 300 Grm", precio: 4512, lista: 4512, cat: CONS, url: U(1) },   // más barata por lata, $15.040/kg
+    { nombre: "Caballa Ciudad del Lago en Agua y Aceite 425g", precio: 4799, lista: 4799, cat: CONS, url: U(2) },  // ← manda, y encima $11.292/kg
+    { nombre: "Caballa Natural Gomes Da Costa 380 Gr", precio: 6549, lista: 6549, cat: CONS, url: U(3) },
+    { nombre: "Caballa En Aceite Gomes Da Costa 380 Gr", precio: 6549, lista: 6549, cat: CONS, url: U(4) },        // en aceite: afuera
+    { nombre: "Caballa Al Natural La Campagnola Lat 300 Grm", precio: 1, lista: 1, cat: "Categorias / Congelados" }, // otra sección: afuera
+  ];
+  const el = elegir(itemCoto("Caballa en lata"), cand);
+  assert.equal(el.p, 4799);
+  assert.equal(el.n, "Caballa Ciudad del Lago en Agua y Aceite 425g · $11.292/kg · si no hay: Caballa Al Natural La Campagnola Lat 300 Grm $4.512 ($15.040/kg, +33%)");
+  assert.deepEqual(el.urls, [{ url: U(2) }, { n: "la que sigue", url: U(1) }]);
+  // sin Ciudad del Lago en el catálogo: la que sigue en precio POR KILO, sin nota de reemplazo
+  const sinCDL = elegir(itemCoto("Caballa en lata"), cand.filter((c) => !/ciudad del lago/i.test(c.nombre)));
+  assert.equal(sinCDL.p, 4512);
+  assert.equal(sinCDL.n, "Caballa Al Natural La Campagnola Lat 300 Grm · $15.040/kg");
+  assert.equal("urls" in sinCDL, false);
+});
+
 test("Champiñones en lata: UNA lata, la más barata POR KILO, y la nota compara siempre con la mejor de enteros (también por kilo)", () => {
   const CONS = "Categorias / Almacén / Conservas / Conservas Vegetal / Champignon";
   const U = (n) => `https://www.coto.com.ar/productos/x-/_/R-${n}-${n}-200`;

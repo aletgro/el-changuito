@@ -395,6 +395,12 @@ const ITEMS_COTO = [
   // Solo Pureza o Bonalma (pedido del usuario, 04/09/2026): la marca COTO no cuenta aunque esté en 2x1
   { name: "Sémola", q: "semola", unit: "kg", qty: 0.5, must: [/s[ée]mola/i, /pureza|bonalma/i], reject: [/\bfid|fideo|spaghetti|tallar|ñoqui|vitina|premezcla/i] },
   // Almacén
+  // Caballa al natural (pedido 26/09/2026): MANDA la de Ciudad del Lago (`marca.manda`), que hoy es la más barata
+  // por kilo; si no está en el catálogo, la que le sigue en precio. La nota avisa cuál es esa segunda, por si en la
+  // góndola no está la primera. OJO: la lata de Ciudad del Lago se rotula "en Agua y Aceite", no "al natural".
+  { name: "Caballa en lata", q: ["caballa", "caballa al natural"], unit: "un", qty: 1, comparaPor: "kg", seccion: /conserva/i,
+    marca: { re: /ciudad del lago/i, nombre: "Ciudad del Lago", manda: true },
+    must: [/caballa/i, /natural|agua/i], reject: [/en aceite\b|escabeche|tomate|picante|pat[eé]|ahumad|salsa|hamburg/i] },
   // Latas de champiñones (pedido 12/09/2026; reemplazan a los hongos congelados de Carmín): UNA lata, la más barata
   // POR KILO (hay de 184 g y de 400 g: por lata ganaría la chica) y la nota compara SIEMPRE con la mejor lata de
   // enteros, también por kilo, para decidir si la diferencia es poca. `seccion`: solo Conservas (ni frescos ni salsas)
@@ -1180,9 +1186,11 @@ function elegir(item, candidatos) {
     : item.comparaPor
       ? (a, b) => a.porUnidad - b.porUnidad || a.estimado - b.estimado
       : (a, b) => a.estimado - b.estimado || a.porUnidad - b.porUnidad);
-  const g = validos[0];
+  // `marca.manda`: la preferida gana si está en el catálogo (Caballa Ciudad del Lago); si no, el criterio normal
+  const g = item.marca && item.marca.manda ? (validos.find((v) => item.marca.re.test(v.nombre)) || validos[0]) : validos[0];
   const desc = g.lista > g.precio ? Math.round((1 - g.precio / g.lista) * 100) : 0;
-  const limpio = g.nombre.replace(/\s+/g, " ").replace(/\s+x\s*kg\.?$/i, "").trim().slice(0, 70);
+  const limpiarN = (n) => n.replace(/\s+/g, " ").replace(/\s+x\s*kg\.?$/i, "").trim().slice(0, 70);
+  const limpio = limpiarN(g.nombre);
   let nota;
   if (g.paquetes === 0) {
     const cant = g.gramos >= 1 ? (Math.round(g.gramos * 100) / 100).toLocaleString("es-AR") + " kg" : Math.round(g.gramos * 1000) + " g";
@@ -1195,20 +1203,25 @@ function elegir(item, candidatos) {
   // Con `comparaPor`, la preferida se elige y se compara por esa unidad ($/kg, $/L): el paquete suelto engaña
   // (champiñones enteros de 184 g vs trozos de 400 g). Si las dos tienen página, viajan los dos links.
   let urls = null;
-  if (item.marca && !item.marca.re.test(g.nombre)) {
+  if (item.marca) {
     const clave = item.comparaPor ? "porUnidad" : "estimado";
-    const m = validos.filter((v) => item.marca.re.test(v.nombre)).sort((a, b) => a[clave] - b[clave])[0];
-    if (m) {
+    const esMarca = (v) => item.marca.re.test(v.nombre);
+    const compara = (m) => {
       const dif = Math.round((m[clave] / g[clave] - 1) * 100);
       const difTxt = dif !== 0 ? `${dif > 0 ? "+" : ""}${dif}%` : "";
       const precioM = `$${Math.round(m.estimado).toLocaleString("es-AR")}`;
-      if (item.comparaPor) {
-        const u = item.comparaPor === "l" ? "L" : item.comparaPor;
-        nota += ` · ${item.marca.nombre} ${precioM} ($${Math.round(m.porUnidad).toLocaleString("es-AR")}/${u}${difTxt ? ", " + difTxt : ""})`;
-      } else {
-        nota += ` · ${item.marca.nombre} ${precioM}${difTxt ? ` (${difTxt})` : ""}`;
-      }
-      if (g.url && m.url && m.url !== g.url) urls = [{ url: g.url }, { n: item.marca.nombre, url: m.url }];
+      if (!item.comparaPor) return `${precioM}${difTxt ? ` (${difTxt})` : ""}`;
+      const u = item.comparaPor === "l" ? "L" : item.comparaPor;
+      return `${precioM} ($${Math.round(m.porUnidad).toLocaleString("es-AR")}/${u}${difTxt ? ", " + difTxt : ""})`;
+    };
+    const conLinks = (m, etiqueta) => { if (g.url && m.url && m.url !== g.url) urls = [{ url: g.url }, { n: etiqueta, url: m.url }]; };
+    if (item.marca.manda && esMarca(g)) {
+      // ganó la preferida: la nota muestra la que le sigue en precio, por si en la góndola no está
+      const alt = validos.filter((v) => !esMarca(v))[0];
+      if (alt) { nota += ` · si no hay: ${limpiarN(alt.nombre)} ${compara(alt)}`; conLinks(alt, "la que sigue"); }
+    } else if (!esMarca(g)) {
+      const m = validos.filter(esMarca).sort((a, b) => a[clave] - b[clave])[0];
+      if (m) { nota += ` · ${item.marca.nombre} ${compara(m)}`; conLinks(m, item.marca.nombre); }
     }
   }
   if (g.online) nota += SOLO_ONLINE;
