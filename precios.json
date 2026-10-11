@@ -1,5 +1,5 @@
 {
-  "version": "10/10/2026",
+  "version": "11/10/2026",
   "descuentos": {
     "dia": [
       {
@@ -133,8 +133,8 @@
     },
     "Papas fritas": {
       "p": 2990,
-      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr. · oferta -38%",
-      "url": "https://diaonline.supermercadosdia.com.ar/papas-fritas-tubo-dia-sabor-original-150-gr-134494/p",
+      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr. · oferta -38%",
+      "url": "https://diaonline.supermercadosdia.com.ar/papas-fritas-tubo-dia-sabor-cheddar-150-gr-166507/p",
       "d": -1810,
       "dv": "07/10/2026"
     },
@@ -487,9 +487,11 @@
       "url": "https://www.coto.com.ar/productos/semolin-de-trigo-pan-chacabuco-paq-1-kgm-/_/R-00512146-00512146-200"
     },
     "Sémola": {
-      "p": 2030,
-      "n": "Sémola De Trigo Pureza 500g",
-      "url": "https://www.coto.com.ar/productos/semola-de-trigo-pureza-500g-/_/R-00591027-00591027-200"
+      "p": 3580,
+      "n": "Semola Bonalma 500 Grm",
+      "url": "https://www.coto.com.ar/productos/semola-bonalma-500-grm-/_/R-00539894-00539894-200",
+      "d": 1550,
+      "dv": "11/10/2026"
     },
     "Extracto de tomate": {
       "p": 1429,
@@ -1493,7 +1495,7 @@
           "p": 4999,
           "s": "coto",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/chaucha-rolliza-x-kg-/_/R-00000862-00000862-200",
+          "url": "https://www.coto.com.ar/productos/chaucha-balina-xkg-/_/R-00000613-00000613-200",
           "mc": {
             "p": 2358,
             "f": "09/10/2026"
