@@ -1,5 +1,5 @@
 {
-  "version": "11/10/2026",
+  "version": "12/10/2026",
   "descuentos": {
     "dia": [
       {
@@ -133,24 +133,24 @@
     },
     "Papas fritas": {
       "p": 2990,
-      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr. · oferta -38%",
-      "url": "https://diaonline.supermercadosdia.com.ar/papas-fritas-tubo-dia-sabor-cheddar-150-gr-166507/p",
+      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr. · oferta -38%",
+      "url": "https://diaonline.supermercadosdia.com.ar/papas-fritas-tubo-dia-sabor-original-150-gr-134494/p",
       "d": -1810,
       "dv": "07/10/2026"
     },
     "Polenta 1 kg": {
-      "p": 600,
-      "n": "Polenta Morixe 1 Kg. · oferta -66%",
-      "url": "https://diaonline.supermercadosdia.com.ar/polenta-morixe-1-kg-274328/p",
-      "d": -790,
-      "dv": "10/10/2026"
+      "p": 1390,
+      "n": "2× Polenta Molinos Ala 500 Gr. · oferta -35%",
+      "url": "https://diaonline.supermercadosdia.com.ar/polenta-molinos-ala-500-gr-307092/p",
+      "d": 790,
+      "dv": "12/10/2026"
     },
     "Sal entrefina 500 g": {
-      "p": 900,
+      "p": 1000,
       "n": "Sal Entrefina DIA Parrillera 500 Gr.",
       "url": "https://diaonline.supermercadosdia.com.ar/sal-entrefina-dia-parrillera-500-gr-55546/p",
-      "d": 61,
-      "dv": "01/10/2026"
+      "d": 100,
+      "dv": "12/10/2026"
     },
     "Sal fina 500 g": {
       "p": 890,
@@ -219,11 +219,11 @@
       "dv": "06/10/2026"
     },
     "Desinfectante de superficies": {
-      "p": 2430,
+      "p": 2550,
       "n": "Limpiador Líquido Desinfectante Lysoform Multisuperficies Repuesto 450",
       "url": "https://diaonline.supermercadosdia.com.ar/limpiador-liquido-desinfectante-lysoform-multisuperficies-repuesto-450-ml-291111/p",
-      "d": 630,
-      "dv": "29/09/2026"
+      "d": 120,
+      "dv": "12/10/2026"
     },
     "Detergente líquido": {
       "p": 1755,
@@ -336,11 +336,11 @@
       "url": "https://diaonline.supermercadosdia.com.ar/arvejas-secas-remojadas-dia-300-gr-279121/p"
     },
     "Caldo en cubos": {
-      "p": 1138,
+      "p": 1217,
       "n": "Caldo Knorr De Verdura Deshidratado 6 Ud. · 2da unidad -70% llevando 2 · oferta -35%",
       "url": "https://diaonline.supermercadosdia.com.ar/caldo-knorr-de-verdura-deshidratado-6-ud-54986/p",
-      "d": -487,
-      "dv": "07/10/2026"
+      "d": 79,
+      "dv": "12/10/2026"
     },
     "Choclo en lata": {
       "p": 890,
@@ -713,11 +713,11 @@
       "dv": "10/10/2026"
     },
     "Bicarbonato de sodio 200 g": {
-      "p": 653,
-      "n": "200 g de Bicarbonato De Sodio x 1KG · $3.263/kg",
+      "p": 656,
+      "n": "200 g de Bicarbonato De Sodio x 1KG · $3.279/kg",
       "url": "https://frutosare.com.ar/producto/bicarbonato-de-sodio/",
-      "d": -1707,
-      "dv": "10/10/2026"
+      "d": 3,
+      "dv": "12/10/2026"
     },
     "Copos de maíz 500 g": {
       "p": 3600,
@@ -1124,11 +1124,10 @@
           }
         },
         "Banana": {
-          "p": 1699,
-          "s": "coto",
+          "p": 2690,
+          "s": "dia",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/banana-cavendish-x-kg-/_/R-00000446-00000446-200",
-          "online": true,
+          "url": "https://diaonline.supermercadosdia.com.ar/banana-x-kg-90110/p",
           "mc": {
             "p": 1421,
             "f": "09/10/2026"
@@ -1495,7 +1494,7 @@
           "p": 4999,
           "s": "coto",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/chaucha-balina-xkg-/_/R-00000613-00000613-200",
+          "url": "https://www.coto.com.ar/productos/chaucha-rolliza-x-kg-/_/R-00000862-00000862-200",
           "mc": {
             "p": 2358,
             "f": "09/10/2026"
