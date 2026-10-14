@@ -1,5 +1,5 @@
 {
-  "version": "13/10/2026",
+  "version": "14/10/2026",
   "descuentos": {
     "dia": [
       {
@@ -60,11 +60,11 @@
   },
   "prices": {
     "Aceite de girasol": {
-      "p": 5745,
-      "n": "Aceite de Girasol Dia 1,5 Lt. · $3.830/L",
-      "url": "https://diaonline.supermercadosdia.com.ar/aceite-de-girasol-dia-15-lt-24114/p",
-      "d": 1195,
-      "dv": "06/10/2026"
+      "p": 4900,
+      "n": "Aceite de Girasol Cañuelas 1,5 Lt. · oferta -25% · $3.267/L",
+      "url": "https://diaonline.supermercadosdia.com.ar/aceite-de-girasol-canuelas-15-lt-73552/p",
+      "d": -845,
+      "dv": "14/10/2026"
     },
     "Agua mineral bidón": {
       "p": 2670,
@@ -118,11 +118,11 @@
       "dv": "01/10/2026"
     },
     "Leche larga vida": {
-      "p": 2390,
-      "n": "Leche Entera DIA Larga Vida 1 Lt.",
-      "url": "https://diaonline.supermercadosdia.com.ar/leche-entera-dia-larga-vida-1-lt-608/p",
-      "d": 600,
-      "dv": "13/10/2026"
+      "p": 1913,
+      "n": "Leche Entera Tregar Larga Vida 1 Lt. · 2da unidad -50% llevando 2 · oferta -25%",
+      "url": "https://diaonline.supermercadosdia.com.ar/leche-entera-tregar-larga-vida-1-lt-275781/p",
+      "d": -477,
+      "dv": "14/10/2026"
     },
     "Maicena 500 g": {
       "p": 2600,
@@ -133,8 +133,8 @@
     },
     "Papas fritas": {
       "p": 4800,
-      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr.",
-      "url": "https://diaonline.supermercadosdia.com.ar/papas-fritas-tubo-dia-sabor-cheddar-150-gr-166507/p",
+      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr.",
+      "url": "https://diaonline.supermercadosdia.com.ar/papas-fritas-tubo-dia-sabor-original-150-gr-134494/p",
       "d": 1810,
       "dv": "13/10/2026"
     },
@@ -179,20 +179,20 @@
       "url": "https://diaonline.supermercadosdia.com.ar/vinagre-de-manzana-dia-500-ml-53469/p"
     },
     "Yerba 1 kg": {
-      "p": 3650,
-      "n": "Yerba Mate Dia Elaborado Con Palo 1 Kg. · Playadito $5.208 (+43%)",
-      "url": "https://diaonline.supermercadosdia.com.ar/yerba-mate-dia-elaborado-con-palo-1-kg-24161/p",
+      "p": 2470,
+      "n": "Yerba Mate Nobleza Gaucha Selección 1 Kg. · oferta -48% · Playadito $5.208 (+111%)",
+      "url": "https://diaonline.supermercadosdia.com.ar/yerba-mate-nobleza-gaucha-seleccion-1-kg-275540/p",
       "urls": [
         {
-          "url": "https://diaonline.supermercadosdia.com.ar/yerba-mate-dia-elaborado-con-palo-1-kg-24161/p"
+          "url": "https://diaonline.supermercadosdia.com.ar/yerba-mate-nobleza-gaucha-seleccion-1-kg-275540/p"
         },
         {
           "n": "Playadito",
           "url": "https://diaonline.supermercadosdia.com.ar/yerba-mate-playadito-suave-1-kg-269577/p"
         }
       ],
-      "d": 1225,
-      "dv": "13/10/2026"
+      "d": -1180,
+      "dv": "14/10/2026"
     },
     "Aerosol de ambiente": {
       "p": 3090,
@@ -207,11 +207,11 @@
       "url": "https://diaonline.supermercadosdia.com.ar/bolsas-de-residuos-dia-cierra-facil-20-ud-55870/p"
     },
     "Cif crema": {
-      "p": 1890,
-      "n": "Limpiador en crema CIF Multiuso Original 250 Ml. · 2da unidad -50% lle · oferta -25%",
+      "p": 2520,
+      "n": "Limpiador en crema CIF Multiuso Original 250 Ml.",
       "url": "https://diaonline.supermercadosdia.com.ar/limpiador-en-crema-cif-multiuso-original-250-ml-294024/p",
-      "d": -630,
-      "dv": "13/10/2026"
+      "d": 630,
+      "dv": "14/10/2026"
     },
     "Desinfectante de piso": {
       "p": 2610,
@@ -221,18 +221,18 @@
       "dv": "06/10/2026"
     },
     "Desinfectante de superficies": {
-      "p": 2550,
-      "n": "Limpiador Líquido Desinfectante Lysoform Multisuperficies Repuesto 450",
-      "url": "https://diaonline.supermercadosdia.com.ar/limpiador-liquido-desinfectante-lysoform-multisuperficies-repuesto-450-ml-291111/p",
-      "d": 120,
-      "dv": "12/10/2026"
+      "p": 1850,
+      "n": "Desinfectante Multisuperficies Ayudín Doypack 450 Ml. · oferta -30%",
+      "url": "https://diaonline.supermercadosdia.com.ar/desinfectante-multisuperficies-ayudin-doypack-450-ml-279072/p",
+      "d": -700,
+      "dv": "14/10/2026"
     },
     "Detergente líquido": {
-      "p": 2025,
-      "n": "Detergente Cif Bioactive Lima Botella 300 Ml. · 2da unidad -50% llevan · oferta -25%",
+      "p": 1755,
+      "n": "Detergente Cif Bioactive Lima Botella 300 Ml. · oferta -35%",
       "url": "https://diaonline.supermercadosdia.com.ar/detergente-cif-bioactive-lima-botella-300-ml-294030/p",
-      "d": 270,
-      "dv": "13/10/2026"
+      "d": -270,
+      "dv": "14/10/2026"
     },
     "Esponja salvauñas": {
       "p": 754,
@@ -242,11 +242,11 @@
       "dv": "09/10/2026"
     },
     "Jabón Dove": {
-      "p": 2330,
-      "n": "Jabon en Barra DOVE Original Individual 90 Gr. · oferta -15%",
-      "url": "https://diaonline.supermercadosdia.com.ar/jabon-en-barra-dove-original-individual-90-gr-129349/p",
-      "d": 275,
-      "dv": "06/10/2026"
+      "p": 2054,
+      "n": "Jabon de Tocador DOVE Exfoliante 90 Gr. · 2da unidad -50% llevando 2 · oferta -25%",
+      "url": "https://diaonline.supermercadosdia.com.ar/jabon-de-tocador-dove-exfoliante-90-gr-28180/p",
+      "d": -276,
+      "dv": "14/10/2026"
     },
     "Jabón líquido manos": {
       "p": 162,
@@ -256,11 +256,11 @@
       "dv": "03/10/2026"
     },
     "Jabón líquido ropa": {
-      "p": 7550,
-      "n": "Jabón Líquido para Ropa Héroe Doypack 3 Lt.",
-      "url": "https://diaonline.supermercadosdia.com.ar/jabon-liquido-para-ropa-heroe-doypack-3-lt-273027/p",
-      "d": 370,
-      "dv": "13/10/2026"
+      "p": 7180,
+      "n": "2× Jabon Liquido Para Ropa Botella Dia 1,5 Lt · oferta -40%",
+      "url": "https://diaonline.supermercadosdia.com.ar/jabon-liquido-para-ropa-botella-dia-1-5-lt-291590/p",
+      "d": -370,
+      "dv": "14/10/2026"
     },
     "Lavandina": {
       "p": 1100,
@@ -270,18 +270,18 @@
       "dv": "29/09/2026"
     },
     "Limpia vidrios": {
-      "p": 1388,
-      "n": "Limpiador Vidrios Y Mulitiuso Cif Expert Doypack 450 Ml. · 2da unidad  · oferta -44%",
+      "p": 1850,
+      "n": "Limpiador Vidrios Y Mulitiuso Cif Expert Doypack 450 Ml. · oferta -26%",
       "url": "https://diaonline.supermercadosdia.com.ar/limpiador-vidrios-y-mulitiuso-cif-expert-doypack-450-ml-300119/p",
-      "d": -462,
-      "dv": "13/10/2026"
+      "d": 462,
+      "dv": "14/10/2026"
     },
     "Papel higiénico": {
-      "p": 1790,
-      "n": "Papel Higiénico Simple Hoja Bio 30 Mts Suapel 4 Ud.",
-      "url": "https://diaonline.supermercadosdia.com.ar/papel-higienico-simple-hoja-bio-30-mts-suapel-4-ud-47867/p",
-      "d": 87,
-      "dv": "06/10/2026"
+      "p": 1490,
+      "n": "Papel Higiénico Simple Hoja 80mts 2 Ud. · oferta -40%",
+      "url": "https://diaonline.supermercadosdia.com.ar/papel-higienico-simple-hoja-80mts-2-ud-142576/p",
+      "d": -300,
+      "dv": "14/10/2026"
     },
     "Pastilla inodoro": {
       "p": 1450,
@@ -291,11 +291,11 @@
       "dv": "01/10/2026"
     },
     "Rollo de cocina": {
-      "p": 1650,
-      "n": "Rollo De Cocina Golf 3 Ud. 40 Mt.",
-      "url": "https://diaonline.supermercadosdia.com.ar/rollo-de-cocina-golf-3-ud-40-mt-240098/p",
-      "d": 252,
-      "dv": "29/09/2026"
+      "p": 1400,
+      "n": "Rollo de Cocina 50 paños 3 Ud. · oferta -40%",
+      "url": "https://diaonline.supermercadosdia.com.ar/rollo-de-cocina-50-panos-3-ud-140089/p",
+      "d": -250,
+      "dv": "14/10/2026"
     },
     "Suavizante": {
       "p": 7490,
@@ -388,25 +388,25 @@
       "url": "https://diaonline.supermercadosdia.com.ar/escarbadientes-dia-2-x-50-ud-299602/p"
     },
     "Film transparente": {
-      "p": 4300,
-      "n": "Film Transparente Dia 30 Mt.",
+      "p": 2795,
+      "n": "Film Transparente Dia 30 Mt. · oferta -35%",
       "url": "https://diaonline.supermercadosdia.com.ar/film-transparente-dia-30-mt-297593/p",
-      "d": 1505,
-      "dv": "06/10/2026"
+      "d": -1505,
+      "dv": "14/10/2026"
     },
     "Papel aluminio": {
-      "p": 3200,
-      "n": "Papel Aluminio Dia 5 Mt.",
+      "p": 2080,
+      "n": "Papel Aluminio Dia 5 Mt. · oferta -35%",
       "url": "https://diaonline.supermercadosdia.com.ar/papel-aluminio-dia-5-mt-19459/p",
-      "d": 1120,
-      "dv": "06/10/2026"
+      "d": -1120,
+      "dv": "14/10/2026"
     },
     "Papel manteca": {
-      "p": 4250,
-      "n": "Rollo Papel Manteca 5 Mts Dia 1 Ud.",
+      "p": 2763,
+      "n": "Rollo Papel Manteca 5 Mts Dia 1 Ud. · oferta -35%",
       "url": "https://diaonline.supermercadosdia.com.ar/rollo-papel-manteca-5-mts-dia-1-ud-293143/p",
-      "d": 1487,
-      "dv": "06/10/2026"
+      "d": -1487,
+      "dv": "14/10/2026"
     },
     "Fundente": {
       "p": 7599,
@@ -503,11 +503,11 @@
       "dv": "07/10/2026"
     },
     "Pollo entero": {
-      "p": 17596,
-      "n": "Pollo Entero Fresco X Uni (4 Kg) Refrigerado · $4.399/kg",
+      "p": 13197,
+      "n": "Pollo Entero Fresco X Uni (4 Kg) Refrigerado · oferta -25% · $3.299/kg",
       "url": "https://www.coto.com.ar/productos/pollo-entero-fresco-x-uni-4-kg-refrigerado-/_/R-00012791-00012791-200",
-      "d": 4399,
-      "dv": "13/10/2026"
+      "d": -4399,
+      "dv": "14/10/2026"
     },
     "Roast beef": {
       "p": 14999,
@@ -1024,13 +1024,13 @@
       }
     },
     "Limón": {
-      "p": 1299,
-      "n": "Limón · $1.299/kg · COTO",
+      "p": 999,
+      "n": "Limón COSECHA CRIOLLA (Peso Aproximado 1.5 Kg) · $999/kg · COTO",
       "s": "coto",
       "u": "kg",
-      "url": "https://www.coto.com.ar/productos/limon-x-kg-/_/R-00061007-00061007-200",
-      "d": 166,
-      "dv": "13/10/2026",
+      "url": "https://www.coto.com.ar/productos/limon-cosecha-criolla-peso-aproximado-1-5-kg--/_/R-00013158-00013158-200",
+      "d": -300,
+      "dv": "14/10/2026",
       "mc": {
         "p": 1035,
         "f": "13/10/2026"
@@ -1089,13 +1089,13 @@
       }
     },
     "Zanahoria": {
-      "p": 1999,
-      "n": "Zanahoria Seleccion · $1.999/kg · COTO",
-      "s": "coto",
+      "p": 1990,
+      "n": "Zanahoria · $1.990/kg · DIA",
+      "s": "dia",
       "u": "kg",
-      "url": "https://www.coto.com.ar/productos/zanahoria-seleccion-xkg-/_/R-00000686-00000686-200",
-      "d": 300,
-      "dv": "13/10/2026",
+      "url": "https://diaonline.supermercadosdia.com.ar/zanahoria-x-kg-90122/p",
+      "d": -9,
+      "dv": "14/10/2026",
       "mc": {
         "p": 917,
         "f": "13/10/2026"
@@ -1128,10 +1128,10 @@
           }
         },
         "Banana": {
-          "p": 1999,
-          "s": "coto",
+          "p": 3290,
+          "s": "dia",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/banana-cavendish-x-kg-/_/R-00000446-00000446-200",
+          "url": "https://diaonline.supermercadosdia.com.ar/banana-x-kg-90110/p",
           "mc": {
             "p": 1453,
             "f": "13/10/2026"
@@ -1144,7 +1144,7 @@
           "url": "https://diaonline.supermercadosdia.com.ar/cereza-x-kg-90189/p"
         },
         "Ciruela": {
-          "p": 8990,
+          "p": 6990,
           "s": "dia",
           "u": "kg",
           "url": "https://diaonline.supermercadosdia.com.ar/ciruela-x-kg-90138/p",
@@ -1164,10 +1164,10 @@
           }
         },
         "Frutilla": {
-          "p": 7998,
+          "p": 9999,
           "s": "coto",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/frutillas-x-500-gr-/_/R-00038405-00038405-200",
+          "url": "https://www.coto.com.ar/productos/frutillas-seleccion-x-kg-/_/R-00000497-00000497-200",
           "mc": {
             "p": 3320,
             "f": "13/10/2026"
@@ -1200,7 +1200,7 @@
           }
         },
         "Mango": {
-          "p": 4999,
+          "p": 5999,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/mango-xkg-/_/R-00000573-00000573-200",
@@ -1276,10 +1276,10 @@
           }
         },
         "Uva": {
-          "p": 8999,
-          "s": "coto",
+          "p": 7990,
+          "s": "dia",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/uva-blanca-importada-x-kg-/_/R-00017577-00017577-200",
+          "url": "https://diaonline.supermercadosdia.com.ar/uvas-x-kg-90142/p",
           "mc": {
             "p": 6464,
             "f": "13/10/2026"
@@ -1320,7 +1320,7 @@
           }
         },
         "Berro": {
-          "p": 12268,
+          "p": 13632,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/berro-ximabe-220g-/_/R-00618222-00618222-200",
@@ -1350,7 +1350,7 @@
           }
         },
         "Radicheta": {
-          "p": 8177,
+          "p": 8632,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/radicheta-ximabe-220g-/_/R-00618225-00618225-200",
@@ -1360,7 +1360,7 @@
           }
         },
         "Rúcula": {
-          "p": 8177,
+          "p": 8632,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/rucula-ximabe-220g-/_/R-00618226-00618226-200",
@@ -1376,7 +1376,7 @@
     },
     "Estructurales": {
       "p": 2299,
-      "n": "la más barata hoy: Repollo ($2.299/kg, COTO, solo online) · 7/9 con precio",
+      "n": "la más barata hoy: Repollo ($2.299/kg, COTO) · 7/9 con precio",
       "s": "coto",
       "u": "kg",
       "op": {
@@ -1395,7 +1395,6 @@
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/berenjena-veteada-x-kg-/_/R-00000795-00000795-200",
-          "online": true,
           "mc": {
             "p": 2233,
             "f": "13/10/2026"
@@ -1437,7 +1436,6 @@
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/repollo-blanco-x-kg-/_/R-00000678-00000678-200",
-          "online": true,
           "mc": {
             "p": 694,
             "f": "13/10/2026"
@@ -1469,7 +1467,6 @@
         }
       },
       "url": "https://www.coto.com.ar/productos/repollo-blanco-x-kg-/_/R-00000678-00000678-200",
-      "online": true,
       "d": 300,
       "dv": "13/10/2026"
     },
@@ -1490,7 +1487,7 @@
           }
         },
         "Chaucha": {
-          "p": 6999,
+          "p": 5899,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/chaucha-rolliza-x-kg-/_/R-00000862-00000862-200",
@@ -1500,7 +1497,7 @@
           }
         },
         "Espinaca": {
-          "p": 13632,
+          "p": 14995,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/espinaca-ximabe-220g-/_/R-00618216-00618216-200",
@@ -1535,7 +1532,6 @@
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/batata-x-kg-/_/R-00072041-00072041-200",
-          "online": true,
           "mc": {
             "p": 1989,
             "f": "13/10/2026"
@@ -1553,7 +1549,7 @@
           }
         },
         "Choclo": {
-          "p": 5499,
+          "p": 4499,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/choclo-amarillo-xkg-/_/R-00000614-00000614-200",
@@ -1593,7 +1589,7 @@
           }
         },
         "Zapallo anco": {
-          "p": 4599,
+          "p": 4999,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/zapallo-anco-x-kg-/_/R-00000688-00000688-200",
@@ -1615,8 +1611,8 @@
       "dv": "13/10/2026"
     },
     "Hierbas de terminación": {
-      "p": 10945,
-      "n": "la más barata hoy: Perejil ($10.945/kg, COTO) · 2/3 con precio",
+      "p": 11327,
+      "n": "la más barata hoy: Perejil ($11.327/kg, COTO) · 2/3 con precio",
       "s": "coto",
       "u": "kg",
       "op": {
@@ -1631,10 +1627,10 @@
           }
         },
         "Perejil": {
-          "p": 10945,
+          "p": 11327,
           "s": "coto",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/perejil-ximabe-200g-/_/R-00632218-00632218-200",
+          "url": "https://www.coto.com.ar/productos/perejil-crespo-organico-uni-150-grm-/_/R-00092927-00092927-200",
           "mc": {
             "p": 1133,
             "f": "13/10/2026"
@@ -1648,9 +1644,9 @@
           }
         }
       },
-      "url": "https://www.coto.com.ar/productos/perejil-ximabe-200g-/_/R-00632218-00632218-200",
-      "d": -382,
-      "dv": "09/10/2026"
+      "url": "https://www.coto.com.ar/productos/perejil-crespo-organico-uni-150-grm-/_/R-00092927-00092927-200",
+      "d": 382,
+      "dv": "14/10/2026"
     },
     "Aromáticos de cocción": {
       "p": 8999,
@@ -1685,11 +1681,11 @@
       "dv": "07/10/2026"
     },
     "Guantes grandes": {
-      "p": 2690,
-      "n": "Guantes Dia Grandes 2 Ud.",
+      "p": 1750,
+      "n": "Guantes Dia Grandes 2 Ud. · oferta -35%",
       "url": "https://diaonline.supermercadosdia.com.ar/guantes-dia-grandes-2-ud-32899/p",
-      "d": 940,
-      "dv": "22/09/2026"
+      "d": -940,
+      "dv": "14/10/2026"
     },
     "Champiñones en lata": {
       "p": 2277,
