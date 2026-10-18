@@ -1,5 +1,5 @@
 {
-  "version": "17/10/2026",
+  "version": "18/10/2026",
   "descuentos": {
     "dia": [
       {
@@ -698,9 +698,11 @@
       "dv": "10/10/2026"
     },
     "Piñones": {
-      "p": 6500,
-      "n": "50 g de Piñones 50g · $130.000/kg · New Garden",
-      "url": "https://newgarden.com.ar/pi-ones-x-50-g.html"
+      "p": 7650,
+      "n": "50 g de Piñones x 1 kg · $153.000/kg · New Garden",
+      "url": "https://newgarden.com.ar/pi-ones-x-1-kg.html",
+      "d": 1150,
+      "dv": "18/10/2026"
     },
     "Sésamo integral 500 g": {
       "p": 1999,
@@ -1169,7 +1171,7 @@
           }
         },
         "Frutilla": {
-          "p": 6999,
+          "p": 5999,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/frutillas-seleccion-x-kg-/_/R-00000497-00000497-200",
