@@ -1,5 +1,5 @@
 {
-  "version": "30/10/2026",
+  "version": "31/10/2026",
   "descuentos": {
     "dia": [
       {
@@ -68,7 +68,7 @@
     },
     "Agua mineral bidón": {
       "p": 3150,
-      "n": "3× Agua Mineral sin gas DIA 2 Lt. · oferta -32% · Glaciar $6.516 (+107%)",
+      "n": "3× Agua Mineral sin gas DIA 2 Lt. · oferta -32% · Glaciar $9.309 (+196%)",
       "url": "https://diaonline.supermercadosdia.com.ar/agua-mineral-sin-gas-dia-2-lt-48123/p",
       "urls": [
         {
@@ -133,8 +133,8 @@
     },
     "Papas fritas": {
       "p": 4800,
-      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr.",
-      "url": "https://diaonline.supermercadosdia.com.ar/papas-fritas-tubo-dia-sabor-cheddar-150-gr-166507/p",
+      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr.",
+      "url": "https://diaonline.supermercadosdia.com.ar/papas-fritas-tubo-dia-sabor-original-150-gr-134494/p",
       "d": 1900,
       "dv": "28/10/2026"
     },
@@ -235,11 +235,11 @@
       "dv": "20/10/2026"
     },
     "Esponja salvauñas": {
-      "p": 754,
-      "n": "Esponja Salvauñas Virulana 1 Ud. · oferta -25%",
+      "p": 1005,
+      "n": "Esponja Salvauñas Virulana 1 Ud.",
       "url": "https://diaonline.supermercadosdia.com.ar/esponja-salvaunas-virulana-1-ud-65849/p",
-      "d": -251,
-      "dv": "09/10/2026"
+      "d": 251,
+      "dv": "31/10/2026"
     },
     "Jabón Dove": {
       "p": 2330,
@@ -995,8 +995,8 @@
       "d": -187,
       "dv": "29/10/2026",
       "mc": {
-        "p": 5205,
-        "f": "29/10/2026"
+        "p": 5109,
+        "f": "30/10/2026"
       }
     },
     "Cebolla": {
@@ -1009,8 +1009,8 @@
       "d": -450,
       "dv": "29/10/2026",
       "mc": {
-        "p": 1357,
-        "f": "29/10/2026"
+        "p": 1181,
+        "f": "30/10/2026"
       }
     },
     "Cúrcuma": {
@@ -1018,7 +1018,7 @@
       "n": "hoy ni DIA ni COTO la venden fresca",
       "mc": {
         "p": 3500,
-        "f": "29/10/2026"
+        "f": "30/10/2026"
       }
     },
     "Jengibre": {
@@ -1028,8 +1028,8 @@
       "u": "kg",
       "url": "https://www.coto.com.ar/productos/jengibre-x-kg-/_/R-00092926-00092926-200",
       "mc": {
-        "p": 3450,
-        "f": "29/10/2026"
+        "p": 3350,
+        "f": "30/10/2026"
       }
     },
     "Limón": {
@@ -1041,8 +1041,8 @@
       "d": -100,
       "dv": "29/10/2026",
       "mc": {
-        "p": 991,
-        "f": "29/10/2026"
+        "p": 954,
+        "f": "30/10/2026"
       }
     },
     "Morrón": {
@@ -1055,8 +1055,8 @@
       "d": -255,
       "dv": "30/10/2026",
       "mc": {
-        "p": 2631,
-        "f": "29/10/2026",
+        "p": 2213,
+        "f": "30/10/2026",
         "n": "Pimiento morron rojo"
       }
     },
@@ -1069,8 +1069,8 @@
       "d": -9,
       "dv": "29/10/2026",
       "mc": {
-        "p": 1209,
-        "f": "29/10/2026"
+        "p": 1050,
+        "f": "30/10/2026"
       }
     },
     "Palta": {
@@ -1082,8 +1082,8 @@
       "d": -1000,
       "dv": "29/10/2026",
       "mc": {
-        "p": 5184,
-        "f": "29/10/2026"
+        "p": 5204,
+        "f": "30/10/2026"
       }
     },
     "Tomate": {
@@ -1093,8 +1093,8 @@
       "u": "kg",
       "url": "https://diaonline.supermercadosdia.com.ar/tomate-comercial-en-bolsa-malla-x-1-kg-90076/p",
       "mc": {
-        "p": 2463,
-        "f": "29/10/2026",
+        "p": 2636,
+        "f": "30/10/2026",
         "n": "Tomate redondo"
       }
     },
@@ -1108,8 +1108,8 @@
       "d": -291,
       "dv": "29/10/2026",
       "mc": {
-        "p": 994,
-        "f": "29/10/2026"
+        "p": 992,
+        "f": "30/10/2026"
       }
     },
     "Fruta": {
@@ -1125,7 +1125,7 @@
           "url": "https://diaonline.supermercadosdia.com.ar/anana-x-kg-90137/p",
           "mc": {
             "p": 2091,
-            "f": "29/10/2026"
+            "f": "30/10/2026"
           }
         },
         "Arándanos": {
@@ -1134,8 +1134,8 @@
           "u": "kg",
           "url": "https://diaonline.supermercadosdia.com.ar/arandanos-125-gr-261379/p",
           "mc": {
-            "p": 11000,
-            "f": "29/10/2026"
+            "p": 11333,
+            "f": "30/10/2026"
           }
         },
         "Banana": {
@@ -1145,8 +1145,8 @@
           "url": "https://www.coto.com.ar/productos/banana-cavendish-x-kg-/_/R-00000446-00000446-200",
           "online": true,
           "mc": {
-            "p": 1384,
-            "f": "29/10/2026"
+            "p": 1340,
+            "f": "30/10/2026"
           }
         },
         "Ciruela": {
@@ -1156,17 +1156,17 @@
           "url": "https://diaonline.supermercadosdia.com.ar/ciruela-x-kg-90138/p",
           "mc": {
             "p": 5556,
-            "f": "29/10/2026"
+            "f": "30/10/2026"
           }
         },
         "Durazno": {
-          "p": 6990,
+          "p": 6890,
           "s": "dia",
           "u": "kg",
           "url": "https://diaonline.supermercadosdia.com.ar/durazno-x-kg-90135/p",
           "mc": {
-            "p": 3600,
-            "f": "29/10/2026"
+            "p": 3639,
+            "f": "30/10/2026"
           }
         },
         "Frutilla": {
@@ -1176,7 +1176,7 @@
           "url": "https://www.coto.com.ar/productos/frutillas-seleccion-x-kg-/_/R-00000497-00000497-200",
           "mc": {
             "p": 2500,
-            "f": "29/10/2026"
+            "f": "30/10/2026"
           }
         },
         "Higo": {
@@ -1193,7 +1193,7 @@
           "online": true,
           "mc": {
             "p": 4700,
-            "f": "29/10/2026"
+            "f": "30/10/2026"
           }
         },
         "Mandarina": {
@@ -1202,8 +1202,8 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/mandarina-murcot-xkg-/_/R-00000516-00000516-200",
           "mc": {
-            "p": 1000,
-            "f": "29/10/2026"
+            "p": 922,
+            "f": "30/10/2026"
           }
         },
         "Mango": {
@@ -1212,8 +1212,8 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/mango-xkg-/_/R-00000573-00000573-200",
           "mc": {
-            "p": 2722,
-            "f": "29/10/2026"
+            "p": 2903,
+            "f": "30/10/2026"
           }
         },
         "Manzana": {
@@ -1222,8 +1222,8 @@
           "u": "kg",
           "url": "https://diaonline.supermercadosdia.com.ar/manzana-roja-comercial-en-bolsa-malla-x-kg-90111/p",
           "mc": {
-            "p": 2450,
-            "f": "29/10/2026"
+            "p": 2476,
+            "f": "30/10/2026"
           }
         },
         "Melón": {
@@ -1232,8 +1232,8 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/melon-amarillo-x-kg-/_/R-00000538-00000538-200",
           "mc": {
-            "p": 2479,
-            "f": "29/10/2026"
+            "p": 2454,
+            "f": "30/10/2026"
           }
         },
         "Naranja": {
@@ -1242,8 +1242,8 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/naranja-ombl-xkg-/_/R-00000420-00000420-200",
           "mc": {
-            "p": 736,
-            "f": "29/10/2026"
+            "p": 729,
+            "f": "30/10/2026"
           }
         },
         "Papaya": {
@@ -1253,7 +1253,7 @@
           "url": "https://www.coto.com.ar/productos/papaya-xkg-/_/R-00000706-00000706-200",
           "mc": {
             "p": 3100,
-            "f": "29/10/2026",
+            "f": "30/10/2026",
             "n": "Mamon"
           }
         },
@@ -1264,8 +1264,8 @@
           "url": "https://www.coto.com.ar/productos/pera-d-anjou-x-kg-/_/R-00059439-00059439-200",
           "online": true,
           "mc": {
-            "p": 1891,
-            "f": "29/10/2026"
+            "p": 1911,
+            "f": "30/10/2026"
           }
         },
         "Pomelo": {
@@ -1276,7 +1276,7 @@
           "online": true,
           "mc": {
             "p": 861,
-            "f": "29/10/2026"
+            "f": "30/10/2026"
           }
         },
         "Sandía": {
@@ -1285,8 +1285,8 @@
           "u": "kg",
           "url": "https://diaonline.supermercadosdia.com.ar/sandia-x-kg-90192/p",
           "mc": {
-            "p": 1038,
-            "f": "29/10/2026"
+            "p": 1013,
+            "f": "30/10/2026"
           }
         },
         "Uva": {
@@ -1296,19 +1296,19 @@
           "url": "https://diaonline.supermercadosdia.com.ar/uvas-x-kg-90142/p",
           "mc": {
             "p": 6521,
-            "f": "29/10/2026"
+            "f": "30/10/2026"
           }
         },
         "Mora": {
           "mc": {
             "p": 30667,
-            "f": "29/10/2026"
+            "f": "30/10/2026"
           }
         },
         "Pitahaya (fruta del dragón)": {
           "mc": {
             "p": 19200,
-            "f": "29/10/2026"
+            "f": "30/10/2026"
           }
         }
       },
@@ -1328,8 +1328,8 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/apio-organico-xkg-/_/R-00039939-00039939-200",
           "mc": {
-            "p": 1333,
-            "f": "29/10/2026"
+            "p": 1260,
+            "f": "30/10/2026"
           }
         },
         "Berro": {
@@ -1338,8 +1338,8 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/berro-x-kg-/_/R-00000594-00000594-200",
           "mc": {
-            "p": 2700,
-            "f": "29/10/2026"
+            "p": 2800,
+            "f": "30/10/2026"
           }
         },
         "Lechuga": {
@@ -1348,8 +1348,8 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/lechuga-capuchina-x-kg-/_/R-00000648-00000648-200",
           "mc": {
-            "p": 1398,
-            "f": "29/10/2026"
+            "p": 1192,
+            "f": "30/10/2026"
           }
         },
         "Rabanitos": {
@@ -1358,8 +1358,8 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/rabanito-x-kg-/_/R-00000646-00000646-200",
           "mc": {
-            "p": 2400,
-            "f": "29/10/2026"
+            "p": 2600,
+            "f": "30/10/2026"
           }
         },
         "Radicheta": {
@@ -1368,8 +1368,8 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/radicheta-ximabe-220g-/_/R-00618225-00618225-200",
           "mc": {
-            "p": 1200,
-            "f": "29/10/2026"
+            "p": 1000,
+            "f": "30/10/2026"
           }
         },
         "Rúcula": {
@@ -1378,8 +1378,8 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/rucula-ximabe-220g-/_/R-00618226-00618226-200",
           "mc": {
-            "p": 1167,
-            "f": "29/10/2026"
+            "p": 1000,
+            "f": "30/10/2026"
           }
         }
       },
@@ -1399,8 +1399,8 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/alcaucil-argent-xkg-/_/R-00017614-00017614-200",
           "mc": {
-            "p": 2250,
-            "f": "29/10/2026"
+            "p": 2083,
+            "f": "30/10/2026"
           }
         },
         "Berenjena": {
@@ -1409,8 +1409,8 @@
           "u": "kg",
           "url": "https://diaonline.supermercadosdia.com.ar/berenjena-x-kg-90179/p",
           "mc": {
-            "p": 1917,
-            "f": "29/10/2026"
+            "p": 1911,
+            "f": "30/10/2026"
           }
         },
         "Brócoli": {
@@ -1420,8 +1420,8 @@
           "url": "https://www.coto.com.ar/productos/brocoli-x-kg-/_/R-00000598-00000598-200",
           "online": true,
           "mc": {
-            "p": 1438,
-            "f": "29/10/2026"
+            "p": 1333,
+            "f": "30/10/2026"
           }
         },
         "Hakusay": {
@@ -1430,8 +1430,8 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/hakusay-x-kg-/_/R-00000571-00000571-200",
           "mc": {
-            "p": 900,
-            "f": "29/10/2026",
+            "p": 800,
+            "f": "30/10/2026",
             "n": "Acusay"
           }
         },
@@ -1441,8 +1441,8 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/hinojo-x-kg-/_/R-00000647-00000647-200",
           "mc": {
-            "p": 1000,
-            "f": "29/10/2026"
+            "p": 1067,
+            "f": "30/10/2026"
           }
         },
         "Repollo": {
@@ -1451,8 +1451,8 @@
           "u": "kg",
           "url": "https://diaonline.supermercadosdia.com.ar/repollo-x-kg-90144/p",
           "mc": {
-            "p": 667,
-            "f": "29/10/2026"
+            "p": 659,
+            "f": "30/10/2026"
           }
         },
         "Zapallito": {
@@ -1462,21 +1462,21 @@
           "url": "https://www.coto.com.ar/productos/zapallito-largo-x-kg-/_/R-00000690-00000690-200",
           "online": true,
           "mc": {
-            "p": 1329,
-            "f": "29/10/2026",
+            "p": 1244,
+            "f": "30/10/2026",
             "n": "Zapallito redondo"
           }
         },
         "Espárragos": {
           "mc": {
-            "p": 24000,
-            "f": "29/10/2026"
+            "p": 5867,
+            "f": "30/10/2026"
           }
         },
         "Zucchini": {
           "mc": {
-            "p": 2500,
-            "f": "29/10/2026",
+            "p": 2275,
+            "f": "30/10/2026",
             "n": "Zapallito largo"
           }
         }
@@ -1498,17 +1498,17 @@
           "url": "https://diaonline.supermercadosdia.com.ar/acelga-x-kg-90134/p",
           "mc": {
             "p": 783,
-            "f": "29/10/2026"
+            "f": "30/10/2026"
           }
         },
         "Chaucha": {
-          "p": 8799,
+          "p": 8499,
           "s": "coto",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/chaucha-balina-xkg-/_/R-00000613-00000613-200",
+          "url": "https://www.coto.com.ar/productos/chaucha-rolliza-x-kg-/_/R-00000862-00000862-200",
           "mc": {
-            "p": 4800,
-            "f": "29/10/2026"
+            "p": 4500,
+            "f": "30/10/2026"
           }
         },
         "Espinaca": {
@@ -1517,8 +1517,8 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/espinaca-ximabe-220g-/_/R-00618216-00618216-200",
           "mc": {
-            "p": 1750,
-            "f": "29/10/2026"
+            "p": 1800,
+            "f": "30/10/2026"
           }
         },
         "Kale": {
@@ -1528,7 +1528,7 @@
           "url": "https://www.coto.com.ar/productos/kale-verde-x-kg-/_/R-00011946-00011946-200",
           "mc": {
             "p": 900,
-            "f": "29/10/2026"
+            "f": "30/10/2026"
           }
         }
       },
@@ -1548,8 +1548,8 @@
           "u": "kg",
           "url": "https://diaonline.supermercadosdia.com.ar/batata-x-kg-90062/p",
           "mc": {
-            "p": 2411,
-            "f": "29/10/2026"
+            "p": 2340,
+            "f": "30/10/2026"
           }
         },
         "Calabaza": {
@@ -1558,8 +1558,8 @@
           "u": "kg",
           "url": "https://diaonline.supermercadosdia.com.ar/zapallo-x-kg-94087/p",
           "mc": {
-            "p": 2172,
-            "f": "29/10/2026",
+            "p": 1967,
+            "f": "30/10/2026",
             "n": "Zapallo"
           }
         },
@@ -1569,8 +1569,8 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/choclo-amarillo-xkg-/_/R-00000614-00000614-200",
           "mc": {
-            "p": 2600,
-            "f": "29/10/2026"
+            "p": 2467,
+            "f": "30/10/2026"
           }
         },
         "Coliflor": {
@@ -1580,7 +1580,7 @@
           "url": "https://www.coto.com.ar/productos/coliflor-x-kg-/_/R-00000619-00000619-200",
           "mc": {
             "p": 800,
-            "f": "29/10/2026"
+            "f": "30/10/2026"
           }
         },
         "Mandioca": {
@@ -1589,8 +1589,8 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/mandioca-seleccion-x-kg-/_/R-00017088-00017088-200",
           "mc": {
-            "p": 700,
-            "f": "29/10/2026"
+            "p": 775,
+            "f": "30/10/2026"
           }
         },
         "Remolacha": {
@@ -1600,8 +1600,8 @@
           "url": "https://www.coto.com.ar/productos/remolacha-x-kg-/_/R-00000677-00000677-200",
           "online": true,
           "mc": {
-            "p": 722,
-            "f": "29/10/2026"
+            "p": 711,
+            "f": "30/10/2026"
           }
         },
         "Zapallo anco": {
@@ -1610,15 +1610,15 @@
           "u": "kg",
           "url": "https://diaonline.supermercadosdia.com.ar/anco-x-kg-90120/p",
           "mc": {
-            "p": 2732,
-            "f": "29/10/2026",
+            "p": 2429,
+            "f": "30/10/2026",
             "n": "Zapallo anc.cokena"
           }
         },
         "Nabo": {
           "mc": {
             "p": 1333,
-            "f": "29/10/2026"
+            "f": "30/10/2026"
           }
         }
       },
@@ -1640,7 +1640,7 @@
           "url": "https://www.coto.com.ar/productos/albahaca-x-uni-/_/R-00037201-00037201-200",
           "mc": {
             "p": 400,
-            "f": "29/10/2026"
+            "f": "30/10/2026"
           }
         },
         "Perejil": {
@@ -1649,14 +1649,14 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/perejil-ximabe-200g-/_/R-00632218-00632218-200",
           "mc": {
-            "p": 1183,
-            "f": "29/10/2026"
+            "p": 1100,
+            "f": "30/10/2026"
           }
         },
         "Cilantro": {
           "mc": {
             "p": 11000,
-            "f": "29/10/2026",
+            "f": "30/10/2026",
             "n": "Cilandro"
           }
         }
@@ -1677,8 +1677,8 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/puerro-organico-cidel-x-kg-/_/R-00016180-00016180-200",
           "mc": {
-            "p": 1450,
-            "f": "29/10/2026"
+            "p": 1550,
+            "f": "30/10/2026"
           }
         },
         "Verdeo (calor)": {
@@ -1687,8 +1687,8 @@
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/cebolla-de-verdeo-organica-cidel-x-kg-/_/R-00016181-00016181-200",
           "mc": {
-            "p": 1350,
-            "f": "29/10/2026",
+            "p": 1550,
+            "f": "30/10/2026",
             "n": "Ceb.verdeo"
           }
         }
