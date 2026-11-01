@@ -1,5 +1,5 @@
 {
-  "version": "31/10/2026",
+  "version": "01/11/2026",
   "descuentos": {
     "dia": [
       {
@@ -83,11 +83,11 @@
       "dv": "16/10/2026"
     },
     "Arroz integral 1 kg": {
-      "p": 1390,
-      "n": "Arroz Integral 00000 Cuquets 1 Kg. · oferta -34%",
+      "p": 1450,
+      "n": "Arroz Integral 00000 Cuquets 1 Kg. · oferta -31%",
       "url": "https://diaonline.supermercadosdia.com.ar/arroz-integral-00000-cuquets-1-kg-293529/p",
-      "d": 10,
-      "dv": "01/10/2026"
+      "d": 60,
+      "dv": "01/11/2026"
     },
     "Atún": {
       "p": 6150,
@@ -111,11 +111,11 @@
       "dv": "18/09/2026"
     },
     "Harina de maíz 1 kg": {
-      "p": 3650,
-      "n": "Harina Morixe para Arepas 1 Kg.",
+      "p": 2600,
+      "n": "Harina Morixe para Arepas 1 Kg. · oferta -29%",
       "url": "https://diaonline.supermercadosdia.com.ar/harina-morixe-para-arepas-1-kg-265538/p",
-      "d": 1095,
-      "dv": "01/10/2026"
+      "d": -1050,
+      "dv": "01/11/2026"
     },
     "Leche larga vida": {
       "p": 1988,
@@ -133,14 +133,14 @@
     },
     "Papas fritas": {
       "p": 4800,
-      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr.",
-      "url": "https://diaonline.supermercadosdia.com.ar/papas-fritas-tubo-dia-sabor-original-150-gr-134494/p",
+      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr.",
+      "url": "https://diaonline.supermercadosdia.com.ar/papas-fritas-tubo-dia-sabor-cheddar-150-gr-166507/p",
       "d": 1900,
       "dv": "28/10/2026"
     },
     "Polenta 1 kg": {
       "p": 1049,
-      "n": "Polenta Morixe 1 Kg.",
+      "n": "Polenta Morixe 1 Kg. · oferta -40%",
       "url": "https://diaonline.supermercadosdia.com.ar/polenta-morixe-1-kg-274328/p",
       "d": -251,
       "dv": "28/10/2026"
@@ -167,11 +167,11 @@
       "dv": "13/10/2026"
     },
     "Vinagre de alcohol 1 L": {
-      "p": 1435,
-      "n": "Vinagre de Alcohol Dia 1 Lt. · oferta -8%",
+      "p": 1565,
+      "n": "Vinagre de Alcohol Dia 1 Lt.",
       "url": "https://diaonline.supermercadosdia.com.ar/vinagre-de-alcohol-dia-1-lt-53468/p",
-      "d": -130,
-      "dv": "01/10/2026"
+      "d": 130,
+      "dv": "01/11/2026"
     },
     "Vinagre de manzana 500 ml": {
       "p": 2030,
@@ -195,16 +195,18 @@
       "dv": "22/10/2026"
     },
     "Aerosol de ambiente": {
-      "p": 3090,
-      "n": "Aromatizante de Ambientes Glade Campos de Lavanda en Aerosol 380 Ml. · oferta -25%",
-      "url": "https://diaonline.supermercadosdia.com.ar/aromatizante-de-ambientes-glade-campos-de-lavanda-en-aerosol-380-ml-283325/p",
-      "d": 206,
-      "dv": "28/10/2026"
+      "p": 3390,
+      "n": "Desodorante de Ambiente Poett Primavera en aerosol 360 Ml. · oferta -25%",
+      "url": "https://diaonline.supermercadosdia.com.ar/desodorante-de-ambiente-poett-primavera-en-aerosol-360-ml-274358/p",
+      "d": 300,
+      "dv": "01/11/2026"
     },
     "Bolsa de basura baño": {
-      "p": 1950,
-      "n": "Bolsas de Residuos DIA Cierra Fácil 20 Ud. · oferta -50%",
-      "url": "https://diaonline.supermercadosdia.com.ar/bolsas-de-residuos-dia-cierra-facil-20-ud-55870/p"
+      "p": 3283,
+      "n": "Bolsas de Residuos DIA 30 Ud. · 2da unidad -70% llevando 2 · oferta -35%",
+      "url": "https://diaonline.supermercadosdia.com.ar/bolsas-de-residuos-dia-30-ud-32895/p",
+      "d": 1333,
+      "dv": "01/11/2026"
     },
     "Cif crema": {
       "p": 2520,
@@ -221,11 +223,11 @@
       "dv": "28/10/2026"
     },
     "Desinfectante de superficies": {
-      "p": 2550,
-      "n": "Limpiador Líquido Desinfectante Lysoform Multisuperficies Repuesto 450",
-      "url": "https://diaonline.supermercadosdia.com.ar/limpiador-liquido-desinfectante-lysoform-multisuperficies-repuesto-450-ml-291111/p",
-      "d": 700,
-      "dv": "20/10/2026"
+      "p": 1980,
+      "n": "Desinfectante Multisuperficies Ayudín Doypack 450 Ml. · oferta -25%",
+      "url": "https://diaonline.supermercadosdia.com.ar/desinfectante-multisuperficies-ayudin-doypack-450-ml-279072/p",
+      "d": -570,
+      "dv": "01/11/2026"
     },
     "Detergente líquido": {
       "p": 2090,
@@ -235,18 +237,18 @@
       "dv": "20/10/2026"
     },
     "Esponja salvauñas": {
-      "p": 1005,
-      "n": "Esponja Salvauñas Virulana 1 Ud.",
+      "p": 755,
+      "n": "Esponja Salvauñas Virulana 1 Ud. · oferta -25%",
       "url": "https://diaonline.supermercadosdia.com.ar/esponja-salvaunas-virulana-1-ud-65849/p",
-      "d": 251,
-      "dv": "31/10/2026"
+      "d": -250,
+      "dv": "01/11/2026"
     },
     "Jabón Dove": {
-      "p": 2330,
-      "n": "Jabon en Barra DOVE Original Individual 90 Gr. · oferta -15%",
-      "url": "https://diaonline.supermercadosdia.com.ar/jabon-en-barra-dove-original-individual-90-gr-129349/p",
-      "d": 322,
-      "dv": "27/10/2026"
+      "p": 2510,
+      "n": "Jabon en Barra DOVE Humectacion Enriquecida 75 Gr.",
+      "url": "https://diaonline.supermercadosdia.com.ar/jabon-en-barra-dove-humectacion-enriquecida-75-gr-185598/p",
+      "d": 180,
+      "dv": "01/11/2026"
     },
     "Jabón líquido manos": {
       "p": 1399,
@@ -277,25 +279,25 @@
       "dv": "28/10/2026"
     },
     "Papel higiénico": {
-      "p": 1290,
-      "n": "Papel Higiénico Simple Hoja 30 mts 4 Ud. · 2da unidad -80% llevando 2 · oferta -40%",
-      "url": "https://diaonline.supermercadosdia.com.ar/papel-higienico-simple-hoja-30-mts-4-ud-16950/p",
-      "d": -500,
-      "dv": "28/10/2026"
+      "p": 1790,
+      "n": "Papel Higiénico Simple Hoja Bio 30 Mts Suapel 4 Ud.",
+      "url": "https://diaonline.supermercadosdia.com.ar/papel-higienico-simple-hoja-bio-30-mts-suapel-4-ud-47867/p",
+      "d": 500,
+      "dv": "01/11/2026"
     },
     "Pastilla inodoro": {
-      "p": 1450,
-      "n": "Limpiador Inodoro Pastillas Pato Lavanda 25 Gr. · oferta -29%",
+      "p": 1500,
+      "n": "Limpiador Inodoro Pastillas Pato Lavanda 25 Gr. · oferta -26%",
       "url": "https://diaonline.supermercadosdia.com.ar/limpiador-inodoro-pastillas-pato-lavanda-25-gr-10964/p",
-      "d": -400,
-      "dv": "01/10/2026"
+      "d": 50,
+      "dv": "01/11/2026"
     },
     "Rollo de cocina": {
-      "p": 1450,
-      "n": "Rollo de Cocina 50 paños 3 Ud. · oferta -41%",
-      "url": "https://diaonline.supermercadosdia.com.ar/rollo-de-cocina-50-panos-3-ud-140089/p",
-      "d": -200,
-      "dv": "28/10/2026"
+      "p": 1650,
+      "n": "Rollo De Cocina Golf 3 Ud. 40 Mt.",
+      "url": "https://diaonline.supermercadosdia.com.ar/rollo-de-cocina-golf-3-ud-40-mt-240098/p",
+      "d": 200,
+      "dv": "01/11/2026"
     },
     "Suavizante": {
       "p": 7490,
@@ -326,11 +328,11 @@
       "dv": "01/10/2026"
     },
     "Virulana": {
-      "p": 1060,
-      "n": "Esponja De Acero Inoxidable Virulana 1 Ud.",
-      "url": "https://diaonline.supermercadosdia.com.ar/esponja-de-acero-inoxidable-virulana-1-ud-56331/p",
-      "d": 155,
-      "dv": "28/10/2026"
+      "p": 861,
+      "n": "Esponja de Acero Inoxidable Dia 1 Ud. · 2da unidad -70% llevando 2 · oferta -35%",
+      "url": "https://diaonline.supermercadosdia.com.ar/esponja-de-acero-inoxidable-dia-1-ud-294183/p",
+      "d": -199,
+      "dv": "01/11/2026"
     },
     "Arvejas en lata": {
       "p": 729,
@@ -357,11 +359,11 @@
       "url": "https://diaonline.supermercadosdia.com.ar/jardinera-sin-sal-dia-300-gr-280243/p"
     },
     "Jugo de tomate en sachet": {
-      "p": 915,
-      "n": "Puré De Tomate Arcor 520 Gr. · oferta -25%",
-      "url": "https://diaonline.supermercadosdia.com.ar/pure-de-tomate-arcor-520-gr-56121/p",
-      "d": 16,
-      "dv": "28/10/2026"
+      "p": 990,
+      "n": "Puré de Tomate Dia 520 Gr.",
+      "url": "https://diaonline.supermercadosdia.com.ar/pure-de-tomate-dia-520-gr-34593/p",
+      "d": 75,
+      "dv": "01/11/2026"
     },
     "Levadura": {
       "p": 500,
@@ -388,25 +390,25 @@
       "url": "https://diaonline.supermercadosdia.com.ar/escarbadientes-dia-2-x-50-ud-299602/p"
     },
     "Film transparente": {
-      "p": 2795,
-      "n": "Film Transparente Dia 30 Mt. · oferta -35%",
+      "p": 4300,
+      "n": "Film Transparente Dia 30 Mt.",
       "url": "https://diaonline.supermercadosdia.com.ar/film-transparente-dia-30-mt-297593/p",
-      "d": -1505,
-      "dv": "28/10/2026"
+      "d": 1505,
+      "dv": "01/11/2026"
     },
     "Papel aluminio": {
-      "p": 2080,
-      "n": "Papel Aluminio Dia 5 Mt. · oferta -35%",
+      "p": 3200,
+      "n": "Papel Aluminio Dia 5 Mt.",
       "url": "https://diaonline.supermercadosdia.com.ar/papel-aluminio-dia-5-mt-19459/p",
-      "d": -1120,
-      "dv": "28/10/2026"
+      "d": 1120,
+      "dv": "01/11/2026"
     },
     "Papel manteca": {
-      "p": 2763,
-      "n": "Rollo Papel Manteca 5 Mts Dia 1 Ud. · oferta -35%",
+      "p": 4250,
+      "n": "Rollo Papel Manteca 5 Mts Dia 1 Ud.",
       "url": "https://diaonline.supermercadosdia.com.ar/rollo-papel-manteca-5-mts-dia-1-ud-293143/p",
-      "d": -1487,
-      "dv": "28/10/2026"
+      "d": 1487,
+      "dv": "01/11/2026"
     },
     "Fundente": {
       "p": 7599,
@@ -854,12 +856,11 @@
       "dv": "22/09/2026"
     },
     "Alcohol en gel": {
-      "p": 5596,
-      "n": "Alcohol en Gel Farmacity Neutro Dosificador x 980 ml · oferta -35% · $5.710/L · solo online",
+      "p": 6027,
+      "n": "Alcohol en Gel Farmacity Neutro Dosificador x 980 ml · oferta -30% · $6.150/L",
       "url": "https://www.farmacity.com/alcohol-en-gel-bomba-neutro-x-980-ml/p",
-      "online": true,
-      "d": 266,
-      "dv": "03/10/2026"
+      "d": 431,
+      "dv": "01/11/2026"
     },
     "Algodón": {
       "p": 1770,
@@ -869,11 +870,11 @@
       "dv": "15/09/2026"
     },
     "Cepillo de dientes": {
-      "p": 2944,
-      "n": "Cepillo Dental Colgate Super Flexi Suave x 2 un · oferta -25% · $1.472/un",
+      "p": 1963,
+      "n": "Cepillo Dental Colgate Super Flexi Suave x 2 un · 2x1 llevando 2 · oferta -50% · $981/un",
       "url": "https://www.farmacity.com/cepillo-dental-colgate-super-flexi-suave-x-2-un/p",
-      "d": 319,
-      "dv": "01/10/2026"
+      "d": -981,
+      "dv": "01/11/2026"
     },
     "Curitas": {
       "p": 1875,
@@ -883,67 +884,68 @@
       "dv": "30/09/2026"
     },
     "Desodorante": {
-      "p": 5467,
-      "n": "Desodorante Old Spice Fresh x 50 g · 2x1 llevando 2 · oferta -50%",
-      "url": "https://www.farmacity.com/desodorante-old-spice-fresh-x-50-g/p",
-      "d": 297,
-      "dv": "22/10/2026"
+      "p": 6560,
+      "n": "Desodorante en Barra Old Spice Mar Profundo x 50 g · oferta -40%",
+      "url": "https://www.farmacity.com/desodorante-en-barra-old-spice-mar-profundo-x-50-g/p",
+      "d": 1093,
+      "dv": "01/11/2026"
     },
     "Enjuague bucal": {
-      "p": 3920,
-      "n": "Enjuague Bucal Colgate Plax Odor Control x 500 ml · 2x1 llevando 2 · oferta -50% · $7.840/L",
-      "url": "https://www.farmacity.com/enjuague-bucal-colgate-plax-odor-control-x-500-ml/p"
+      "p": 4970,
+      "n": "Enjuague Bucal Farmacity Menthol x 500 ml · oferta -30% · $9.940/L",
+      "url": "https://www.farmacity.com/enjuague-bucal-farmacity-menthol-x-500-ml/p",
+      "d": 1050,
+      "dv": "01/11/2026"
     },
     "Hilo dental": {
-      "p": 4170,
-      "n": "Hilo Dental Farmacity Sabor Menta x 2 un x 50 m · $42/m",
+      "p": 2085,
+      "n": "Hilo Dental Farmacity Sabor Menta x 2 un x 50 m · 2x1 llevando 2 · oferta -50% · $21/m",
       "url": "https://www.farmacity.com/hilo-dental-farmacity-sabor-menta-x-2-un-x-50-m/p",
-      "d": 1043,
-      "dv": "01/10/2026"
+      "d": -2085,
+      "dv": "01/11/2026"
     },
     "Máquina de afeitar": {
-      "p": 5109,
-      "n": "Máquina de Afeitar Descartable Enjoy 3 Filos Mujer x 5 un · oferta -45% · $1.022/un · solo online",
-      "url": "https://www.farmacity.com/maquina-de-afeitar-descartable-enjoy-3-filos-mujer-x-5-un/p",
+      "p": 4645,
+      "n": "Maquina de Afeitar Farmacity 3 Filos para Hombre x 5 un · oferta -50% · $929/un · solo online",
+      "url": "https://www.farmacity.com/maquina-de-afeitar-farmacity-3-filos-para-hombre-x-5-un/p",
       "online": true,
-      "d": 664,
-      "dv": "22/10/2026"
+      "d": -464,
+      "dv": "01/11/2026"
     },
     "Pasta dental": {
-      "p": 4690,
-      "n": "Pasta Dental Colgate Max White Complete Clean x 180 g · 2x1 llevando 2 · oferta -50% · $26.056/kg",
-      "url": "https://www.farmacity.com/pasta-dental-max-white-con-laminas-blanqueadoras-x-180-g/p",
-      "d": -408,
-      "dv": "01/10/2026"
+      "p": 4561,
+      "n": "Pasta Dental Oral B 4 en 1 x 180 g · oferta -35% · $25.339/kg",
+      "url": "https://www.farmacity.com/pasta-dental-oral-b-4-en-1-x-180-g/p",
+      "d": -129,
+      "dv": "01/11/2026"
     },
     "Preservativos": {
-      "p": 5874,
-      "n": "Preservativo de Látex Prime Mega x 3 un · $1.958/un",
+      "p": 4405,
+      "n": "Preservativo de Látex Prime Mega x 3 un · oferta -25% · $1.468/un",
       "url": "https://www.farmacity.com/preservativo-de-latex-mega-x-3-un/p",
-      "d": 1762,
-      "dv": "22/09/2026"
+      "d": -1469,
+      "dv": "01/11/2026"
     },
     "Repelente": {
-      "p": 1636,
-      "n": "Repelente Spray Vais x 60 ml · oferta -50%",
-      "url": "https://www.farmacity.com/repelente-spray-vais-x-60-ml/p",
-      "d": -564,
-      "dv": "08/10/2026"
+      "p": 2860,
+      "n": "Repelente para Mosquitos en Aerosol Vn Familiar x 170 ml · 2da unidad  · oferta -35%",
+      "url": "https://www.farmacity.com/repelente--para-mosquitos-aerosol-vn-familiar-x-170-ml/p",
+      "d": 1224,
+      "dv": "01/11/2026"
     },
     "Crema humectante": {
-      "p": 5475,
-      "n": "Crema Humectante Pond's Bio-Hydratante x 100 g",
+      "p": 4380,
+      "n": "Crema Humectante Pond's Bio-Hydratante x 100 g · oferta -20%",
       "url": "https://www.farmacity.com/crema-humectante-pond-s-bio-hydratante-x-100-gr-104864/p",
-      "d": 1095,
-      "dv": "22/10/2026"
+      "d": -1095,
+      "dv": "01/11/2026"
     },
     "Gel de limpieza": {
-      "p": 7194,
-      "n": "Gel de Limpieza Get The Look x 130 ml · oferta -40% · solo online",
-      "url": "https://www.farmacity.com/gel-de-limpiza-get-the-look-x-130-ml/p",
-      "online": true,
-      "d": 600,
-      "dv": "06/10/2026"
+      "p": 7793,
+      "n": "Gel de Limpieza Get The Look Salicílico x 150 ml · oferta -35%",
+      "url": "https://www.farmacity.com/gel-de-limpieza-salicilico-get-the-look-x-150-ml/p",
+      "d": 599,
+      "dv": "01/11/2026"
     },
     "Protector solar corporal": {
       "p": 11206,
@@ -951,12 +953,11 @@
       "url": "https://www.farmacity.com/protector-solar-villeneuve-aerosol-fps30-x-250-ml/p"
     },
     "Protector solar facial": {
-      "p": 10994,
-      "n": "Protector Solar Facial Get The Look Tono Medio Fps 40 x 40 ml · oferta -45% · solo online",
+      "p": 11994,
+      "n": "Protector Solar Facial Get The Look Tono Medio Fps 40 x 40 ml · oferta -40%",
       "url": "https://www.farmacity.com/protector-solar-facial-get-the-look-tono-medio-fps-40/p",
-      "online": true,
-      "d": 220,
-      "dv": "22/10/2026"
+      "d": 1000,
+      "dv": "01/11/2026"
     },
     "Aceto balsámico Millán": {
       "p": 6240,
@@ -1000,14 +1001,13 @@
       }
     },
     "Cebolla": {
-      "p": 2549,
-      "n": "Cebolla Seleccionada En Bolsita · $2.549/kg · solo online · COTO",
+      "p": 2499,
+      "n": "Cebolla Blanca · $2.499/kg · COTO",
       "s": "coto",
       "u": "kg",
-      "url": "https://www.coto.com.ar/productos/cebolla-seleccionada-en-bolsita-x-kg-/_/R-00000615-00000615-200",
-      "online": true,
-      "d": -450,
-      "dv": "29/10/2026",
+      "url": "https://www.coto.com.ar/productos/cebolla-blanca-x-kg-/_/R-00079891-00079891-200",
+      "d": -50,
+      "dv": "01/11/2026",
       "mc": {
         "p": 1181,
         "f": "30/10/2026"
@@ -1217,10 +1217,10 @@
           }
         },
         "Manzana": {
-          "p": 2890,
-          "s": "dia",
+          "p": 2899,
+          "s": "coto",
           "u": "kg",
-          "url": "https://diaonline.supermercadosdia.com.ar/manzana-roja-comercial-en-bolsa-malla-x-kg-90111/p",
+          "url": "https://www.coto.com.ar/productos/manzana-comercial-x-kg-/_/R-00061002-00061002-200",
           "mc": {
             "p": 2476,
             "f": "30/10/2026"
