@@ -1,5 +1,5 @@
 {
-  "version": "06/11/2026",
+  "version": "07/11/2026",
   "descuentos": {
     "dia": [
       {
@@ -555,18 +555,18 @@
       "dv": "06/11/2026"
     },
     "Ají molido / pimentón picante 100 g": {
-      "p": 892,
-      "n": "100 g de Aji Molido 250 g · $8.924/kg",
-      "url": "https://frutosare.com.ar/producto/aji-molido/?attribute_peso=250GS",
-      "d": -1408,
-      "dv": "10/10/2026"
+      "p": 2300,
+      "n": "100 g de Aji Molido Dulce 100 g · $23.000/kg · New Garden",
+      "url": "https://newgarden.com.ar/aji-molido-dulce-100-g.html",
+      "d": 1408,
+      "dv": "07/11/2026"
     },
     "Amapola 25 g": {
-      "p": 546,
-      "n": "25 g de Amapola 250 g · $21.840/kg",
-      "url": "https://frutosare.com.ar/producto/amapola/?attribute_peso=250GS",
-      "d": 46,
-      "dv": "10/10/2026"
+      "p": 525,
+      "n": "25 g de Semilla De Amapola x 250 gr. · $21.000/kg · New Garden",
+      "url": "https://newgarden.com.ar/semilla-de-amapola-x-250-gr.html",
+      "d": -21,
+      "dv": "07/11/2026"
     },
     "Canela 15 g": {
       "p": 705,
@@ -603,11 +603,11 @@
       "url": "https://newgarden.com.ar/laurel-en-hojas-100-gr.html"
     },
     "Mostaza rubia 25 g": {
-      "p": 275,
-      "n": "25 g de Mostaza En Grano 250 g · $10.992/kg",
-      "url": "https://frutosare.com.ar/producto/mostaza-en-grano/?attribute_peso=250GS",
-      "d": -150,
-      "dv": "10/10/2026"
+      "p": 425,
+      "n": "25 g de Mostaza Molida 100 g · $17.000/kg · New Garden",
+      "url": "https://newgarden.com.ar/mostaza-molida-100-g.html",
+      "d": 150,
+      "dv": "07/11/2026"
     },
     "Nuez moscada 5 unidades": {
       "p": 3750,
@@ -615,95 +615,95 @@
       "url": "https://newgarden.com.ar/nuez-moscada-en-grano-x-10-g.html"
     },
     "Orégano 50 g": {
-      "p": 405,
-      "n": "50 g de Oregano 250 g · $8.108/kg",
-      "url": "https://frutosare.com.ar/producto/oregano/?attribute_peso=250+GS",
-      "d": -524,
-      "dv": "10/10/2026"
+      "p": 929,
+      "n": "50 g de Oregano x 70 g · $18.571/kg · New Garden",
+      "url": "https://newgarden.com.ar/oregano-x-70-g.html",
+      "d": 524,
+      "dv": "07/11/2026"
     },
     "Pimentón 100 g": {
-      "p": 908,
-      "n": "100 g de Pimentón Nacional (Ahumado) 250 g · $9.076/kg",
-      "url": "https://frutosare.com.ar/producto/pimenton-nacional-ahumado/?attribute_peso=250GS",
-      "d": -262,
-      "dv": "10/10/2026"
+      "p": 1213,
+      "n": "100 g de Pimenton Dulce 250g · $12.128/kg · New Garden",
+      "url": "https://newgarden.com.ar/pimenton-dulce-nacional-250g.html",
+      "d": 305,
+      "dv": "07/11/2026"
     },
     "Pimienta blanca 50 g": {
-      "p": 1075,
-      "n": "50 g de Pimienta Blanca Molida 250 g · $21.492/kg",
-      "url": "https://frutosare.com.ar/producto/pimienta-blanca-molida/?attribute_peso=250GS",
-      "d": -1875,
-      "dv": "10/10/2026"
+      "p": 2950,
+      "n": "50 g de Pimienta Blanca Molida 100 Gr · $59.000/kg · New Garden",
+      "url": "https://newgarden.com.ar/pimienta-blanca-molida-100-gr.html",
+      "d": 1875,
+      "dv": "07/11/2026"
     },
     "Pimienta negra 50 g + 50 g": {
-      "p": 1635,
-      "n": "50 g de Pimienta Negra En Grano 250 g · $32.708/kg",
-      "url": "https://frutosare.com.ar/producto/pimienta-negra-en-grano/?attribute_peso=250GS",
-      "d": -465,
-      "dv": "10/10/2026"
+      "p": 2200,
+      "n": "50 g de Pimienta Negra en Grano 100 Gr · $44.000/kg · New Garden",
+      "url": "https://newgarden.com.ar/pimienta-negra-en-grano-100-gr.html",
+      "d": 565,
+      "dv": "07/11/2026"
     },
     "Romero 25 g": {
-      "p": 471,
-      "n": "25 g de Romero 250 g · $18.836/kg",
-      "url": "https://frutosare.com.ar/producto/romero/?attribute_peso=250GS",
-      "d": -129,
-      "dv": "10/10/2026"
+      "p": 600,
+      "n": "25 g de Romero en Hojas x 100 g · $24.000/kg · New Garden",
+      "url": "https://newgarden.com.ar/romero-en-hojas-x-100-g.html",
+      "d": 129,
+      "dv": "07/11/2026"
     },
     "Tomillo 50 g": {
-      "p": 922,
-      "n": "50 g de Tomillo 250 g · $18.432/kg",
-      "url": "https://frutosare.com.ar/producto/tomillo/?attribute_peso=250GS",
-      "d": -428,
-      "dv": "10/10/2026"
+      "p": 1350,
+      "n": "50 g de Tomillo x 100 g · $27.000/kg · New Garden",
+      "url": "https://newgarden.com.ar/tomillo-x-100-g.html",
+      "d": 428,
+      "dv": "07/11/2026"
     },
     "Almendras 500 g": {
-      "p": 15462,
-      "n": "500 g de Almendras Partidas 500 g · $30.924/kg",
-      "url": "https://frutosare.com.ar/producto/almendra-ramillada/?attribute_peso=500GS",
-      "d": -788,
-      "dv": "10/10/2026"
+      "p": 16625,
+      "n": "500 g de Almendras Peladas x 400 g · $33.250/kg · New Garden",
+      "url": "https://newgarden.com.ar/almendras-peladas-x-400-g.html",
+      "d": 1163,
+      "dv": "07/11/2026"
     },
     "Cacao 500 g": {
-      "p": 8081,
-      "n": "500 g de Cacao Amargo Alcalino 500 g · $16.162/kg",
-      "url": "https://frutosare.com.ar/producto/cacao-amargo-soluble/?attribute_peso=500GS",
-      "d": 808,
-      "dv": "02/11/2026"
+      "p": 17250,
+      "n": "500 g de Cacao Amargo en Polvo Natural No Alcalino 500g · $34.500/kg · New Garden",
+      "url": "https://newgarden.com.ar/cacao-amargo-en-polvo-natural-no-alcalino-500g.html",
+      "d": 9169,
+      "dv": "07/11/2026"
     },
     "Castañas de cajú 500 g": {
-      "p": 11980,
-      "n": "500 g de Castañas De Caju Crudas W4 500 g · $23.960/kg",
-      "url": "https://frutosare.com.ar/producto/castanas-de-caju-crudas/?attribute_peso=500+GR",
-      "d": 1918,
-      "dv": "28/10/2026"
+      "p": 7500,
+      "n": "500 g de Harina de Castañas de Caju x 500 g · $15.000/kg · New Garden",
+      "url": "https://newgarden.com.ar/harina-de-casta-as-de-caju-x-500-g.html",
+      "d": -4480,
+      "dv": "07/11/2026"
     },
     "Girasol 250 g": {
-      "p": 1397,
-      "n": "250 g de Girasol Pelado 250 g · $5.588/kg",
-      "url": "https://frutosare.com.ar/producto/girasol-pelado/?attribute_peso=250GS",
-      "d": -258,
-      "dv": "26/10/2026"
+      "p": 2000,
+      "n": "250 g de Semilla De Girasol Sin Cáscara x 250 gr. · $8.000/kg · New Garden",
+      "url": "https://newgarden.com.ar/semilla-de-girasol-sin-cascara-x-250-gr.html",
+      "d": 603,
+      "dv": "07/11/2026"
     },
     "Lino 250 g": {
-      "p": 2258,
-      "n": "250 g de Semillas De Lino (Doradas) Organicas x 250G · $9.032/kg",
-      "url": "https://frutosare.com.ar/producto/semillas-de-lino-doradas-organicas-x-250gs/",
-      "d": 708,
-      "dv": "10/10/2026"
+      "p": 1750,
+      "n": "250 g de Semilla de Lino Organico x 250 g · $7.000/kg · New Garden",
+      "url": "https://newgarden.com.ar/semilla-de-lino-organico-x-250-g.html",
+      "d": -508,
+      "dv": "07/11/2026"
     },
     "Maní 2 kg": {
-      "p": 8552,
-      "n": "2 kg de Mani Repelado Crudo 1 kg · $4.276/kg",
-      "url": "https://frutosare.com.ar/producto/mani-repelado-crudo/?attribute_peso=1+KG",
-      "d": -3048,
-      "dv": "10/10/2026"
+      "p": 11600,
+      "n": "2 kg de Mani Repelado Tostado sin Sal x 5 kg · $5.800/kg · New Garden",
+      "url": "https://newgarden.com.ar/mani-repelado-tostado-sin-sal-x-5-kg.html",
+      "d": 3048,
+      "dv": "07/11/2026"
     },
     "Nueces 500 g": {
-      "p": 12500,
-      "n": "500 g de Nueces Peladas Mariposa EXTRA Light (Cosecha 2026) 500 g · $25.000/kg",
-      "url": "https://frutosare.com.ar/producto/nueces-mariposa-cosecha-2021-x-kg/?attribute_peso=500+GR",
-      "d": 1721,
-      "dv": "06/11/2026"
+      "p": 11265,
+      "n": "500 g de Nuez Pelada Cuarta Extra Light x 600 g · $22.530/kg · New Garden",
+      "url": "https://newgarden.com.ar/nuez-pelada-cuarta-extra-light-x-600-g.html",
+      "d": -1235,
+      "dv": "07/11/2026"
     },
     "Piñones": {
       "p": 8500,
@@ -713,25 +713,25 @@
       "dv": "20/10/2026"
     },
     "Sésamo integral 500 g": {
-      "p": 2022,
-      "n": "500 g de Sesamo Integral 500 g · $4.044/kg",
-      "url": "https://frutosare.com.ar/producto/sesamo-integral/?attribute_peso=500GS",
-      "d": 23,
-      "dv": "04/11/2026"
+      "p": 2700,
+      "n": "500 g de Semilla de Sesamo Integral x 1 Kg. · $5.400/kg · New Garden",
+      "url": "https://newgarden.com.ar/semilla-de-sesamo-integral-x-1-kg.html",
+      "d": 678,
+      "dv": "07/11/2026"
     },
     "Avena 500 g": {
-      "p": 1279,
-      "n": "500 g de Avena Tradicional x 1KG · $2.558/kg",
-      "url": "https://frutosare.com.ar/producto/avena-tradicional/",
-      "d": -1621,
-      "dv": "10/10/2026"
+      "p": 2900,
+      "n": "500 g de Avena Arrollada Fina 500g New Garden · $5.800/kg · New Garden",
+      "url": "https://newgarden.com.ar/avena-arrollada-fina-x-500-gr-new-garden.html",
+      "d": 1621,
+      "dv": "07/11/2026"
     },
     "Bicarbonato de sodio 200 g": {
-      "p": 669,
-      "n": "200 g de Bicarbonato De Sodio x 1KG · $3.347/kg",
-      "url": "https://frutosare.com.ar/producto/bicarbonato-de-sodio/",
-      "d": 13,
-      "dv": "28/10/2026"
+      "p": 2360,
+      "n": "200 g de Bicarbonato de Sodio 500 g. · $11.800/kg · New Garden",
+      "url": "https://newgarden.com.ar/bicarbonato-de-sodio-500-g.html",
+      "d": 1691,
+      "dv": "07/11/2026"
     },
     "Copos de maíz 500 g": {
       "p": 3600,
@@ -739,11 +739,11 @@
       "url": "https://newgarden.com.ar/copos-de-maiz-x-500-g.html"
     },
     "Polvo para hornear 100 g": {
-      "p": 571,
-      "n": "100 g de Polvo Para Hornear x 1KG · $5.710/kg",
-      "url": "https://frutosare.com.ar/producto/polvo-para-hornear/",
-      "d": -2029,
-      "dv": "10/10/2026"
+      "p": 2600,
+      "n": "100 g de Polvo de Hornear x 250 g · $26.000/kg · New Garden",
+      "url": "https://newgarden.com.ar/polvo-de-hornear-x-250-g.html",
+      "d": 2029,
+      "dv": "07/11/2026"
     },
     "Arvejas 1 kg": {
       "p": 1849,
@@ -751,32 +751,32 @@
       "url": "https://frutosare.com.ar/producto/arvejas-partidas/"
     },
     "Chía 500 g": {
-      "p": 3804,
-      "n": "500 g de Chia 500 g · $7.608/kg",
-      "url": "https://frutosare.com.ar/producto/chia/?attribute_peso=500GS",
-      "d": -603,
-      "dv": "02/11/2026"
+      "p": 5850,
+      "n": "500 g de Semilla De Chía x 1 Kg. · $11.700/kg · New Garden",
+      "url": "https://newgarden.com.ar/semilla-de-chia-x-1-kg.html",
+      "d": 2046,
+      "dv": "07/11/2026"
     },
     "Garbanzos 1 kg": {
-      "p": 2162,
-      "n": "1 kg de Garbanzos x 1KG (9mm) · $2.162/kg",
-      "url": "https://frutosare.com.ar/producto/garbanzos/",
-      "d": -3438,
-      "dv": "10/10/2026"
+      "p": 5000,
+      "n": "1 kg de Garbanzo Sauco Comun 1 kg · $5.000/kg · New Garden",
+      "url": "https://newgarden.com.ar/garbanzo-sauco-comun-1-kg.html",
+      "d": 2838,
+      "dv": "07/11/2026"
     },
     "Lentejas 1 kg": {
-      "p": 3280,
-      "n": "1 kg de Lentejas Nacional x 1KG · $3.280/kg",
-      "url": "https://frutosare.com.ar/producto/lentejas-nacional/",
-      "d": 328,
-      "dv": "30/10/2026"
+      "p": 4240,
+      "n": "1 kg de Lenteja x 1,25 kg · $4.240/kg · New Garden",
+      "url": "https://newgarden.com.ar/lenteja-x-1-25-kg.html",
+      "d": 960,
+      "dv": "07/11/2026"
     },
     "Porotos negros 1 kg": {
-      "p": 2393,
-      "n": "1 kg de Porotos Negros x 1KG · $2.393/kg",
-      "url": "https://frutosare.com.ar/producto/porotos-negros/",
-      "d": -101,
-      "dv": "16/10/2026"
+      "p": 4600,
+      "n": "1 kg de Poroto Negro X 1 kg · $4.600/kg · New Garden",
+      "url": "https://newgarden.com.ar/poroto-negro-x-1-kg.html",
+      "d": 2207,
+      "dv": "07/11/2026"
     },
     "Porotos de soja 1 kg": {
       "p": 1709,
@@ -784,32 +784,32 @@
       "url": "https://frutosare.com.ar/producto/porotos-de-soja/"
     },
     "Quínoa 1 kg": {
-      "p": 12986,
-      "n": "1 kg de Quinoa Real Premium 1 kg · $12.986/kg",
-      "url": "https://frutosare.com.ar/producto/quinoa-oferta/?attribute_peso=1+KG",
-      "d": 1311,
-      "dv": "04/11/2026"
+      "p": 13140,
+      "n": "1 kg de Quinoa x 1 Kg. · $13.140/kg · New Garden",
+      "url": "https://newgarden.com.ar/quinoa-x-1-kg.html",
+      "d": 154,
+      "dv": "07/11/2026"
     },
     "Té negro": {
-      "p": 5194,
-      "n": "Té Negro Orgánico en Hebras x 80gr (Inti Zen)",
-      "url": "https://frutosare.com.ar/producto/te-negro-organico-en-hebras-x-80gr-inti-zen/",
-      "d": 2162,
-      "dv": "10/10/2026"
+      "p": 3032,
+      "n": "Te Negro en Hebras x 100 g · New Garden",
+      "url": "https://newgarden.com.ar/te-negro-en-hebras-x-100-g.html",
+      "d": -2162,
+      "dv": "07/11/2026"
     },
     "Té verde": {
-      "p": 5194,
-      "n": "Té Verde Orgánico en Hebras x 80G (Inti Zen)",
-      "url": "https://frutosare.com.ar/producto/te-verde-organico-en-hebras-x-80gr-inti-zen/",
-      "d": 1512,
-      "dv": "10/10/2026"
+      "p": 3682,
+      "n": "Te Verde en Hebras x 100 g · New Garden",
+      "url": "https://newgarden.com.ar/te-verde-en-hebras-x-100-g.html",
+      "d": -1512,
+      "dv": "07/11/2026"
     },
     "Té de boldo": {
-      "p": 3483,
-      "n": "Infusion de Boldo en hojas x 50G",
-      "url": "https://frutosare.com.ar/producto/infusion-de-boldo-en-hojas-x50g/",
-      "d": -517,
-      "dv": "10/10/2026"
+      "p": 4000,
+      "n": "Infusion de Boldo en Hojas Guiral x 50 g · New Garden",
+      "url": "https://newgarden.com.ar/infusion-de-boldo-en-hojas-guiral-x-50-g.html",
+      "d": 517,
+      "dv": "07/11/2026"
     },
     "Vainilla": {
       "p": 11500,
@@ -922,12 +922,11 @@
       "dv": "01/11/2026"
     },
     "Pasta dental": {
-      "p": 3508,
-      "n": "Pasta Dental Oral B 4 en 1 x 180 g · oferta -50% · $19.489/kg · solo online",
-      "url": "https://www.farmacity.com/pasta-dental-oral-b-4-en-1-x-180-g/p",
-      "online": true,
-      "d": -1053,
-      "dv": "02/11/2026"
+      "p": 4690,
+      "n": "Pasta Dental Colgate Max White Crystal Mint x 180 g · 2x1 llevando 2 · oferta -50% · $26.056/kg",
+      "url": "https://www.farmacity.com/pasta-dental-max-white-con-laminas-blanqueadoras-x-180-g/p",
+      "d": 1182,
+      "dv": "07/11/2026"
     },
     "Preservativos": {
       "p": 4405,
@@ -1265,7 +1264,7 @@
           }
         },
         "Papaya": {
-          "p": 9999,
+          "p": 8999,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/papaya-xkg-/_/R-00000706-00000706-200",
