@@ -1,5 +1,5 @@
 {
-  "version": "08/11/2026",
+  "version": "09/11/2026",
   "descuentos": {
     "dia": [
       {
@@ -523,8 +523,8 @@
       "url": "https://www.coto.com.ar/productos/roast-beef-estancias-coto-x-kg-/_/R-00047985-00047985-200"
     },
     "Combo de temporada": {
-      "p": 30898,
-      "n": "marucha $12.999/kg + arañita $17.899/kg · estimo 1 kg de c/u",
+      "p": 29498,
+      "n": "marucha $11.599/kg + arañita $17.899/kg · estimo 1 kg de c/u",
       "urls": [
         {
           "n": "marucha",
@@ -535,12 +535,12 @@
           "url": "https://www.coto.com.ar/productos/aranita-x-kg-/_/R-00042660-00042660-200"
         }
       ],
-      "d": 3000,
-      "dv": "13/10/2026"
+      "d": -1400,
+      "dv": "09/11/2026"
     },
     "Asado": {
-      "p": 24998,
-      "n": "tapa de asado $13.499/kg + tira $11.499/kg · estimo 1 kg de c/u",
+      "p": 26498,
+      "n": "tapa de asado $13.499/kg + tira $12.999/kg · estimo 1 kg de c/u",
       "urls": [
         {
           "n": "tapa de asado",
@@ -551,8 +551,8 @@
           "url": "https://www.coto.com.ar/productos/asado-del-medio-estancias-coto-x-kg-/_/R-00047979-00047979-200"
         }
       ],
-      "d": -1500,
-      "dv": "06/11/2026"
+      "d": 1500,
+      "dv": "09/11/2026"
     },
     "Ají molido / pimentón picante 100 g": {
       "p": 892,
@@ -1001,28 +1001,26 @@
       "url": "https://www.tiendapesce.com.ar/productos/mejillon-pelado-x-kilo/"
     },
     "Ajo": {
-      "p": 1062,
-      "n": "Ajo Malla X 3 Uni · $354/un · solo online · COTO",
+      "p": 1249,
+      "n": "Ajo Malla X 3 Uni · $416/un · COTO",
       "s": "coto",
       "u": "un",
       "url": "https://www.coto.com.ar/productos/ajo-malla-x-3-uni-/_/R-00036666-00036666-200",
-      "online": true,
-      "d": -297,
-      "dv": "06/11/2026",
+      "d": 187,
+      "dv": "09/11/2026",
       "mc": {
         "p": 4872,
         "f": "06/11/2026"
       }
     },
     "Cebolla": {
-      "p": 2379,
-      "n": "Cebolla Seleccionada En Bolsita · $2.379/kg · solo online · COTO",
+      "p": 2499,
+      "n": "Cebolla A Granel · $2.499/kg · COTO",
       "s": "coto",
       "u": "kg",
-      "url": "https://www.coto.com.ar/productos/cebolla-seleccionada-en-bolsita-x-kg-/_/R-00000615-00000615-200",
-      "online": true,
-      "d": -120,
-      "dv": "05/11/2026",
+      "url": "https://www.coto.com.ar/productos/cebolla-a-granel-x-kg-/_/R-00000602-00000602-200",
+      "d": 120,
+      "dv": "09/11/2026",
       "mc": {
         "p": 841,
         "f": "06/11/2026"
@@ -1063,14 +1061,13 @@
       }
     },
     "Morrón": {
-      "p": 4674,
-      "n": "Pimiento Rojo · $4.674/kg · solo online · COTO",
+      "p": 5499,
+      "n": "Pimiento Rojo · $5.499/kg · COTO",
       "s": "coto",
       "u": "kg",
       "url": "https://www.coto.com.ar/productos/pimiento-rojo-xkg-/_/R-00000671-00000671-200",
-      "online": true,
-      "d": -1275,
-      "dv": "06/11/2026",
+      "d": 825,
+      "dv": "09/11/2026",
       "mc": {
         "p": 1856,
         "f": "06/11/2026",
@@ -1091,14 +1088,13 @@
       }
     },
     "Palta": {
-      "p": 5949,
-      "n": "Palta Hass Especial X 1 Kg · $5.949/kg · solo online · COTO",
+      "p": 6999,
+      "n": "Palta Hass · $6.999/kg · COTO",
       "s": "coto",
       "u": "kg",
-      "url": "https://www.coto.com.ar/productos/palta-hass-especial-x-1-kg-/_/R-00013967-00013967-200",
-      "online": true,
-      "d": -1050,
-      "dv": "05/11/2026",
+      "url": "https://www.coto.com.ar/productos/palta-hass-xkg-/_/R-00000541-00000541-200",
+      "d": 1050,
+      "dv": "09/11/2026",
       "mc": {
         "p": 5455,
         "f": "06/11/2026"
@@ -1117,14 +1113,13 @@
       }
     },
     "Zanahoria": {
-      "p": 1699,
-      "n": "Zanahoria Seleccion · $1.699/kg · solo online · COTO",
+      "p": 1899,
+      "n": "Zanahoria Seleccion · $1.899/kg · COTO",
       "s": "coto",
       "u": "kg",
       "url": "https://www.coto.com.ar/productos/zanahoria-seleccion-xkg-/_/R-00000686-00000686-200",
-      "online": true,
-      "d": -291,
-      "dv": "05/11/2026",
+      "d": 200,
+      "dv": "09/11/2026",
       "mc": {
         "p": 1018,
         "f": "06/11/2026"
@@ -1157,11 +1152,10 @@
           }
         },
         "Banana": {
-          "p": 1954,
+          "p": 2299,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/banana-cavendish-x-kg-/_/R-00000446-00000446-200",
-          "online": true,
           "mc": {
             "p": 1312,
             "f": "06/11/2026"
@@ -1204,11 +1198,10 @@
           "url": "https://www.coto.com.ar/productos/higo-negro-xkg-/_/R-00064953-00064953-200"
         },
         "Kiwi": {
-          "p": 8499,
+          "p": 9998,
           "s": "coto",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/kiwi-seleccion-x-kg-/_/R-00000496-00000496-200",
-          "online": true,
+          "url": "https://www.coto.com.ar/productos/kiwi-haywa-mono-azul-500g-/_/R-00498828-00498828-200",
           "mc": {
             "p": 5783,
             "f": "06/11/2026"
@@ -1276,22 +1269,20 @@
           }
         },
         "Pera": {
-          "p": 2549,
+          "p": 2999,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/pera-d-anjou-x-kg-/_/R-00059439-00059439-200",
-          "online": true,
           "mc": {
             "p": 2326,
             "f": "06/11/2026"
           }
         },
         "Pomelo": {
-          "p": 1359,
+          "p": 1599,
           "s": "coto",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/pomelo-rosado-xkg-/_/R-00000693-00000693-200",
-          "online": true,
+          "url": "https://www.coto.com.ar/productos/pomelo-rojo-xkg-/_/R-00000549-00000549-200",
           "mc": {
             "p": 861,
             "f": "06/11/2026"
@@ -1347,8 +1338,8 @@
       "dv": "26/10/2026"
     },
     "Solo ensalada": {
-      "p": 2299,
-      "n": "la más barata hoy: Lechuga ($2.299/kg, COTO) · 6/6 con precio",
+      "p": 2699,
+      "n": "la más barata hoy: Apio ($2.699/kg, COTO) · 6/6 con precio",
       "s": "coto",
       "u": "kg",
       "op": {
@@ -1373,10 +1364,10 @@
           }
         },
         "Lechuga": {
-          "p": 2299,
+          "p": 2999,
           "s": "coto",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/lechuga-capuchina-x-kg-/_/R-00000648-00000648-200",
+          "url": "https://www.coto.com.ar/productos/lechuga-francesa-x-kg-/_/R-00000650-00000650-200",
           "mc": {
             "p": 1030,
             "f": "06/11/2026"
@@ -1413,13 +1404,13 @@
           }
         }
       },
-      "url": "https://www.coto.com.ar/productos/lechuga-capuchina-x-kg-/_/R-00000648-00000648-200",
-      "d": -200,
-      "dv": "05/11/2026"
+      "url": "https://www.coto.com.ar/productos/apio-x-kg-/_/R-00000588-00000588-200",
+      "d": 400,
+      "dv": "09/11/2026"
     },
     "Estructurales": {
-      "p": 1954,
-      "n": "la más barata hoy: Repollo ($1.954/kg, COTO, solo online) · 7/9 con precio",
+      "p": 2299,
+      "n": "la más barata hoy: Repollo ($2.299/kg, COTO) · 7/9 con precio",
       "s": "coto",
       "u": "kg",
       "op": {
@@ -1434,22 +1425,20 @@
           }
         },
         "Berenjena": {
-          "p": 3824,
+          "p": 4499,
           "s": "coto",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/berenjena-veteada-x-kg-/_/R-00000795-00000795-200",
-          "online": true,
+          "url": "https://www.coto.com.ar/productos/berenjena-x-kg-/_/R-00000593-00000593-200",
           "mc": {
             "p": 2061,
             "f": "06/11/2026"
           }
         },
         "Brócoli": {
-          "p": 3144,
+          "p": 3699,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/brocoli-x-kg-/_/R-00000598-00000598-200",
-          "online": true,
           "mc": {
             "p": 1167,
             "f": "06/11/2026"
@@ -1477,11 +1466,10 @@
           }
         },
         "Repollo": {
-          "p": 1954,
+          "p": 2299,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/repollo-blanco-x-kg-/_/R-00000678-00000678-200",
-          "online": true,
           "mc": {
             "p": 640,
             "f": "06/11/2026"
@@ -1513,9 +1501,8 @@
         }
       },
       "url": "https://www.coto.com.ar/productos/repollo-blanco-x-kg-/_/R-00000678-00000678-200",
-      "online": true,
-      "d": -536,
-      "dv": "05/11/2026"
+      "d": 345,
+      "dv": "09/11/2026"
     },
     "Apoyo": {
       "p": 2990,
@@ -1569,17 +1556,16 @@
       "dv": "29/10/2026"
     },
     "Contundentes": {
-      "p": 2974,
-      "n": "la más barata hoy: Coliflor ($2.974/kg, COTO, solo online) · 7/8 con precio",
+      "p": 1999,
+      "n": "la más barata hoy: Remolacha ($1.999/kg, COTO) · 7/8 con precio",
       "s": "coto",
       "u": "kg",
       "op": {
         "Batata": {
-          "p": 3229,
+          "p": 3799,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/batata-x-kg-/_/R-00072041-00072041-200",
-          "online": true,
           "mc": {
             "p": 2361,
             "f": "06/11/2026"
@@ -1607,11 +1593,10 @@
           }
         },
         "Coliflor": {
-          "p": 2974,
+          "p": 3499,
           "s": "coto",
           "u": "kg",
           "url": "https://www.coto.com.ar/productos/coliflor-x-kg-/_/R-00000619-00000619-200",
-          "online": true,
           "mc": {
             "p": 667,
             "f": "06/11/2026"
@@ -1628,10 +1613,10 @@
           }
         },
         "Remolacha": {
-          "p": 4590,
-          "s": "dia",
+          "p": 1999,
+          "s": "coto",
           "u": "kg",
-          "url": "https://diaonline.supermercadosdia.com.ar/remolacha-x-kg-90125/p",
+          "url": "https://www.coto.com.ar/productos/remolacha-x-kg-/_/R-00000677-00000677-200",
           "mc": {
             "p": 717,
             "f": "06/11/2026"
@@ -1655,10 +1640,9 @@
           }
         }
       },
-      "url": "https://www.coto.com.ar/productos/coliflor-x-kg-/_/R-00000619-00000619-200",
-      "online": true,
-      "d": 675,
-      "dv": "05/11/2026"
+      "url": "https://www.coto.com.ar/productos/remolacha-x-kg-/_/R-00000677-00000677-200",
+      "d": -975,
+      "dv": "09/11/2026"
     },
     "Hierbas de terminación": {
       "p": 8660,
@@ -1667,11 +1651,10 @@
       "u": "kg",
       "op": {
         "Albahaca": {
-          "p": 1699,
+          "p": 1999,
           "s": "coto",
           "u": "un",
           "url": "https://www.coto.com.ar/productos/albahaca-x-uni-/_/R-00037201-00037201-200",
-          "online": true,
           "mc": {
             "p": 300,
             "f": "06/11/2026"
