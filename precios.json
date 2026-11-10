@@ -1,5 +1,5 @@
 {
-  "version": "09/11/2026",
+  "version": "10/11/2026",
   "descuentos": {
     "dia": [
       {
@@ -60,34 +60,34 @@
   },
   "prices": {
     "Aceite de girasol": {
-      "p": 2968,
-      "n": "Aceite de Girasol Legítimo 900 Ml. · oferta -30% · $3.298/L",
-      "url": "https://diaonline.supermercadosdia.com.ar/aceite-de-girasol-legitimo-900-ml-56453/p",
-      "d": -2777,
-      "dv": "05/11/2026"
+      "p": 5745,
+      "n": "Aceite de Girasol Dia 1,5 Lt. · $3.830/L",
+      "url": "https://diaonline.supermercadosdia.com.ar/aceite-de-girasol-dia-15-lt-24114/p",
+      "d": 2777,
+      "dv": "10/11/2026"
     },
     "Agua mineral bidón": {
-      "p": 2790,
-      "n": "3× Agua Mineral sin gas DIA 2 Lt. · oferta -40% · Glaciar $6.982 (+150%)",
-      "url": "https://diaonline.supermercadosdia.com.ar/agua-mineral-sin-gas-dia-2-lt-48123/p",
+      "p": 2780,
+      "n": "2× Agua Mineralizada Sin Gas Aqva Fresh 3 Lt. · Glaciar $9.309 (+235%)",
+      "url": "https://diaonline.supermercadosdia.com.ar/agua-mineralizada-sin-gas-aqva-fresh-3-lt-315147/p",
       "urls": [
         {
-          "url": "https://diaonline.supermercadosdia.com.ar/agua-mineral-sin-gas-dia-2-lt-48123/p"
+          "url": "https://diaonline.supermercadosdia.com.ar/agua-mineralizada-sin-gas-aqva-fresh-3-lt-315147/p"
         },
         {
           "n": "Glaciar",
           "url": "https://diaonline.supermercadosdia.com.ar/bidon-agua-glaciar-63-lt-304977/p"
         }
       ],
-      "d": -360,
-      "dv": "04/11/2026"
+      "d": -10,
+      "dv": "10/11/2026"
     },
     "Arroz integral 1 kg": {
-      "p": 1450,
-      "n": "Arroz Integral 00000 Cuquets 1 Kg. · oferta -31%",
+      "p": 2100,
+      "n": "Arroz Integral 00000 Cuquets 1 Kg.",
       "url": "https://diaonline.supermercadosdia.com.ar/arroz-integral-00000-cuquets-1-kg-293529/p",
-      "d": 60,
-      "dv": "01/11/2026"
+      "d": 650,
+      "dv": "10/11/2026"
     },
     "Atún": {
       "p": 6150,
@@ -111,18 +111,18 @@
       "dv": "18/09/2026"
     },
     "Harina de maíz 1 kg": {
-      "p": 2600,
-      "n": "Harina Morixe para Arepas 1 Kg. · oferta -29%",
+      "p": 3650,
+      "n": "Harina Morixe para Arepas 1 Kg.",
       "url": "https://diaonline.supermercadosdia.com.ar/harina-morixe-para-arepas-1-kg-265538/p",
-      "d": -1050,
-      "dv": "01/11/2026"
+      "d": 1050,
+      "dv": "10/11/2026"
     },
     "Leche larga vida": {
-      "p": 1790,
-      "n": "Leche Entera DIA Larga Vida 1 Lt. · oferta -25%",
+      "p": 2390,
+      "n": "Leche Entera DIA Larga Vida 1 Lt.",
       "url": "https://diaonline.supermercadosdia.com.ar/leche-entera-dia-larga-vida-1-lt-608/p",
-      "d": -198,
-      "dv": "04/11/2026"
+      "d": 600,
+      "dv": "10/11/2026"
     },
     "Maicena 500 g": {
       "p": 2800,
@@ -133,8 +133,8 @@
     },
     "Papas fritas": {
       "p": 4800,
-      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr.",
-      "url": "https://diaonline.supermercadosdia.com.ar/papas-fritas-tubo-dia-sabor-original-150-gr-134494/p",
+      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr.",
+      "url": "https://diaonline.supermercadosdia.com.ar/papas-fritas-tubo-dia-sabor-cheddar-150-gr-166507/p",
       "d": 1900,
       "dv": "28/10/2026"
     },
@@ -179,8 +179,8 @@
       "url": "https://diaonline.supermercadosdia.com.ar/vinagre-de-manzana-dia-500-ml-53469/p"
     },
     "Yerba 1 kg": {
-      "p": 2425,
-      "n": "Yerba Mate Suave Chamigo 1 Kg. · oferta -35% · Playadito $5.208 (+115%)",
+      "p": 3730,
+      "n": "Yerba Mate Suave Chamigo 1 Kg. · Playadito $5.208 (+40%)",
       "url": "https://diaonline.supermercadosdia.com.ar/yerba-mate-suave-chamigo-1-kg-46234/p",
       "urls": [
         {
@@ -191,64 +191,64 @@
           "url": "https://diaonline.supermercadosdia.com.ar/yerba-mate-playadito-suave-1-kg-269577/p"
         }
       ],
-      "d": -1305,
-      "dv": "04/11/2026"
+      "d": 1305,
+      "dv": "10/11/2026"
     },
     "Aerosol de ambiente": {
-      "p": 2678,
-      "n": "Aromatizante de Ambientes Glade Campos de Lavanda en Aerosol 380 Ml. · oferta -35%",
-      "url": "https://diaonline.supermercadosdia.com.ar/aromatizante-de-ambientes-glade-campos-de-lavanda-en-aerosol-380-ml-283325/p",
-      "d": -712,
-      "dv": "02/11/2026"
+      "p": 4050,
+      "n": "Desinfectante de Ambiente DIA en Aerosol 360 Ml.",
+      "url": "https://diaonline.supermercadosdia.com.ar/desinfectante-de-ambiente-dia-en-aerosol-360-ml-77828/p",
+      "d": 1372,
+      "dv": "10/11/2026"
     },
     "Bolsa de basura baño": {
-      "p": 1560,
-      "n": "Bolsas de Residuos DIA Cierra Fácil 20 Ud. · oferta -60%",
-      "url": "https://diaonline.supermercadosdia.com.ar/bolsas-de-residuos-dia-cierra-facil-20-ud-55870/p",
-      "d": -1723,
-      "dv": "02/11/2026"
+      "p": 3283,
+      "n": "Bolsas de Residuos DIA 30 Ud. · 2da unidad -70% llevando 2 · oferta -35%",
+      "url": "https://diaonline.supermercadosdia.com.ar/bolsas-de-residuos-dia-30-ud-32895/p",
+      "d": 1723,
+      "dv": "10/11/2026"
     },
     "Cif crema": {
-      "p": 1638,
-      "n": "Limpiador en crema CIF Multiuso Original 250 Ml. · oferta -35%",
+      "p": 2520,
+      "n": "Limpiador en crema CIF Multiuso Original 250 Ml.",
       "url": "https://diaonline.supermercadosdia.com.ar/limpiador-en-crema-cif-multiuso-original-250-ml-294024/p",
-      "d": -882,
-      "dv": "02/11/2026"
+      "d": 882,
+      "dv": "10/11/2026"
     },
     "Desinfectante de piso": {
-      "p": 1950,
-      "n": "Limpiador Líquido Pisos Procenex Lavanda 900 Ml. · oferta -25%",
+      "p": 2610,
+      "n": "Limpiador Líquido Pisos Procenex Lavanda 900 Ml.",
       "url": "https://diaonline.supermercadosdia.com.ar/limpiador-liquido-pisos-procenex-lavanda-900-ml-170054/p",
-      "d": -660,
-      "dv": "28/10/2026"
+      "d": 660,
+      "dv": "10/11/2026"
     },
     "Desinfectante de superficies": {
-      "p": 1980,
-      "n": "Desinfectante Multisuperficies Ayudín Doypack 450 Ml. · oferta -25%",
-      "url": "https://diaonline.supermercadosdia.com.ar/desinfectante-multisuperficies-ayudin-doypack-450-ml-279072/p",
-      "d": -570,
-      "dv": "01/11/2026"
+      "p": 2550,
+      "n": "Limpiador Líquido Desinfectante Lysoform Multisuperficies Repuesto 450",
+      "url": "https://diaonline.supermercadosdia.com.ar/limpiador-liquido-desinfectante-lysoform-multisuperficies-repuesto-450-ml-291111/p",
+      "d": 570,
+      "dv": "10/11/2026"
     },
     "Detergente líquido": {
-      "p": 1620,
-      "n": "Detergente CIF Bioactive Lima Botella 300 Ml. · oferta -40%",
-      "url": "https://diaonline.supermercadosdia.com.ar/detergente-cif-bioactive-lima-botella-300-ml-294030/p",
-      "d": -470,
-      "dv": "02/11/2026"
+      "p": 2090,
+      "n": "Detergente DIA Limón 300 Ml.",
+      "url": "https://diaonline.supermercadosdia.com.ar/detergente-dia-limon-300-ml-70282/p",
+      "d": 470,
+      "dv": "10/11/2026"
     },
     "Esponja salvauñas": {
-      "p": 755,
-      "n": "Esponja Salvauñas Virulana 1 Ud. · oferta -25%",
-      "url": "https://diaonline.supermercadosdia.com.ar/esponja-salvaunas-virulana-1-ud-65849/p",
-      "d": 32,
-      "dv": "06/11/2026"
+      "p": 844,
+      "n": "Esponja Salvauñas Dia 1 Ud. · 2da unidad -70% llevando 2 · oferta -35%",
+      "url": "https://diaonline.supermercadosdia.com.ar/esponja-salvaunas-dia-1-ud-40507/p",
+      "d": 89,
+      "dv": "10/11/2026"
     },
     "Jabón Dove": {
-      "p": 1673,
-      "n": "Jabon en Barra DOVE Humectacion Enriquecida 75 Gr. · 3x2 llevando 3 · oferta -33%",
+      "p": 2510,
+      "n": "Jabon en Barra DOVE Humectacion Enriquecida 75 Gr.",
       "url": "https://diaonline.supermercadosdia.com.ar/jabon-en-barra-dove-humectacion-enriquecida-75-gr-185598/p",
-      "d": -837,
-      "dv": "02/11/2026"
+      "d": 837,
+      "dv": "10/11/2026"
     },
     "Jabón líquido manos": {
       "p": 1399,
@@ -258,11 +258,11 @@
       "dv": "20/10/2026"
     },
     "Jabón líquido ropa": {
-      "p": 7180,
-      "n": "2× Jabon Liquido Para Ropa Botella Dia 1,5 Lt · oferta -40%",
-      "url": "https://diaonline.supermercadosdia.com.ar/jabon-liquido-para-ropa-botella-dia-1-5-lt-291590/p",
-      "d": -1010,
-      "dv": "04/11/2026"
+      "p": 8190,
+      "n": "Jabón Líquido para Ropa Héroe Doypack 3 Lt.",
+      "url": "https://diaonline.supermercadosdia.com.ar/jabon-liquido-para-ropa-heroe-doypack-3-lt-273027/p",
+      "d": 1010,
+      "dv": "10/11/2026"
     },
     "Lavandina": {
       "p": 1160,
@@ -272,11 +272,11 @@
       "dv": "02/11/2026"
     },
     "Limpia vidrios": {
-      "p": 1619,
-      "n": "Limpiador Vidrios Y Mulitiuso Cif Expert Doypack 450 Ml. · oferta -35%",
-      "url": "https://diaonline.supermercadosdia.com.ar/limpiador-vidrios-y-mulitiuso-cif-expert-doypack-450-ml-300119/p",
-      "d": 130,
-      "dv": "03/11/2026"
+      "p": 2000,
+      "n": "Limpiavidrios Concentrado Procenex 100 Ml.",
+      "url": "https://diaonline.supermercadosdia.com.ar/limpiavidrios-concentrado-procenex-100-ml-314856/p",
+      "d": 381,
+      "dv": "10/11/2026"
     },
     "Papel higiénico": {
       "p": 1790,
@@ -286,25 +286,25 @@
       "dv": "04/11/2026"
     },
     "Pastilla inodoro": {
-      "p": 1500,
-      "n": "Limpiador Inodoro Pastillas Pato Lavanda 25 Gr. · oferta -26%",
-      "url": "https://diaonline.supermercadosdia.com.ar/limpiador-inodoro-pastillas-pato-lavanda-25-gr-10964/p",
-      "d": 50,
-      "dv": "01/11/2026"
+      "p": 1940,
+      "n": "Limpiador Inodoro Pastillas Glade Lavanda 25 Gr.",
+      "url": "https://diaonline.supermercadosdia.com.ar/limpiador-inodoro-pastillas-glade-lavanda-25-gr-177838/p",
+      "d": 440,
+      "dv": "10/11/2026"
     },
     "Rollo de cocina": {
-      "p": 1337,
-      "n": "Rollo de Cocina 60 Paños 2 Ud. · oferta -45%",
-      "url": "https://diaonline.supermercadosdia.com.ar/rollo-de-cocina-60-panos-2-ud-74971/p",
-      "d": -11,
-      "dv": "03/11/2026"
+      "p": 1650,
+      "n": "Rollo De Cocina Golf 3 Ud. 40 Mt.",
+      "url": "https://diaonline.supermercadosdia.com.ar/rollo-de-cocina-golf-3-ud-40-mt-240098/p",
+      "d": 313,
+      "dv": "10/11/2026"
     },
     "Suavizante": {
-      "p": 8595,
-      "n": "Suavizante Downy Brisa de Verão Rinde 4L Perfume de Larga Duración 1 L · oferta -50% · $2.149/L",
-      "url": "https://diaonline.supermercadosdia.com.ar/suavizante-downy-brisa-de-verao-rinde-4l-perfume-de-larga-duracion-1-lt-194826/p",
-      "d": 1105,
-      "dv": "02/11/2026"
+      "p": 7450,
+      "n": "Suavizante Flores Frutales Doypack 3 Lt. · $2.483/L",
+      "url": "https://diaonline.supermercadosdia.com.ar/suavizante-flores-frutales-doypack-3-lt-310383/p",
+      "d": -1145,
+      "dv": "10/11/2026"
     },
     "Trapo de piso": {
       "p": 2300,
@@ -314,46 +314,46 @@
       "dv": "04/11/2026"
     },
     "Trapo rejilla": {
-      "p": 1620,
-      "n": "Trapo Rejilla Dia Multiuso Ecoamigable 1 Ud. · oferta -10%",
+      "p": 1635,
+      "n": "Trapo Rejilla Dia Multiuso Ecoamigable 1 Ud.",
       "url": "https://diaonline.supermercadosdia.com.ar/trapo-rejilla-dia-multiuso-ecoamigable-1-ud-269121/p",
-      "d": 75,
-      "dv": "01/10/2026"
+      "d": 15,
+      "dv": "10/11/2026"
     },
     "Trapo amarillo": {
-      "p": 4620,
-      "n": "Paño Microfibra Multiuso Microclean 1 Ud. · oferta -20%",
+      "p": 5065,
+      "n": "Paño Microfibra Multiuso Microclean 1 Ud.",
       "url": "https://diaonline.supermercadosdia.com.ar/pano-microfibra-multiuso-microclean-1-ud-291722/p",
-      "d": 220,
-      "dv": "01/10/2026"
+      "d": 445,
+      "dv": "10/11/2026"
     },
     "Virulana": {
-      "p": 797,
-      "n": "Esponja de Acero Inoxidable Dia 1 Ud. · 2da unidad -80% llevando 2 · oferta -40%",
+      "p": 864,
+      "n": "Esponja de Acero Inoxidable Dia 1 Ud. · 2da unidad -70% llevando 2 · oferta -35%",
       "url": "https://diaonline.supermercadosdia.com.ar/esponja-de-acero-inoxidable-dia-1-ud-294183/p",
-      "d": 2,
-      "dv": "06/11/2026"
+      "d": 67,
+      "dv": "10/11/2026"
     },
     "Arvejas en lata": {
-      "p": 590,
-      "n": "Arvejas Secas Remojadas Dia 300 Gr. · oferta -19%",
+      "p": 729,
+      "n": "Arvejas Secas Remojadas Dia 300 Gr.",
       "url": "https://diaonline.supermercadosdia.com.ar/arvejas-secas-remojadas-dia-300-gr-279121/p",
-      "d": -139,
-      "dv": "04/11/2026"
+      "d": 139,
+      "dv": "10/11/2026"
     },
     "Caldo en cubos": {
-      "p": 1560,
-      "n": "Caldo Knorr De Verdura Deshidratado 12 Ud. · 2da unidad -70% llevando  · oferta -35%",
-      "url": "https://diaonline.supermercadosdia.com.ar/caldo-knorr-de-verdura-deshidratado-12-ud-54946/p",
-      "d": 155,
-      "dv": "03/11/2026"
+      "p": 1790,
+      "n": "Caldo de Carne En Cubos x 12 Ud Dia 144 Gr.",
+      "url": "https://diaonline.supermercadosdia.com.ar/caldo-de-carne-en-cubos-x-12-ud-dia-144-gr-35920/p",
+      "d": 230,
+      "dv": "10/11/2026"
     },
     "Choclo en lata": {
-      "p": 990,
-      "n": "Granos de Choclo Amarillo DIA 300 Gr. · oferta -34%",
+      "p": 1490,
+      "n": "Granos de Choclo Amarillo DIA 300 Gr.",
       "url": "https://diaonline.supermercadosdia.com.ar/granos-de-choclo-amarillo-dia-300-gr-33512/p",
-      "d": -500,
-      "dv": "04/11/2026"
+      "d": 500,
+      "dv": "10/11/2026"
     },
     "Jardinera en lata": {
       "p": 1440,
@@ -392,25 +392,25 @@
       "url": "https://diaonline.supermercadosdia.com.ar/escarbadientes-dia-2-x-50-ud-299602/p"
     },
     "Film transparente": {
-      "p": 2365,
-      "n": "Film Transparente Dia 30 Mt. · oferta -45%",
+      "p": 4300,
+      "n": "Film Transparente Dia 30 Mt.",
       "url": "https://diaonline.supermercadosdia.com.ar/film-transparente-dia-30-mt-297593/p",
-      "d": -1935,
-      "dv": "02/11/2026"
+      "d": 1935,
+      "dv": "10/11/2026"
     },
     "Papel aluminio": {
-      "p": 1760,
-      "n": "Papel Aluminio Dia 5 Mt. · oferta -45%",
+      "p": 3200,
+      "n": "Papel Aluminio Dia 5 Mt.",
       "url": "https://diaonline.supermercadosdia.com.ar/papel-aluminio-dia-5-mt-19459/p",
-      "d": -1440,
-      "dv": "02/11/2026"
+      "d": 1440,
+      "dv": "10/11/2026"
     },
     "Papel manteca": {
-      "p": 2338,
-      "n": "Rollo Papel Manteca 5 Mts Dia 1 Ud. · oferta -45%",
+      "p": 4250,
+      "n": "Rollo Papel Manteca 5 Mts Dia 1 Ud.",
       "url": "https://diaonline.supermercadosdia.com.ar/rollo-papel-manteca-5-mts-dia-1-ud-293143/p",
-      "d": -1912,
-      "dv": "02/11/2026"
+      "d": 1912,
+      "dv": "10/11/2026"
     },
     "Fundente": {
       "p": 7999,
@@ -1162,7 +1162,7 @@
           }
         },
         "Ciruela": {
-          "p": 6990,
+          "p": 8990,
           "s": "dia",
           "u": "kg",
           "url": "https://diaonline.supermercadosdia.com.ar/ciruela-x-kg-90138/p",
@@ -1228,10 +1228,10 @@
           }
         },
         "Manzana": {
-          "p": 2890,
-          "s": "dia",
+          "p": 2899,
+          "s": "coto",
           "u": "kg",
-          "url": "https://diaonline.supermercadosdia.com.ar/manzana-roja-comercial-en-bolsa-malla-x-kg-90111/p",
+          "url": "https://www.coto.com.ar/productos/manzana-comercial-x-kg-/_/R-00061002-00061002-200",
           "mc": {
             "p": 2569,
             "f": "06/11/2026"
@@ -1299,10 +1299,10 @@
           }
         },
         "Uva": {
-          "p": 7990,
-          "s": "dia",
+          "p": 7999,
+          "s": "coto",
           "u": "kg",
-          "url": "https://diaonline.supermercadosdia.com.ar/uvas-x-kg-90142/p",
+          "url": "https://www.coto.com.ar/productos/p-uva-sultan-morena-x-kg-/_/R-00064947-00064947-200",
           "mc": {
             "p": 6813,
             "f": "06/11/2026"
@@ -1338,8 +1338,8 @@
       "dv": "26/10/2026"
     },
     "Solo ensalada": {
-      "p": 2699,
-      "n": "la más barata hoy: Apio ($2.699/kg, COTO) · 6/6 con precio",
+      "p": 2299,
+      "n": "la más barata hoy: Lechuga ($2.299/kg, COTO) · 6/6 con precio",
       "s": "coto",
       "u": "kg",
       "op": {
@@ -1364,10 +1364,10 @@
           }
         },
         "Lechuga": {
-          "p": 2999,
+          "p": 2299,
           "s": "coto",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/lechuga-francesa-x-kg-/_/R-00000650-00000650-200",
+          "url": "https://www.coto.com.ar/productos/lechuga-capuchina-x-kg-/_/R-00000648-00000648-200",
           "mc": {
             "p": 1030,
             "f": "06/11/2026"
@@ -1404,9 +1404,9 @@
           }
         }
       },
-      "url": "https://www.coto.com.ar/productos/apio-x-kg-/_/R-00000588-00000588-200",
-      "d": 400,
-      "dv": "09/11/2026"
+      "url": "https://www.coto.com.ar/productos/lechuga-capuchina-x-kg-/_/R-00000648-00000648-200",
+      "d": -400,
+      "dv": "10/11/2026"
     },
     "Estructurales": {
       "p": 2299,
@@ -1557,7 +1557,7 @@
     },
     "Contundentes": {
       "p": 1999,
-      "n": "la más barata hoy: Remolacha ($1.999/kg, COTO) · 7/8 con precio",
+      "n": "la más barata hoy: Remolacha ($1.999/kg, COTO) · 6/8 con precio",
       "s": "coto",
       "u": "kg",
       "op": {
@@ -1602,16 +1602,6 @@
             "f": "06/11/2026"
           }
         },
-        "Mandioca": {
-          "p": 4999,
-          "s": "coto",
-          "u": "kg",
-          "url": "https://www.coto.com.ar/productos/mandioca-seleccion-x-kg-/_/R-00017088-00017088-200",
-          "mc": {
-            "p": 775,
-            "f": "06/11/2026"
-          }
-        },
         "Remolacha": {
           "p": 1999,
           "s": "coto",
@@ -1631,6 +1621,12 @@
             "p": 2242,
             "f": "06/11/2026",
             "n": "Zapallo anc.cokena"
+          }
+        },
+        "Mandioca": {
+          "mc": {
+            "p": 775,
+            "f": "06/11/2026"
           }
         },
         "Nabo": {
@@ -1715,11 +1711,11 @@
       "dv": "06/11/2026"
     },
     "Guantes grandes": {
-      "p": 4090,
-      "n": "Guante Mapa Grande 1 Ud. · oferta -25%",
+      "p": 5450,
+      "n": "Guante Mapa Grande 1 Ud.",
       "url": "https://diaonline.supermercadosdia.com.ar/guante-mapa-grande-1-ud-33821/p",
-      "d": 1400,
-      "dv": "04/11/2026"
+      "d": 1360,
+      "dv": "10/11/2026"
     },
     "Champiñones en lata": {
       "p": 2700,
