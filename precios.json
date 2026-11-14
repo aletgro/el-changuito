@@ -1,5 +1,5 @@
 {
-  "version": "13/11/2026",
+  "version": "14/11/2026",
   "descuentos": {
     "dia": [
       {
@@ -133,8 +133,8 @@
     },
     "Papas fritas": {
       "p": 4800,
-      "n": "Papas Fritas Tubo Dia Sabor Original 150 Gr.",
-      "url": "https://diaonline.supermercadosdia.com.ar/papas-fritas-tubo-dia-sabor-original-150-gr-134494/p",
+      "n": "Papas Fritas Tubo Dia Sabor Cheddar 150 Gr.",
+      "url": "https://diaonline.supermercadosdia.com.ar/papas-fritas-tubo-dia-sabor-cheddar-150-gr-166507/p",
       "d": 1900,
       "dv": "28/10/2026"
     },
@@ -179,20 +179,20 @@
       "url": "https://diaonline.supermercadosdia.com.ar/vinagre-de-manzana-dia-500-ml-53469/p"
     },
     "Yerba 1 kg": {
-      "p": 2470,
-      "n": "Yerba Mate Nobleza Gaucha Selección 1 Kg. · oferta -48% · Playadito $4.550 (+84%)",
-      "url": "https://diaonline.supermercadosdia.com.ar/yerba-mate-nobleza-gaucha-seleccion-1-kg-275540/p",
+      "p": 2980,
+      "n": "2× Yerba Mate Seleccion Nobleza Gaucha 500 Gr. · oferta -40% · Playadito $4.550 (+53%)",
+      "url": "https://diaonline.supermercadosdia.com.ar/yerba-mate-seleccion-nobleza-gaucha-500-gr-304727/p",
       "urls": [
         {
-          "url": "https://diaonline.supermercadosdia.com.ar/yerba-mate-nobleza-gaucha-seleccion-1-kg-275540/p"
+          "url": "https://diaonline.supermercadosdia.com.ar/yerba-mate-seleccion-nobleza-gaucha-500-gr-304727/p"
         },
         {
           "n": "Playadito",
           "url": "https://diaonline.supermercadosdia.com.ar/yerba-mate-playadito-suave-1-kg-269577/p"
         }
       ],
-      "d": -1260,
-      "dv": "11/11/2026"
+      "d": 510,
+      "dv": "14/11/2026"
     },
     "Aerosol de ambiente": {
       "p": 3240,
@@ -293,11 +293,11 @@
       "dv": "11/11/2026"
     },
     "Rollo de cocina": {
-      "p": 1239,
-      "n": "Rollo de Cocina 120 Paños 2 Ud. · 2da unidad -80% llevando 2 · oferta -64%",
-      "url": "https://diaonline.supermercadosdia.com.ar/rollo-de-cocina-120-panos-2-ud-16947/p",
-      "d": -411,
-      "dv": "11/11/2026"
+      "p": 1650,
+      "n": "Rollo De Cocina Golf 3 Ud. 40 Mt.",
+      "url": "https://diaonline.supermercadosdia.com.ar/rollo-de-cocina-golf-3-ud-40-mt-240098/p",
+      "d": 411,
+      "dv": "14/11/2026"
     },
     "Suavizante": {
       "p": 7450,
@@ -867,11 +867,11 @@
       "dv": "12/11/2026"
     },
     "Algodón": {
-      "p": 1770,
+      "p": 1950,
       "n": "Algodón Clásico Farmacity x 100 g",
       "url": "https://www.farmacity.com/algodon-farmacity-hidrofilo-clasico-x-100-g/p",
-      "d": 797,
-      "dv": "12/11/2026"
+      "d": 180,
+      "dv": "14/11/2026"
     },
     "Cepillo de dientes": {
       "p": 2023,
@@ -995,14 +995,13 @@
       "url": "https://www.tiendapesce.com.ar/productos/mejillon-pelado-x-kilo/"
     },
     "Ajo": {
-      "p": 1062,
-      "n": "Ajo Malla X 3 Uni · $354/un · solo online · COTO",
+      "p": 625,
+      "n": "Ajo Malla X 3 Uni · 2x1 llevando 2 · $208/un · COTO",
       "s": "coto",
       "u": "un",
       "url": "https://www.coto.com.ar/productos/ajo-malla-x-3-uni-/_/R-00036666-00036666-200",
-      "online": true,
-      "d": -187,
-      "dv": "12/11/2026",
+      "d": -437,
+      "dv": "14/11/2026",
       "mc": {
         "p": 4774,
         "f": "13/11/2026"
@@ -1070,13 +1069,14 @@
       }
     },
     "Papa": {
-      "p": 2590,
-      "n": "Papa Negra · $2.590/kg · DIA",
-      "s": "dia",
+      "p": 2549,
+      "n": "Papa Blanca (Bolsa Entre 1,5 Kg A 2 Kg) · $2.549/kg · solo online · COTO",
+      "s": "coto",
       "u": "kg",
-      "url": "https://diaonline.supermercadosdia.com.ar/papa-negra-x-kg-90094/p",
-      "d": -400,
-      "dv": "11/11/2026",
+      "url": "https://www.coto.com.ar/productos/papa-blanca-bolsa-entre-1-5-kg-a-2-kg--/_/R-00012705-00012705-200",
+      "online": true,
+      "d": -41,
+      "dv": "14/11/2026",
       "mc": {
         "p": 848,
         "f": "13/11/2026"
@@ -1481,10 +1481,10 @@
           }
         },
         "Zapallito": {
-          "p": 2799,
-          "s": "coto",
+          "p": 2790,
+          "s": "dia",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/zapallito-redondo-xkg-/_/R-00000691-00000691-200",
+          "url": "https://diaonline.supermercadosdia.com.ar/zapallito-redondo-x-kg-90121/p",
           "mc": {
             "p": 546,
             "f": "13/11/2026",
