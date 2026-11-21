@@ -1,5 +1,5 @@
 {
-  "version": "20/11/2026",
+  "version": "21/11/2026",
   "descuentos": {
     "dia": [
       {
@@ -678,11 +678,11 @@
       "dv": "19/11/2026"
     },
     "Girasol 250 g": {
-      "p": 2000,
-      "n": "250 g de Semilla De Girasol Sin Cáscara x 250 gr. · $8.000/kg · New Garden",
-      "url": "https://newgarden.com.ar/semilla-de-girasol-sin-cascara-x-250-gr.html",
-      "d": 603,
-      "dv": "20/11/2026"
+      "p": 1397,
+      "n": "250 g de Girasol Pelado 250 g · $5.588/kg",
+      "url": "https://frutosare.com.ar/producto/girasol-pelado/?attribute_peso=250GS",
+      "d": -603,
+      "dv": "21/11/2026"
     },
     "Lino 250 g": {
       "p": 2258,
@@ -1443,10 +1443,10 @@
           }
         },
         "Berenjena": {
-          "p": 4399,
-          "s": "coto",
+          "p": 4390,
+          "s": "dia",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/berenjena-x-kg-/_/R-00000593-00000593-200",
+          "url": "https://diaonline.supermercadosdia.com.ar/berenjena-x-kg-90179/p",
           "mc": {
             "p": 1772,
             "f": "20/11/2026"
@@ -1635,7 +1635,7 @@
           }
         },
         "Zapallo anco": {
-          "p": 4390,
+          "p": 4490,
           "s": "dia",
           "u": "kg",
           "url": "https://diaonline.supermercadosdia.com.ar/anco-x-kg-90120/p",
