@@ -1,5 +1,5 @@
 {
-  "version": "21/11/2026",
+  "version": "22/11/2026",
   "descuentos": {
     "dia": [
       {
@@ -1129,7 +1129,7 @@
     },
     "Fruta": {
       "p": 963,
-      "n": "la más barata hoy: Mandarina ($963/kg, COTO, solo online) · 20/26 con precio",
+      "n": "la más barata hoy: Mandarina ($963/kg, COTO, solo online) · 19/26 con precio",
       "s": "coto",
       "u": "kg",
       "op": {
@@ -1164,17 +1164,6 @@
             "f": "20/11/2026"
           }
         },
-        "Cereza": {
-          "p": 14449,
-          "s": "coto",
-          "u": "kg",
-          "url": "https://www.coto.com.ar/productos/cereza-x-kg-/_/R-00000450-00000450-200",
-          "online": true,
-          "mc": {
-            "p": 13533,
-            "f": "20/11/2026"
-          }
-        },
         "Ciruela": {
           "p": 6990,
           "s": "dia",
@@ -1197,10 +1186,10 @@
           }
         },
         "Frutilla": {
-          "p": 8998,
+          "p": 7999,
           "s": "coto",
           "u": "kg",
-          "url": "https://www.coto.com.ar/productos/frutillas-x-500-gr-/_/R-00038405-00038405-200",
+          "url": "https://www.coto.com.ar/productos/frutillas-seleccion-x-kg-/_/R-00000497-00000497-200",
           "mc": {
             "p": 3217,
             "f": "20/11/2026"
@@ -1333,6 +1322,12 @@
           "url": "https://www.coto.com.ar/productos/p-uva-sultan-morena-x-kg-/_/R-00064947-00064947-200",
           "mc": {
             "p": 7417,
+            "f": "20/11/2026"
+          }
+        },
+        "Cereza": {
+          "mc": {
+            "p": 13533,
             "f": "20/11/2026"
           }
         },
